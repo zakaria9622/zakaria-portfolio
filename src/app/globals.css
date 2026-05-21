@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+:root {
+  --navy-950: #060d1a;
+  --navy-900: #0b1628;
+  --navy-800: #0f1f35;
+  --electric-300: #7dd3fc;
+  --electric-400: #38bdf8;
+  --electric-500: #2563eb;
+  --electric-600: #1d4ed8;
+}
+
+@theme inline {
+  --color-navy-950: var(--navy-950);
+  --color-navy-900: var(--navy-900);
+  --color-navy-800: var(--navy-800);
+  --color-electric-300: var(--electric-300);
+  --color-electric-400: var(--electric-400);
+  --color-electric-500: var(--electric-500);
+  --color-electric-600: var(--electric-600);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  background-color: var(--navy-950);
+  color: #cbd5e1;
+}
+
+::selection {
+  background-color: rgba(37, 99, 235, 0.35);
+  color: #fff;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Homepage-only premium utilities */
+.home-page {
+  --home-glow: rgba(37, 99, 235, 0.35);
+}
+
+.home-hero {
+  background: linear-gradient(
+    180deg,
+    var(--navy-950) 0%,
+    var(--navy-900) 50%,
+    var(--navy-950) 100%
+  );
+}
+
+.home-gradient-orb {
+  background: radial-gradient(
+    circle,
+    rgba(37, 99, 235, 0.25) 0%,
+    rgba(56, 189, 248, 0.08) 40%,
+    transparent 70%
+  );
+  filter: blur(60px);
+}
+
+.home-gradient-orb-secondary {
+  background: radial-gradient(
+    circle,
+    rgba(29, 78, 216, 0.2) 0%,
+    transparent 65%
+  );
+  filter: blur(80px);
+}
+
+.home-dashboard-glow {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(56, 189, 248, 0.2),
+    transparent 70%
+  );
+}
+
+.home-dashboard-frame {
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+    0 25px 50px -12px rgba(0, 0, 0, 0.5),
+    0 0 80px -20px var(--home-glow);
+}
+
+.home-glass-kpi,
+.home-glass-panel,
+.home-glass-card {
+  backdrop-filter: blur(12px);
+}
+
+.home-glass-card {
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+}
+
+.home-card-glow {
+  box-shadow:
+    0 4px 32px rgba(37, 99, 235, 0.15),
+    0 0 0 1px rgba(56, 189, 248, 0.15) inset;
+}
+
+.home-section-skills {
+  background: linear-gradient(
+    180deg,
+    var(--navy-950) 0%,
+    var(--navy-800) 50%,
+    var(--navy-950) 100%
+  );
+}
+
+.home-section-projects {
+  background: var(--navy-950);
+}
+
+.home-section-contact {
+  background: linear-gradient(180deg, var(--navy-950), var(--navy-900));
+}
+
+.home-skill-pill:hover {
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.2);
+}
