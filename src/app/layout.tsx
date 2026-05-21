@@ -10,9 +10,32 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Zakaria Maachou | Data Analyst / BI Analyst",
+  metadataBase: new URL("https://zakaria-portfolio-vert.vercel.app"),
+  title: "Zakaria Maachou — Data Analyst / BI Analyst Portfolio",
   description:
-    "Data & BI portfolio — dashboards, profitability analysis, funnel diagnostics and CRM segmentation. Open to alternance.",
+    "Data & BI portfolio with SQL, Tableau and Python case studies.",
+  openGraph: {
+    title: "Zakaria Maachou — Data Analyst / BI Analyst Portfolio",
+    description:
+      "Data & BI portfolio with SQL, Tableau and Python case studies.",
+    type: "website",
+    locale: "en_US",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Zakaria Maachou — Data Analyst / BI Analyst Portfolio",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Zakaria Maachou — Data Analyst / BI Analyst Portfolio",
+    description:
+      "Data & BI portfolio with SQL, Tableau and Python case studies.",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function RootLayout({
