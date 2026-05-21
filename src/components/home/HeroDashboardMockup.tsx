@@ -18,11 +18,10 @@ const funnelBars = [
   { stage: "Purchase", pct: 18, opacity: "bg-electric-300/60" },
 ];
 
-const marginBars = [
-  { label: "Electronics/EU", h: 28 },
-  { label: "Other", h: 72 },
-  { label: "Discount impact", h: 45 },
-  { label: "Baseline", h: 88 },
+const marginDriverBars = [
+  { label: "Baseline", h: 88, tone: "from-electric-500 to-electric-400" },
+  { label: "Discount impact", h: 52, tone: "from-electric-600/90 to-electric-500/70" },
+  { label: "Loss-making orders", h: 34, tone: "from-amber-500/80 to-orange-500/60" },
 ];
 
 /** Revenue share — from RFM project KPIs */
@@ -129,31 +128,66 @@ export function HeroDashboardMockup() {
             </p>
           </div>
 
-          <div className="home-glass-panel rounded-xl border border-white/10 bg-navy-950/40 p-3">
-            <div className="mb-2 flex items-center justify-between">
+          <div className="home-glass-panel flex flex-col rounded-xl border border-white/10 bg-navy-950/40 p-3.5">
+            <div className="mb-3 flex items-center justify-between">
               <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
                 Margin drivers
               </p>
               <TrendingUp className="h-3.5 w-3.5 text-electric-400" />
             </div>
-            <div className="flex h-24 items-end justify-between gap-1.5">
-              {marginBars.map((bar, i) => (
-                <div key={bar.label} className="flex flex-1 flex-col items-center gap-1">
-                  <motion.div
-                    initial={{ height: 0 }}
-                    animate={{ height: `${bar.h}%` }}
-                    transition={{ duration: 0.6, delay: 0.4 + i * 0.1 }}
-                    className="w-full max-w-[28px] rounded-t bg-gradient-to-t from-electric-600 to-electric-400"
+
+            <div className="relative rounded-lg border border-white/5 bg-navy-950/60 px-2 pb-2 pt-3">
+              <div className="absolute inset-x-2 top-3 flex flex-col justify-between h-[72px] pointer-events-none">
+                {[0, 1, 2].map((line) => (
+                  <div
+                    key={line}
+                    className="border-t border-dashed border-white/[0.06]"
                   />
-                  <span className="text-center text-[8px] leading-tight text-slate-500">
-                    {bar.label.split("/")[0]}
-                  </span>
-                </div>
+                ))}
+              </div>
+
+              <div className="relative flex h-[72px] items-end justify-center gap-3 sm:gap-4">
+                {marginDriverBars.map((bar, i) => (
+                  <div
+                    key={bar.label}
+                    className="flex min-w-0 flex-1 max-w-[72px] flex-col items-center"
+                  >
+                    <div className="flex h-[72px] w-full items-end justify-center">
+                      <motion.div
+                        initial={{ height: 0 }}
+                        animate={{ height: `${bar.h}%` }}
+                        transition={{ duration: 0.65, delay: 0.45 + i * 0.1 }}
+                        className={`w-7 shrink-0 rounded-t-sm bg-gradient-to-t shadow-sm sm:w-8 ${bar.tone}`}
+                        style={{ maxHeight: "72px" }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-2.5 grid grid-cols-3 gap-1">
+              {marginDriverBars.map((bar) => (
+                <p
+                  key={bar.label}
+                  className="text-center text-[8px] leading-snug text-slate-500 sm:text-[9px]"
+                >
+                  {bar.label}
+                </p>
               ))}
             </div>
-            <p className="mt-2 text-[10px] text-electric-300/80">
-              16.01% loss-making orders
-            </p>
+
+            <div className="mt-3 rounded-lg border border-amber-500/25 bg-gradient-to-r from-amber-500/10 to-orange-500/5 px-2.5 py-2">
+              <p className="text-[9px] font-medium uppercase tracking-wider text-amber-200/70">
+                Key metric
+              </p>
+              <p className="mt-0.5 text-sm font-bold tabular-nums text-amber-100">
+                16.01%
+                <span className="ml-1 text-[10px] font-medium text-slate-400">
+                  loss-making order rate
+                </span>
+              </p>
+            </div>
           </div>
         </div>
 
