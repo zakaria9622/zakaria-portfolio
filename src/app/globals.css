@@ -8,6 +8,15 @@
   --electric-400: #38bdf8;
   --electric-500: #2563eb;
   --electric-600: #1d4ed8;
+  --ink-950: #06070a;
+  --graphite-900: #111318;
+  --graphite-800: #1b1d24;
+  --mist-100: #f4f7fb;
+  --muted-400: #a5adba;
+  --data-cyan: #23b8d8;
+  --profit-amber: #f2a93b;
+  --growth-emerald: #22c55e;
+  --risk-coral: #f97373;
 }
 
 @theme inline {
@@ -18,11 +27,17 @@
   --color-electric-400: var(--electric-400);
   --color-electric-500: var(--electric-500);
   --color-electric-600: var(--electric-600);
+  --color-ink-950: var(--ink-950);
+  --color-graphite-900: var(--graphite-900);
+  --color-graphite-800: var(--graphite-800);
+  --color-mist-100: var(--mist-100);
+  --color-muted-400: var(--muted-400);
+  --color-coral-200: var(--risk-coral);
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
 body {
-  background-color: var(--navy-950);
+  background-color: var(--ink-950);
   color: #cbd5e1;
 }
 
@@ -33,6 +48,44 @@ body {
 
 html {
   scroll-behavior: smooth;
+}
+
+.executive-home {
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(6, 7, 10, 0.86), rgba(17, 19, 24, 0.58) 46%, rgba(6, 7, 10, 0.96)),
+    linear-gradient(125deg, rgba(35, 184, 216, 0.1), transparent 34%, rgba(242, 169, 59, 0.065) 72%, transparent),
+    var(--ink-950);
+}
+
+.executive-grid-bg {
+  background-image:
+    linear-gradient(rgba(244, 247, 251, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244, 247, 251, 0.045) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), transparent 85%);
+}
+
+.executive-surface {
+  box-shadow:
+    0 0 0 1px rgba(244, 247, 251, 0.03) inset,
+    0 32px 80px rgba(0, 0, 0, 0.34);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* Homepage-only premium utilities */

@@ -1,0 +1,84 @@
+"use client";
+
+import { motion, useReducedMotion } from "framer-motion";
+import { BarChart3, ChartNoAxesCombined, Database, Layers3 } from "lucide-react";
+import { skillsByCategory } from "@/data/skills";
+
+const categoryIcons = [Database, ChartNoAxesCombined, BarChart3];
+
+const proofNotes = [
+  "Used across SQL exploration, DuckDB models, Tableau dashboards, and Python checks.",
+  "Applied to profitability analysis, funnel drop-off diagnosis, and KPI reporting.",
+  "Connected to acquisition, CRM segmentation, conversion analysis, and stakeholder reports.",
+];
+
+function reveal(shouldReduceMotion: boolean, delay = 0) {
+  return {
+    initial: shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 16 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: "-80px" },
+    transition: shouldReduceMotion
+      ? { duration: 0 }
+      : { duration: 0.45, delay },
+  };
+}
+
+export function SkillProofMatrix() {
+  const shouldReduceMotion = useReducedMotion() ?? false;
+
+  return (
+    <section id="skills" className="relative border-y border-white/10 bg-white/[0.025] py-20 md:py-24">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <motion.div {...reveal(shouldReduceMotion)} className="mb-12">
+          <p className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/80">
+            Skill proof matrix
+          </p>
+          <h2 className="mt-4 max-w-3xl text-3xl font-semibold tracking-tight text-white md:text-5xl">
+            Tools are presented as evidence, not keyword lists.
+          </h2>
+        </motion.div>
+
+        <div className="grid gap-4 lg:grid-cols-3">
+          {skillsByCategory.map((group, index) => {
+            const Icon = categoryIcons[index] ?? Layers3;
+
+            return (
+              <motion.article
+                key={group.category}
+                {...reveal(shouldReduceMotion, index * 0.07)}
+                className="rounded-lg border border-white/10 bg-graphite-900/70 p-5 transition-colors duration-200 hover:border-white/20"
+              >
+                <div className="mb-6 flex items-center justify-between gap-4">
+                  <div className="flex size-11 items-center justify-center rounded-md border border-cyan-200/20 bg-cyan-200/10">
+                    <Icon className="size-5 text-cyan-100" />
+                  </div>
+                  <span className="font-mono text-xs text-slate-500">
+                    0{index + 1}
+                  </span>
+                </div>
+
+                <h3 className="text-xl font-semibold text-white">
+                  {group.category}
+                </h3>
+                <p className="mt-3 text-sm leading-6 text-slate-400">
+                  {proofNotes[index]}
+                </p>
+
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {group.skills.map((skill) => (
+                    <span
+                      key={skill}
+                      className="rounded-md border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-slate-200"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </motion.article>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}

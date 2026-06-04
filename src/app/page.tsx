@@ -1,19 +1,21 @@
-import { Hero } from "@/components/home/Hero";
-import { SkillsStrip } from "@/components/home/SkillsStrip";
-import { FeaturedProjects } from "@/components/home/FeaturedProjects";
-import { SkillsByCategory } from "@/components/home/SkillsByCategory";
-import { Experience } from "@/components/home/Experience";
-import { Contact } from "@/components/home/Contact";
+import { ExecutiveHero } from "@/components/home/ExecutiveHero";
+import { KpiRibbon } from "@/components/home/KpiRibbon";
+import { CaseStudySpotlight } from "@/components/home/CaseStudySpotlight";
+import { SkillProofMatrix } from "@/components/home/SkillProofMatrix";
+import { ProcessTimeline } from "@/components/home/ProcessTimeline";
+import { ExperienceTimeline } from "@/components/home/ExperienceTimeline";
+import { ContactCommandBar } from "@/components/home/ContactCommandBar";
 
 export default function Home() {
   return (
-    <div className="home-page">
-      <Hero />
-      <SkillsStrip />
-      <FeaturedProjects />
-      <SkillsByCategory />
-      <Experience />
-      <Contact />
+    <div className="executive-home">
+      <ExecutiveHero />
+      <KpiRibbon />
+      <CaseStudySpotlight />
+      <SkillProofMatrix />
+      <ProcessTimeline />
+      <ExperienceTimeline />
+      <ContactCommandBar />
     </div>
   );
 }
