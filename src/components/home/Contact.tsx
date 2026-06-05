@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, MapPin, Phone, Calendar } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import { GitHubIcon, LinkedInIcon } from "@/components/ui/SocialIcons";
 import { profile } from "@/data/profile";
 import { Section, SectionHeader } from "@/components/ui/Section";
@@ -22,15 +22,6 @@ export function Contact() {
         <HomeGlassCard glow className="max-w-4xl">
           <div className="grid gap-10 md:grid-cols-2">
             <div className="space-y-6">
-              <div className="home-glass-panel flex items-start gap-4 rounded-xl border border-white/10 bg-navy-950/40 p-4">
-                <Calendar className="mt-0.5 h-5 w-5 shrink-0 text-electric-400" />
-                <div>
-                  <p className="text-sm font-semibold text-white">Rhythm</p>
-                  <p className="mt-1 text-sm text-slate-400">
-                    {profile.alternance.rhythm}
-                  </p>
-                </div>
-              </div>
               <div className="home-glass-panel flex items-start gap-4 rounded-xl border border-white/10 bg-navy-950/40 p-4">
                 <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-electric-400" />
                 <div>

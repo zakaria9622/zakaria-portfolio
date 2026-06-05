@@ -11,7 +11,6 @@ export const profile = {
   cvHref: "/cv-zakaria-maachou.pdf",
   alternance: {
     open: true,
-    rhythm: "3 weeks company / 1 week school",
     location: "Paris / Île-de-France",
   },
 } as const;

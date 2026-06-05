@@ -88,7 +88,6 @@ export function Hero() {
               {[
                 { label: "Case studies", value: "3" },
                 { label: "Stack", value: "SQL · Tableau" },
-                { label: "Rhythm", value: "3w / 1w" },
                 { label: "Based in", value: "Paris" },
               ].map((stat, i) => (
                 <motion.div
