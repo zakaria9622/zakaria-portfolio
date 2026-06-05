@@ -6,7 +6,6 @@ import { motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
   BarChart3,
-  BriefcaseBusiness,
   Download,
   MapPin,
   ShieldCheck,
@@ -105,10 +104,6 @@ export function ExecutiveHero() {
           </div>
 
           <div className="mt-8 flex flex-wrap gap-3 text-sm text-slate-400">
-            <span className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/[0.03] px-3 py-2">
-              <BriefcaseBusiness className="size-4 text-amber-200" />
-              {profile.alternance.rhythm}
-            </span>
             <span className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/[0.03] px-3 py-2">
               <BarChart3 className="size-4 text-emerald-200" />
               SQL, Tableau, Python, BI reporting

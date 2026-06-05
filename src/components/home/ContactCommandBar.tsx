@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { Calendar, Download, Mail, MapPin, Phone } from "lucide-react";
+import { Download, Mail, MapPin, Phone } from "lucide-react";
 import { GitHubIcon, LinkedInIcon } from "@/components/ui/SocialIcons";
 import { profile } from "@/data/profile";
 
@@ -62,10 +62,6 @@ export function ContactCommandBar() {
                 Available for Data Analyst / BI Analyst alternance.
               </h2>
               <div className="mt-6 flex flex-wrap gap-3 text-sm text-slate-300">
-                <span className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-ink-950/55 px-3 py-2">
-                  <Calendar className="size-4 text-amber-200" />
-                  {profile.alternance.rhythm}
-                </span>
                 <span className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-ink-950/55 px-3 py-2">
                   <MapPin className="size-4 text-cyan-200" />
                   {profile.alternance.location}
