@@ -28,6 +28,9 @@ export function Experience() {
                 <p className="mt-1 text-sm font-medium text-electric-400 md:text-base">
                   {job.role}
                 </p>
+                <p className="text-sm font-medium text-electric-400 md:text-base">
+                  {job.dates}
+                </p>
               </div>
             </div>
             <ul className="space-y-3 border-t border-white/10 pt-6">

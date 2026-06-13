@@ -26,7 +26,7 @@ export function ExperienceTimeline() {
             Experience
           </p>
           <h2 className="mt-4 max-w-3xl text-3xl font-semibold tracking-tight text-white md:text-5xl">
-            Marketing analytics experience with reporting discipline.
+            Business, data & BI experience.
           </h2>
         </motion.div>
 
@@ -47,6 +47,9 @@ export function ExperienceTimeline() {
                   </h3>
                   <p className="mt-2 text-sm font-medium leading-6 text-cyan-100">
                     {job.role}
+                  </p>
+                  <p className="text-sm font-medium leading-6 text-cyan-100">
+                    {job.dates}
                   </p>
                 </div>
               </div>
