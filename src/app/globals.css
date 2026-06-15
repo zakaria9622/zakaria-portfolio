@@ -17,7 +17,7 @@
   --profit-amber: #f2a93b;
   --growth-emerald: #22c55e;
   --risk-coral: #f97373;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-mono: var(--font-jetbrains-mono, ui-monospace), SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 @theme inline {
@@ -38,9 +38,9 @@
   --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-heading: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --font-kpi: var(--font-mono);
-  --font-technical: var(--font-mono);
+  --font-mono: var(--font-jetbrains-mono, ui-monospace), SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-kpi: var(--font-jetbrains-mono, ui-monospace), SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-technical: var(--font-jetbrains-mono, ui-monospace), SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 body {
@@ -59,19 +59,22 @@ body {
   letter-spacing: 0;
 }
 
-:where(code, kbd, samp, pre),
-.font-mono,
-.font-technical,
-.font-kpi {
-  font-family: var(--font-mono);
-}
-
 .font-body {
   font-family: var(--font-sans);
   letter-spacing: 0;
 }
 
+.font-mono,
+:where(code, kbd, samp, pre) {
+  font-family: var(--font-mono);
+}
+
+.font-technical {
+  font-family: var(--font-technical);
+}
+
 .font-kpi {
+  font-family: var(--font-kpi);
   font-weight: 700;
   letter-spacing: 0;
   line-height: 1;
