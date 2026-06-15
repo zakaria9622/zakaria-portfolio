@@ -25,7 +25,7 @@ export function ExperienceTimeline() {
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/80">
             Experience
           </p>
-          <h2 className="mt-4 max-w-3xl text-3xl font-semibold tracking-tight text-white md:text-5xl">
+          <h2 className="mt-4 max-w-3xl font-heading text-3xl font-bold leading-tight text-white md:text-5xl">
             Business, data & BI experience.
           </h2>
         </motion.div>
@@ -42,13 +42,13 @@ export function ExperienceTimeline() {
                   <BriefcaseBusiness className="size-5 text-cyan-100" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-white">
+                  <h3 className="font-heading text-xl font-semibold leading-tight text-white">
                     {job.company}
                   </h3>
-                  <p className="mt-2 text-sm font-medium leading-6 text-cyan-100">
+                  <p className="mt-2 font-body text-sm font-medium leading-6 text-cyan-100">
                     {job.role}
                   </p>
-                  <p className="text-sm font-medium leading-6 text-cyan-100">
+                  <p className="font-body text-sm font-medium leading-6 text-cyan-100">
                     {job.dates}
                   </p>
                 </div>
@@ -58,7 +58,7 @@ export function ExperienceTimeline() {
                 {job.highlights.map((highlight) => (
                   <li
                     key={highlight}
-                    className="rounded-md border border-white/10 bg-white/[0.035] px-3 py-3 text-sm leading-6 text-slate-300"
+                    className="rounded-md border border-white/10 bg-white/[0.035] px-3 py-3 font-body text-sm leading-6 text-slate-300"
                   >
                     {highlight}
                   </li>

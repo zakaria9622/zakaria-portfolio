@@ -51,7 +51,7 @@ export function ProcessTimeline() {
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/80">
             Analytics process
           </p>
-          <h2 className="mt-4 max-w-3xl text-3xl font-semibold tracking-tight text-white md:text-5xl">
+          <h2 className="mt-4 max-w-3xl font-heading text-3xl font-bold leading-tight text-white md:text-5xl">
             A repeatable path from question to action.
           </h2>
         </motion.div>
@@ -67,13 +67,15 @@ export function ProcessTimeline() {
                 className="relative rounded-lg border border-white/10 bg-white/[0.035] p-5"
               >
                 <div className="mb-8 flex items-center justify-between">
-                  <span className="font-mono text-xs text-slate-500">
+                  <span className="font-mono text-xs font-semibold text-slate-500">
                     0{index + 1}
                   </span>
                   <Icon className={`size-5 ${step.accent}`} />
                 </div>
-                <h3 className="text-xl font-semibold text-white">{step.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-slate-400">
+                <h3 className="font-heading text-xl font-semibold leading-tight text-white">
+                  {step.title}
+                </h3>
+                <p className="mt-3 font-body text-sm leading-6 text-slate-400">
                   {step.text}
                 </p>
               </motion.article>

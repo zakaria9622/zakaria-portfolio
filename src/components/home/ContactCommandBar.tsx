@@ -58,10 +58,10 @@ export function ContactCommandBar() {
               <p className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/80">
                 Contact
               </p>
-              <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white md:text-5xl">
+              <h2 className="mt-4 font-heading text-3xl font-bold leading-tight text-white md:text-5xl">
                 Available for Data Analyst / BI Analyst alternance.
               </h2>
-              <div className="mt-6 flex flex-wrap gap-3 text-sm text-slate-300">
+              <div className="mt-6 flex flex-wrap gap-3 font-body text-sm text-slate-300">
                 <span className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-ink-950/55 px-3 py-2">
                   <MapPin className="size-4 text-cyan-200" />
                   {profile.alternance.location}
@@ -79,7 +79,7 @@ export function ContactCommandBar() {
                     href={item.href}
                     target={item.external ? "_blank" : undefined}
                     rel={item.external ? "noopener noreferrer" : undefined}
-                    className="group inline-flex min-h-14 items-center gap-3 rounded-md border border-white/10 bg-ink-950/55 px-4 py-3 text-sm font-medium text-slate-200 transition-colors duration-200 hover:border-cyan-200/30 hover:bg-cyan-200/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+                    className="group inline-flex min-h-14 items-center gap-3 rounded-md border border-white/10 bg-ink-950/55 px-4 py-3 font-body text-sm font-medium leading-6 text-slate-200 transition-colors duration-200 hover:border-cyan-200/30 hover:bg-cyan-200/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
                   >
                     <Icon className="size-5 shrink-0 text-cyan-100" />
                     <span className="min-w-0 break-words">{item.label}</span>
@@ -88,14 +88,14 @@ export function ContactCommandBar() {
               })}
               <a
                 href={profile.cvHref}
-                className="group inline-flex min-h-14 items-center gap-3 rounded-md border border-amber-200/20 bg-amber-200/10 px-4 py-3 text-sm font-semibold text-amber-50 transition-colors duration-200 hover:border-amber-100/40 hover:bg-amber-200/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200"
+                className="group inline-flex min-h-14 items-center gap-3 rounded-md border border-amber-200/20 bg-amber-200/10 px-4 py-3 font-body text-sm font-semibold leading-none text-amber-50 transition-colors duration-200 hover:border-amber-100/40 hover:bg-amber-200/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200"
               >
                 <Download className="size-5 shrink-0" />
                 Download CV
               </a>
               <a
                 href={`mailto:${profile.email}`}
-                className="inline-flex min-h-14 items-center justify-center rounded-md bg-white px-4 py-3 text-sm font-semibold text-ink-950 transition-colors duration-200 hover:bg-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+                className="inline-flex min-h-14 items-center justify-center rounded-md bg-white px-4 py-3 font-body text-sm font-semibold leading-none text-ink-950 transition-colors duration-200 hover:bg-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
               >
                 Send email
               </a>

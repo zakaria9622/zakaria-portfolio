@@ -27,12 +27,14 @@ export function SkillsByCategory() {
                 <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl border border-electric-500/30 bg-gradient-to-br from-electric-500/25 to-electric-600/5">
                   <Icon className="h-6 w-6 text-electric-300" />
                 </div>
-                <h3 className="text-xl font-bold text-white">{group.category}</h3>
+                <h3 className="font-heading text-xl font-bold leading-tight text-white">
+                  {group.category}
+                </h3>
                 <ul className="mt-5 space-y-3">
                   {group.skills.map((skill) => (
                     <li
                       key={skill}
-                      className="flex items-center gap-3 rounded-lg border border-transparent px-2 py-1.5 text-sm text-slate-400 transition-colors hover:border-white/5 hover:bg-white/[0.03] hover:text-slate-200"
+                      className="flex items-center gap-3 rounded-lg border border-transparent px-2 py-1.5 font-mono text-sm text-slate-400 transition-colors hover:border-white/5 hover:bg-white/[0.03] hover:text-slate-200"
                     >
                       <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-r from-electric-400 to-electric-600" />
                       {skill}

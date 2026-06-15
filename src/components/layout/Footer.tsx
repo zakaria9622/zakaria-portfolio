@@ -7,8 +7,10 @@ export function Footer() {
     <footer className="border-t border-white/5 bg-navy-950 py-12">
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-6 md:flex-row lg:px-8">
         <div className="text-center md:text-left">
-          <p className="font-semibold text-white">{profile.name}</p>
-          <p className="mt-1 text-sm text-slate-400">{profile.title}</p>
+          <p className="font-heading font-semibold text-white">{profile.name}</p>
+          <p className="mt-1 font-body text-sm text-slate-400">
+            {profile.title}
+          </p>
         </div>
         <div className="flex items-center gap-4">
           <a
@@ -37,7 +39,7 @@ export function Footer() {
             <LinkedInIcon className="h-5 w-5" />
           </a>
         </div>
-        <p className="text-center text-xs text-slate-500 md:text-right">
+        <p className="font-body text-center text-xs text-slate-500 md:text-right">
           © {new Date().getFullYear()} · Data & BI Portfolio
         </p>
       </div>

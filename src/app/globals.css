@@ -34,11 +34,45 @@
   --color-muted-400: var(--muted-400);
   --color-coral-200: var(--risk-coral);
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.6;
   background-color: var(--ink-950);
   color: #cbd5e1;
+}
+
+:where(h1, h2, h3, h4, h5, h6),
+.font-heading,
+.font-display {
+  font-family: var(--font-heading);
+  letter-spacing: 0;
+}
+
+:where(code, kbd, samp, pre),
+.font-mono,
+.font-technical,
+.font-kpi {
+  font-family: var(--font-mono);
+}
+
+.font-body {
+  font-family: var(--font-sans);
+  letter-spacing: 0;
+}
+
+.font-kpi {
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
 }
 
 ::selection {

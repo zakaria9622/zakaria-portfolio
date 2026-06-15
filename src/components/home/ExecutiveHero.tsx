@@ -42,11 +42,11 @@ export function ExecutiveHero() {
       <div className="relative mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:px-8">
         <motion.div {...heroMotion(shouldReduceMotion)}>
           <div className="mb-6 flex flex-wrap items-center gap-3">
-            <span className="inline-flex items-center gap-2 rounded-md border border-emerald-400/25 bg-emerald-400/10 px-3 py-2 text-xs font-semibold text-emerald-100">
+            <span className="inline-flex items-center gap-2 rounded-md border border-emerald-400/25 bg-emerald-400/10 px-3 py-2 font-body text-xs font-semibold leading-none text-emerald-100">
               <ShieldCheck className="size-4" />
               Open to Data Analyst / BI Analyst alternance
             </span>
-            <span className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/[0.04] px-3 py-2 text-xs font-medium text-slate-300">
+            <span className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/[0.04] px-3 py-2 font-body text-xs font-medium leading-none text-slate-300">
               <MapPin className="size-4 text-cyan-200" />
               {profile.alternance.location}
             </span>
@@ -56,29 +56,29 @@ export function ExecutiveHero() {
             Executive Analytics Portfolio
           </p>
 
-          <h1 className="max-w-4xl text-5xl font-semibold leading-[0.98] tracking-tight text-white sm:text-6xl lg:text-7xl">
+          <h1 className="max-w-4xl font-heading text-5xl font-bold leading-[0.96] text-white sm:text-6xl lg:text-7xl">
             {profile.name}
           </h1>
 
-          <p className="mt-5 text-xl font-semibold text-cyan-100 md:text-2xl">
+          <p className="mt-5 font-heading text-xl font-semibold leading-tight text-cyan-100 md:text-2xl">
             {profile.title}
           </p>
 
-          <p className="mt-6 max-w-2xl text-base leading-8 text-slate-300 md:text-lg">
+          <p className="mt-6 max-w-2xl font-body text-base leading-8 text-slate-300 md:text-lg">
             {profile.tagline}
           </p>
 
           <div className="mt-9 flex flex-wrap gap-3">
             <Link
               href="/#projects"
-              className="inline-flex items-center justify-center gap-2 rounded-md bg-cyan-200 px-5 py-3 text-sm font-semibold text-ink-950 shadow-[0_18px_45px_rgba(35,184,216,0.18)] transition-colors duration-200 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+              className="inline-flex items-center justify-center gap-2 rounded-md bg-cyan-200 px-5 py-3 font-body text-sm font-semibold leading-none text-ink-950 shadow-[0_18px_45px_rgba(35,184,216,0.18)] transition-colors duration-200 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
             >
               View case studies
               <ArrowRight className="size-4" />
             </Link>
             <a
               href={profile.cvHref}
-              className="inline-flex items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.05] px-5 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:border-white/30 hover:bg-white/[0.09] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+              className="inline-flex items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.05] px-5 py-3 font-body text-sm font-semibold leading-none text-white transition-colors duration-200 hover:border-white/30 hover:bg-white/[0.09] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
             >
               <Download className="size-4" />
               Download CV
@@ -104,7 +104,7 @@ export function ExecutiveHero() {
           </div>
 
           <div className="mt-8 flex flex-wrap gap-3 text-sm text-slate-400">
-            <span className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/[0.03] px-3 py-2">
+            <span className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/[0.03] px-3 py-2 font-mono font-medium tracking-[0.02em]">
               <BarChart3 className="size-4 text-emerald-200" />
               SQL, Tableau, Python, BI reporting
             </span>
@@ -118,14 +118,14 @@ export function ExecutiveHero() {
           <div className="executive-surface relative overflow-hidden rounded-lg border border-white/10 bg-white/[0.045] p-3 shadow-2xl shadow-black/40 backdrop-blur-xl">
             <div className="mb-3 flex items-center justify-between border-b border-white/10 px-2 pb-3">
               <div>
-                <p className="text-sm font-semibold text-white">
+                <p className="font-heading text-sm font-semibold leading-tight text-white">
                   {previewProject.shortTitle}
                 </p>
-                <p className="mt-1 text-xs text-slate-500">
+                <p className="mt-1 font-body text-xs leading-5 text-slate-500">
                   {previewProject.businessQuestion}
                 </p>
               </div>
-              <span className="rounded-md border border-cyan-300/20 bg-cyan-300/10 px-2.5 py-1 text-xs font-semibold text-cyan-100">
+              <span className="rounded-md border border-cyan-300/20 bg-cyan-300/10 px-2.5 py-1 font-mono text-xs font-semibold leading-none tracking-[0.02em] text-cyan-100">
                 Live proof
               </span>
             </div>
@@ -147,10 +147,10 @@ export function ExecutiveHero() {
                   key={metric.label}
                   className="rounded-md border border-white/10 bg-ink-950/65 px-3 py-3"
                 >
-                  <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-slate-500">
+                  <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
                     {metric.label}
                   </p>
-                  <p className={`mt-1 text-lg font-semibold ${metric.tone}`}>
+                  <p className={`mt-1 font-kpi text-lg font-bold tabular-nums ${metric.tone}`}>
                     {metric.value}
                   </p>
                 </div>
@@ -158,10 +158,10 @@ export function ExecutiveHero() {
             </div>
 
             <div className="mt-3 rounded-md border border-amber-300/20 bg-amber-300/10 px-3 py-3">
-              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-amber-100/70">
+              <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-100/70">
                 Main insight
               </p>
-              <p className="mt-1 text-sm leading-6 text-amber-50">
+              <p className="mt-1 font-body text-sm leading-6 text-amber-50">
                 {previewProject.mainInsight}
               </p>
             </div>

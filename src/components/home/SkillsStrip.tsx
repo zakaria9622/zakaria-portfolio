@@ -10,7 +10,7 @@ export function SkillsStrip() {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mb-5 flex items-center justify-center gap-2">
           <Database className="h-4 w-4 text-electric-400" />
-          <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">
+          <p className="font-mono text-xs font-semibold uppercase tracking-widest text-slate-500">
             Core stack
           </p>
         </div>
@@ -27,7 +27,7 @@ export function SkillsStrip() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.04 }}
-              className="home-skill-pill rounded-xl border border-white/15 bg-white/[0.08] px-5 py-2.5 text-sm font-medium text-slate-200 shadow-sm backdrop-blur-md transition-colors hover:border-electric-500/40 hover:bg-electric-500/10 hover:text-white"
+              className="home-skill-pill rounded-xl border border-white/15 bg-white/[0.08] px-5 py-2.5 font-mono text-sm font-medium tracking-[0.02em] text-slate-200 shadow-sm backdrop-blur-md transition-colors hover:border-electric-500/40 hover:bg-electric-500/10 hover:text-white"
             >
               {skill}
             </motion.span>

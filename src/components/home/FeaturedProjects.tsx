@@ -51,7 +51,7 @@ export function FeaturedProjects() {
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="ml-auto flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs text-slate-400 transition-colors hover:border-electric-500/30 hover:text-electric-300 lg:ml-0"
+                      className="ml-auto flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2 font-body text-xs leading-none text-slate-400 transition-colors hover:border-electric-500/30 hover:text-electric-300 lg:ml-0"
                       aria-label="GitHub repository"
                     >
                       <GitHubIcon className="h-4 w-4" />
@@ -59,7 +59,7 @@ export function FeaturedProjects() {
                     </a>
                   </div>
 
-                  <h3 className="text-2xl font-bold tracking-tight text-white md:text-3xl">
+                  <h3 className="font-heading text-2xl font-bold leading-tight text-white md:text-3xl">
                     {project.title}
                   </h3>
 
@@ -73,19 +73,19 @@ export function FeaturedProjects() {
 
                   <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     <div className="rounded-xl border border-white/10 bg-navy-950/50 p-4">
-                      <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                      <p className="font-mono text-xs font-semibold uppercase tracking-wider text-slate-500">
                         Business question
                       </p>
-                      <p className="mt-2 text-sm leading-relaxed text-slate-200 md:text-base">
+                      <p className="mt-2 font-body text-sm leading-relaxed text-slate-200 md:text-base">
                         {project.businessQuestion}
                       </p>
                     </div>
                     {project.scope && (
                       <div className="rounded-xl border border-electric-500/20 bg-electric-500/5 p-4">
-                        <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                        <p className="font-mono text-xs font-semibold uppercase tracking-wider text-slate-500">
                           Scope
                         </p>
-                        <p className="mt-2 text-sm font-medium text-electric-300 md:text-base">
+                        <p className="mt-2 font-body text-sm font-medium leading-6 text-electric-300 md:text-base">
                           {project.scope}
                         </p>
                       </div>
@@ -95,10 +95,10 @@ export function FeaturedProjects() {
                         !project.scope ? "sm:col-span-2 lg:col-span-1" : ""
                       }`}
                     >
-                      <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                      <p className="font-mono text-xs font-semibold uppercase tracking-wider text-slate-500">
                         Main output
                       </p>
-                      <p className="mt-2 text-sm leading-relaxed text-slate-300 md:text-base">
+                      <p className="mt-2 font-body text-sm leading-relaxed text-slate-300 md:text-base">
                         {project.mainOutput}
                       </p>
                     </div>
@@ -107,14 +107,14 @@ export function FeaturedProjects() {
 
                 <div className="flex flex-col justify-between gap-4 lg:min-w-[200px] lg:border-l lg:border-white/10 lg:pl-8">
                   <div className="hidden rounded-xl border border-dashed border-electric-500/25 bg-electric-500/5 p-4 lg:block">
-                    <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+                    <p className="font-mono text-[10px] font-semibold uppercase tracking-wider text-slate-500">
                       Key metric
                     </p>
-                    <p className="mt-2 text-2xl font-bold tabular-nums text-electric-300">
+                    <p className="mt-2 font-kpi text-2xl font-bold tabular-nums text-electric-300">
                       {project.kpis.find((k) => k.highlight)?.value ??
                         project.kpis[0]?.value}
                     </p>
-                    <p className="mt-1 text-xs text-slate-500">
+                    <p className="mt-1 font-mono text-xs text-slate-500">
                       {project.kpis.find((k) => k.highlight)?.label ??
                         project.kpis[0]?.label}
                     </p>
@@ -122,7 +122,7 @@ export function FeaturedProjects() {
 
                   <Link
                     href={project.href}
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-electric-600 to-electric-500 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-electric-500/25 transition-all hover:from-electric-500 hover:to-electric-400 lg:w-auto"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-electric-600 to-electric-500 px-6 py-3.5 font-body text-sm font-semibold leading-none text-white shadow-lg shadow-electric-500/25 transition-all hover:from-electric-500 hover:to-electric-400 lg:w-auto"
                   >
                     View case study
                     <ArrowRight className="h-4 w-4" />

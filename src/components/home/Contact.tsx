@@ -25,8 +25,10 @@ export function Contact() {
               <div className="home-glass-panel flex items-start gap-4 rounded-xl border border-white/10 bg-navy-950/40 p-4">
                 <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-electric-400" />
                 <div>
-                  <p className="text-sm font-semibold text-white">Location</p>
-                  <p className="mt-1 text-sm text-slate-400">
+                  <p className="font-heading text-sm font-semibold leading-tight text-white">
+                    Location
+                  </p>
+                  <p className="mt-1 font-body text-sm leading-6 text-slate-400">
                     {profile.alternance.location}
                   </p>
                 </div>
@@ -65,7 +67,7 @@ export function Contact() {
                     href={item.href}
                     target={item.external ? "_blank" : undefined}
                     rel={item.external ? "noopener noreferrer" : undefined}
-                    className="home-glass-panel flex items-center gap-4 rounded-xl border border-white/10 bg-white/[0.04] p-4 text-sm text-slate-300 transition-all hover:border-electric-500/30 hover:bg-electric-500/5 hover:text-white"
+                    className="home-glass-panel flex items-center gap-4 rounded-xl border border-white/10 bg-white/[0.04] p-4 font-body text-sm leading-6 text-slate-300 transition-all hover:border-electric-500/30 hover:bg-electric-500/5 hover:text-white"
                   >
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-electric-500/15">
                       <Icon className="h-5 w-5 text-electric-400" />

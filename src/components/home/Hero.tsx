@@ -26,26 +26,26 @@ export function Hero() {
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-electric-400/30 bg-gradient-to-r from-electric-500/20 to-transparent px-4 py-2 shadow-lg shadow-electric-500/10 backdrop-blur-md">
               <Sparkles className="h-3.5 w-3.5 text-electric-300" />
               <span className="h-2 w-2 rounded-full bg-electric-400 animate-pulse" />
-              <span className="text-sm font-medium text-electric-200">
+              <span className="font-body text-sm font-medium leading-none text-electric-200">
                 Open to Data Analyst / BI Analyst alternance
               </span>
             </div>
 
-            <p className="mb-3 font-mono text-sm tracking-wide text-electric-400/90">
+            <p className="mb-3 font-mono text-sm font-semibold tracking-wide text-electric-400/90">
               Data · BI · Analytics
             </p>
 
-            <h1 className="bg-gradient-to-br from-white via-white to-slate-400 bg-clip-text text-4xl font-bold tracking-tight text-transparent md:text-5xl lg:text-6xl xl:text-[4.25rem] xl:leading-[1.05]">
+            <h1 className="bg-gradient-to-br from-white via-white to-slate-400 bg-clip-text font-heading text-4xl font-bold leading-tight text-transparent md:text-5xl lg:text-6xl xl:text-[4.25rem] xl:leading-[1.05]">
               {profile.name}
             </h1>
 
-            <p className="mt-4 text-xl font-semibold md:text-2xl">
+            <p className="mt-4 font-heading text-xl font-semibold leading-tight md:text-2xl">
               <span className="bg-gradient-to-r from-electric-300 to-electric-500 bg-clip-text text-transparent">
                 {profile.title}
               </span>
             </p>
 
-            <p className="mt-6 max-w-xl text-base leading-relaxed text-slate-400 md:text-lg">
+            <p className="mt-6 max-w-xl font-body text-base leading-relaxed text-slate-400 md:text-lg">
               {profile.tagline}
             </p>
 
@@ -97,10 +97,10 @@ export function Hero() {
                   transition={{ delay: 0.35 + i * 0.06 }}
                   className="home-glass-kpi rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3 backdrop-blur-md"
                 >
-                  <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+                  <p className="font-mono text-[10px] font-semibold uppercase tracking-wider text-slate-500">
                     {stat.label}
                   </p>
-                  <p className="mt-1 text-sm font-bold text-white md:text-base">
+                  <p className="mt-1 font-kpi text-sm font-bold tabular-nums text-white md:text-base">
                     {stat.value}
                   </p>
                 </motion.div>

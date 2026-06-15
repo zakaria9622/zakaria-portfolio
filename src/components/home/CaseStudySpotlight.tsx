@@ -35,10 +35,10 @@ export function CaseStudySpotlight() {
             Case studies
           </p>
           <div className="mt-4 grid gap-6 lg:grid-cols-[0.82fr_1fr] lg:items-end">
-            <h2 className="text-3xl font-semibold tracking-tight text-white md:text-5xl">
+            <h2 className="font-heading text-3xl font-bold leading-tight text-white md:text-5xl">
               Business questions turned into measurable recommendations.
             </h2>
-            <p className="max-w-2xl text-base leading-7 text-slate-400 lg:ml-auto">
+            <p className="max-w-2xl font-body text-base leading-7 text-slate-400 lg:ml-auto">
               Each project keeps the line from raw data to stakeholder-ready output:
               SQL exploration, dashboarding, main insight, and a practical action plan.
             </p>
@@ -78,14 +78,14 @@ export function CaseStudySpotlight() {
                       {project.tools.map((tool) => (
                         <span
                           key={tool}
-                          className="rounded-md border border-white/10 bg-white/[0.04] px-2.5 py-1.5 text-xs font-medium text-slate-300"
+                          className="rounded-md border border-white/10 bg-white/[0.04] px-2.5 py-1.5 font-mono text-xs font-medium text-slate-300"
                         >
                           {tool}
                         </span>
                       ))}
                     </div>
 
-                    <h3 className="text-2xl font-semibold tracking-tight text-white md:text-3xl">
+                    <h3 className="font-heading text-2xl font-bold leading-tight text-white md:text-3xl">
                       {project.title}
                     </h3>
 
@@ -95,7 +95,7 @@ export function CaseStudySpotlight() {
                           <Target className="size-3.5 text-cyan-200" />
                           Business question
                         </p>
-                        <p className="mt-3 text-sm leading-6 text-slate-200">
+                        <p className="mt-3 font-body text-sm leading-6 text-slate-200">
                           {project.businessQuestion}
                         </p>
                       </div>
@@ -103,22 +103,22 @@ export function CaseStudySpotlight() {
                         <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-amber-100/70">
                           Key metric
                         </p>
-                        <p className="mt-3 text-2xl font-semibold text-amber-100">
+                        <p className="mt-3 font-kpi text-2xl font-bold tabular-nums text-amber-100">
                           {highlightedKpi?.value}
                         </p>
-                        <p className="mt-1 text-sm text-amber-50/70">
+                        <p className="mt-1 font-mono text-sm text-amber-50/70">
                           {highlightedKpi?.label}
                         </p>
                       </div>
                     </div>
 
                     {project.scope && (
-                      <p className="mt-4 inline-flex rounded-md border border-emerald-200/20 bg-emerald-200/10 px-3 py-2 text-sm font-medium text-emerald-100">
+                      <p className="mt-4 inline-flex rounded-md border border-emerald-200/20 bg-emerald-200/10 px-3 py-2 font-mono text-sm font-medium text-emerald-100">
                         Scope: {project.scope}
                       </p>
                     )}
 
-                    <p className="mt-5 text-sm leading-7 text-slate-400">
+                    <p className="mt-5 font-body text-sm leading-7 text-slate-400">
                       {project.mainInsight}
                     </p>
                   </div>
@@ -126,7 +126,7 @@ export function CaseStudySpotlight() {
                   <div className="flex flex-wrap gap-3">
                     <Link
                       href={project.href}
-                      className="inline-flex items-center justify-center gap-2 rounded-md bg-white px-4 py-2.5 text-sm font-semibold text-ink-950 transition-colors duration-200 hover:bg-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+                      className="inline-flex items-center justify-center gap-2 rounded-md bg-white px-4 py-2.5 font-body text-sm font-semibold leading-none text-ink-950 transition-colors duration-200 hover:bg-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
                     >
                       View case study
                       <ArrowUpRight className="size-4" />
@@ -135,7 +135,7 @@ export function CaseStudySpotlight() {
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.04] px-4 py-2.5 text-sm font-semibold text-slate-200 transition-colors duration-200 hover:border-white/30 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+                      className="inline-flex items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.04] px-4 py-2.5 font-body text-sm font-semibold leading-none text-slate-200 transition-colors duration-200 hover:border-white/30 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
                     >
                       <GitHubIcon className="size-4" />
                       Repository

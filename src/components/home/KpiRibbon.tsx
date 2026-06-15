@@ -61,15 +61,17 @@ export function KpiRibbon() {
               className="group relative min-h-32 rounded-md border border-white/10 bg-graphite-900/70 p-5 transition-colors duration-200 hover:border-white/20 hover:bg-graphite-800/80"
             >
               <div className="flex items-center justify-between gap-4">
-                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-slate-500">
+                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-500">
                   {kpi.label}
                 </p>
                 <Icon className={`size-5 ${kpi.accent}`} />
               </div>
-              <p className={`mt-5 text-3xl font-semibold tracking-tight ${kpi.accent}`}>
+              <p className={`mt-5 font-kpi text-3xl font-bold tabular-nums ${kpi.accent}`}>
                 {kpi.value}
               </p>
-              <p className="mt-2 text-sm text-slate-400">{kpi.context}</p>
+              <p className="mt-2 font-body text-sm leading-6 text-slate-400">
+                {kpi.context}
+              </p>
             </motion.div>
           );
         })}

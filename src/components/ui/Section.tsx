@@ -38,15 +38,17 @@ export function SectionHeader({
   return (
     <div className="mb-12 md:mb-16">
       {label && (
-        <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-electric-400">
+        <p className="mb-3 font-mono text-sm font-semibold uppercase tracking-widest text-electric-400">
           {label}
         </p>
       )}
-      <h2 className="text-3xl font-bold tracking-tight text-white md:text-4xl">
+      <h2 className="font-heading text-3xl font-bold leading-tight text-white md:text-4xl">
         {title}
       </h2>
       {description && (
-        <p className="mt-4 max-w-2xl text-lg text-slate-400">{description}</p>
+        <p className="mt-4 max-w-2xl font-body text-lg leading-8 text-slate-400">
+          {description}
+        </p>
       )}
     </div>
   );

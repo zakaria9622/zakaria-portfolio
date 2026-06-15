@@ -22,11 +22,11 @@ export function KpiCard({ label, value, highlight, delay = 0 }: KpiCardProps) {
           : "border-white/10 bg-white/5"
       }`}
     >
-      <p className="text-xs font-medium uppercase tracking-wider text-slate-400">
+      <p className="font-mono text-xs font-semibold uppercase tracking-wider text-slate-400">
         {label}
       </p>
       <p
-        className={`mt-2 text-xl font-bold tracking-tight md:text-2xl ${
+        className={`mt-2 font-kpi text-xl font-bold tabular-nums md:text-2xl ${
           highlight ? "text-electric-300" : "text-white"
         }`}
       >

@@ -21,9 +21,9 @@ export function Header() {
       <div className="mx-auto flex min-h-14 max-w-7xl items-center justify-between rounded-lg border border-white/10 bg-ink-950/80 px-3 shadow-2xl shadow-black/25 backdrop-blur-xl sm:px-4 lg:px-5">
         <Link
           href="/"
-          className="flex min-w-0 items-center gap-2 rounded-md px-2 py-2 text-sm font-semibold tracking-tight text-white transition-colors duration-200 hover:text-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+          className="flex min-w-0 items-center gap-2 rounded-md px-2 py-2 font-body text-sm font-semibold leading-none text-white transition-colors duration-200 hover:text-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
         >
-          <span className="flex size-7 shrink-0 items-center justify-center rounded-md border border-cyan-200/20 bg-cyan-200/10 font-mono text-xs text-cyan-100">
+          <span className="flex size-7 shrink-0 items-center justify-center rounded-md border border-cyan-200/20 bg-cyan-200/10 font-mono text-xs font-semibold leading-none text-cyan-100">
             ZM
           </span>
           <span className="truncate">
@@ -37,7 +37,7 @@ export function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className="rounded-md px-3 py-2 text-sm font-medium text-slate-400 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+              className="rounded-md px-3 py-2 font-body text-sm font-medium leading-none text-slate-400 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
             >
               {link.label}
             </Link>
@@ -47,7 +47,7 @@ export function Header() {
               <Link
                 key={p.slug}
                 href={p.href}
-                className="rounded-md px-2.5 py-2 text-xs font-medium text-slate-500 transition-colors duration-200 hover:bg-white/[0.05] hover:text-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+                className="rounded-md px-2.5 py-2 font-body text-xs font-medium leading-none text-slate-500 transition-colors duration-200 hover:bg-white/[0.05] hover:text-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
               >
                 {p.shortTitle}
               </Link>
@@ -55,7 +55,7 @@ export function Header() {
           </div>
           <a
             href={profile.cvHref}
-            className="ml-2 inline-flex items-center gap-2 rounded-md border border-amber-200/20 bg-amber-200/10 px-3 py-2 text-sm font-semibold text-amber-50 transition-colors duration-200 hover:border-amber-100/40 hover:bg-amber-200/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200"
+            className="ml-2 inline-flex items-center gap-2 rounded-md border border-amber-200/20 bg-amber-200/10 px-3 py-2 font-body text-sm font-semibold leading-none text-amber-50 transition-colors duration-200 hover:border-amber-100/40 hover:bg-amber-200/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200"
           >
             <Download className="size-4" />
             CV
@@ -79,21 +79,21 @@ export function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className="block rounded-md px-3 py-2.5 text-sm font-medium text-slate-300 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white"
+              className="block rounded-md px-3 py-2.5 font-body text-sm font-medium leading-none text-slate-300 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white"
               onClick={() => setOpen(false)}
             >
               {link.label}
             </Link>
           ))}
           <div className="mt-4 border-t border-white/10 pt-4">
-            <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
+            <p className="mb-2 font-mono text-xs font-semibold uppercase tracking-wider text-slate-500">
               Case studies
             </p>
             {projects.map((p) => (
               <Link
                 key={p.slug}
                 href={p.href}
-                className="block rounded-md px-3 py-2 text-sm text-cyan-100 transition-colors duration-200 hover:bg-white/[0.05]"
+                className="block rounded-md px-3 py-2 font-body text-sm leading-6 text-cyan-100 transition-colors duration-200 hover:bg-white/[0.05]"
                 onClick={() => setOpen(false)}
               >
                 {p.title}
@@ -102,7 +102,7 @@ export function Header() {
           </div>
           <a
             href={profile.cvHref}
-            className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-md border border-amber-200/20 bg-amber-200/10 px-4 py-3 text-sm font-semibold text-amber-50"
+            className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-md border border-amber-200/20 bg-amber-200/10 px-4 py-3 font-body text-sm font-semibold leading-none text-amber-50"
           >
             <Download className="size-4" />
             Download CV

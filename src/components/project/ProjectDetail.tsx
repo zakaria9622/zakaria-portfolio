@@ -18,7 +18,7 @@ export function ProjectDetail({ project }: { project: Project }) {
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
           <Link
             href="/#projects"
-            className="mb-8 inline-flex items-center gap-2 text-sm text-slate-400 transition-colors hover:text-electric-300"
+            className="mb-8 inline-flex items-center gap-2 font-body text-sm leading-none text-slate-400 transition-colors hover:text-electric-300"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to projects
@@ -29,13 +29,13 @@ export function ProjectDetail({ project }: { project: Project }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <p className="text-sm font-semibold uppercase tracking-widest text-electric-400">
+            <p className="font-mono text-sm font-semibold uppercase tracking-widest text-electric-400">
               Case Study
             </p>
-            <h1 className="mt-2 text-3xl font-bold tracking-tight text-white md:text-5xl">
+            <h1 className="mt-2 font-heading text-3xl font-bold leading-tight text-white md:text-5xl">
               {project.title}
             </h1>
-            <p className="mt-4 max-w-2xl text-lg text-slate-400">
+            <p className="mt-4 max-w-2xl font-body text-lg leading-8 text-slate-400">
               {project.businessQuestion}
             </p>
             <div className="mt-6 flex flex-wrap gap-2">
@@ -81,9 +81,11 @@ export function ProjectDetail({ project }: { project: Project }) {
           <GlassCard hover={false}>
             <div className="mb-4 flex items-center gap-2">
               <Target className="h-5 w-5 text-electric-400" />
-              <h2 className="text-lg font-bold text-white">Business Problem</h2>
+              <h2 className="font-heading text-lg font-bold leading-tight text-white">
+                Business Problem
+              </h2>
             </div>
-            <p className="text-sm leading-relaxed text-slate-400">
+            <p className="font-body text-sm leading-relaxed text-slate-400">
               {project.businessProblem}
             </p>
           </GlassCard>
@@ -91,13 +93,15 @@ export function ProjectDetail({ project }: { project: Project }) {
           <GlassCard hover={false} delay={0.05}>
             <div className="mb-4 flex items-center gap-2">
               <Wrench className="h-5 w-5 text-electric-400" />
-              <h2 className="text-lg font-bold text-white">Tools</h2>
+              <h2 className="font-heading text-lg font-bold leading-tight text-white">
+                Tools
+              </h2>
             </div>
             <ul className="space-y-2">
               {project.tools.map((tool) => (
                 <li
                   key={tool}
-                  className="flex items-center gap-2 text-sm text-slate-400"
+                  className="flex items-center gap-2 font-mono text-sm text-slate-400"
                 >
                   <span className="h-1 w-1 rounded-full bg-electric-500" />
                   {tool}
@@ -110,15 +114,17 @@ export function ProjectDetail({ project }: { project: Project }) {
         <GlassCard className="mt-6" hover={false} delay={0.1}>
           <div className="mb-4 flex items-center gap-2">
             <ListChecks className="h-5 w-5 text-electric-400" />
-            <h2 className="text-lg font-bold text-white">Methodology</h2>
+            <h2 className="font-heading text-lg font-bold leading-tight text-white">
+              Methodology
+            </h2>
           </div>
           <ol className="space-y-3">
             {project.methodology.map((step, i) => (
               <li
                 key={step}
-                className="flex gap-3 text-sm leading-relaxed text-slate-400"
+                className="flex gap-3 font-body text-sm leading-relaxed text-slate-400"
               >
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-electric-500/30 bg-electric-500/10 text-xs font-bold text-electric-300">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-electric-500/30 bg-electric-500/10 font-mono text-xs font-bold text-electric-300">
                   {i + 1}
                 </span>
                 {step}
@@ -134,22 +140,24 @@ export function ProjectDetail({ project }: { project: Project }) {
         >
           <div className="mb-4 flex items-center gap-2">
             <Lightbulb className="h-5 w-5 text-electric-400" />
-            <h2 className="text-lg font-bold text-white">Main Insight</h2>
+            <h2 className="font-heading text-lg font-bold leading-tight text-white">
+              Main Insight
+            </h2>
           </div>
-          <p className="text-base leading-relaxed text-slate-300">
+          <p className="font-body text-base leading-relaxed text-slate-300">
             {project.mainInsight}
           </p>
         </GlassCard>
 
         <GlassCard className="mt-6" hover={false} delay={0.2}>
-          <h2 className="mb-4 text-lg font-bold text-white">
+          <h2 className="mb-4 font-heading text-lg font-bold leading-tight text-white">
             Business Recommendations
           </h2>
           <ul className="space-y-3">
             {project.recommendations.map((rec) => (
               <li
                 key={rec}
-                className="flex gap-3 text-sm leading-relaxed text-slate-400"
+                className="flex gap-3 font-body text-sm leading-relaxed text-slate-400"
               >
                 <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-electric-400" />
                 {rec}

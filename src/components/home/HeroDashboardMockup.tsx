@@ -49,11 +49,13 @@ function MiniKpi({
       transition={{ delay, duration: 0.4 }}
       className="home-glass-kpi rounded-lg border border-white/10 bg-white/[0.07] p-3 backdrop-blur-md"
     >
-      <p className="text-[10px] font-medium uppercase tracking-wider text-slate-500">
+      <p className="font-mono text-[10px] font-semibold uppercase tracking-wider text-slate-500">
         {label}
       </p>
-      <p className="mt-0.5 text-lg font-bold tabular-nums text-white">{value}</p>
-      <p className="mt-1 truncate text-[10px] text-electric-400/90">{delta}</p>
+      <p className="mt-0.5 font-kpi text-lg font-bold tabular-nums text-white">
+        {value}
+      </p>
+      <p className="mt-1 truncate font-mono text-[10px] text-electric-400/90">{delta}</p>
     </motion.div>
   );
 }
@@ -84,13 +86,15 @@ export function HeroDashboardMockup() {
               <BarChart3 className="h-4 w-4 text-electric-400" />
             </div>
             <div>
-              <p className="text-xs font-semibold text-white">Portfolio Analytics</p>
-              <p className="text-[10px] text-slate-500">Live project KPIs</p>
+              <p className="font-heading text-xs font-semibold leading-tight text-white">
+                Portfolio Analytics
+              </p>
+              <p className="font-mono text-[10px] text-slate-500">Live project KPIs</p>
             </div>
           </div>
           <div className="flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-1">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-[10px] font-medium text-emerald-300">Active</span>
+            <span className="font-mono text-[10px] font-semibold leading-none text-emerald-300">Active</span>
           </div>
         </div>
 
@@ -103,7 +107,7 @@ export function HeroDashboardMockup() {
         <div className="relative mt-4 grid gap-3 sm:grid-cols-2">
           <div className="home-glass-panel rounded-xl border border-white/10 bg-navy-950/40 p-3">
             <div className="mb-2 flex items-center justify-between">
-              <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+              <p className="font-mono text-[10px] font-semibold uppercase tracking-wider text-slate-500">
                 Conversion funnel
               </p>
               <Activity className="h-3.5 w-3.5 text-electric-400" />
@@ -111,7 +115,7 @@ export function HeroDashboardMockup() {
             <div className="space-y-2">
               {funnelBars.map((bar) => (
                 <div key={bar.stage} className="flex items-center gap-2">
-                  <span className="w-14 text-[10px] text-slate-400">{bar.stage}</span>
+                  <span className="w-14 font-mono text-[10px] text-slate-400">{bar.stage}</span>
                   <div className="h-2 flex-1 overflow-hidden rounded-full bg-white/5">
                     <motion.div
                       initial={{ width: 0 }}
@@ -123,14 +127,14 @@ export function HeroDashboardMockup() {
                 </div>
               ))}
             </div>
-            <p className="mt-2 text-[10px] text-slate-500">
+            <p className="mt-2 font-mono text-[10px] text-slate-500">
               Friction: view → cart
             </p>
           </div>
 
           <div className="home-glass-panel flex flex-col rounded-xl border border-white/10 bg-navy-950/40 p-3.5">
             <div className="mb-3 flex items-center justify-between">
-              <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+              <p className="font-mono text-[10px] font-semibold uppercase tracking-wider text-slate-500">
                 Margin drivers
               </p>
               <TrendingUp className="h-3.5 w-3.5 text-electric-400" />
@@ -170,7 +174,7 @@ export function HeroDashboardMockup() {
               {marginDriverBars.map((bar) => (
                 <p
                   key={bar.label}
-                  className="text-center text-[8px] leading-snug text-slate-500 sm:text-[9px]"
+                  className="text-center font-mono text-[8px] leading-snug text-slate-500 sm:text-[9px]"
                 >
                   {bar.label}
                 </p>
@@ -178,10 +182,10 @@ export function HeroDashboardMockup() {
             </div>
 
             <div className="mt-3 rounded-lg border border-amber-500/25 bg-gradient-to-r from-amber-500/10 to-orange-500/5 px-2.5 py-2">
-              <p className="text-[9px] font-medium uppercase tracking-wider text-amber-200/70">
+              <p className="font-mono text-[9px] font-semibold uppercase tracking-wider text-amber-200/70">
                 Key metric
               </p>
-              <p className="mt-0.5 text-sm font-bold tabular-nums text-amber-100">
+              <p className="mt-0.5 font-kpi text-sm font-bold tabular-nums text-amber-100">
                 16.01%
                 <span className="ml-1 text-[10px] font-medium text-slate-400">
                   loss-making order rate
@@ -192,7 +196,7 @@ export function HeroDashboardMockup() {
         </div>
 
         <div className="relative mt-3 home-glass-panel rounded-xl border border-white/10 bg-navy-950/40 p-3">
-          <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+          <p className="mb-2 font-mono text-[10px] font-semibold uppercase tracking-wider text-slate-500">
             RFM revenue concentration
           </p>
           <div className="flex items-center gap-4">
@@ -221,26 +225,26 @@ export function HeroDashboardMockup() {
                   { offset: 0, elements: [] as ReactElement[] }
                 ).elements}
               </svg>
-              <span className="absolute inset-0 flex items-center justify-center text-[9px] font-bold text-white">
+              <span className="absolute inset-0 flex items-center justify-center font-kpi text-[9px] font-bold text-white">
                 VIP
               </span>
             </div>
             <div className="flex flex-1 flex-col justify-center gap-1.5">
               {rfmSegments.map((s) => (
                 <div key={s.name} className="flex items-center justify-between gap-2">
-                  <span className="text-[10px] text-slate-400">{s.name} revenue</span>
-                  <span className="text-[10px] font-semibold tabular-nums text-white">
+                  <span className="font-mono text-[10px] text-slate-400">{s.name} revenue</span>
+                  <span className="font-kpi text-[10px] font-bold tabular-nums text-white">
                     {s.pct}%
                   </span>
                 </div>
               ))}
-              <p className="text-[9px] text-slate-600">27.9% customers → 75.4% revenue</p>
+              <p className="font-mono text-[9px] text-slate-600">27.9% customers → 75.4% revenue</p>
             </div>
           </div>
         </div>
 
         <div className="relative mt-3 flex gap-2 overflow-hidden rounded-lg border border-electric-500/20 bg-electric-500/5 px-3 py-2">
-          <p className="truncate text-[10px] text-slate-400">
+          <p className="truncate font-mono text-[10px] text-slate-400">
             <span className="font-semibold text-electric-300">Insight:</span>{" "}
             Margin leak in Electronics/EU · view-to-cart friction · VIP = 75.4% revenue
           </p>
