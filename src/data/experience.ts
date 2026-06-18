@@ -2,7 +2,7 @@ export const experience = [
   {
     company: "SideCare",
     role: "Assistant Business Analyst",
-    dates: "08/2025 - 08/2026",
+    dates: "09/2025 - 08/2026",
     highlights: [
       "Single Source of Truth, data quality and KPI structuring",
       "KPI automation: ARR, churn, NRR, claims/premiums",
@@ -24,7 +24,7 @@ export const experience = [
   {
     company: "Vapoa",
     role: "Stagiaire Marketing Digital",
-    dates: "05/2024 - 09/2024",
+    dates: "05/2024 - 08/2024",
     highlights: [
       "Contribution à la gestion et l’optimisation de campagnes de marketing digital",
       "Suivi des performances des actions marketing et préparation de reportings synthétiques",
