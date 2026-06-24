@@ -59,7 +59,7 @@ export function ContactCommandBar() {
                 Contact
               </p>
               <h2 className="mt-4 font-heading text-3xl font-bold leading-tight text-white md:text-5xl">
-                Available for Data Analyst / BI Analyst alternance.
+                Available for an Analytics, BI & Performance apprenticeship.
               </h2>
               <div className="mt-6 flex flex-wrap gap-3 font-body text-sm text-slate-300">
                 <span className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-ink-950/55 px-3 py-2">
