@@ -44,7 +44,7 @@ export function ExecutiveHero() {
           <div className="mb-6 flex flex-wrap items-center gap-3">
             <span className="inline-flex items-center gap-2 rounded-md border border-emerald-400/25 bg-emerald-400/10 px-3 py-2 font-sans text-xs font-semibold leading-none tracking-normal text-emerald-100">
               <ShieldCheck className="size-4" />
-              Analytics, BI & Performance · Apprenticeship 2026–2027
+              Apprenticeship · 2026–2027
             </span>
             <span className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/[0.04] px-3 py-2 font-body text-xs font-medium leading-none text-slate-300">
               <MapPin className="size-4 text-cyan-200" />
