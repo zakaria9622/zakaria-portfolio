@@ -2,7 +2,7 @@ export const experience = [
   {
     company: "SideCare",
     role: "Business Analyst",
-    dates: "09/2025 - 08/2026",
+    dates: "10/2025 - 09/2026",
     highlights: [
       "Single Source of Truth, data quality and KPI structuring",
       "KPI automation: ARR, churn, NRR, claims/premiums",
