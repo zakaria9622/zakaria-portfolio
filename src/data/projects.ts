@@ -4,22 +4,34 @@ export type ProjectKpi = {
   highlight?: boolean;
 };
 
+export type ProjectScreenshot = {
+  src: string;
+  alt: string;
+  caption: string;
+};
+
 export type Project = {
   slug: string;
   title: string;
   shortTitle: string;
   tools: string[];
   businessQuestion: string;
+  summary?: string;
   scope?: string;
+  cardScope?: string;
+  cardMetric?: ProjectKpi;
   mainOutput: string;
   github: string;
   href: string;
   featuredOrder: number;
   businessProblem: string;
+  architecture?: string[];
   methodology: string[];
   kpis: ProjectKpi[];
   mainInsight: string;
   recommendations: string[];
+  limitations?: string[];
+  supportingScreenshots?: ProjectScreenshot[];
   screenshotPlaceholder: string;
 };
 
@@ -135,6 +147,76 @@ export const projects: Project[] = [
       "Deprioritize broad campaigns on Lost segment — focus budget on recoverable At-risk",
     ],
     screenshotPlaceholder: "RFM segmentation dashboard — segment distribution & revenue",
+  },
+  {
+    slug: "renewalos",
+    title: "RenewalOS — Revenue Quality & Account Health",
+    shortTitle: "RenewalOS",
+    tools: ["DuckDB", "dbt", "SQL", "Python", "Streamlit", "OR-Tools"],
+    businessQuestion:
+      "Can revenue KPIs be trusted before Customer Success teams prioritize accounts?",
+    summary:
+      "A synthetic B2B analytics system that detects revenue-data issues, gates KPI reporting, explains account health, and generates capacity-constrained CSM recommendations.",
+    scope: "Synthetic data only",
+    cardScope: "Simulated B2B portfolio · reproducible scenario",
+    cardMetric: {
+      label: "DECISION CONTROL",
+      value: "KPI reporting gated by data quality",
+    },
+    mainOutput:
+      "Data-quality-gated revenue reconciliation and explainable CSM prioritization.",
+    github:
+      "https://github.com/zakaria9622/renewalos-b2b-revenue-quality-engine",
+    href: "/projects/renewalos",
+    featuredOrder: 4,
+    businessProblem:
+      "B2B teams often act on ARR, churn, renewal and account-health signals before source-system issues are visible. RenewalOS shows a synthetic analytics workflow where data exceptions, reconciliation gaps and decision rules are exposed before Customer Success prioritization is reviewed.",
+    architecture: [
+      "Synthetic source domains feed a local DuckDB warehouse modeled with dbt.",
+      "Quality controls and revenue reconciliation checks surface source-data exceptions before KPI-facing views are used.",
+      "Account-health diagnostics explain risk signals while preserving blocked or excluded records.",
+      "OR-Tools applies simulated CSM capacity limits to scenario recommendations, not production decisions.",
+    ],
+    methodology: [
+      "Generated synthetic source data for contracts, billing, usage, support and Customer Success activity",
+      "Loaded untrusted records into DuckDB and modeled warehouse layers with dbt",
+      "Applied data-quality controls and revenue reconciliation checks before KPI reporting",
+      "Built explainable account-health diagnostics with source exceptions still visible",
+      "Produced capacity-constrained CSM prioritization scenarios with explicit exclusions",
+    ],
+    kpis: [
+      { label: "Data status", value: "Synthetic", highlight: true },
+      { label: "KPI status", value: "Gated" },
+      { label: "Decision output", value: "Diagnostic scenarios" },
+      { label: "Interface", value: "Local Streamlit" },
+      { label: "Deployment", value: "Not production" },
+      { label: "Impact claim", value: "None" },
+    ],
+    mainInsight:
+      "Decision outputs are restricted until source-data exceptions and reconciliation gaps are visible and reviewed.",
+    recommendations: [
+      "Review quality exceptions before treating ARR, churn or renewal metrics as management KPIs",
+      "Use reconciliation gaps as blockers that require evidence rather than manual smoothing",
+      "Treat CSM prioritization output as simulated scenario planning until validated on real data",
+      "Keep excluded records visible so capacity decisions do not hide data-trust issues",
+    ],
+    limitations: [
+      "Uses synthetic data only.",
+      "Outputs are diagnostic and are not trusted management KPI reporting.",
+      "CSM prioritization is simulated scenario analysis, not observed intervention evidence.",
+      "No observed business impact, customer outcome or model-accuracy claim is made.",
+      "No production deployment is configured or claimed.",
+    ],
+    supportingScreenshots: [
+      {
+        src: "/projects/renewalos-data-trust-diagnostics.png",
+        alt: "RenewalOS Data Trust diagnostics screen showing quality-control categories",
+        caption:
+          "Data Trust diagnostics make source-data exceptions visible before KPI or prioritization outputs are reviewed.",
+      },
+    ],
+    screenshotPlaceholder:
+      "RenewalOS Control Tower — synthetic data disclaimer and KPI reporting restrictions",
   },
 ];
 

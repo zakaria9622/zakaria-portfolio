@@ -12,6 +12,7 @@ const projectAccents = [
   "from-electric-500/20 via-transparent to-transparent",
   "from-cyan-500/15 via-transparent to-transparent",
   "from-blue-600/20 via-transparent to-transparent",
+  "from-emerald-500/15 via-transparent to-transparent",
 ];
 
 export function FeaturedProjects() {
@@ -62,6 +63,12 @@ export function FeaturedProjects() {
                   <h3 className="font-heading text-2xl font-bold leading-tight text-white md:text-3xl">
                     {project.title}
                   </h3>
+
+                  {project.summary && (
+                    <p className="mt-4 font-body text-sm leading-7 text-slate-400">
+                      {project.summary}
+                    </p>
+                  )}
 
                   <div className="mt-4 flex flex-wrap gap-2">
                     {project.tools.map((tool) => (

@@ -86,7 +86,7 @@ export function Hero() {
 
             <div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-4">
               {[
-                { label: "Case studies", value: "3" },
+                { label: "Case studies", value: "4" },
                 { label: "Stack", value: "SQL · Tableau" },
                 { label: "Based in", value: "Paris" },
               ].map((stat, i) => (

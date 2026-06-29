@@ -1,8 +1,17 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowLeft, Lightbulb, ListChecks, Target, Wrench } from "lucide-react";
+import {
+  ArrowLeft,
+  Database,
+  Lightbulb,
+  ListChecks,
+  ShieldAlert,
+  Target,
+  Wrench,
+} from "lucide-react";
 import { GitHubIcon } from "@/components/ui/SocialIcons";
 import type { Project } from "@/data/projects";
 import { KpiCard } from "@/components/ui/KpiCard";
@@ -38,6 +47,11 @@ export function ProjectDetail({ project }: { project: Project }) {
             <p className="mt-4 max-w-2xl font-body text-lg leading-8 text-slate-400">
               {project.businessQuestion}
             </p>
+            {project.summary && (
+              <p className="mt-4 max-w-3xl font-body text-base leading-7 text-slate-300">
+                {project.summary}
+              </p>
+            )}
             <div className="mt-6 flex flex-wrap gap-2">
               {project.tools.map((tool) => (
                 <Badge key={tool}>{tool}</Badge>
@@ -77,6 +91,33 @@ export function ProjectDetail({ project }: { project: Project }) {
           />
         </div>
 
+        {project.supportingScreenshots && project.supportingScreenshots.length > 0 && (
+          <div
+            className={`mb-12 grid gap-6 ${
+              project.supportingScreenshots.length > 1 ? "lg:grid-cols-2" : ""
+            }`}
+          >
+            {project.supportingScreenshots.map((screenshot) => (
+              <figure key={screenshot.src} className="relative w-full">
+                <div className="overflow-hidden rounded-xl border border-white/10 bg-navy-900/60 p-1.5 shadow-xl shadow-black/30">
+                  <div className="relative h-[min(300px,45vh)] overflow-hidden rounded-lg border border-white/5 bg-navy-950 md:h-[340px]">
+                    <Image
+                      src={screenshot.src}
+                      alt={screenshot.alt}
+                      fill
+                      className="object-contain p-3 sm:p-4"
+                      sizes="(max-width: 1024px) 100vw, 560px"
+                    />
+                  </div>
+                </div>
+                <figcaption className="mt-3 font-body text-sm leading-6 text-slate-400">
+                  {screenshot.caption}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        )}
+
         <div className="grid gap-6 lg:grid-cols-2">
           <GlassCard hover={false}>
             <div className="mb-4 flex items-center gap-2">
@@ -110,6 +151,30 @@ export function ProjectDetail({ project }: { project: Project }) {
             </ul>
           </GlassCard>
         </div>
+
+        {project.architecture && project.architecture.length > 0 && (
+          <GlassCard className="mt-6" hover={false} delay={0.08}>
+            <div className="mb-4 flex items-center gap-2">
+              <Database className="h-5 w-5 text-electric-400" />
+              <h2 className="font-heading text-lg font-bold leading-tight text-white">
+                Architecture
+              </h2>
+            </div>
+            <ol className="space-y-3">
+              {project.architecture.map((step, i) => (
+                <li
+                  key={step}
+                  className="flex gap-3 font-body text-sm leading-relaxed text-slate-400"
+                >
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-electric-500/30 bg-electric-500/10 font-mono text-xs font-bold text-electric-300">
+                    {i + 1}
+                  </span>
+                  {step}
+                </li>
+              ))}
+            </ol>
+          </GlassCard>
+        )}
 
         <GlassCard className="mt-6" hover={false} delay={0.1}>
           <div className="mb-4 flex items-center gap-2">
@@ -165,6 +230,32 @@ export function ProjectDetail({ project }: { project: Project }) {
             ))}
           </ul>
         </GlassCard>
+
+        {project.limitations && project.limitations.length > 0 && (
+          <GlassCard
+            className="mt-6 border-amber-300/25 bg-amber-300/5"
+            hover={false}
+            delay={0.25}
+          >
+            <div className="mb-4 flex items-center gap-2">
+              <ShieldAlert className="h-5 w-5 text-amber-200" />
+              <h2 className="font-heading text-lg font-bold leading-tight text-white">
+                Limitations
+              </h2>
+            </div>
+            <ul className="space-y-3">
+              {project.limitations.map((limitation) => (
+                <li
+                  key={limitation}
+                  className="flex gap-3 font-body text-sm leading-relaxed text-slate-300"
+                >
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-200" />
+                  {limitation}
+                </li>
+              ))}
+            </ul>
+          </GlassCard>
+        )}
 
         <div className="mt-12 flex flex-wrap gap-3 border-t border-white/10 pt-12">
           <Button

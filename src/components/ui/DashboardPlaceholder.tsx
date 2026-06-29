@@ -4,6 +4,7 @@ const PROJECT_IMAGE_PATHS: Record<string, string> = {
   "profit-leak": "/projects/profit-leak.png",
   "funnel-analysis": "/projects/funnel-analysis.png",
   "rfm-segmentation": "/projects/rfm-segmentation.png",
+  renewalos: "/projects/renewalos-home.png",
 };
 
 type DashboardPreviewProps = {

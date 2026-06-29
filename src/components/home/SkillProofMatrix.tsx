@@ -7,9 +7,9 @@ import { skillsByCategory } from "@/data/skills";
 const categoryIcons = [Database, ChartNoAxesCombined, BarChart3];
 
 const proofNotes = [
-  "Used across SQL exploration, DuckDB models, Tableau dashboards, and Python checks.",
-  "Applied to profitability analysis, funnel drop-off diagnosis, and KPI reporting.",
-  "Connected to acquisition, CRM segmentation, conversion analysis, and stakeholder reports.",
+  "Used across SQL exploration, DuckDB/dbt models, Tableau dashboards, and Python checks.",
+  "Applied to profitability analysis, funnel drop-off diagnosis, data-quality gates, and diagnostic KPI controls.",
+  "Connected to acquisition, CRM segmentation, conversion analysis, CSM prioritization, and stakeholder reports.",
 ];
 
 function reveal(shouldReduceMotion: boolean, delay = 0) {

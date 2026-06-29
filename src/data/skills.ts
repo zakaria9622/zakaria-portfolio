@@ -1,19 +1,20 @@
 export const skillsStrip = [
   "SQL",
   "DuckDB",
+  "dbt",
   "Tableau",
   "Python",
   "pandas",
-  "Excel",
+  "Data quality",
   "KPI",
   "Reporting",
-  "Business Analytics",
+  "Analytics Engineering",
 ] as const;
 
 export const skillsByCategory = [
   {
     category: "Data & BI",
-    skills: ["SQL", "DuckDB", "Tableau", "Excel", "Python pandas"],
+    skills: ["SQL", "DuckDB", "dbt", "Tableau", "Python pandas"],
   },
   {
     category: "Business Analytics",
@@ -23,6 +24,8 @@ export const skillsByCategory = [
       "dashboards",
       "profitability analysis",
       "funnel analysis",
+      "data quality",
+      "analytics engineering",
     ],
   },
   {
@@ -33,6 +36,8 @@ export const skillsByCategory = [
       "Looker Studio",
       "CRM segmentation",
       "conversion analysis",
+      "data governance",
+      "capacity optimization",
     ],
   },
 ] as const;

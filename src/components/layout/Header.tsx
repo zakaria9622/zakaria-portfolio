@@ -43,7 +43,7 @@ export function Header() {
             </Link>
           ))}
           <div className="ml-2 flex items-center gap-1 border-l border-white/10 pl-3">
-            {projects.slice(0, 3).map((p) => (
+            {projects.map((p) => (
               <Link
                 key={p.slug}
                 href={p.href}
