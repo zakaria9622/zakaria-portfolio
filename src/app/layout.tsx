@@ -21,30 +21,34 @@ const jetBrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://zakaria-portfolio-vert.vercel.app"),
-  title: "Zakaria Maachou — Data Analyst / BI Analyst Portfolio",
-  description:
-    "Data & BI portfolio with SQL, Tableau and Python case studies.",
+  title: "Zakaria Maachou - Data Analyst / BI Analyst Portfolio",
+  description: "Data, BI & Performance portfolio and case studies.",
   openGraph: {
-    title: "Zakaria Maachou — Data Analyst / BI Analyst Portfolio",
-    description:
-      "Data & BI portfolio with SQL, Tableau and Python case studies.",
+    title: "Zakaria Maachou",
+    description: "Data, BI & Performance",
+    url: "/",
+    siteName: "Zakaria Maachou Portfolio",
     type: "website",
     locale: "en_US",
     images: [
       {
-        url: "/og-image.png",
+        url: "/og/home.png",
         width: 1200,
-        height: 630,
-        alt: "Zakaria Maachou — Data Analyst / BI Analyst Portfolio",
+        height: 627,
+        alt: "Zakaria Maachou - Data, BI & Performance",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Zakaria Maachou — Data Analyst / BI Analyst Portfolio",
-    description:
-      "Data & BI portfolio with SQL, Tableau and Python case studies.",
-    images: ["/og-image.png"],
+    title: "Zakaria Maachou",
+    description: "Data, BI & Performance",
+    images: [
+      {
+        url: "/og/home.png",
+        alt: "Zakaria Maachou - Data, BI & Performance",
+      },
+    ],
   },
 };
 
