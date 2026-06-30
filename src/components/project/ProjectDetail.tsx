@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import {
   ArrowLeft,
+  ArrowUpRight,
   Database,
   Lightbulb,
   ListChecks,
@@ -58,14 +59,35 @@ export function ProjectDetail({ project }: { project: Project }) {
               ))}
             </div>
             <div className="mt-8">
-              <Button
-                href={project.github}
-                variant="primary"
-                external
-                icon={<GitHubIcon className="h-4 w-4" />}
-              >
-                View on GitHub
-              </Button>
+              {project.liveDemo ? (
+                <div className="flex flex-wrap gap-3">
+                  <Button
+                    href={project.liveDemo}
+                    variant="primary"
+                    external
+                    icon={<ArrowUpRight className="h-4 w-4" />}
+                  >
+                    Open live demo
+                  </Button>
+                  <Button
+                    href={project.github}
+                    variant="secondary"
+                    external
+                    icon={<GitHubIcon className="h-4 w-4" />}
+                  >
+                    View on GitHub
+                  </Button>
+                </div>
+              ) : (
+                <Button
+                  href={project.github}
+                  variant="primary"
+                  external
+                  icon={<GitHubIcon className="h-4 w-4" />}
+                >
+                  View on GitHub
+                </Button>
+              )}
             </div>
           </motion.div>
         </div>
@@ -258,9 +280,19 @@ export function ProjectDetail({ project }: { project: Project }) {
         )}
 
         <div className="mt-12 flex flex-wrap gap-3 border-t border-white/10 pt-12">
+          {project.liveDemo && (
+            <Button
+              href={project.liveDemo}
+              variant="primary"
+              external
+              icon={<ArrowUpRight className="h-4 w-4" />}
+            >
+              Open live demo
+            </Button>
+          )}
           <Button
             href={project.github}
-            variant="primary"
+            variant={project.liveDemo ? "secondary" : "primary"}
             external
             icon={<GitHubIcon className="h-4 w-4" />}
           >

@@ -22,6 +22,7 @@ export type Project = {
   cardMetric?: ProjectKpi;
   mainOutput: string;
   github: string;
+  liveDemo?: string;
   href: string;
   featuredOrder: number;
   businessProblem: string;
@@ -167,6 +168,7 @@ export const projects: Project[] = [
       "Data-quality-gated revenue reconciliation and explainable CSM prioritization.",
     github:
       "https://github.com/zakaria9622/renewalos-b2b-revenue-quality-engine",
+    liveDemo: "https://renewalos-zakaria.streamlit.app/",
     href: "/projects/renewalos",
     featuredOrder: 4,
     businessProblem:

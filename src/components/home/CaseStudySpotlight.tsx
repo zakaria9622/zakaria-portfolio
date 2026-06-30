@@ -134,6 +134,17 @@ export function CaseStudySpotlight() {
                     </div>
 
                     <div className="flex flex-wrap gap-3">
+                      {project.liveDemo && (
+                        <a
+                          href={project.liveDemo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center justify-center gap-2 rounded-md bg-white px-4 py-2.5 font-body text-sm font-semibold leading-none text-ink-950 transition-colors duration-200 hover:bg-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+                        >
+                          Open live demo
+                          <ArrowUpRight className="size-4" />
+                        </a>
+                      )}
                       <Link
                         href={project.href}
                         className="inline-flex items-center justify-center gap-2 rounded-md bg-white px-4 py-2.5 font-body text-sm font-semibold leading-none text-ink-950 transition-colors duration-200 hover:bg-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
