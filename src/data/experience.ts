@@ -13,21 +13,12 @@ export const experience = [
   {
     company: "Biofa France",
     role: "Assistant Marketing Digital & Reporting Data",
-    dates: "09/2024 - 08/2025",
+    dates: "09/2023 - 09/2024",
     highlights: [
       "KPI tracking: traffic, acquisition, engagement, conversion, campaign performance",
       "Dashboards and reporting",
       "Channel performance analysis",
       "Actionable recommendations",
-    ],
-  },
-  {
-    company: "Vapoa",
-    role: "Stagiaire Marketing Digital",
-    dates: "05/2024 - 08/2024",
-    highlights: [
-      "Contribution à la gestion et l’optimisation de campagnes de marketing digital",
-      "Suivi des performances des actions marketing et préparation de reportings synthétiques",
     ],
   },
 ] as const;
