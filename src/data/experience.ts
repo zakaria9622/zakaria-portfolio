@@ -13,7 +13,7 @@ export const experience = [
   {
     company: "Biofa France",
     role: "Assistant Marketing Digital & Reporting Data",
-    dates: "09/2023 - 09/2024",
+    dates: "09/2023 - 08/2024",
     highlights: [
       "KPI tracking: traffic, acquisition, engagement, conversion, campaign performance",
       "Dashboards and reporting",
