@@ -129,7 +129,7 @@ export function FeaturedProjects() {
 
                   <Link
                     href={project.href}
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-electric-600 to-electric-500 px-6 py-3.5 font-body text-sm font-semibold leading-none text-white shadow-lg shadow-electric-500/25 transition-all hover:from-electric-500 hover:to-electric-400 lg:w-auto"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-electric-600 to-electric-500 px-6 py-3.5 font-body text-sm font-semibold leading-none text-white shadow-lg shadow-electric-500/25 transition-colors duration-200 hover:from-electric-500 hover:to-electric-400 lg:w-auto"
                   >
                     View case study
                     <ArrowRight className="h-4 w-4" />

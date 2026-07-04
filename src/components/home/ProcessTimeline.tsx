@@ -1,7 +1,13 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Database, LayoutDashboard, Lightbulb, Search } from "lucide-react";
+import { AnimatedSectionHeading } from "@/components/home/AnimatedSectionHeading";
+import {
+  enterEase,
+  moveEase,
+  useHomeMotionSettings,
+} from "@/components/home/motion";
 
 const steps = [
   {
@@ -30,41 +36,139 @@ const steps = [
   },
 ];
 
-function reveal(shouldReduceMotion: boolean, delay = 0) {
+const stepEntrance = [
+  { opacity: 0, x: -14, y: 8 },
+  { opacity: 0, x: 0, y: 16 },
+  { opacity: 0, x: 0, y: 16 },
+  { opacity: 0, x: 14, y: 8 },
+];
+
+function reveal(shouldSimplifyMotion: boolean, delay = 0) {
   return {
-    initial: shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 14 },
+    initial: shouldSimplifyMotion ? { opacity: 1 } : { opacity: 0, y: 14 },
     whileInView: { opacity: 1, y: 0 },
     viewport: { once: true, margin: "-80px" },
-    transition: shouldReduceMotion
+    transition: shouldSimplifyMotion
       ? { duration: 0 }
-      : { duration: 0.45, delay },
+      : { duration: 0.44, delay, ease: enterEase },
+  };
+}
+
+function stepReveal(shouldSimplifyMotion: boolean, index: number) {
+  return {
+    initial: shouldSimplifyMotion
+      ? { opacity: 1 }
+      : stepEntrance[index % stepEntrance.length],
+    whileInView: { opacity: 1, x: 0, y: 0 },
+    viewport: { once: true, margin: "-80px" },
+    transition: shouldSimplifyMotion
+      ? { duration: 0 }
+      : { duration: 0.38, delay: 0.08 + index * 0.06, ease: moveEase },
+  };
+}
+
+function connectorReveal(shouldSimplifyMotion: boolean, axis: "x" | "y") {
+  const hidden =
+    axis === "x" ? { opacity: 0, scaleX: 0 } : { opacity: 0, scaleY: 0 };
+  const visible =
+    axis === "x" ? { opacity: 1, scaleX: 1 } : { opacity: 1, scaleY: 1 };
+
+  return {
+    initial: shouldSimplifyMotion ? visible : hidden,
+    whileInView: visible,
+    viewport: { once: true, margin: "-80px" },
+    transition: shouldSimplifyMotion
+      ? { duration: 0 }
+      : { duration: 0.58, delay: 0.06, ease: moveEase },
+  };
+}
+
+function pathReveal(shouldSimplifyMotion: boolean, delay = 0) {
+  return {
+    initial: shouldSimplifyMotion
+      ? { opacity: 1, pathLength: 1 }
+      : { opacity: 0, pathLength: 0 },
+    whileInView: { opacity: 1, pathLength: 1 },
+    viewport: { once: true, margin: "-90px" },
+    transition: shouldSimplifyMotion
+      ? { duration: 0 }
+      : { duration: 0.82, delay, ease: moveEase },
   };
 }
 
 export function ProcessTimeline() {
-  const shouldReduceMotion = useReducedMotion() ?? false;
+  const { shouldSimplifyMotion } = useHomeMotionSettings();
 
   return (
     <section className="relative py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <motion.div {...reveal(shouldReduceMotion)} className="mb-12">
+        <motion.div {...reveal(shouldSimplifyMotion)} className="mb-12">
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/80">
             Analytics process
           </p>
-          <h2 className="mt-4 max-w-3xl font-heading text-3xl font-bold leading-tight text-white md:text-5xl">
-            A repeatable path from question to action.
-          </h2>
+          <AnimatedSectionHeading
+            text="A repeatable path from question to action."
+            className="mt-4 max-w-3xl font-heading text-3xl font-bold leading-tight text-white md:text-5xl"
+          />
         </motion.div>
 
-        <div className="grid gap-3 md:grid-cols-4">
+        <div className="process-flow relative grid gap-3 md:grid-cols-4">
+          <motion.div
+            {...connectorReveal(shouldSimplifyMotion, "y")}
+            className="process-flow-line process-flow-line-mobile"
+            aria-hidden="true"
+          />
+          <motion.div
+            {...connectorReveal(shouldSimplifyMotion, "x")}
+            className="process-flow-line process-flow-line-desktop"
+            aria-hidden="true"
+          />
+          <svg
+            className="process-map-lines"
+            viewBox="0 0 1120 260"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <motion.path
+              {...pathReveal(shouldSimplifyMotion, 0.08)}
+              className="process-map-path process-map-path-primary"
+              d="M62 82 C186 20 270 148 386 90 S574 34 690 112 874 198 1058 88"
+            />
+            <motion.path
+              {...pathReveal(shouldSimplifyMotion, 0.2)}
+              className="process-map-path process-map-path-secondary"
+              d="M62 170 C196 216 288 132 414 172 S626 236 742 152 908 80 1058 150"
+            />
+            {[62, 386, 690, 1058].map((x, index) => (
+              <motion.circle
+                key={x}
+                initial={
+                  shouldSimplifyMotion
+                    ? { opacity: 1, scale: 1 }
+                    : { opacity: 0, scale: 0.72 }
+                }
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, margin: "-90px" }}
+                transition={
+                  shouldSimplifyMotion
+                    ? { duration: 0 }
+                    : { duration: 0.28, delay: 0.2 + index * 0.08, ease: enterEase }
+                }
+                className="process-map-node"
+                cx={x}
+                cy={index % 2 === 0 ? 82 : 90}
+                r="7"
+              />
+            ))}
+          </svg>
           {steps.map((step, index) => {
             const Icon = step.icon;
 
             return (
               <motion.article
                 key={step.title}
-                {...reveal(shouldReduceMotion, index * 0.07)}
-                className="relative rounded-lg border border-white/10 bg-white/[0.035] p-5"
+                {...stepReveal(shouldSimplifyMotion, index)}
+                className="process-step-card relative rounded-lg border border-white/10 bg-white/[0.035] p-5"
               >
                 <div className="mb-8 flex items-center justify-between">
                   <span className="font-mono text-xs font-semibold text-slate-500">

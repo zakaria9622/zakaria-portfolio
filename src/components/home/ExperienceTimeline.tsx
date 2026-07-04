@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { BriefcaseBusiness } from "lucide-react";
 import { experience } from "@/data/experience";
+import { AnimatedSectionHeading } from "@/components/home/AnimatedSectionHeading";
 
 function reveal(shouldReduceMotion: boolean, delay = 0) {
   return {
@@ -25,9 +26,10 @@ export function ExperienceTimeline() {
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/80">
             Experience
           </p>
-          <h2 className="mt-4 max-w-3xl font-heading text-3xl font-bold leading-tight text-white md:text-5xl">
-            Business, data & BI experience.
-          </h2>
+          <AnimatedSectionHeading
+            text="Business, data & BI experience."
+            className="mt-4 max-w-3xl font-heading text-3xl font-bold leading-tight text-white md:text-5xl"
+          />
         </motion.div>
 
         <div className="space-y-4">

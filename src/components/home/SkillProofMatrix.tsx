@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { BarChart3, ChartNoAxesCombined, Database, Layers3 } from "lucide-react";
 import { skillsByCategory } from "@/data/skills";
+import { AnimatedSectionHeading } from "@/components/home/AnimatedSectionHeading";
 
 const categoryIcons = [Database, ChartNoAxesCombined, BarChart3];
 
@@ -33,9 +34,10 @@ export function SkillProofMatrix() {
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/80">
             Skill proof matrix
           </p>
-          <h2 className="mt-4 max-w-3xl font-heading text-3xl font-bold leading-tight text-white md:text-5xl">
-            Tools are presented as evidence, not keyword lists.
-          </h2>
+          <AnimatedSectionHeading
+            text="Tools are presented as evidence, not keyword lists."
+            className="mt-4 max-w-3xl font-heading text-3xl font-bold leading-tight text-white md:text-5xl"
+          />
         </motion.div>
 
         <div className="grid gap-4 lg:grid-cols-3">

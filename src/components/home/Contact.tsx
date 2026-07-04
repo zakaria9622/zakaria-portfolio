@@ -67,7 +67,7 @@ export function Contact() {
                     href={item.href}
                     target={item.external ? "_blank" : undefined}
                     rel={item.external ? "noopener noreferrer" : undefined}
-                    className="home-glass-panel flex items-center gap-4 rounded-xl border border-white/10 bg-white/[0.04] p-4 font-body text-sm leading-6 text-slate-300 transition-all hover:border-electric-500/30 hover:bg-electric-500/5 hover:text-white"
+                    className="home-glass-panel flex items-center gap-4 rounded-xl border border-white/10 bg-white/[0.04] p-4 font-body text-sm leading-6 text-slate-300 transition-colors duration-200 hover:border-electric-500/30 hover:bg-electric-500/5 hover:text-white"
                   >
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-electric-500/15">
                       <Icon className="h-5 w-5 text-electric-400" />
