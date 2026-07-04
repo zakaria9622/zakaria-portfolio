@@ -5,10 +5,12 @@ import { SkillProofMatrix } from "@/components/home/SkillProofMatrix";
 import { ProcessTimeline } from "@/components/home/ProcessTimeline";
 import { ExperienceTimeline } from "@/components/home/ExperienceTimeline";
 import { ContactCommandBar } from "@/components/home/ContactCommandBar";
+import { CinematicPortfolioLayer } from "@/components/home/CinematicPortfolioLayer";
 
 export default function Home() {
   return (
     <div className="executive-home">
+      <CinematicPortfolioLayer />
       <ExecutiveHero />
       <KpiRibbon />
       <CaseStudySpotlight />

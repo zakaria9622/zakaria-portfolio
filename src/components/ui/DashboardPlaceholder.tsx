@@ -29,7 +29,7 @@ export function DashboardPlaceholder({ slug, alt }: DashboardPreviewProps) {
             fill
             className="object-contain p-3 sm:p-4 md:p-6"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1152px"
-            priority
+            preload
           />
         </div>
       </div>

@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Download, Mail, MapPin, Phone } from "lucide-react";
 import { GitHubIcon, LinkedInIcon } from "@/components/ui/SocialIcons";
 import { profile } from "@/data/profile";
+import { AnimatedSectionHeading } from "@/components/home/AnimatedSectionHeading";
 
 const contactLinks = [
   {
@@ -58,9 +59,10 @@ export function ContactCommandBar() {
               <p className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/80">
                 Contact
               </p>
-              <h2 className="mt-4 font-heading text-3xl font-bold leading-tight text-white md:text-5xl">
-                Available for an Analytics, BI & Performance apprenticeship.
-              </h2>
+              <AnimatedSectionHeading
+                text="Available for an Analytics, BI & Performance apprenticeship."
+                className="mt-4 font-heading text-3xl font-bold leading-tight text-white md:text-5xl"
+              />
               <div className="mt-6 flex flex-wrap gap-3 font-body text-sm text-slate-300">
                 <span className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-ink-950/55 px-3 py-2">
                   <MapPin className="size-4 text-cyan-200" />

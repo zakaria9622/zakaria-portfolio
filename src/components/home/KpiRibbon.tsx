@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Activity, Database, LineChart, Users } from "lucide-react";
+import { enterEase, useHomeMotionSettings } from "@/components/home/motion";
 
 const kpis = [
   {
@@ -34,19 +35,34 @@ const kpis = [
   },
 ];
 
-function reveal(shouldReduceMotion: boolean, delay = 0) {
+function reveal(shouldSimplifyMotion: boolean, delay = 0) {
   return {
-    initial: shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 12 },
-    whileInView: { opacity: 1, y: 0 },
+    initial: shouldSimplifyMotion
+      ? { opacity: 1 }
+      : { opacity: 0, y: 10, scale: 0.996 },
+    whileInView: { opacity: 1, y: 0, scale: 1 },
     viewport: { once: true, margin: "-80px" },
-    transition: shouldReduceMotion
+    transition: shouldSimplifyMotion
       ? { duration: 0 }
-      : { duration: 0.45, delay },
+      : { duration: 0.42, delay, ease: enterEase },
+  };
+}
+
+function metricReveal(shouldSimplifyMotion: boolean, delay = 0) {
+  return {
+    initial: shouldSimplifyMotion
+      ? { opacity: 1 }
+      : { opacity: 0, y: 8, scale: 0.985 },
+    whileInView: { opacity: 1, y: 0, scale: 1 },
+    viewport: { once: true, margin: "-80px" },
+    transition: shouldSimplifyMotion
+      ? { duration: 0 }
+      : { duration: 0.26, delay, ease: enterEase },
   };
 }
 
 export function KpiRibbon() {
-  const shouldReduceMotion = useReducedMotion() ?? false;
+  const { shouldSimplifyMotion } = useHomeMotionSettings();
 
   return (
     <section className="relative border-y border-white/10 bg-white/[0.025]">
@@ -57,7 +73,7 @@ export function KpiRibbon() {
           return (
             <motion.div
               key={kpi.label}
-              {...reveal(shouldReduceMotion, index * 0.04)}
+              {...reveal(shouldSimplifyMotion, index * 0.04)}
               className="group relative min-h-32 rounded-md border border-white/10 bg-graphite-900/70 p-5 transition-colors duration-200 hover:border-white/20 hover:bg-graphite-800/80"
             >
               <div className="flex items-center justify-between gap-4">
@@ -66,9 +82,12 @@ export function KpiRibbon() {
                 </p>
                 <Icon className={`size-5 ${kpi.accent}`} />
               </div>
-              <p className={`mt-5 font-kpi text-3xl font-bold tabular-nums ${kpi.accent}`}>
+              <motion.p
+                {...metricReveal(shouldSimplifyMotion, 0.12 + index * 0.04)}
+                className={`mt-5 font-kpi text-3xl font-bold tabular-nums ${kpi.accent}`}
+              >
                 {kpi.value}
-              </p>
+              </motion.p>
               <p className="mt-2 font-body text-sm leading-6 text-slate-400">
                 {kpi.context}
               </p>
