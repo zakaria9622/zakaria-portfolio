@@ -21,4 +21,14 @@ export const experience = [
       "Actionable recommendations",
     ],
   },
+  {
+    company: "Adecco Paris Rive Gauche, Paris — Stage",
+    role: "Stagiaire Assistant d’agence d’emploi",
+    dates: "05/2023 - 08/2023",
+    highlights: [
+      "Mise à jour des dossiers candidats et vérification des informations administratives nécessaires aux missions.",
+      "Participation au suivi des besoins clients, des candidatures reçues, des entretiens programmés et des disponibilités candidats.",
+      "Mise à jour de tableaux Excel de suivi : candidatures, entretiens, missions ouvertes et placements réalisés ; appui aux points hebdomadaires de l’agence.",
+    ],
+  },
 ] as const;
