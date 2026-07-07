@@ -2,8 +2,8 @@
 
 import dynamic from "next/dynamic";
 import {
-  type CSSProperties,
-  type PointerEvent,
+  type RefObject,
+  useEffect,
   useRef,
   useSyncExternalStore,
 } from "react";
@@ -12,7 +12,7 @@ import Link from "next/link";
 import {
   motion,
   type MotionValue,
-  useScroll,
+  useMotionValue,
   useTransform,
 } from "framer-motion";
 import {
@@ -26,13 +26,73 @@ import { GitHubIcon, LinkedInIcon } from "@/components/ui/SocialIcons";
 import { profile } from "@/data/profile";
 import { featuredProjects } from "@/data/projects";
 import { enterEase, useHomeMotionSettings } from "@/components/home/motion";
-import { useMagneticTargets } from "@/components/ui/useMagneticTargets";
 
 const previewProject = featuredProjects[0];
 
 const subscribeToHydration = () => () => {};
 const getHydratedSnapshot = () => true;
 const getServerHydrationSnapshot = () => false;
+
+function clampProgress(value: number) {
+  return Math.min(1, Math.max(0, value));
+}
+
+function useHeroScrollProgress(
+  sectionRef: RefObject<HTMLElement | null>,
+  enabled: boolean
+) {
+  const progress = useMotionValue(0);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section || !enabled) {
+      progress.set(0);
+      return;
+    }
+
+    const layout = {
+      top: 0,
+      distance: 1,
+    };
+    let measureFrame = 0;
+    let scrollFrame = 0;
+
+    const measure = () => {
+      const rect = section.getBoundingClientRect();
+      layout.top = rect.top + window.scrollY;
+      layout.distance = Math.max(rect.height, 1);
+    };
+
+    const update = () => {
+      cancelAnimationFrame(scrollFrame);
+      scrollFrame = requestAnimationFrame(() => {
+        progress.set(clampProgress((window.scrollY - layout.top) / layout.distance));
+      });
+    };
+
+    const scheduleMeasure = () => {
+      cancelAnimationFrame(measureFrame);
+      measureFrame = requestAnimationFrame(() => {
+        measure();
+        update();
+      });
+    };
+
+    measure();
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", scheduleMeasure);
+
+    return () => {
+      cancelAnimationFrame(measureFrame);
+      cancelAnimationFrame(scrollFrame);
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", scheduleMeasure);
+    };
+  }, [enabled, progress, sectionRef]);
+
+  return progress;
+}
 
 const DataIntelligenceCore = dynamic(
   () =>
@@ -224,8 +284,6 @@ function HeroDataTransfer({
   shouldSimplifyMotion: boolean;
 }) {
   const opacity = useTransform(progress, [0.42, 0.68, 0.96], [0, 0.82, 0.16]);
-  const scaleY = useTransform(progress, [0.46, 0.92], [0.18, 1]);
-  const pathLength = useTransform(progress, [0.5, 0.94], [0, 1]);
 
   if (shouldSimplifyMotion) {
     return null;
@@ -234,24 +292,21 @@ function HeroDataTransfer({
   return (
     <motion.div
       className="hero-data-transfer pointer-events-none absolute inset-x-0 bottom-0"
-      style={{ opacity, scaleY, transformOrigin: "top" }}
+      style={{ opacity }}
       aria-hidden="true"
     >
       <svg viewBox="0 0 1440 260" preserveAspectRatio="none">
         <motion.path
           className="hero-transfer-path hero-transfer-path-primary"
           d="M752 28 C804 78 836 128 918 142 S1116 154 1246 238"
-          style={{ pathLength }}
         />
         <motion.path
           className="hero-transfer-path hero-transfer-path-secondary"
           d="M676 38 C620 96 618 146 536 160 S338 174 198 238"
-          style={{ pathLength }}
         />
         <motion.path
           className="hero-transfer-path hero-transfer-path-tertiary"
           d="M820 54 C860 112 760 146 710 178 S612 220 566 254"
-          style={{ pathLength }}
         />
         <circle className="hero-transfer-node" cx="752" cy="28" r="4" />
         <circle className="hero-transfer-node" cx="918" cy="142" r="3.5" />
@@ -272,38 +327,15 @@ export function ExecutiveHero() {
     getServerHydrationSnapshot
   );
   const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end start"],
-  });
   const headlineWords = profile.name.split(" ");
   const shouldSimplifyMotion = hasHydrated
     ? prefersSimplifiedMotion
     : true;
   const enableFinePointerMotion = hasHydrated && prefersFinePointerMotion;
-
-  useMagneticTargets(sectionRef);
-
-  const handlePointerMove = (event: PointerEvent<HTMLElement>) => {
-    if (!enableFinePointerMotion) return;
-
-    const rect = event.currentTarget.getBoundingClientRect();
-    const normalizedX = (event.clientX - rect.left) / rect.width - 0.5;
-    const normalizedY = (event.clientY - rect.top) / rect.height - 0.5;
-    event.currentTarget.style.setProperty(
-      "--hero-spot-x",
-      `${(normalizedX + 0.5) * 100}%`
-    );
-    event.currentTarget.style.setProperty(
-      "--hero-spot-y",
-      `${(normalizedY + 0.5) * 100}%`
-    );
-  };
-
-  const resetDepth = (event: PointerEvent<HTMLElement>) => {
-    event.currentTarget.style.setProperty("--hero-spot-x", "70%");
-    event.currentTarget.style.setProperty("--hero-spot-y", "38%");
-  };
+  const scrollYProgress = useHeroScrollProgress(
+    sectionRef,
+    !shouldSimplifyMotion
+  );
 
   return (
     <>
@@ -311,14 +343,6 @@ export function ExecutiveHero() {
       ref={sectionRef}
       data-data-core-hero
       className="cinematic-hero relative min-h-[100svh] overflow-hidden pt-28 pb-20 sm:pt-32 md:pb-24"
-      onPointerMove={handlePointerMove}
-      onPointerLeave={resetDepth}
-      style={
-        {
-          "--hero-spot-x": "70%",
-          "--hero-spot-y": "38%",
-        } as CSSProperties
-      }
     >
       <div className="executive-grid-bg pointer-events-none absolute inset-0" />
       <HeroAnalyticalBackground shouldSimplifyMotion={shouldSimplifyMotion} />
@@ -382,6 +406,7 @@ export function ExecutiveHero() {
           <div className="mt-9 flex flex-wrap gap-3">
             <Link
               href="/#projects"
+              prefetch={false}
               data-magnetic="true"
               data-magnetic-strength="9"
               className="magnetic-target inline-flex items-center justify-center gap-2 rounded-md bg-cyan-200 px-5 py-3 font-body text-sm font-semibold leading-none text-ink-950 shadow-[0_18px_45px_rgba(35,184,216,0.18)] transition-colors duration-200 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
@@ -477,6 +502,7 @@ function FeaturedProjectProof({
           </p>
           <Link
             href={previewProject.href}
+            prefetch={false}
             className="mt-5 inline-flex items-center justify-center gap-2 rounded-md border border-cyan-200/30 bg-cyan-200/10 px-4 py-2.5 font-body text-sm font-semibold leading-none text-cyan-50 transition-colors duration-200 hover:border-cyan-100/50 hover:bg-cyan-200/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
           >
             View case study

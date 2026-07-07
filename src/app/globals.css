@@ -811,6 +811,11 @@ html {
     min-height: 360px;
     padding-top: 6px;
   }
+
+  .case-study-experience {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 3137px;
+  }
 }
 
 @media (max-width: 1023px) {
