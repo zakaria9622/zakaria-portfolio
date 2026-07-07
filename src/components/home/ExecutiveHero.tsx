@@ -2,8 +2,6 @@
 
 import dynamic from "next/dynamic";
 import {
-  type CSSProperties,
-  type PointerEvent,
   useRef,
   useSyncExternalStore,
 } from "react";
@@ -26,7 +24,6 @@ import { GitHubIcon, LinkedInIcon } from "@/components/ui/SocialIcons";
 import { profile } from "@/data/profile";
 import { featuredProjects } from "@/data/projects";
 import { enterEase, useHomeMotionSettings } from "@/components/home/motion";
-import { useMagneticTargets } from "@/components/ui/useMagneticTargets";
 
 const previewProject = featuredProjects[0];
 
@@ -282,43 +279,12 @@ export function ExecutiveHero() {
     : true;
   const enableFinePointerMotion = hasHydrated && prefersFinePointerMotion;
 
-  useMagneticTargets(sectionRef);
-
-  const handlePointerMove = (event: PointerEvent<HTMLElement>) => {
-    if (!enableFinePointerMotion) return;
-
-    const rect = event.currentTarget.getBoundingClientRect();
-    const normalizedX = (event.clientX - rect.left) / rect.width - 0.5;
-    const normalizedY = (event.clientY - rect.top) / rect.height - 0.5;
-    event.currentTarget.style.setProperty(
-      "--hero-spot-x",
-      `${(normalizedX + 0.5) * 100}%`
-    );
-    event.currentTarget.style.setProperty(
-      "--hero-spot-y",
-      `${(normalizedY + 0.5) * 100}%`
-    );
-  };
-
-  const resetDepth = (event: PointerEvent<HTMLElement>) => {
-    event.currentTarget.style.setProperty("--hero-spot-x", "70%");
-    event.currentTarget.style.setProperty("--hero-spot-y", "38%");
-  };
-
   return (
     <>
     <section
       ref={sectionRef}
       data-data-core-hero
       className="cinematic-hero relative min-h-[100svh] overflow-hidden pt-28 pb-20 sm:pt-32 md:pb-24"
-      onPointerMove={handlePointerMove}
-      onPointerLeave={resetDepth}
-      style={
-        {
-          "--hero-spot-x": "70%",
-          "--hero-spot-y": "38%",
-        } as CSSProperties
-      }
     >
       <div className="executive-grid-bg pointer-events-none absolute inset-0" />
       <HeroAnalyticalBackground shouldSimplifyMotion={shouldSimplifyMotion} />

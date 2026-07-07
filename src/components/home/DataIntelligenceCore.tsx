@@ -64,8 +64,8 @@ type ParticleUniforms = {
 };
 
 const globeParticleCount = 4200;
-const fieldParticleCount = 360;
-const signalParticleCount = 420;
+const fieldParticleCount = 240;
+const signalParticleCount = 280;
 const goldenAngle = Math.PI * (3 - Math.sqrt(5));
 
 const silver = [0.9, 0.94, 1] as const;
@@ -326,11 +326,14 @@ void main() {
   p.x += uParallaxX * depthParallax;
   p.y += uParallaxY * depthParallax;
 
-  vec2 hoverTarget = vec2(uHoverX, uHoverY);
-  vec2 hoverDelta = hoverTarget - p.xy;
-  float attraction = exp(-dot(hoverDelta, hoverDelta) * 2.4) * uHoverAmount * (1.0 - halo * 0.35);
-  p.xy += hoverDelta * attraction * 0.035;
-  p.z += attraction * 0.05;
+  if (uHoverAmount > 0.001) {
+    vec2 hoverTarget = vec2(uHoverX, uHoverY);
+    vec2 hoverDelta = hoverTarget - p.xy;
+    float hoverDistance = dot(hoverDelta, hoverDelta);
+    float attraction = smoothstep(1.15, 0.0, hoverDistance) * uHoverAmount * (1.0 - halo * 0.35);
+    p.xy += hoverDelta * attraction * 0.032;
+    p.z += attraction * 0.045;
+  }
 
   vec4 mvPosition = modelViewMatrix * vec4(p, 1.0);
   float depth = max(1.0, -mvPosition.z);
@@ -455,7 +458,9 @@ function useSceneControls(anchorSelector: string): SceneControls {
     const isFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
     const heroRect = { left: 0, top: 0, width: 1, height: 1 };
     const coreRect = { left: 0, top: 0, width: 1, height: 1 };
-    let frame = 0;
+    const pendingPointer = { clientX: 0, clientY: 0, hasUpdate: false };
+    let scrollFrame = 0;
+    let pointerFrame = 0;
 
     const updateRects = () => {
       const nextHeroRect = hero.getBoundingClientRect();
@@ -474,8 +479,8 @@ function useSceneControls(anchorSelector: string): SceneControls {
     };
 
     const updateScroll = () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
+      cancelAnimationFrame(scrollFrame);
+      scrollFrame = requestAnimationFrame(() => {
         const heroTop = hero.offsetTop;
         const distance = Math.max(hero.offsetHeight * 0.58, 1);
         scroll.current = clamp01((window.scrollY - heroTop) / distance);
@@ -512,6 +517,32 @@ function useSceneControls(anchorSelector: string): SceneControls {
       }
     };
 
+    const flushPointerUpdate = () => {
+      pointerFrame = 0;
+      if (!pendingPointer.hasUpdate) return;
+
+      pendingPointer.hasUpdate = false;
+      const { clientX, clientY } = pendingPointer;
+      updatePointerTargets(clientX, clientY);
+
+      if (drag.current.active) {
+        const deltaX = clientX - drag.current.startClientX;
+        const deltaY = clientY - drag.current.startClientY;
+        drag.current.targetX = clamp(drag.current.originX + deltaX * 0.0024, -0.26, 0.26);
+        drag.current.targetY = clamp(drag.current.originY + deltaY * 0.0018, -0.14, 0.14);
+      }
+    };
+
+    const schedulePointerUpdate = (clientX: number, clientY: number) => {
+      pendingPointer.clientX = clientX;
+      pendingPointer.clientY = clientY;
+      pendingPointer.hasUpdate = true;
+
+      if (pointerFrame === 0) {
+        pointerFrame = requestAnimationFrame(flushPointerUpdate);
+      }
+    };
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         isVisible.current = entry.isIntersecting;
@@ -520,14 +551,7 @@ function useSceneControls(anchorSelector: string): SceneControls {
     );
 
     const handlePointerMove = (event: PointerEvent) => {
-      updatePointerTargets(event.clientX, event.clientY);
-
-      if (drag.current.active) {
-        const deltaX = event.clientX - drag.current.startClientX;
-        const deltaY = event.clientY - drag.current.startClientY;
-        drag.current.targetX = clamp(drag.current.originX + deltaX * 0.0024, -0.26, 0.26);
-        drag.current.targetY = clamp(drag.current.originY + deltaY * 0.0018, -0.14, 0.14);
-      }
+      schedulePointerUpdate(event.clientX, event.clientY);
     };
 
     const handlePointerDown = (event: PointerEvent) => {
@@ -569,7 +593,8 @@ function useSceneControls(anchorSelector: string): SceneControls {
     window.addEventListener("resize", updateScroll);
 
     return () => {
-      cancelAnimationFrame(frame);
+      cancelAnimationFrame(scrollFrame);
+      cancelAnimationFrame(pointerFrame);
       observer.disconnect();
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("pointerdown", handlePointerDown);
@@ -592,7 +617,7 @@ function useParticleUniforms(globalAlpha: number): ParticleUniforms {
         value:
           typeof window === "undefined"
             ? 1
-            : Math.min(window.devicePixelRatio || 1, 1.35),
+            : Math.min(window.devicePixelRatio || 1, 1.2),
       },
       uGlobalAlpha: { value: globalAlpha },
       uParallaxX: { value: 0 },
@@ -874,7 +899,7 @@ export function DataIntelligenceCore({
       aria-hidden="true"
       className="data-core-canvas"
       camera={{ position: [0, 0, 6.8], fov: 42, near: 0.1, far: 24 }}
-      dpr={[1, 1.35]}
+      dpr={[1, 1.2]}
       fallback={<WebglFallback />}
       frameloop="always"
       gl={{
