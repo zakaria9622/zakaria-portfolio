@@ -37,6 +37,7 @@ type SceneControls = SceneVisibility & {
     };
   };
   scroll: { current: number };
+  hasSettledOffscreen: { current: boolean };
 };
 
 type RenderMotion = {
@@ -449,6 +450,7 @@ function useSceneControls(anchorSelector: string): SceneControls {
     startClientY: 0,
   });
   const scroll = useRef(0);
+  const hasSettledOffscreen = useRef(false);
 
   useEffect(() => {
     const hero = document.querySelector<HTMLElement>(anchorSelector);
@@ -456,35 +458,56 @@ function useSceneControls(anchorSelector: string): SceneControls {
 
     const core = hero.querySelector<HTMLElement>(".data-core-frame");
     const isFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
-    const heroRect = { left: 0, top: 0, width: 1, height: 1 };
-    const coreRect = { left: 0, top: 0, width: 1, height: 1 };
+    const layout = {
+      heroLeft: 0,
+      heroTop: 0,
+      heroWidth: 1,
+      heroHeight: 1,
+      coreLeft: 0,
+      coreTop: 0,
+      coreWidth: 1,
+      coreHeight: 1,
+      scrollDistance: 1,
+    };
     const pendingPointer = { clientX: 0, clientY: 0, hasUpdate: false };
     let scrollFrame = 0;
     let pointerFrame = 0;
+    let layoutFrame = 0;
 
-    const updateRects = () => {
+    const measureLayout = () => {
+      const scrollX = window.scrollX;
+      const scrollY = window.scrollY;
       const nextHeroRect = hero.getBoundingClientRect();
-      heroRect.left = nextHeroRect.left;
-      heroRect.top = nextHeroRect.top;
-      heroRect.width = Math.max(nextHeroRect.width, 1);
-      heroRect.height = Math.max(nextHeroRect.height, 1);
+      layout.heroLeft = nextHeroRect.left + scrollX;
+      layout.heroTop = nextHeroRect.top + scrollY;
+      layout.heroWidth = Math.max(nextHeroRect.width, 1);
+      layout.heroHeight = Math.max(nextHeroRect.height, 1);
+      layout.scrollDistance = Math.max(layout.heroHeight * 0.58, 1);
 
       const nextCoreRect = core?.getBoundingClientRect();
       if (nextCoreRect) {
-        coreRect.left = nextCoreRect.left;
-        coreRect.top = nextCoreRect.top;
-        coreRect.width = Math.max(nextCoreRect.width, 1);
-        coreRect.height = Math.max(nextCoreRect.height, 1);
+        layout.coreLeft = nextCoreRect.left + scrollX;
+        layout.coreTop = nextCoreRect.top + scrollY;
+        layout.coreWidth = Math.max(nextCoreRect.width, 1);
+        layout.coreHeight = Math.max(nextCoreRect.height, 1);
       }
+    };
+
+    const scheduleLayoutMeasure = () => {
+      cancelAnimationFrame(layoutFrame);
+      layoutFrame = requestAnimationFrame(() => {
+        measureLayout();
+      });
     };
 
     const updateScroll = () => {
       cancelAnimationFrame(scrollFrame);
       scrollFrame = requestAnimationFrame(() => {
-        const heroTop = hero.offsetTop;
-        const distance = Math.max(hero.offsetHeight * 0.58, 1);
-        scroll.current = clamp01((window.scrollY - heroTop) / distance);
-        updateRects();
+        const nextScroll = clamp01(
+          (window.scrollY - layout.heroTop) / layout.scrollDistance
+        );
+        scroll.current = nextScroll;
+        hasSettledOffscreen.current = nextScroll > 0.985;
       });
     };
 
@@ -494,11 +517,16 @@ function useSceneControls(anchorSelector: string): SceneControls {
       hover.current.targetAmount = 0;
     };
 
-    const pointerIsInCore = (clientX: number, clientY: number) =>
-      clientX >= coreRect.left &&
-      clientX <= coreRect.left + coreRect.width &&
-      clientY >= coreRect.top &&
-      clientY <= coreRect.top + coreRect.height;
+    const pointerIsInCore = (clientX: number, clientY: number) => {
+      const coreLeft = layout.coreLeft - window.scrollX;
+      const coreTop = layout.coreTop - window.scrollY;
+      return (
+        clientX >= coreLeft &&
+        clientX <= coreLeft + layout.coreWidth &&
+        clientY >= coreTop &&
+        clientY <= coreTop + layout.coreHeight
+      );
+    };
 
     const updatePointerTargets = (clientX: number, clientY: number) => {
       if (!isFinePointer.matches) {
@@ -506,14 +534,30 @@ function useSceneControls(anchorSelector: string): SceneControls {
         return;
       }
 
-      pointer.current.x = clamp((clientX - heroRect.left) / heroRect.width - 0.5, -0.5, 0.5);
-      pointer.current.y = clamp((clientY - heroRect.top) / heroRect.height - 0.5, -0.5, 0.5);
+      const heroLeft = layout.heroLeft - window.scrollX;
+      const heroTop = layout.heroTop - window.scrollY;
+      pointer.current.x = clamp(
+        (clientX - heroLeft) / layout.heroWidth - 0.5,
+        -0.5,
+        0.5
+      );
+      pointer.current.y = clamp(
+        (clientY - heroTop) / layout.heroHeight - 0.5,
+        -0.5,
+        0.5
+      );
 
       const isHoveringCore = pointerIsInCore(clientX, clientY);
       hover.current.targetAmount = isHoveringCore ? 1 : 0;
       if (isHoveringCore) {
-        hover.current.targetX = clamp((clientX - coreRect.left) / coreRect.width * 2 - 1, -1, 1) * 1.15;
-        hover.current.targetY = clamp(1 - (clientY - coreRect.top) / coreRect.height * 2, -1, 1) * 1.05;
+        const coreLeft = layout.coreLeft - window.scrollX;
+        const coreTop = layout.coreTop - window.scrollY;
+        hover.current.targetX =
+          clamp((clientX - coreLeft) / layout.coreWidth * 2 - 1, -1, 1) *
+          1.15;
+        hover.current.targetY =
+          clamp(1 - (clientY - coreTop) / layout.coreHeight * 2, -1, 1) *
+          1.05;
       }
     };
 
@@ -581,7 +625,7 @@ function useSceneControls(anchorSelector: string): SceneControls {
       drag.current.active = false;
     };
 
-    updateRects();
+    measureLayout();
     updateScroll();
     observer.observe(hero);
     window.addEventListener("pointermove", handlePointerMove);
@@ -590,11 +634,13 @@ function useSceneControls(anchorSelector: string): SceneControls {
     window.addEventListener("pointercancel", handlePointerUp);
     hero.addEventListener("pointerleave", handlePointerLeave);
     window.addEventListener("scroll", updateScroll, { passive: true });
+    window.addEventListener("resize", scheduleLayoutMeasure);
     window.addEventListener("resize", updateScroll);
 
     return () => {
       cancelAnimationFrame(scrollFrame);
       cancelAnimationFrame(pointerFrame);
+      cancelAnimationFrame(layoutFrame);
       observer.disconnect();
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("pointerdown", handlePointerDown);
@@ -602,11 +648,12 @@ function useSceneControls(anchorSelector: string): SceneControls {
       window.removeEventListener("pointercancel", handlePointerUp);
       hero.removeEventListener("pointerleave", handlePointerLeave);
       window.removeEventListener("scroll", updateScroll);
+      window.removeEventListener("resize", scheduleLayoutMeasure);
       window.removeEventListener("resize", updateScroll);
     };
   }, [anchorSelector]);
 
-  return { isVisible, pointer, hover, drag, scroll };
+  return { isVisible, pointer, hover, drag, scroll, hasSettledOffscreen };
 }
 
 function useParticleUniforms(globalAlpha: number): ParticleUniforms {
@@ -643,7 +690,9 @@ function GlobeParticles({
   const uniforms = useParticleUniforms(0.76);
 
   useFrame(({ clock }, delta) => {
-    if (!controls.isVisible.current) return;
+    if (!controls.isVisible.current || controls.hasSettledOffscreen.current) {
+      return;
+    }
 
     const elapsed = clock.elapsedTime;
 
@@ -697,7 +746,9 @@ function AtmosphericField({
   const uniforms = useParticleUniforms(0.42);
 
   useFrame(({ clock }, delta) => {
-    if (!controls.isVisible.current) return;
+    if (!controls.isVisible.current || controls.hasSettledOffscreen.current) {
+      return;
+    }
 
     const elapsed = clock.elapsedTime;
 
@@ -747,7 +798,9 @@ function SignalStreams({
   const uniforms = useParticleUniforms(0.4);
 
   useFrame(({ clock }) => {
-    if (!controls.isVisible.current) return;
+    if (!controls.isVisible.current || controls.hasSettledOffscreen.current) {
+      return;
+    }
 
     const elapsed = clock.elapsedTime;
 
