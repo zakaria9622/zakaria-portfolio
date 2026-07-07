@@ -1,91 +1,515 @@
 "use client";
 
-import { Html, Preload } from "@react-three/drei";
+import { Preload } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import {
   AdditiveBlending,
   BufferGeometry,
-  Color,
   Float32BufferAttribute,
   Group,
-  InstancedMesh,
-  LineBasicMaterial,
   MathUtils,
-  Object3D,
-  Vector3,
+  ShaderMaterial,
 } from "three";
-import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 
-type SceneControls = {
-  pointer: { current: { x: number; y: number } };
-  scroll: { current: number };
+type SceneVisibility = {
   isVisible: { current: boolean };
-  lastPointerAt: { current: number };
 };
 
-type DataPoint = {
-  origin: Vector3;
-  start: Vector3;
-  end: Vector3;
-  color: Color;
-  weight: number;
+type SceneControls = SceneVisibility & {
+  pointer: { current: { x: number; y: number } };
+  hover: {
+    current: {
+      targetAmount: number;
+      targetX: number;
+      targetY: number;
+    };
+  };
+  drag: {
+    current: {
+      active: boolean;
+      targetX: number;
+      targetY: number;
+      originX: number;
+      originY: number;
+      startClientX: number;
+      startClientY: number;
+    };
+  };
+  scroll: { current: number };
 };
 
-const pointCount = 96;
+type RenderMotion = {
+  current: {
+    pointerX: number;
+    pointerY: number;
+    hoverAmount: number;
+    hoverX: number;
+    hoverY: number;
+    dragX: number;
+    dragY: number;
+    scroll: number;
+  };
+};
 
-const coreLabels = [
-  { label: "Orders", value: "12K", color: "#7dd3fc", angle: 0 },
-  { label: "Revenue", value: "EUR 2.05M", color: "#f2a93b", angle: 1.72 },
-  { label: "Margin", value: "10.42%", color: "#22c55e", angle: 3.25 },
-  { label: "VIP share", value: "75.4%", color: "#f97373", angle: 4.86 },
-] as const;
+type ParticleUniforms = {
+  uTime: { value: number };
+  uPixelRatio: { value: number };
+  uGlobalAlpha: { value: number };
+  uParallaxX: { value: number };
+  uParallaxY: { value: number };
+  uHoverAmount: { value: number };
+  uHoverX: { value: number };
+  uHoverY: { value: number };
+};
 
-const tempObject = new Object3D();
-const tempVector = new Vector3();
+const globeParticleCount = 4200;
+const fieldParticleCount = 360;
+const signalParticleCount = 420;
+const goldenAngle = Math.PI * (3 - Math.sqrt(5));
+
+const silver = [0.9, 0.94, 1] as const;
+const cyan = [0.49, 0.83, 0.99] as const;
+const amber = [0.95, 0.66, 0.23] as const;
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value));
+}
 
 function clamp01(value: number) {
-  return Math.min(1, Math.max(0, value));
+  return clamp(value, 0, 1);
 }
 
-function easeOutQuint(value: number) {
-  return 1 - Math.pow(1 - value, 5);
+function easeOutCubic(value: number) {
+  return 1 - Math.pow(1 - value, 3);
 }
+
+function seeded(index: number, salt = 1) {
+  const value = Math.sin(index * 127.1 + salt * 311.7) * 43758.5453123;
+  return value - Math.floor(value);
+}
+
+function createParticleGeometry(count: number) {
+  const geometry = new BufferGeometry();
+  const positions = new Float32Array(count * 3);
+  const colors = new Float32Array(count * 3);
+  const sizes = new Float32Array(count);
+  const alphas = new Float32Array(count);
+  const seeds = new Float32Array(count);
+  const layers = new Float32Array(count);
+
+  return { geometry, positions, colors, sizes, alphas, seeds, layers };
+}
+
+function writeColor(
+  colors: Float32Array,
+  index: number,
+  color: readonly [number, number, number],
+  lift = 0
+) {
+  const cursor = index * 3;
+  colors[cursor] = Math.min(1, color[0] + lift);
+  colors[cursor + 1] = Math.min(1, color[1] + lift);
+  colors[cursor + 2] = Math.min(1, color[2] + lift);
+}
+
+function finalizeParticleGeometry(
+  geometry: BufferGeometry,
+  positions: Float32Array,
+  colors: Float32Array,
+  sizes: Float32Array,
+  alphas: Float32Array,
+  seeds: Float32Array,
+  layers: Float32Array
+) {
+  geometry.setAttribute("position", new Float32BufferAttribute(positions, 3));
+  geometry.setAttribute("aColor", new Float32BufferAttribute(colors, 3));
+  geometry.setAttribute("aSize", new Float32BufferAttribute(sizes, 1));
+  geometry.setAttribute("aAlpha", new Float32BufferAttribute(alphas, 1));
+  geometry.setAttribute("aSeed", new Float32BufferAttribute(seeds, 1));
+  geometry.setAttribute("aLayer", new Float32BufferAttribute(layers, 1));
+  geometry.computeBoundingSphere();
+  return geometry;
+}
+
+function createGlobeGeometry() {
+  const surfaceCount = Math.floor(globeParticleCount * 0.72);
+  const interiorCount = Math.floor(globeParticleCount * 0.18);
+  const {
+    geometry,
+    positions,
+    colors,
+    sizes,
+    alphas,
+    seeds,
+    layers,
+  } = createParticleGeometry(globeParticleCount);
+
+  for (let index = 0; index < globeParticleCount; index += 1) {
+    const cursor = index * 3;
+    const seedA = seeded(index, 1);
+    const seedB = seeded(index, 2);
+    const seedC = seeded(index, 3);
+    const shellIndex = Math.min(index, surfaceCount - 1);
+    const t = (shellIndex + 0.5) / surfaceCount;
+    const y = 1 - t * 2;
+    const radius = Math.sqrt(Math.max(0, 1 - y * y));
+    const theta = shellIndex * goldenAngle + seedA * 0.034;
+    const wobble =
+      1 + Math.sin(theta * 2.1 + y * 3.4) * 0.055 + (seedB - 0.5) * 0.085;
+    let pointRadius = 1.34 * wobble;
+    let x = Math.cos(theta) * radius;
+    let z = Math.sin(theta) * radius;
+    let nextY = y;
+    let layer = 0.18;
+
+    if (index >= surfaceCount && index < surfaceCount + interiorCount) {
+      const interiorIndex = index - surfaceCount;
+      const interiorT = (interiorIndex + 0.5) / interiorCount;
+      const interiorY = 1 - interiorT * 2;
+      const interiorRadius = Math.sqrt(Math.max(0, 1 - interiorY * interiorY));
+      const interiorTheta = interiorIndex * goldenAngle + seedC * 0.4;
+      pointRadius = 1.23 * Math.cbrt(0.12 + seedA * 0.82);
+      x = Math.cos(interiorTheta) * interiorRadius;
+      z = Math.sin(interiorTheta) * interiorRadius;
+      nextY = interiorY;
+      layer = 0.54;
+    } else if (index >= surfaceCount + interiorCount) {
+      const haloIndex = index - surfaceCount - interiorCount;
+      const haloCount = globeParticleCount - surfaceCount - interiorCount;
+      const haloT = (haloIndex + 0.5) / haloCount;
+      const haloY = 1 - haloT * 2;
+      const haloRadius = Math.sqrt(Math.max(0, 1 - haloY * haloY));
+      const haloTheta = haloIndex * goldenAngle + seedB * 0.62;
+      pointRadius = 1.58 + seedA * 0.32;
+      x = Math.cos(haloTheta) * haloRadius;
+      z = Math.sin(haloTheta) * haloRadius;
+      nextY = haloY;
+      layer = 0.92;
+    }
+
+    positions[cursor] = x * pointRadius * (1.02 + seedB * 0.06);
+    positions[cursor + 1] = nextY * pointRadius * (0.96 + seedC * 0.05);
+    positions[cursor + 2] = z * pointRadius * (0.9 + seedA * 0.18);
+    sizes[index] =
+      MathUtils.lerp(0.62, 1.64, seedB) *
+      (layer > 0.8 ? 0.8 : layer > 0.45 ? 1.08 : 1);
+    alphas[index] =
+      layer > 0.8
+        ? MathUtils.lerp(0.1, 0.24, seedC)
+        : layer > 0.45
+          ? MathUtils.lerp(0.22, 0.48, seedC)
+          : MathUtils.lerp(0.28, 0.62, seedC);
+    seeds[index] = seedA * 9.7 + seedB * 3.2;
+    layers[index] = layer;
+
+    const accent = seeded(index, 7);
+    if (accent > 0.965) {
+      writeColor(colors, index, amber, 0.02);
+    } else if (accent > 0.9) {
+      writeColor(colors, index, cyan, 0.01);
+    } else {
+      writeColor(colors, index, silver, seedC * 0.04);
+    }
+  }
+
+  return finalizeParticleGeometry(
+    geometry,
+    positions,
+    colors,
+    sizes,
+    alphas,
+    seeds,
+    layers
+  );
+}
+
+function createFieldGeometry() {
+  const {
+    geometry,
+    positions,
+    colors,
+    sizes,
+    alphas,
+    seeds,
+    layers,
+  } = createParticleGeometry(fieldParticleCount);
+
+  for (let index = 0; index < fieldParticleCount; index += 1) {
+    const cursor = index * 3;
+    const seedA = seeded(index, 11);
+    const seedB = seeded(index, 12);
+    const seedC = seeded(index, 13);
+    positions[cursor] = MathUtils.lerp(-2.5, 3.15, seedA);
+    positions[cursor + 1] = MathUtils.lerp(-2.05, 2.05, seedB);
+    positions[cursor + 2] = MathUtils.lerp(-2.1, 1.8, seedC);
+    sizes[index] = MathUtils.lerp(0.38, 1.08, seeded(index, 14));
+    alphas[index] = MathUtils.lerp(0.05, 0.16, seeded(index, 15));
+    seeds[index] = seedA * 8.1 + seedC * 2.4;
+    layers[index] = 1;
+    writeColor(colors, index, seeded(index, 16) > 0.86 ? cyan : silver);
+  }
+
+  return finalizeParticleGeometry(
+    geometry,
+    positions,
+    colors,
+    sizes,
+    alphas,
+    seeds,
+    layers
+  );
+}
+
+function createSignalGeometry() {
+  const {
+    geometry,
+    positions,
+    colors,
+    sizes,
+    alphas,
+    seeds,
+    layers,
+  } = createParticleGeometry(signalParticleCount);
+
+  for (let index = 0; index < signalParticleCount; index += 1) {
+    const cursor = index * 3;
+    const lane = index % 5;
+    const phase = seeded(index, 22);
+    positions[cursor] = 0;
+    positions[cursor + 1] = 0;
+    positions[cursor + 2] = 0;
+    sizes[index] = MathUtils.lerp(0.68, 1.42, seeded(index, 23));
+    alphas[index] = lane === 4 ? 0.1 : MathUtils.lerp(0.12, 0.28, seeded(index, 24));
+    seeds[index] = phase;
+    layers[index] = lane;
+    writeColor(colors, index, lane === 1 || lane === 4 ? amber : cyan);
+  }
+
+  return finalizeParticleGeometry(
+    geometry,
+    positions,
+    colors,
+    sizes,
+    alphas,
+    seeds,
+    layers
+  );
+}
+
+const particleVertexShader = `
+uniform float uTime;
+uniform float uPixelRatio;
+uniform float uGlobalAlpha;
+uniform float uParallaxX;
+uniform float uParallaxY;
+uniform float uHoverAmount;
+uniform float uHoverX;
+uniform float uHoverY;
+attribute vec3 aColor;
+attribute float aSize;
+attribute float aAlpha;
+attribute float aSeed;
+attribute float aLayer;
+varying vec3 vColor;
+varying float vAlpha;
+
+void main() {
+  vec3 radial = normalize(position + vec3(0.0001));
+  float halo = smoothstep(0.7, 1.0, aLayer);
+  float interior = 1.0 - smoothstep(0.32, 0.62, aLayer);
+  float drift = sin(uTime * 0.22 + aSeed * 6.283 + position.y * 1.8) * 0.018;
+  drift += cos(uTime * 0.16 + aSeed * 4.0 + position.z * 1.2) * 0.011;
+  vec3 p = position + radial * drift * (0.45 + halo * 1.8);
+  float front = smoothstep(-1.55, 1.65, p.z);
+  float depthParallax = mix(0.01, 0.055, front) + halo * 0.018;
+  p.x += uParallaxX * depthParallax;
+  p.y += uParallaxY * depthParallax;
+
+  vec2 hoverTarget = vec2(uHoverX, uHoverY);
+  vec2 hoverDelta = hoverTarget - p.xy;
+  float attraction = exp(-dot(hoverDelta, hoverDelta) * 2.4) * uHoverAmount * (1.0 - halo * 0.35);
+  p.xy += hoverDelta * attraction * 0.035;
+  p.z += attraction * 0.05;
+
+  vec4 mvPosition = modelViewMatrix * vec4(p, 1.0);
+  float depth = max(1.0, -mvPosition.z);
+  vColor = aColor;
+  vAlpha = aAlpha * uGlobalAlpha * mix(0.5, 1.08, front) * (0.78 + interior * 0.2);
+  gl_PointSize = min(aSize * uPixelRatio * (38.0 / depth) * mix(0.86, 1.24, front), 7.0 * uPixelRatio);
+  gl_Position = projectionMatrix * mvPosition;
+}
+`;
+
+const signalVertexShader = `
+uniform float uTime;
+uniform float uPixelRatio;
+uniform float uGlobalAlpha;
+uniform float uParallaxX;
+uniform float uParallaxY;
+attribute vec3 aColor;
+attribute float aSize;
+attribute float aAlpha;
+attribute float aSeed;
+attribute float aLayer;
+varying vec3 vColor;
+varying float vAlpha;
+
+vec3 cubicBezier(vec3 a, vec3 b, vec3 c, vec3 d, float t) {
+  float omt = 1.0 - t;
+  return omt * omt * omt * a + 3.0 * omt * omt * t * b + 3.0 * omt * t * t * c + t * t * t * d;
+}
+
+void main() {
+  float lane = floor(aLayer + 0.5);
+  float speed = 0.018 + lane * 0.0025;
+  float t = fract(aSeed - uTime * speed);
+  vec3 p0;
+  vec3 p1;
+  vec3 p2;
+  vec3 p3;
+
+  if (lane < 0.5) {
+    p0 = vec3(3.0, 0.78, -0.95);
+    p1 = vec3(2.42, 0.58, -0.72);
+    p2 = vec3(1.72, 0.28, -0.36);
+    p3 = vec3(0.88, 0.08, -0.08);
+  } else if (lane < 1.5) {
+    p0 = vec3(3.08, -0.82, 0.82);
+    p1 = vec3(2.34, -0.58, 0.54);
+    p2 = vec3(1.62, -0.32, 0.18);
+    p3 = vec3(0.62, -0.12, 0.04);
+  } else if (lane < 2.5) {
+    p0 = vec3(2.86, 0.2, 1.22);
+    p1 = vec3(2.22, 0.32, 0.82);
+    p2 = vec3(1.5, 0.42, 0.42);
+    p3 = vec3(0.46, 0.24, 0.02);
+  } else if (lane < 3.5) {
+    p0 = vec3(2.92, -0.06, -1.22);
+    p1 = vec3(2.3, -0.12, -0.86);
+    p2 = vec3(1.62, -0.06, -0.42);
+    p3 = vec3(0.34, 0.04, -0.02);
+  } else {
+    p0 = vec3(2.7, 1.22, 0.22);
+    p1 = vec3(2.02, 0.92, 0.18);
+    p2 = vec3(1.34, 0.54, 0.08);
+    p3 = vec3(0.18, 0.2, 0.0);
+  }
+
+  vec3 p = cubicBezier(p0, p1, p2, p3, t);
+  p.y += sin(t * 6.283 + aSeed * 12.0) * 0.026;
+  p.z += cos(t * 6.283 + aSeed * 9.0) * 0.032;
+  float signalFront = smoothstep(-1.2, 1.2, p.z);
+  p.x += uParallaxX * mix(0.01, 0.04, signalFront);
+  p.y += uParallaxY * mix(0.006, 0.026, signalFront);
+
+  vec4 mvPosition = modelViewMatrix * vec4(p, 1.0);
+  float depth = max(1.0, -mvPosition.z);
+  float fade = smoothstep(0.0, 0.18, t) * (1.0 - smoothstep(0.82, 1.0, t));
+  vColor = aColor;
+  vAlpha = aAlpha * uGlobalAlpha * fade;
+  gl_PointSize = min(aSize * uPixelRatio * (44.0 / depth), 5.8 * uPixelRatio);
+  gl_Position = projectionMatrix * mvPosition;
+}
+`;
+
+const particleFragmentShader = `
+varying vec3 vColor;
+varying float vAlpha;
+
+void main() {
+  vec2 centered = gl_PointCoord - vec2(0.5);
+  float radius = length(centered);
+  float glow = smoothstep(0.5, 0.08, radius);
+  float core = smoothstep(0.22, 0.0, radius);
+  float alpha = (glow * 0.58 + core * 0.48) * vAlpha;
+  if (alpha < 0.015) discard;
+  gl_FragColor = vec4(vColor, alpha);
+}
+`;
 
 function useSceneControls(anchorSelector: string): SceneControls {
-  const pointer = useRef({ x: 0, y: 0 });
-  const scroll = useRef(0);
   const isVisible = useRef(true);
-  const lastPointerAt = useRef(0);
+  const pointer = useRef({ x: 0, y: 0 });
+  const hover = useRef({
+    targetAmount: 0,
+    targetX: 0,
+    targetY: 0,
+  });
+  const drag = useRef({
+    active: false,
+    targetX: 0,
+    targetY: 0,
+    originX: 0,
+    originY: 0,
+    startClientX: 0,
+    startClientY: 0,
+  });
+  const scroll = useRef(0);
 
   useEffect(() => {
     const hero = document.querySelector<HTMLElement>(anchorSelector);
     if (!hero) return;
 
+    const core = hero.querySelector<HTMLElement>(".data-core-frame");
+    const isFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const heroRect = { left: 0, top: 0, width: 1, height: 1 };
+    const coreRect = { left: 0, top: 0, width: 1, height: 1 };
     let frame = 0;
+
+    const updateRects = () => {
+      const nextHeroRect = hero.getBoundingClientRect();
+      heroRect.left = nextHeroRect.left;
+      heroRect.top = nextHeroRect.top;
+      heroRect.width = Math.max(nextHeroRect.width, 1);
+      heroRect.height = Math.max(nextHeroRect.height, 1);
+
+      const nextCoreRect = core?.getBoundingClientRect();
+      if (nextCoreRect) {
+        coreRect.left = nextCoreRect.left;
+        coreRect.top = nextCoreRect.top;
+        coreRect.width = Math.max(nextCoreRect.width, 1);
+        coreRect.height = Math.max(nextCoreRect.height, 1);
+      }
+    };
 
     const updateScroll = () => {
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => {
         const heroTop = hero.offsetTop;
-        const projects = document.getElementById("projects");
-        const projectsTop =
-          projects?.offsetTop ?? heroTop + Math.max(hero.offsetHeight, 1);
-        const distance = Math.max(projectsTop - heroTop, 1);
+        const distance = Math.max(hero.offsetHeight * 0.58, 1);
         scroll.current = clamp01((window.scrollY - heroTop) / distance);
+        updateRects();
       });
-    };
-
-    const updatePointer = (event: PointerEvent) => {
-      const rect = hero.getBoundingClientRect();
-      pointer.current.x = (event.clientX - rect.left) / rect.width - 0.5;
-      pointer.current.y = (event.clientY - rect.top) / rect.height - 0.5;
-      lastPointerAt.current = performance.now();
     };
 
     const resetPointer = () => {
       pointer.current.x = 0;
       pointer.current.y = 0;
-      lastPointerAt.current = performance.now();
+      hover.current.targetAmount = 0;
+    };
+
+    const pointerIsInCore = (clientX: number, clientY: number) =>
+      clientX >= coreRect.left &&
+      clientX <= coreRect.left + coreRect.width &&
+      clientY >= coreRect.top &&
+      clientY <= coreRect.top + coreRect.height;
+
+    const updatePointerTargets = (clientX: number, clientY: number) => {
+      if (!isFinePointer.matches) {
+        resetPointer();
+        return;
+      }
+
+      pointer.current.x = clamp((clientX - heroRect.left) / heroRect.width - 0.5, -0.5, 0.5);
+      pointer.current.y = clamp((clientY - heroRect.top) / heroRect.height - 0.5, -0.5, 0.5);
+
+      const isHoveringCore = pointerIsInCore(clientX, clientY);
+      hover.current.targetAmount = isHoveringCore ? 1 : 0;
+      if (isHoveringCore) {
+        hover.current.targetX = clamp((clientX - coreRect.left) / coreRect.width * 2 - 1, -1, 1) * 1.15;
+        hover.current.targetY = clamp(1 - (clientY - coreRect.top) / coreRect.height * 2, -1, 1) * 1.05;
+      }
     };
 
     const observer = new IntersectionObserver(
@@ -95,588 +519,347 @@ function useSceneControls(anchorSelector: string): SceneControls {
       { rootMargin: "180px" }
     );
 
+    const handlePointerMove = (event: PointerEvent) => {
+      updatePointerTargets(event.clientX, event.clientY);
+
+      if (drag.current.active) {
+        const deltaX = event.clientX - drag.current.startClientX;
+        const deltaY = event.clientY - drag.current.startClientY;
+        drag.current.targetX = clamp(drag.current.originX + deltaX * 0.0024, -0.26, 0.26);
+        drag.current.targetY = clamp(drag.current.originY + deltaY * 0.0018, -0.14, 0.14);
+      }
+    };
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (
+        event.button !== 0 ||
+        !isFinePointer.matches ||
+        !pointerIsInCore(event.clientX, event.clientY)
+      ) {
+        return;
+      }
+
+      drag.current.active = true;
+      drag.current.startClientX = event.clientX;
+      drag.current.startClientY = event.clientY;
+      drag.current.originX = drag.current.targetX;
+      drag.current.originY = drag.current.targetY;
+    };
+
+    const handlePointerUp = () => {
+      drag.current.active = false;
+      drag.current.targetX = 0;
+      drag.current.targetY = 0;
+    };
+
+    const handlePointerLeave = () => {
+      resetPointer();
+      drag.current.active = false;
+    };
+
+    updateRects();
     updateScroll();
     observer.observe(hero);
-    hero.addEventListener("pointermove", updatePointer);
-    hero.addEventListener("pointerleave", resetPointer);
+    window.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("pointerdown", handlePointerDown);
+    window.addEventListener("pointerup", handlePointerUp);
+    window.addEventListener("pointercancel", handlePointerUp);
+    hero.addEventListener("pointerleave", handlePointerLeave);
     window.addEventListener("scroll", updateScroll, { passive: true });
     window.addEventListener("resize", updateScroll);
 
     return () => {
       cancelAnimationFrame(frame);
       observer.disconnect();
-      hero.removeEventListener("pointermove", updatePointer);
-      hero.removeEventListener("pointerleave", resetPointer);
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("pointerdown", handlePointerDown);
+      window.removeEventListener("pointerup", handlePointerUp);
+      window.removeEventListener("pointercancel", handlePointerUp);
+      hero.removeEventListener("pointerleave", handlePointerLeave);
       window.removeEventListener("scroll", updateScroll);
       window.removeEventListener("resize", updateScroll);
     };
   }, [anchorSelector]);
 
-  return { pointer, scroll, isVisible, lastPointerAt };
+  return { isVisible, pointer, hover, drag, scroll };
 }
 
-function createDataPoints(): DataPoint[] {
-  return Array.from({ length: pointCount }, (_, index) => {
-    const t = index / (pointCount - 1);
-    const turn = index * 2.399963229728653;
-    const y = 1 - t * 2;
-    const radius = Math.sqrt(Math.max(0, 1 - y * y));
-    const shell = 1.12 + 0.18 * Math.sin(index * 1.7);
-    const start = new Vector3(
-      Math.cos(turn) * radius * shell,
-      y * 1.18,
-      Math.sin(turn) * radius * shell
-    );
-
-    const lane = index % 4;
-    const originRadius = 3.2 + (index % 9) * 0.11;
-    const origin = new Vector3(
-      Math.cos(turn * 0.64 + lane * 0.34) * originRadius,
-      MathUtils.lerp(-1.74, 1.74, (index % 17) / 16) +
-        Math.sin(index * 0.37) * 0.24,
-      Math.sin(turn * 0.58 + lane * 0.28) * (2.05 + (index % 5) * 0.16)
-    );
-    const x = MathUtils.lerp(-2.05, 2.05, t);
-    const chartY =
-      lane === 0
-        ? Math.sin(t * Math.PI * 2.3) * 0.34 + t * 0.92 - 0.48
-        : lane === 1
-          ? Math.cos(t * Math.PI * 2.8) * 0.28 + 0.28
-          : lane === 2
-            ? Math.sin(t * Math.PI * 4.1) * 0.18 - 0.36
-            : MathUtils.lerp(-0.72, 0.72, (index % 16) / 15);
-    const end = new Vector3(
-      x,
-      chartY,
-      (lane - 1.5) * 0.2 + Math.sin(index * 0.43) * 0.12
-    );
-
-    const color = new Color(
-      lane === 0
-        ? "#7dd3fc"
-        : lane === 1
-          ? "#f2a93b"
-          : lane === 2
-            ? "#22c55e"
-            : "#f97373"
-    );
-
-    return {
-      origin,
-      start,
-      end,
-      color,
-      weight: 0.75 + (index % 7) * 0.065,
-    };
-  });
-}
-
-function DataParticles({
-  points,
-  controls,
-}: {
-  points: DataPoint[];
-  controls: SceneControls;
-}) {
-  const meshRef = useRef<InstancedMesh>(null);
-
-  useLayoutEffect(() => {
-    const mesh = meshRef.current;
-    if (!mesh) return;
-
-    points.forEach((point, index) => {
-      tempObject.position.copy(point.origin);
-      tempObject.scale.setScalar(0.018 * point.weight);
-      tempObject.updateMatrix();
-      mesh.setMatrixAt(index, tempObject.matrix);
-      mesh.setColorAt(index, point.color);
-    });
-
-    mesh.instanceMatrix.needsUpdate = true;
-    if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
-  }, [points]);
-
-  useFrame(({ clock }) => {
-    const mesh = meshRef.current;
-    if (!mesh || !controls.isVisible.current) return;
-
-    const elapsed = clock.elapsedTime;
-    const progress = easeOutQuint(controls.scroll.current);
-    const assembly = easeOutQuint(clamp01(elapsed / 1.75));
-
-    points.forEach((point, index) => {
-      const pulse = Math.sin(elapsed * 1.55 + index * 0.31) * 0.012;
-      tempVector.lerpVectors(point.origin, point.start, assembly);
-      tempVector.lerp(point.end, progress);
-      tempVector.x += Math.sin(elapsed * 0.46 + index) * 0.025 * (1 - progress);
-      tempVector.z += Math.cos(elapsed * 0.42 + index) * 0.025 * (1 - progress);
-
-      tempObject.position.copy(tempVector);
-      tempObject.scale.setScalar(
-        (0.018 + assembly * 0.014 + pulse) * point.weight
-      );
-      tempObject.updateMatrix();
-      mesh.setMatrixAt(index, tempObject.matrix);
-    });
-
-    mesh.instanceMatrix.needsUpdate = true;
-  });
-
-  return (
-    <instancedMesh ref={meshRef} args={[undefined, undefined, points.length]}>
-      <sphereGeometry args={[1, 12, 12]} />
-      <meshStandardMaterial
-        vertexColors
-        emissive="#7dd3fc"
-        emissiveIntensity={1.2}
-        metalness={0.15}
-        roughness={0.32}
-        toneMapped={false}
-      />
-    </instancedMesh>
+function useParticleUniforms(globalAlpha: number): ParticleUniforms {
+  return useMemo(
+    () => ({
+      uTime: { value: 0 },
+      uPixelRatio: {
+        value:
+          typeof window === "undefined"
+            ? 1
+            : Math.min(window.devicePixelRatio || 1, 1.35),
+      },
+      uGlobalAlpha: { value: globalAlpha },
+      uParallaxX: { value: 0 },
+      uParallaxY: { value: 0 },
+      uHoverAmount: { value: 0 },
+      uHoverX: { value: 0 },
+      uHoverY: { value: 0 },
+    }),
+    [globalAlpha]
   );
 }
 
-function ConnectionNetwork({
-  points,
+function GlobeParticles({
   controls,
+  motion,
 }: {
-  points: DataPoint[];
   controls: SceneControls;
+  motion: RenderMotion;
 }) {
-  const geometry = useMemo(() => {
-    const positions = new Float32Array((pointCount - 4) * 2 * 3);
-    const nextGeometry = new BufferGeometry();
-    nextGeometry.setAttribute("position", new Float32BufferAttribute(positions, 3));
-    return nextGeometry;
-  }, []);
-  const materialRef = useRef<LineBasicMaterial>(null);
+  const geometry = useMemo(() => createGlobeGeometry(), []);
+  const materialRef = useRef<ShaderMaterial>(null);
+  const groupRef = useRef<Group>(null);
+  const uniforms = useParticleUniforms(0.76);
 
-  useFrame(({ clock }) => {
+  useFrame(({ clock }, delta) => {
     if (!controls.isVisible.current) return;
 
-    const assembly = easeOutQuint(clamp01(clock.elapsedTime / 1.75));
-    const progress = easeOutQuint(controls.scroll.current);
-    const attribute = geometry.getAttribute("position") as Float32BufferAttribute;
-    const positions = attribute.array as Float32Array;
-    let cursor = 0;
+    const elapsed = clock.elapsedTime;
 
-    for (let index = 0; index < pointCount - 4; index += 1) {
-      const source = points[index];
-      const target = points[index + ((index % 4) + 1)];
-      const sourcePosition = tempVector
-        .copy(source.origin)
-        .lerp(source.start, assembly)
-        .lerp(source.end, progress);
-      positions[cursor++] = sourcePosition.x;
-      positions[cursor++] = sourcePosition.y;
-      positions[cursor++] = sourcePosition.z;
+    const group = groupRef.current;
+    if (!group) return;
 
-      const targetPosition = new Vector3()
-        .copy(target.origin)
-        .lerp(target.start, assembly)
-        .lerp(target.end, progress);
-      positions[cursor++] = targetPosition.x;
-      positions[cursor++] = targetPosition.y;
-      positions[cursor++] = targetPosition.z;
-    }
+    group.rotation.y += delta * 0.055;
+    group.rotation.x = Math.sin(elapsed * 0.12) * 0.028;
+    group.rotation.z = Math.cos(elapsed * 0.1) * 0.018;
 
-    attribute.needsUpdate = true;
     if (materialRef.current) {
-      materialRef.current.opacity =
-        MathUtils.lerp(0.26, 0.12, progress) * assembly;
+      materialRef.current.uniforms.uTime.value = elapsed;
+      materialRef.current.uniforms.uParallaxX.value = motion.current.pointerX;
+      materialRef.current.uniforms.uParallaxY.value = -motion.current.pointerY;
+      materialRef.current.uniforms.uHoverAmount.value =
+        motion.current.hoverAmount * 0.42;
+      materialRef.current.uniforms.uHoverX.value = motion.current.hoverX;
+      materialRef.current.uniforms.uHoverY.value = motion.current.hoverY;
     }
   });
 
   return (
-    <lineSegments geometry={geometry}>
-      <lineBasicMaterial
-        ref={materialRef}
-        color="#7dd3fc"
-        transparent
-        opacity={0.24}
-        blending={AdditiveBlending}
-        depthWrite={false}
-      />
-    </lineSegments>
-  );
-}
-
-function ChartCurves({ controls }: { controls: SceneControls }) {
-  const geometries = useMemo(
-    () =>
-      Array.from({ length: 3 }, () => {
-        const geometry = new BufferGeometry();
-        geometry.setAttribute(
-          "position",
-          new Float32BufferAttribute(new Float32Array(71 * 2 * 3), 3)
-        );
-        return geometry;
-      }),
-    []
-  );
-  const materialRefs = useRef<Array<LineBasicMaterial | null>>([]);
-  const colors = ["#7dd3fc", "#f2a93b", "#22c55e"];
-
-  useFrame(({ clock }) => {
-    if (!controls.isVisible.current) return;
-
-    const assembly = easeOutQuint(clamp01(clock.elapsedTime / 1.75));
-    const progress = easeOutQuint(controls.scroll.current);
-    geometries.forEach((geometry, curveIndex) => {
-      const attribute = geometry.getAttribute("position") as Float32BufferAttribute;
-      const positions = attribute.array as Float32Array;
-      let cursor = 0;
-
-      for (let index = 0; index < 71; index += 1) {
-        for (let endpoint = 0; endpoint < 2; endpoint += 1) {
-          const t = (index + endpoint) / 71;
-          const orbital = new Vector3(
-            Math.cos(t * Math.PI * 2 + curveIndex * 1.2) *
-              (1.34 + curveIndex * 0.16),
-            Math.sin(t * Math.PI * 2 + curveIndex * 0.7) * 0.58,
-            Math.sin(t * Math.PI * 2 + curveIndex) * (0.72 + curveIndex * 0.12)
-          );
-          const chart = new Vector3(
-            MathUtils.lerp(-2.18, 2.18, t),
-            Math.sin(
-              t * Math.PI * (2.2 + curveIndex * 0.7) +
-                clock.elapsedTime * 0.18
-            ) *
-              (0.14 + curveIndex * 0.05) +
-              curveIndex * 0.28 -
-              0.28,
-            -0.22 + curveIndex * 0.2
-          );
-          orbital.lerp(chart, progress);
-          positions[cursor++] = orbital.x;
-          positions[cursor++] = orbital.y;
-          positions[cursor++] = orbital.z;
-        }
-      }
-
-      attribute.needsUpdate = true;
-      const material = materialRefs.current[curveIndex];
-      if (material) {
-        material.opacity = MathUtils.lerp(0.3, 0.56, progress) * assembly;
-      }
-    });
-  });
-
-  return (
-    <group>
-      {geometries.map((geometry, index) => (
-        <lineSegments key={colors[index]} geometry={geometry}>
-          <lineBasicMaterial
-            ref={(material) => {
-              materialRefs.current[index] = material;
-            }}
-            color={colors[index]}
-            transparent
-            opacity={0.32}
-            blending={AdditiveBlending}
-            depthWrite={false}
-          />
-        </lineSegments>
-      ))}
-    </group>
-  );
-}
-
-function createOrbitGeometry(radiusX: number, radiusY: number, depth: number) {
-  const segments = 96;
-  const positions: number[] = [];
-
-  for (let index = 0; index < segments; index += 1) {
-    const current = (index / segments) * Math.PI * 2;
-    const next = ((index + 1) / segments) * Math.PI * 2;
-
-    positions.push(
-      Math.cos(current) * radiusX,
-      Math.sin(current) * radiusY,
-      Math.sin(current * 1.5) * depth,
-      Math.cos(next) * radiusX,
-      Math.sin(next) * radiusY,
-      Math.sin(next * 1.5) * depth
-    );
-  }
-
-  const geometry = new BufferGeometry();
-  geometry.setAttribute("position", new Float32BufferAttribute(positions, 3));
-  return geometry;
-}
-
-function OrbitalDataPaths({ controls }: { controls: SceneControls }) {
-  const groupRef = useRef<Group>(null);
-  const materialRefs = useRef<Array<LineBasicMaterial | null>>([]);
-  const geometries = useMemo(
-    () => [
-      createOrbitGeometry(1.72, 0.72, 0.34),
-      createOrbitGeometry(2.05, 0.9, 0.28),
-      createOrbitGeometry(1.36, 0.58, 0.42),
-    ],
-    []
-  );
-  const colors = ["#7dd3fc", "#f2a93b", "#22c55e"];
-
-  useFrame(({ clock }) => {
-    const group = groupRef.current;
-    if (!group || !controls.isVisible.current) return;
-
-    const elapsed = clock.elapsedTime;
-    const assembly = easeOutQuint(clamp01(elapsed / 1.75));
-    const progress = controls.scroll.current;
-
-    group.rotation.y = elapsed * 0.065 + progress * 0.42;
-    group.rotation.x = Math.sin(elapsed * 0.22) * 0.035;
-    group.rotation.z = Math.cos(elapsed * 0.18) * 0.025;
-
-    materialRefs.current.forEach((material, index) => {
-      if (!material) return;
-
-      material.opacity =
-        (0.11 + Math.sin(elapsed * 0.72 + index) * 0.025) *
-        assembly *
-        (1 - progress * 0.44);
-    });
-  });
-
-  return (
     <group ref={groupRef}>
-      {geometries.map((geometry, index) => (
-        <lineSegments
-          key={colors[index]}
-          geometry={geometry}
-          rotation={[
-            index === 0 ? 0.28 : -0.2,
-            index === 1 ? 0.62 : -0.34,
-            index === 2 ? 1.1 : -0.5,
-          ]}
-        >
-          <lineBasicMaterial
-            ref={(material) => {
-              materialRefs.current[index] = material;
-            }}
-            color={colors[index]}
-            transparent
-            opacity={0.1}
-            blending={AdditiveBlending}
-            depthWrite={false}
-          />
-        </lineSegments>
-      ))}
+      <points geometry={geometry} frustumCulled={false}>
+        <shaderMaterial
+          ref={materialRef}
+          transparent
+          depthTest
+          depthWrite={false}
+          blending={AdditiveBlending}
+          fragmentShader={particleFragmentShader}
+          toneMapped={false}
+          uniforms={uniforms}
+          vertexShader={particleVertexShader}
+        />
+      </points>
     </group>
   );
 }
 
-function ScannerPulses({ controls }: { controls: SceneControls }) {
-  const pulseRefs = useRef<Array<Group | null>>([]);
-  const materialRefs = useRef<Array<LineBasicMaterial | null>>([]);
-  const geometry = useMemo(() => {
-    const positions = new Float32Array([
-      -2.15, 0, 0, 2.15, 0, 0, -1.78, 0.06, 0, 1.78, 0.06, 0,
-    ]);
-    const nextGeometry = new BufferGeometry();
-    nextGeometry.setAttribute("position", new Float32BufferAttribute(positions, 3));
-    return nextGeometry;
-  }, []);
-
-  useFrame(({ clock }) => {
-    if (!controls.isVisible.current) return;
-
-    const elapsed = clock.elapsedTime;
-    const assembly = easeOutQuint(clamp01(elapsed / 1.75));
-    const progress = controls.scroll.current;
-
-    pulseRefs.current.forEach((pulse, index) => {
-      const material = materialRefs.current[index];
-      if (!pulse || !material) return;
-
-      const cycle = (elapsed * 0.18 + index * 0.48) % 1;
-      const activePulse =
-        cycle < 0.58 ? Math.sin((cycle / 0.58) * Math.PI) : 0;
-
-      pulse.position.y = MathUtils.lerp(-1.22, 1.18, cycle);
-      pulse.rotation.z = index === 0 ? -0.08 : 0.07;
-      pulse.scale.x = 0.86 + activePulse * 0.1;
-      material.opacity = activePulse * 0.26 * assembly * (1 - progress * 0.48);
-    });
-  });
-
-  return (
-    <group>
-      {[0, 1].map((index) => (
-        <group
-          key={index}
-          ref={(group) => {
-            pulseRefs.current[index] = group;
-          }}
-        >
-          <lineSegments geometry={geometry}>
-            <lineBasicMaterial
-              ref={(material) => {
-                materialRefs.current[index] = material;
-              }}
-              color={index === 0 ? "#7dd3fc" : "#f2a93b"}
-              transparent
-              opacity={0}
-              blending={AdditiveBlending}
-              depthWrite={false}
-            />
-          </lineSegments>
-        </group>
-      ))}
-    </group>
-  );
-}
-
-function GridPlane({
-  position,
-  rotation,
-  color,
-  opacity,
+function AtmosphericField({
+  controls,
+  motion,
 }: {
-  position: [number, number, number];
-  rotation: [number, number, number];
-  color: string;
-  opacity: number;
+  controls: SceneControls;
+  motion: RenderMotion;
 }) {
-  const geometry = useMemo(() => {
-    const lines: number[] = [];
-    const size = 4.6;
-    const divisions = 10;
-
-    for (let index = 0; index <= divisions; index += 1) {
-      const value = -size / 2 + (size / divisions) * index;
-      lines.push(-size / 2, value, 0, size / 2, value, 0);
-      lines.push(value, -size / 2, 0, value, size / 2, 0);
-    }
-
-    const geometry = new BufferGeometry();
-    geometry.setAttribute("position", new Float32BufferAttribute(lines, 3));
-    return geometry;
-  }, []);
-
-  return (
-    <lineSegments geometry={geometry} position={position} rotation={rotation}>
-      <lineBasicMaterial
-        color={color}
-        transparent
-        opacity={opacity}
-        blending={AdditiveBlending}
-        depthWrite={false}
-      />
-    </lineSegments>
-  );
-}
-
-function OrbitingLabels({ controls }: { controls: SceneControls }) {
+  const geometry = useMemo(() => createFieldGeometry(), []);
+  const materialRef = useRef<ShaderMaterial>(null);
   const groupRef = useRef<Group>(null);
+  const uniforms = useParticleUniforms(0.42);
 
-  useFrame(({ clock }) => {
+  useFrame(({ clock }, delta) => {
+    if (!controls.isVisible.current) return;
+
+    const elapsed = clock.elapsedTime;
+
     const group = groupRef.current;
-    if (!group || !controls.isVisible.current) return;
+    if (!group) return;
 
-    const assembly = easeOutQuint(clamp01(clock.elapsedTime / 1.75));
-    const progress = controls.scroll.current;
-    group.rotation.y = clock.elapsedTime * 0.08 + progress * 0.45;
-    group.rotation.x = MathUtils.lerp(0.12, -0.04, progress);
-    group.scale.setScalar(MathUtils.lerp(0.92, MathUtils.lerp(1, 0.86, progress), assembly));
+    group.rotation.y -= delta * 0.018;
+    group.rotation.z = Math.sin(elapsed * 0.08) * 0.012;
+
+    if (materialRef.current) {
+      materialRef.current.uniforms.uTime.value = elapsed;
+      materialRef.current.uniforms.uParallaxX.value =
+        motion.current.pointerX * 1.16;
+      materialRef.current.uniforms.uParallaxY.value =
+        -motion.current.pointerY * 1.16;
+    }
   });
 
   return (
-    <group ref={groupRef}>
-      {coreLabels.map((item) => (
-        <Html
-          key={item.label}
-          position={[
-            Math.cos(item.angle) * 1.95,
-            Math.sin(item.angle * 1.37) * 0.66,
-            Math.sin(item.angle) * 1.35,
-          ]}
-          transform
-          center
-          distanceFactor={7.8}
-          zIndexRange={[3, 0]}
-        >
-          <div className="core-kpi-label" style={{ borderColor: item.color }}>
-            <span>{item.label}</span>
-            <strong style={{ color: item.color }}>{item.value}</strong>
-          </div>
-        </Html>
-      ))}
+    <group ref={groupRef} position={[0.04, 0.02, -0.34]} scale={1.05}>
+      <points geometry={geometry} frustumCulled={false}>
+        <shaderMaterial
+          ref={materialRef}
+          transparent
+          depthTest
+          depthWrite={false}
+          blending={AdditiveBlending}
+          fragmentShader={particleFragmentShader}
+          toneMapped={false}
+          uniforms={uniforms}
+          vertexShader={particleVertexShader}
+        />
+      </points>
     </group>
+  );
+}
+
+function SignalStreams({
+  controls,
+  motion,
+}: {
+  controls: SceneControls;
+  motion: RenderMotion;
+}) {
+  const geometry = useMemo(() => createSignalGeometry(), []);
+  const materialRef = useRef<ShaderMaterial>(null);
+  const uniforms = useParticleUniforms(0.4);
+
+  useFrame(({ clock }) => {
+    if (!controls.isVisible.current) return;
+
+    const elapsed = clock.elapsedTime;
+
+    if (materialRef.current) {
+      materialRef.current.uniforms.uTime.value = elapsed;
+      materialRef.current.uniforms.uParallaxX.value =
+        motion.current.pointerX * 0.82;
+      materialRef.current.uniforms.uParallaxY.value =
+        -motion.current.pointerY * 0.82;
+    }
+  });
+
+  return (
+    <points geometry={geometry} frustumCulled={false}>
+      <shaderMaterial
+        ref={materialRef}
+        transparent
+        depthTest
+        depthWrite={false}
+        blending={AdditiveBlending}
+        fragmentShader={particleFragmentShader}
+        toneMapped={false}
+        uniforms={uniforms}
+        vertexShader={signalVertexShader}
+      />
+    </points>
   );
 }
 
 function DataCoreScene({ controls }: { controls: SceneControls }) {
-  const points = useMemo(() => createDataPoints(), []);
-  const groupRef = useRef<Group>(null);
-
-  useFrame(({ camera, clock }) => {
-    const group = groupRef.current;
-    if (!group || !controls.isVisible.current) return;
-
-    const elapsed = clock.elapsedTime;
-    const progress = controls.scroll.current;
-    const idleAmount =
-      clamp01((performance.now() - controls.lastPointerAt.current - 1100) / 1200) *
-      (1 - progress * 0.68);
-    const driftX = Math.sin(elapsed * 0.28) * 0.048 * idleAmount;
-    const driftY = Math.cos(elapsed * 0.24) * 0.034 * idleAmount;
-    const targetRotationX =
-      -controls.pointer.current.y * 0.24 - progress * 0.08 + driftY;
-    const targetRotationY =
-      controls.pointer.current.x * 0.34 + progress * 0.38 + driftX;
-    const targetRotationZ = progress * -0.1;
-
-    group.rotation.x = MathUtils.lerp(group.rotation.x, targetRotationX, 0.055);
-    group.rotation.y = MathUtils.lerp(group.rotation.y, targetRotationY, 0.055);
-    group.rotation.z = MathUtils.lerp(group.rotation.z, targetRotationZ, 0.055);
-    group.position.y = MathUtils.lerp(group.position.y, -progress * 0.28, 0.05);
-
-    camera.position.x = MathUtils.lerp(
-      camera.position.x,
-      controls.pointer.current.x * 0.08 + driftX * 1.3,
-      0.025
-    );
-    camera.position.y = MathUtils.lerp(
-      camera.position.y,
-      -controls.pointer.current.y * 0.05 + driftY,
-      0.025
-    );
-    camera.lookAt(0, 0, 0);
+  const systemRef = useRef<Group>(null);
+  const motionRef = useRef({
+    pointerX: 0,
+    pointerY: 0,
+    hoverAmount: 0,
+    hoverX: 0,
+    hoverY: 0,
+    dragX: 0,
+    dragY: 0,
+    scroll: 0,
   });
 
-  return (
-    <>
-      <color attach="background" args={["#06070a"]} />
-      <ambientLight intensity={0.9} />
-      <pointLight position={[2.6, 2.4, 3.6]} intensity={42} color="#7dd3fc" />
-      <pointLight position={[-3, -1.6, 2.2]} intensity={18} color="#f2a93b" />
+  useFrame(({ clock }, delta) => {
+    if (!controls.isVisible.current) return;
+    const motion = motionRef.current;
 
-      <group ref={groupRef}>
-        <GridPlane
-          position={[0, -1.45, -0.1]}
-          rotation={[-Math.PI / 2.2, 0, 0]}
-          color="#7dd3fc"
-          opacity={0.11}
-        />
-        <GridPlane
-          position={[0, 0, -1.58]}
-          rotation={[0, 0, 0]}
-          color="#f2a93b"
-          opacity={0.07}
-        />
-        <OrbitalDataPaths controls={controls} />
-        <ScannerPulses controls={controls} />
-        <ConnectionNetwork points={points} controls={controls} />
-        <ChartCurves controls={controls} />
-        <DataParticles points={points} controls={controls} />
-        <OrbitingLabels controls={controls} />
-      </group>
-    </>
+    const pointerEase = 1 - Math.pow(0.001, Math.min(delta * 3.2, 1));
+    const hoverEase = 1 - Math.pow(0.001, Math.min(delta * 4.1, 1));
+    const dragEase = 1 - Math.pow(0.001, Math.min(delta * 2.8, 1));
+    const scrollEase = 1 - Math.pow(0.001, Math.min(delta * 2.2, 1));
+
+    motion.pointerX = MathUtils.lerp(
+      motion.pointerX,
+      controls.pointer.current.x,
+      pointerEase
+    );
+    motion.pointerY = MathUtils.lerp(
+      motion.pointerY,
+      controls.pointer.current.y,
+      pointerEase
+    );
+    motion.hoverAmount = MathUtils.lerp(
+      motion.hoverAmount,
+      controls.hover.current.targetAmount,
+      hoverEase
+    );
+    motion.hoverX = MathUtils.lerp(
+      motion.hoverX,
+      controls.hover.current.targetX,
+      hoverEase
+    );
+    motion.hoverY = MathUtils.lerp(
+      motion.hoverY,
+      controls.hover.current.targetY,
+      hoverEase
+    );
+    motion.dragX = MathUtils.lerp(
+      motion.dragX,
+      controls.drag.current.active ? controls.drag.current.targetX : 0,
+      dragEase
+    );
+    motion.dragY = MathUtils.lerp(
+      motion.dragY,
+      controls.drag.current.active ? controls.drag.current.targetY : 0,
+      dragEase
+    );
+    motion.scroll = MathUtils.lerp(
+      motion.scroll,
+      easeOutCubic(controls.scroll.current),
+      scrollEase
+    );
+
+    const system = systemRef.current;
+    if (!system) return;
+
+    const elapsed = clock.elapsedTime;
+    const scrollAmount = motion.scroll;
+    const targetRotationX =
+      Math.cos(elapsed * 0.07) * 0.018 -
+      motion.pointerY * 0.07 +
+      motion.dragY;
+    const targetRotationY =
+      Math.sin(elapsed * 0.08) * 0.045 +
+      motion.pointerX * 0.1 +
+      motion.dragX +
+      scrollAmount * 0.055;
+    const targetRotationZ =
+      Math.sin(elapsed * 0.06) * 0.01 -
+      motion.pointerX * 0.018;
+
+    system.rotation.x = MathUtils.lerp(system.rotation.x, targetRotationX, 0.08);
+    system.rotation.y = MathUtils.lerp(system.rotation.y, targetRotationY, 0.08);
+    system.rotation.z = MathUtils.lerp(system.rotation.z, targetRotationZ, 0.08);
+    system.position.x = MathUtils.lerp(
+      system.position.x,
+      scrollAmount * 0.22 + motion.pointerX * 0.035,
+      0.07
+    );
+    system.position.y = MathUtils.lerp(
+      system.position.y,
+      -0.05 + Math.sin(elapsed * 0.11) * 0.024 + scrollAmount * 0.16,
+      0.07
+    );
+    system.scale.setScalar(1.28 * (1 - scrollAmount * 0.075));
+  }, -1);
+
+  return (
+    <group ref={systemRef} position={[0.04, -0.05, 0]} scale={1.28}>
+      <AtmosphericField controls={controls} motion={motionRef} />
+      <GlobeParticles controls={controls} motion={motionRef} />
+      <SignalStreams controls={controls} motion={motionRef} />
+    </group>
   );
+}
+
+function WebglFallback() {
+  return <div className="data-core-webgl-fallback" aria-hidden="true" />;
 }
 
 export function DataIntelligenceCore({
@@ -688,14 +871,23 @@ export function DataIntelligenceCore({
 
   return (
     <Canvas
+      aria-hidden="true"
       className="data-core-canvas"
-      camera={{ position: [0, 0, 6.2], fov: 42 }}
-      dpr={[1, 1.55]}
+      camera={{ position: [0, 0, 6.8], fov: 42, near: 0.1, far: 24 }}
+      dpr={[1, 1.35]}
+      fallback={<WebglFallback />}
+      frameloop="always"
       gl={{
+        alpha: true,
         antialias: true,
-        alpha: false,
+        depth: true,
         powerPreference: "high-performance",
+        stencil: false,
       }}
+      onCreated={({ gl }) => {
+        gl.setClearColor(0x000000, 0);
+      }}
+      role="presentation"
     >
       <DataCoreScene controls={controls} />
       <Preload all />
