@@ -1,14 +1,17 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { type CSSProperties, type PointerEvent, useRef } from "react";
+import {
+  type CSSProperties,
+  type PointerEvent,
+  useRef,
+  useSyncExternalStore,
+} from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
   motion,
   type MotionValue,
-  useMotionValue,
-  useSpring,
   useScroll,
   useTransform,
 } from "framer-motion";
@@ -26,6 +29,10 @@ import { enterEase, useHomeMotionSettings } from "@/components/home/motion";
 import { useMagneticTargets } from "@/components/ui/useMagneticTargets";
 
 const previewProject = featuredProjects[0];
+
+const subscribeToHydration = () => () => {};
+const getHydratedSnapshot = () => true;
+const getServerHydrationSnapshot = () => false;
 
 const DataIntelligenceCore = dynamic(
   () =>
@@ -140,70 +147,71 @@ function HeroAnalyticalBackground({
 function DataCoreFallback() {
   return (
     <div className="data-core-fallback" aria-hidden="true">
-      <svg viewBox="0 0 720 620" role="presentation">
+      <svg viewBox="0 0 760 620" role="presentation">
         <defs>
-          <radialGradient id="core-fallback-glow" cx="50%" cy="46%" r="58%">
-            <stop offset="0%" stopColor="#7dd3fc" stopOpacity="0.28" />
-            <stop offset="48%" stopColor="#22c55e" stopOpacity="0.08" />
+          <radialGradient id="core-fallback-glow" cx="53%" cy="49%" r="54%">
+            <stop offset="0%" stopColor="#f8fbff" stopOpacity="0.2" />
+            <stop offset="42%" stopColor="#7dd3fc" stopOpacity="0.13" />
+            <stop offset="74%" stopColor="#f2a93b" stopOpacity="0.055" />
             <stop offset="100%" stopColor="#06070a" stopOpacity="0" />
           </radialGradient>
-          <linearGradient id="core-fallback-line" x1="0" x2="1" y1="0" y2="1">
+          <linearGradient id="core-fallback-flow" x1="0" x2="1" y1="0" y2="1">
             <stop offset="0%" stopColor="#7dd3fc" />
-            <stop offset="52%" stopColor="#f2a93b" />
-            <stop offset="100%" stopColor="#22c55e" />
+            <stop offset="62%" stopColor="#f2a93b" />
+            <stop offset="100%" stopColor="#f8fbff" />
           </linearGradient>
         </defs>
-        <rect width="720" height="620" fill="url(#core-fallback-glow)" />
-        <g className="core-fallback-grid" opacity="0.28">
-          {Array.from({ length: 11 }).map((_, index) => (
-            <path
-              key={`h-${index}`}
-              d={`M96 ${120 + index * 38} H624`}
-            />
-          ))}
-          {Array.from({ length: 11 }).map((_, index) => (
-            <path
-              key={`v-${index}`}
-              d={`M${130 + index * 46} 86 V520`}
-            />
-          ))}
+        <rect width="760" height="620" fill="url(#core-fallback-glow)" />
+        <g className="core-fallback-halo">
+          <ellipse cx="404" cy="306" rx="222" ry="216" />
+          <ellipse cx="404" cy="306" rx="180" ry="174" />
         </g>
-        <g className="core-fallback-network">
-          <path d="M160 354 C238 246 314 274 362 194 S492 154 564 268" />
-          <path d="M164 428 C256 382 314 436 394 354 S516 288 590 326" />
-          <path d="M182 288 L274 340 L352 268 L442 318 L544 232" />
+        <g className="core-fallback-flow">
+          <path d="M724 172 C642 206 574 218 498 258 S392 294 320 318" />
+          <path d="M714 424 C636 398 574 372 504 352 S398 332 300 324" />
+          <path d="M706 294 C624 298 560 300 492 304 S378 314 280 340" />
         </g>
         <g className="core-fallback-points">
-          {[
-            [160, 354],
-            [238, 246],
-            [314, 274],
-            [362, 194],
-            [492, 154],
-            [564, 268],
-            [164, 428],
-            [394, 354],
-            [590, 326],
-            [182, 288],
-            [352, 268],
-            [544, 232],
-          ].map(([x, y], index) => (
-            <circle key={`${x}-${y}`} cx={x} cy={y} r={index % 3 === 0 ? 7 : 5} />
+          {Array.from({ length: 210 }).map((_, index) => {
+            const angle = index * 2.399963229728653;
+            const band = 1 - ((index + 0.5) / 210) * 2;
+            const radius = Math.sqrt(Math.max(0, 1 - band * band));
+            const wobble = 1 + Math.sin(index * 0.83) * 0.055;
+            const depth = Math.sin(angle) * radius;
+            const x = 404 + Math.cos(angle) * radius * 210 * wobble;
+            const y = 306 + band * 205 * (0.94 + Math.cos(index) * 0.025);
+            const opacity = 0.36 + (depth + 1) * 0.25;
+            const isAccent = index % 31 === 0 || index % 43 === 0;
+            const fill =
+              index % 43 === 0
+                ? "#f2a93b"
+                : isAccent
+                  ? "#7dd3fc"
+                  : "#f8fbff";
+
+            return (
+              <circle
+                key={index}
+                cx={x.toFixed(3)}
+                cy={y.toFixed(3)}
+                fill={fill}
+                opacity={opacity.toFixed(3)}
+                r={(isAccent ? 2.3 : 1.35 + (index % 5) * 0.16).toFixed(2)}
+              />
+            );
+          })}
+        </g>
+        <g className="core-fallback-atmosphere">
+          {Array.from({ length: 36 }).map((_, index) => (
+            <circle
+              key={index}
+              cx={126 + ((index * 47) % 580)}
+              cy={90 + ((index * 83) % 430)}
+              r={index % 6 === 0 ? 2.1 : 1.1}
+            />
           ))}
         </g>
       </svg>
-      <div className="data-core-static-label data-core-static-label-a">
-        <span>Orders</span>
-        <strong>12K</strong>
-      </div>
-      <div className="data-core-static-label data-core-static-label-b">
-        <span>Revenue</span>
-        <strong>EUR 2.05M</strong>
-      </div>
-      <div className="data-core-static-label data-core-static-label-c">
-        <span>Margin</span>
-        <strong>10.42%</strong>
-      </div>
     </div>
   );
 }
@@ -254,28 +262,26 @@ function HeroDataTransfer({
 }
 
 export function ExecutiveHero() {
-  const { shouldSimplifyMotion, enableFinePointerMotion } =
-    useHomeMotionSettings();
+  const {
+    shouldSimplifyMotion: prefersSimplifiedMotion,
+    enableFinePointerMotion: prefersFinePointerMotion,
+  } = useHomeMotionSettings();
+  const hasHydrated = useSyncExternalStore(
+    subscribeToHydration,
+    getHydratedSnapshot,
+    getServerHydrationSnapshot
+  );
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
   });
   const headlineWords = profile.name.split(" ");
-  const pointerX = useMotionValue(0);
-  const pointerY = useMotionValue(0);
-  const smoothX = useSpring(pointerX, {
-    stiffness: 120,
-    damping: 26,
-    mass: 0.7,
-  });
-  const smoothY = useSpring(pointerY, {
-    stiffness: 120,
-    damping: 26,
-    mass: 0.7,
-  });
-  const previewX = useTransform(smoothX, [-0.5, 0.5], [-6, 6]);
-  const previewY = useTransform(smoothY, [-0.5, 0.5], [-5, 5]);
+  const shouldSimplifyMotion = hasHydrated
+    ? prefersSimplifiedMotion
+    : true;
+  const enableFinePointerMotion = hasHydrated && prefersFinePointerMotion;
+
   useMagneticTargets(sectionRef);
 
   const handlePointerMove = (event: PointerEvent<HTMLElement>) => {
@@ -284,8 +290,6 @@ export function ExecutiveHero() {
     const rect = event.currentTarget.getBoundingClientRect();
     const normalizedX = (event.clientX - rect.left) / rect.width - 0.5;
     const normalizedY = (event.clientY - rect.top) / rect.height - 0.5;
-    pointerX.set(normalizedX);
-    pointerY.set(normalizedY);
     event.currentTarget.style.setProperty(
       "--hero-spot-x",
       `${(normalizedX + 0.5) * 100}%`
@@ -297,13 +301,12 @@ export function ExecutiveHero() {
   };
 
   const resetDepth = (event: PointerEvent<HTMLElement>) => {
-    pointerX.set(0);
-    pointerY.set(0);
     event.currentTarget.style.setProperty("--hero-spot-x", "70%");
     event.currentTarget.style.setProperty("--hero-spot-y", "38%");
   };
 
   return (
+    <>
     <section
       ref={sectionRef}
       data-data-core-hero
@@ -325,7 +328,7 @@ export function ExecutiveHero() {
         shouldSimplifyMotion={shouldSimplifyMotion}
       />
 
-      <div className="relative mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:px-8">
+      <div className="hero-stage-shell">
         <motion.div>
           <motion.div
             {...heroItem(shouldSimplifyMotion)}
@@ -440,68 +443,99 @@ export function ExecutiveHero() {
             </div>
           </div>
 
-          <motion.div
-            style={{ x: previewX, y: previewY }}
-            className="hero-preview-depth hero-proof-panel"
+        </motion.div>
+      </div>
+    </section>
+    <FeaturedProjectProof shouldSimplifyMotion={shouldSimplifyMotion} />
+    </>
+  );
+}
+
+function FeaturedProjectProof({
+  shouldSimplifyMotion,
+}: {
+  shouldSimplifyMotion: boolean;
+}) {
+  return (
+    <section className="featured-project-proof relative overflow-hidden border-y border-white/10 bg-white/[0.025]">
+      <div className="featured-project-proof-grid">
+        <motion.div
+          {...heroItem(shouldSimplifyMotion)}
+          className="featured-project-copy"
+        >
+          <p className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/80">
+            Featured Project
+          </p>
+          <h2 className="mt-4 font-heading text-3xl font-bold leading-tight text-white">
+            {previewProject.shortTitle}
+          </h2>
+          <p className="mt-3 font-body text-sm leading-7 text-slate-400">
+            {previewProject.businessQuestion}
+          </p>
+          <p className="mt-3 font-body text-sm leading-7 text-slate-400">
+            {previewProject.mainInsight}
+          </p>
+          <Link
+            href={previewProject.href}
+            className="mt-5 inline-flex items-center justify-center gap-2 rounded-md border border-cyan-200/30 bg-cyan-200/10 px-4 py-2.5 font-body text-sm font-semibold leading-none text-cyan-50 transition-colors duration-200 hover:border-cyan-100/50 hover:bg-cyan-200/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
           >
-            <div className="executive-surface relative overflow-hidden rounded-lg border border-white/10 bg-white/[0.055] p-3 shadow-2xl shadow-black/40 backdrop-blur-xl">
-              <div className="mb-3 flex items-center justify-between border-b border-white/10 px-2 pb-3">
-                <div>
-                  <p className="font-heading text-sm font-semibold leading-tight text-white">
-                    {previewProject.shortTitle}
-                  </p>
-                  <p className="mt-1 font-body text-xs leading-5 text-slate-500">
-                    {previewProject.businessQuestion}
-                  </p>
-                </div>
-                <span className="rounded-md border border-cyan-300/20 bg-cyan-300/10 px-2.5 py-1 font-mono text-xs font-semibold leading-none tracking-[0.02em] text-cyan-100">
-                  Live proof
-                </span>
-              </div>
+            View case study
+            <ArrowRight className="size-4" />
+          </Link>
+        </motion.div>
 
-              <div className="relative aspect-[16/10] overflow-hidden rounded-md border border-white/10 bg-ink-950">
-                <Image
-                  src="/projects/profit-leak.png"
-                  alt={`${previewProject.title} dashboard preview`}
-                  fill
-                  preload
-                  sizes="(max-width: 1024px) 100vw, 560px"
-                  className="object-contain p-3"
-                />
-              </div>
-
-              <div className="mt-3 grid gap-2 sm:grid-cols-3">
-                {heroMetrics.map((metric, index) => (
-                  <div
-                    key={metric.label}
-                    className="rounded-md border border-white/10 bg-ink-950/65 px-3 py-3"
-                  >
-                    <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-                      {metric.label}
-                    </p>
-                    <motion.p
-                      {...metricMotion(
-                        shouldSimplifyMotion,
-                        0.26 + index * 0.04
-                      )}
-                      className={`mt-1 font-kpi text-lg font-bold tabular-nums ${metric.tone}`}
-                    >
-                      {metric.value}
-                    </motion.p>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-3 rounded-md border border-amber-300/20 bg-amber-300/10 px-3 py-3">
-                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-100/70">
-                  Main insight
+        <motion.div
+          {...heroPreview(shouldSimplifyMotion)}
+          className="featured-project-dashboard"
+        >
+          <div className="executive-surface relative overflow-hidden rounded-lg border border-white/10 bg-white/[0.04] p-3 backdrop-blur-xl">
+            <div className="mb-3 flex items-center justify-between border-b border-white/10 px-2 pb-3">
+              <div>
+                <p className="font-heading text-sm font-semibold leading-tight text-white">
+                  {previewProject.shortTitle}
                 </p>
-                <p className="mt-1 font-body text-sm leading-6 text-amber-50">
-                  {previewProject.mainInsight}
+                <p className="mt-1 font-body text-xs leading-5 text-slate-500">
+                  {previewProject.businessQuestion}
                 </p>
               </div>
+              <span className="rounded-md border border-cyan-300/20 bg-cyan-300/10 px-2.5 py-1 font-mono text-xs font-semibold leading-none tracking-[0.02em] text-cyan-100">
+                Live proof
+              </span>
             </div>
-          </motion.div>
+
+            <div className="relative aspect-[16/10] overflow-hidden rounded-md border border-white/10 bg-ink-950">
+              <Image
+                src="/projects/profit-leak.png"
+                alt={`${previewProject.title} dashboard preview`}
+                fill
+                preload
+                sizes="(max-width: 1024px) 100vw, 480px"
+                className="object-contain p-3"
+              />
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div
+          {...heroItem(shouldSimplifyMotion, 0.12)}
+          className="featured-project-kpis"
+        >
+          {heroMetrics.map((metric, index) => (
+            <div
+              key={metric.label}
+              className="rounded-md border border-white/10 bg-ink-950/65 px-4 py-4"
+            >
+              <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                {metric.label}
+              </p>
+              <motion.p
+                {...metricMotion(shouldSimplifyMotion, 0.18 + index * 0.04)}
+                className={`mt-2 font-kpi text-xl font-bold tabular-nums ${metric.tone}`}
+              >
+                {metric.value}
+              </motion.p>
+            </div>
+          ))}
         </motion.div>
       </div>
     </section>
