@@ -534,7 +534,6 @@ function FeaturedProjectProof({
                 src="/projects/profit-leak.png"
                 alt={`${previewProject.title} dashboard preview`}
                 fill
-                preload
                 sizes="(max-width: 1024px) 100vw, 480px"
                 className="object-contain p-3"
               />

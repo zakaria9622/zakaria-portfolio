@@ -14,6 +14,7 @@ import { useEffect, useMemo, useRef } from "react";
 
 type SceneVisibility = {
   isVisible: { current: boolean };
+  isInViewport: { current: boolean };
 };
 
 type SceneControls = SceneVisibility & {
@@ -434,6 +435,7 @@ void main() {
 
 function useSceneControls(anchorSelector: string): SceneControls {
   const isVisible = useRef(true);
+  const isInViewport = useRef(true);
   const pointer = useRef({ x: 0, y: 0 });
   const hover = useRef({
     targetAmount: 0,
@@ -593,8 +595,15 @@ function useSceneControls(anchorSelector: string): SceneControls {
       },
       { rootMargin: "180px" }
     );
+    const viewportObserver = new IntersectionObserver(
+      ([entry]) => {
+        isInViewport.current = entry.isIntersecting;
+      },
+      { rootMargin: "0px" }
+    );
 
     const handlePointerMove = (event: PointerEvent) => {
+      if (!isVisible.current && !drag.current.active) return;
       schedulePointerUpdate(event.clientX, event.clientY);
     };
 
@@ -628,6 +637,7 @@ function useSceneControls(anchorSelector: string): SceneControls {
     measureLayout();
     updateScroll();
     observer.observe(hero);
+    viewportObserver.observe(hero);
     window.addEventListener("pointermove", handlePointerMove);
     window.addEventListener("pointerdown", handlePointerDown);
     window.addEventListener("pointerup", handlePointerUp);
@@ -642,6 +652,7 @@ function useSceneControls(anchorSelector: string): SceneControls {
       cancelAnimationFrame(pointerFrame);
       cancelAnimationFrame(layoutFrame);
       observer.disconnect();
+      viewportObserver.disconnect();
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("pointerdown", handlePointerDown);
       window.removeEventListener("pointerup", handlePointerUp);
@@ -653,7 +664,15 @@ function useSceneControls(anchorSelector: string): SceneControls {
     };
   }, [anchorSelector]);
 
-  return { isVisible, pointer, hover, drag, scroll, hasSettledOffscreen };
+  return {
+    isVisible,
+    isInViewport,
+    pointer,
+    hover,
+    drag,
+    scroll,
+    hasSettledOffscreen,
+  };
 }
 
 function useParticleUniforms(globalAlpha: number): ParticleUniforms {
@@ -844,7 +863,7 @@ function DataCoreScene({ controls }: { controls: SceneControls }) {
   });
 
   useFrame(({ clock }, delta) => {
-    if (!controls.isVisible.current) return;
+    if (!controls.isVisible.current || !controls.isInViewport.current) return;
     const motion = motionRef.current;
 
     const pointerEase = 1 - Math.pow(0.001, Math.min(delta * 3.2, 1));
