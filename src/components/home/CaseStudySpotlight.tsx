@@ -4,6 +4,7 @@ import {
   type CSSProperties,
   type PointerEvent,
   type ReactNode,
+  useEffect,
   useRef,
 } from "react";
 import Image from "next/image";
@@ -162,20 +163,55 @@ function DepthProjectCard({
   className: string;
   enableFinePointerMotion: boolean;
 }) {
+  const frameRef = useRef(0);
+  const rectRef = useRef<DOMRect | null>(null);
+  const targetRef = useRef<HTMLElement | null>(null);
+  const pointerRef = useRef({ x: 0, y: 0 });
+
+  useEffect(() => {
+    return () => {
+      cancelAnimationFrame(frameRef.current);
+    };
+  }, []);
+
+  const flushPointerStyles = () => {
+    frameRef.current = 0;
+    const target = targetRef.current;
+    if (!target) return;
+
+    const { x, y } = pointerRef.current;
+    target.style.setProperty("--tilt-x", `${(0.5 - y) * 7}deg`);
+    target.style.setProperty("--tilt-y", `${(x - 0.5) * 8}deg`);
+    target.style.setProperty("--shine-x", `${x * 100}%`);
+    target.style.setProperty("--shine-y", `${y * 100}%`);
+  };
+
+  const handlePointerEnter = (event: PointerEvent<HTMLElement>) => {
+    if (!enableFinePointerMotion) return;
+    rectRef.current = event.currentTarget.getBoundingClientRect();
+  };
+
   const handlePointerMove = (event: PointerEvent<HTMLElement>) => {
     if (!enableFinePointerMotion) return;
 
-    const rect = event.currentTarget.getBoundingClientRect();
+    const rect = rectRef.current ?? event.currentTarget.getBoundingClientRect();
+    rectRef.current = rect;
     const x = (event.clientX - rect.left) / rect.width;
     const y = (event.clientY - rect.top) / rect.height;
 
-    event.currentTarget.style.setProperty("--tilt-x", `${(0.5 - y) * 7}deg`);
-    event.currentTarget.style.setProperty("--tilt-y", `${(x - 0.5) * 8}deg`);
-    event.currentTarget.style.setProperty("--shine-x", `${x * 100}%`);
-    event.currentTarget.style.setProperty("--shine-y", `${y * 100}%`);
+    targetRef.current = event.currentTarget;
+    pointerRef.current.x = x;
+    pointerRef.current.y = y;
+
+    if (frameRef.current === 0) {
+      frameRef.current = requestAnimationFrame(flushPointerStyles);
+    }
   };
 
   const handlePointerLeave = (event: PointerEvent<HTMLElement>) => {
+    cancelAnimationFrame(frameRef.current);
+    frameRef.current = 0;
+    rectRef.current = null;
     event.currentTarget.style.setProperty("--tilt-x", "0deg");
     event.currentTarget.style.setProperty("--tilt-y", "0deg");
     event.currentTarget.style.setProperty("--shine-x", "50%");
@@ -185,6 +221,7 @@ function DepthProjectCard({
   return (
     <article
       className={`premium-project-card group ${className}`}
+      onPointerEnter={handlePointerEnter}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
       style={
