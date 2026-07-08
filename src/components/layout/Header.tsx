@@ -54,6 +54,7 @@ export function Header() {
               <Link
                 key={p.slug}
                 href={p.href}
+                prefetch={false}
                 className="rounded-md px-2.5 py-2 font-body text-xs font-medium leading-none text-slate-500 transition-colors duration-200 hover:bg-white/[0.05] hover:text-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
               >
                 {p.shortTitle}
@@ -102,6 +103,7 @@ export function Header() {
               <Link
                 key={p.slug}
                 href={p.href}
+                prefetch={false}
                 className="block rounded-md px-3 py-2 font-body text-sm leading-6 text-cyan-100 transition-colors duration-200 hover:bg-white/[0.05]"
                 onClick={() => setOpen(false)}
               >
