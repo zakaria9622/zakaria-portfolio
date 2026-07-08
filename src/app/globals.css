@@ -1680,3 +1680,82 @@ body > header > div {
     display: none;
   }
 }
+
+/* Selected smooth profile: keep WebGL while removing paint-heavy card/CSS effects. */
+.premium-project-card,
+.premium-project-card::before,
+.premium-project-card::after,
+.premium-project-media::before,
+.premium-project-media::after,
+.premium-project-image,
+.premium-project-analytics-lines,
+.project-micro-viz,
+.project-micro-viz path,
+.project-micro-viz circle {
+  animation: none !important;
+  transition: none !important;
+}
+
+.premium-project-card {
+  transform: none !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  background-color: rgba(255, 255, 255, 0.035) !important;
+}
+
+.premium-project-card::after {
+  opacity: 0.32 !important;
+}
+
+.premium-project-image {
+  transform: scale(1) !important;
+}
+
+.premium-project-analytics-lines {
+  opacity: 0.34 !important;
+  transform: translate3d(-2.5%, 2%, 0) scale(1.015) !important;
+}
+
+.premium-project-card::before,
+.premium-project-media::before,
+.premium-project-media::after,
+.project-micro-viz {
+  display: none !important;
+}
+
+.portfolio-ambient-texture,
+.hero-data-transfer,
+.case-study-command-grid::after,
+.premium-project-card::before,
+.premium-project-media::before,
+.premium-project-media::after {
+  display: none !important;
+}
+
+.case-study-command-grid,
+.premium-project-card::after,
+.project-micro-viz path,
+.project-micro-viz circle {
+  animation: none !important;
+}
+
+.headline-word > span,
+.section-heading-word {
+  filter: none !important;
+}
+
+.core-kpi-label,
+.executive-surface {
+  backdrop-filter: none !important;
+}
+
+.hero-transfer-node,
+.project-micro-viz,
+.process-map-node,
+.core-fallback-points circle {
+  filter: none !important;
+}
+
+.portfolio-scroll-progress-indicator,
+.case-study-story-progress {
+  box-shadow: none !important;
+}

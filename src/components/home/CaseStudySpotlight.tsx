@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  type CSSProperties,
-  type PointerEvent,
-  type ReactNode,
-  useEffect,
-  useRef,
-} from "react";
+import { type ReactNode, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
@@ -157,90 +151,19 @@ function ProjectMicroVisualization({ slug }: { slug: string }) {
 function DepthProjectCard({
   children,
   className,
-  enableFinePointerMotion,
 }: {
   children: ReactNode;
   className: string;
-  enableFinePointerMotion: boolean;
 }) {
-  const frameRef = useRef(0);
-  const rectRef = useRef<DOMRect | null>(null);
-  const targetRef = useRef<HTMLElement | null>(null);
-  const pointerRef = useRef({ x: 0, y: 0 });
-
-  useEffect(() => {
-    return () => {
-      cancelAnimationFrame(frameRef.current);
-    };
-  }, []);
-
-  const flushPointerStyles = () => {
-    frameRef.current = 0;
-    const target = targetRef.current;
-    if (!target) return;
-
-    const { x, y } = pointerRef.current;
-    target.style.setProperty("--tilt-x", `${(0.5 - y) * 7}deg`);
-    target.style.setProperty("--tilt-y", `${(x - 0.5) * 8}deg`);
-    target.style.setProperty("--shine-x", `${x * 100}%`);
-    target.style.setProperty("--shine-y", `${y * 100}%`);
-  };
-
-  const handlePointerEnter = (event: PointerEvent<HTMLElement>) => {
-    if (!enableFinePointerMotion) return;
-    rectRef.current = event.currentTarget.getBoundingClientRect();
-  };
-
-  const handlePointerMove = (event: PointerEvent<HTMLElement>) => {
-    if (!enableFinePointerMotion) return;
-
-    const rect = rectRef.current ?? event.currentTarget.getBoundingClientRect();
-    rectRef.current = rect;
-    const x = (event.clientX - rect.left) / rect.width;
-    const y = (event.clientY - rect.top) / rect.height;
-
-    targetRef.current = event.currentTarget;
-    pointerRef.current.x = x;
-    pointerRef.current.y = y;
-
-    if (frameRef.current === 0) {
-      frameRef.current = requestAnimationFrame(flushPointerStyles);
-    }
-  };
-
-  const handlePointerLeave = (event: PointerEvent<HTMLElement>) => {
-    cancelAnimationFrame(frameRef.current);
-    frameRef.current = 0;
-    rectRef.current = null;
-    event.currentTarget.style.setProperty("--tilt-x", "0deg");
-    event.currentTarget.style.setProperty("--tilt-y", "0deg");
-    event.currentTarget.style.setProperty("--shine-x", "50%");
-    event.currentTarget.style.setProperty("--shine-y", "0%");
-  };
-
   return (
-    <article
-      className={`premium-project-card group ${className}`}
-      onPointerEnter={handlePointerEnter}
-      onPointerMove={handlePointerMove}
-      onPointerLeave={handlePointerLeave}
-      style={
-        {
-          "--tilt-x": "0deg",
-          "--tilt-y": "0deg",
-          "--shine-x": "50%",
-          "--shine-y": "0%",
-        } as CSSProperties
-      }
-    >
+    <article className={`premium-project-card group ${className}`}>
       {children}
     </article>
   );
 }
 
 export function CaseStudySpotlight() {
-  const { shouldSimplifyMotion, enableFinePointerMotion } =
-    useHomeMotionSettings();
+  const { shouldSimplifyMotion } = useHomeMotionSettings();
   const sectionRef = useRef<HTMLElement>(null);
   const commandCenterActive = useInView(sectionRef, {
     margin: "180px 0px -160px 0px",
@@ -317,7 +240,6 @@ export function CaseStudySpotlight() {
                   {...projectReveal(shouldSimplifyMotion, index)}
                 >
                   <DepthProjectCard
-                    enableFinePointerMotion={enableFinePointerMotion}
                     className="overflow-hidden rounded-lg border border-white/10 bg-white/[0.035] p-4 shadow-[0_20px_60px_rgba(0,0,0,0.18)] md:p-5"
                   >
                     <div className="flex flex-col gap-8 p-1 md:p-3">
@@ -452,7 +374,6 @@ export function CaseStudySpotlight() {
                 {...projectReveal(shouldSimplifyMotion, index)}
               >
                 <DepthProjectCard
-                  enableFinePointerMotion={enableFinePointerMotion}
                   className="grid gap-6 overflow-hidden rounded-lg border border-white/10 bg-white/[0.035] p-4 shadow-[0_20px_60px_rgba(0,0,0,0.18)] md:grid-cols-[0.95fr_1.05fr] md:p-5"
                 >
                   <div className="premium-project-media relative min-h-64 overflow-hidden rounded-md border border-white/10 bg-ink-950 md:min-h-80">
