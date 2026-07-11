@@ -20,7 +20,7 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://zakaria-portfolio-vert.vercel.app"),
+  metadataBase: new URL("https://www.zakariamaachou.com"),
   title: "Zakaria Maachou | Data Analyst, Business Intelligence & Business Analytics",
   description:
     "Portfolio of Zakaria Maachou, a Data Analyst specializing in Business Intelligence, Business Analytics, SQL, dashboards and actionable business recommendations.",

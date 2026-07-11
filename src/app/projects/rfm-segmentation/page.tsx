@@ -3,6 +3,9 @@ import { notFound } from "next/navigation";
 import { getProjectBySlug } from "@/data/projects";
 import { ProjectDetail } from "@/components/project/ProjectDetail";
 
+const project = getProjectBySlug("rfm-segmentation");
+if (!project) notFound();
+
 const title = "Customer Segmentation RFM";
 const description = "CRM segmentation and retention recommendations";
 const image = "/og/rfm-segmentation.png";
@@ -10,6 +13,9 @@ const image = "/og/rfm-segmentation.png";
 export const metadata: Metadata = {
   title: "Customer Segmentation RFM | Zakaria Maachou",
   description,
+  alternates: {
+    canonical: project.href,
+  },
   openGraph: {
     title,
     description,

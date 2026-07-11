@@ -3,6 +3,9 @@ import { notFound } from "next/navigation";
 import { getProjectBySlug } from "@/data/projects";
 import { ProjectDetail } from "@/components/project/ProjectDetail";
 
+const project = getProjectBySlug("funnel-analysis");
+if (!project) notFound();
+
 const title = "Funnel Analysis";
 const description = "View -> Cart -> Purchase conversion diagnostics";
 const image = "/og/funnel-analysis.png";
@@ -10,6 +13,9 @@ const image = "/og/funnel-analysis.png";
 export const metadata: Metadata = {
   title: "E-commerce Funnel Analysis | Zakaria Maachou",
   description,
+  alternates: {
+    canonical: project.href,
+  },
   openGraph: {
     title,
     description,

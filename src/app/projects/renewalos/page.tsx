@@ -3,6 +3,9 @@ import { notFound } from "next/navigation";
 import { getProjectBySlug } from "@/data/projects";
 import { ProjectDetail } from "@/components/project/ProjectDetail";
 
+const project = getProjectBySlug("renewalos");
+if (!project) notFound();
+
 const title = "RenewalOS";
 const description = "Revenue quality, account health and CSM prioritization";
 const image = "/og/renewalos.png";
@@ -10,6 +13,9 @@ const image = "/og/renewalos.png";
 export const metadata: Metadata = {
   title: "RenewalOS - Revenue Quality & Account Health | Zakaria Maachou",
   description,
+  alternates: {
+    canonical: project.href,
+  },
   openGraph: {
     title,
     description,
