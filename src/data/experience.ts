@@ -4,10 +4,10 @@ export const experience = [
     role: "Alternant Consultant Data et BI",
     dates: "10/2025 - 09/2026",
     highlights: [
-      "Data architecture analysis and data warehouse modeling",
-      "Business requirements analysis and functional specifications",
-      "Design and development of ETL data integration flows",
-      "BI dashboard delivery from requirements gathering to production",
+      "Translate business requirements into functional specifications, KPI definitions and BI reporting needs.",
+      "Contribute to data architecture analysis and data warehouse modeling for analytics use cases.",
+      "Design and develop ETL flows to integrate, transform and prepare data for reporting.",
+      "Deliver BI dashboards from requirements gathering and data validation through deployment.",
     ],
   },
   {
@@ -15,10 +15,10 @@ export const experience = [
     role: "Assistant Marketing Digital & Reporting Data",
     dates: "09/2023 - 08/2024",
     highlights: [
-      "KPI tracking: traffic, acquisition, engagement, conversion, campaign performance",
-      "Dashboards and reporting",
-      "Channel performance analysis",
-      "Actionable recommendations",
+      "Track traffic, acquisition, engagement, conversion and campaign-performance KPIs across digital channels.",
+      "Build and maintain reporting dashboards for recurring marketing-performance monitoring.",
+      "Analyze channel performance to identify trends, gaps and optimization opportunities.",
+      "Translate reporting findings into actionable recommendations for marketing decisions.",
     ],
   },
   {
@@ -26,9 +26,9 @@ export const experience = [
     role: "Stagiaire Assistant d’agence d’emploi",
     dates: "05/2023 - 08/2023",
     highlights: [
-      "Mise à jour des dossiers candidats et vérification des informations administratives nécessaires aux missions.",
-      "Participation au suivi des besoins clients, des candidatures reçues, des entretiens programmés et des disponibilités candidats.",
-      "Mise à jour de tableaux Excel de suivi : candidatures, entretiens, missions ouvertes et placements réalisés ; appui aux points hebdomadaires de l’agence.",
+      "Maintain candidate records and verify the administrative information required for assignments.",
+      "Support the tracking of client staffing needs, applications, scheduled interviews and candidate availability.",
+      "Update Excel monitoring files covering applications, interviews, open assignments and placements for weekly agency reviews.",
     ],
   },
 ] as const;
