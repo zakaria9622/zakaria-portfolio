@@ -25,6 +25,7 @@ import {
 import { GitHubIcon, LinkedInIcon } from "@/components/ui/SocialIcons";
 import { profile } from "@/data/profile";
 import { featuredProjects } from "@/data/projects";
+import { ExperienceTimeline } from "@/components/home/ExperienceTimeline";
 import { enterEase, useHomeMotionSettings } from "@/components/home/motion";
 
 const previewProject = featuredProjects[0];
@@ -471,6 +472,7 @@ export function ExecutiveHero() {
         </motion.div>
       </div>
     </section>
+    <ExperienceTimeline />
     <FeaturedProjectProof shouldSimplifyMotion={shouldSimplifyMotion} />
     </>
   );

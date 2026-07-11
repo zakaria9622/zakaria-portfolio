@@ -3,7 +3,6 @@ import { KpiRibbon } from "@/components/home/KpiRibbon";
 import { CaseStudySpotlight } from "@/components/home/CaseStudySpotlight";
 import { SkillProofMatrix } from "@/components/home/SkillProofMatrix";
 import { ProcessTimeline } from "@/components/home/ProcessTimeline";
-import { ExperienceTimeline } from "@/components/home/ExperienceTimeline";
 import { ContactCommandBar } from "@/components/home/ContactCommandBar";
 import { CinematicPortfolioLayer } from "@/components/home/CinematicPortfolioLayer";
 
@@ -16,7 +15,6 @@ export default function Home() {
       <CaseStudySpotlight />
       <SkillProofMatrix />
       <ProcessTimeline />
-      <ExperienceTimeline />
       <ContactCommandBar />
     </div>
   );
