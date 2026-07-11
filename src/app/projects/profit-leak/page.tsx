@@ -3,6 +3,9 @@ import { notFound } from "next/navigation";
 import { getProjectBySlug } from "@/data/projects";
 import { ProjectDetail } from "@/components/project/ProjectDetail";
 
+const project = getProjectBySlug("profit-leak");
+if (!project) notFound();
+
 const title = "Profit Leak Analysis";
 const description = "E-commerce margin, discount and loss diagnostics";
 const image = "/og/profit-leak.png";
@@ -10,6 +13,9 @@ const image = "/og/profit-leak.png";
 export const metadata: Metadata = {
   title: "E-commerce Profit Leak Analysis | Zakaria Maachou",
   description,
+  alternates: {
+    canonical: project.href,
+  },
   openGraph: {
     title,
     description,
