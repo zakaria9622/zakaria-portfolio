@@ -27,7 +27,7 @@ export function Hero() {
               <Sparkles className="h-3.5 w-3.5 text-electric-300" />
               <span className="h-2 w-2 rounded-full bg-electric-400 animate-pulse" />
               <span className="font-body text-sm font-medium leading-none text-electric-200">
-                Open to Data Analyst / BI Analyst alternance
+                Open to apprenticeships in Data Analytics, Business Intelligence or Business Analytics
               </span>
             </div>
 

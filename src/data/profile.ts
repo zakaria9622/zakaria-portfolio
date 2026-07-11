@@ -1,6 +1,6 @@
 export const profile = {
   name: "Zakaria Maachou",
-  title: "Business Intelligence & Performance Analyst",
+  title: "Data Analyst | Business Intelligence & Business Analytics",
   tagline:
     "I turn raw data into dashboards, business diagnostics and actionable recommendations.",
   email: "zakariamaachou96@gmail.com",

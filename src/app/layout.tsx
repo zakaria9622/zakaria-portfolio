@@ -21,11 +21,13 @@ const jetBrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://zakaria-portfolio-vert.vercel.app"),
-  title: "Zakaria Maachou - Data Analyst / BI Analyst Portfolio",
-  description: "Data, BI & Performance portfolio and case studies.",
+  title: "Zakaria Maachou | Data Analyst, Business Intelligence & Business Analytics",
+  description:
+    "Portfolio of Zakaria Maachou, a Data Analyst specializing in Business Intelligence, Business Analytics, SQL, dashboards and actionable business recommendations.",
   openGraph: {
-    title: "Zakaria Maachou",
-    description: "Data, BI & Performance",
+    title: "Zakaria Maachou | Data Analyst, Business Intelligence & Business Analytics",
+    description:
+      "Data Analytics, Business Intelligence and Business Analytics portfolio featuring SQL analysis, BI dashboards and business recommendations.",
     url: "/",
     siteName: "Zakaria Maachou Portfolio",
     type: "website",
@@ -35,18 +37,19 @@ export const metadata: Metadata = {
         url: "/og/home.png",
         width: 1200,
         height: 627,
-        alt: "Zakaria Maachou - Data, BI & Performance",
+        alt: "Zakaria Maachou — Data Analyst, Business Intelligence & Business Analytics",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Zakaria Maachou",
-    description: "Data, BI & Performance",
+    title: "Zakaria Maachou | Data Analyst, Business Intelligence & Business Analytics",
+    description:
+      "Data Analytics, Business Intelligence and Business Analytics portfolio featuring SQL analysis, BI dashboards and business recommendations.",
     images: [
       {
         url: "/og/home.png",
-        alt: "Zakaria Maachou - Data, BI & Performance",
+        alt: "Zakaria Maachou — Data Analyst, Business Intelligence & Business Analytics",
       },
     ],
   },

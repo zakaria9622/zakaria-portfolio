@@ -16,7 +16,7 @@ export function Contact() {
         <SectionHeader
           label="Get in touch"
           title="Contact"
-          description="Open to Data Analyst / BI Analyst alternance opportunities."
+          description="Available for an apprenticeship in Data Analytics, Business Intelligence or Business Analytics."
         />
 
         <HomeGlassCard glow className="max-w-4xl">
