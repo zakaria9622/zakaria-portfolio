@@ -1,13 +1,13 @@
 export const experience = [
   {
-    company: "SideCare",
-    role: "Business Analyst",
+    company: "Thélio",
+    role: "Alternant Consultant Data et BI",
     dates: "10/2025 - 09/2026",
     highlights: [
-      "Single Source of Truth, data quality and KPI structuring",
-      "KPI automation: ARR, churn, NRR, claims/premiums",
-      "Looker dashboards for Sales, Ops, CSM and management",
-      "Data anomaly audits and corrective process recommendations",
+      "Data architecture analysis and data warehouse modeling",
+      "Business requirements analysis and functional specifications",
+      "Design and development of ETL data integration flows",
+      "BI dashboard delivery from requirements gathering to production",
     ],
   },
   {
