@@ -25,6 +25,10 @@ export type Project = {
   liveDemo?: string;
   href: string;
   featuredOrder: number;
+  projectType: string;
+  datasetDisclosure: string;
+  ownership: string;
+  evidence: string[];
   businessProblem: string;
   architecture?: string[];
   methodology: string[];
@@ -48,8 +52,18 @@ export const projects: Project[] = [
     github: "https://github.com/zakaria9622/ecommerce-profit-leak-analysis",
     href: "/projects/profit-leak",
     featuredOrder: 1,
+    projectType: "Independent portfolio case study",
+    datasetDisclosure:
+      "Synthetic e-commerce order data generated with Python. The analysis covers 12,000 simulated orders and does not represent the performance of a real company.",
+    ownership: "Individual end-to-end project",
+    evidence: [
+      "DuckDB SQL layer and documented KPI queries",
+      "Python dataset generation, validation and export pipeline",
+      "Tableau workbook and dashboard screenshot",
+      "Reproducible GitHub repository",
+    ],
     businessProblem:
-      "An e-commerce business needed to understand where profitability was eroding across categories, regions and discount strategies — without relying on assumptions.",
+      "This independent case study examines where profitability erodes across categories, regions and discount strategies using order-level e-commerce data.",
     methodology: [
       "Built a DuckDB analytical layer on order-level data (12,000 orders)",
       "Calculated revenue, profit, margin and discount metrics by segment",
@@ -87,8 +101,18 @@ export const projects: Project[] = [
     github: "https://github.com/zakaria9622/funnel-analysis-project",
     href: "/projects/funnel-analysis",
     featuredOrder: 2,
+    projectType: "Independent portfolio case study",
+    datasetDisclosure:
+      "External event-level e-commerce data used for analytical demonstration. The full dataset is excluded from the repository because of its size; a sample, aggregated outputs and methodology documentation are provided. This is not a client engagement.",
+    ownership: "Individual end-to-end project",
+    evidence: [
+      "Strict time-ordered user-level funnel logic in SQL",
+      "Data quality checks and Tableau-ready exports",
+      "Tableau workbook and dashboard screenshot",
+      "Sample data and documented methodology",
+    ],
     businessProblem:
-      "A high-traffic e-commerce platform needed to pinpoint where users abandoned the purchase journey and quantify conversion drop-offs at each funnel stage.",
+      "This independent case study examines where users abandon an e-commerce purchase journey and quantifies conversion drop-offs at each funnel stage.",
     methodology: [
       "Defined funnel stages: view → cart → purchase",
       "Used SQL CTEs to calculate unique users, conversion rates and drop-offs",
@@ -123,8 +147,18 @@ export const projects: Project[] = [
     github: "https://github.com/zakaria9622/customer-segmentation-rfm",
     href: "/projects/rfm-segmentation",
     featuredOrder: 3,
+    projectType: "Independent portfolio case study",
+    datasetDisclosure:
+      "Synthetic but business-realistic e-commerce order data generated with Python. The dataset contains 5,000 simulated customers and 45,356 orders and does not represent a real company.",
+    ownership: "Individual end-to-end project",
+    evidence: [
+      "Python and pandas customer-level aggregation",
+      "Documented RFM scoring and segmentation rules",
+      "Generated KPI outputs and visual analysis",
+      "Reproducible GitHub repository",
+    ],
     businessProblem:
-      "A CRM team needed a data-driven way to segment customers by recency, frequency and monetary value — and prioritize retention and win-back actions.",
+      "This independent case study develops a data-driven customer segmentation approach based on recency, frequency and monetary value to prioritize retention and win-back actions.",
     methodology: [
       "Computed RFM scores on 5,000 customers and 45,356 orders",
       "Segmented customers into VIP, Loyal, At-risk and Lost clusters",
@@ -171,6 +205,16 @@ export const projects: Project[] = [
     liveDemo: "https://renewalos-zakaria.streamlit.app/",
     href: "/projects/renewalos",
     featuredOrder: 4,
+    projectType: "Independent synthetic B2B analytics system",
+    datasetDisclosure:
+      "Synthetic B2B data only. No production customer data, production deployment, observed intervention result or real business impact is claimed.",
+    ownership: "Individual end-to-end project",
+    evidence: [
+      "DuckDB warehouse modeled with dbt",
+      "Data-quality and revenue-reconciliation controls",
+      "Explainable account-health and prioritization workflow",
+      "Public Streamlit demonstration and GitHub repository",
+    ],
     businessProblem:
       "B2B teams often act on ARR, churn, renewal and account-health signals before source-system issues are visible. RenewalOS shows a synthetic analytics workflow where data exceptions, reconciliation gaps and decision rules are exposed before Customer Success prioritization is reviewed.",
     architecture: [

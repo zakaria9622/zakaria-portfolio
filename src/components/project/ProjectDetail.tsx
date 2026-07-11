@@ -6,11 +6,14 @@ import { motion } from "framer-motion";
 import {
   ArrowLeft,
   ArrowUpRight,
+  BadgeCheck,
+  BriefcaseBusiness,
   Database,
   Lightbulb,
   ListChecks,
   ShieldAlert,
   Target,
+  UserRound,
   Wrench,
 } from "lucide-react";
 import { GitHubIcon } from "@/components/ui/SocialIcons";
@@ -94,6 +97,95 @@ export function ProjectDetail({ project }: { project: Project }) {
       </div>
 
       <div className="mx-auto max-w-6xl px-6 py-16 lg:px-8">
+        <section aria-labelledby="project-evidence-title" className="mb-12">
+          <div className="mb-5 flex items-center gap-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-electric-500/30 bg-electric-500/10">
+              <BadgeCheck className="h-5 w-5 text-electric-300" aria-hidden="true" />
+            </div>
+            <h2
+              id="project-evidence-title"
+              className="font-heading text-2xl font-bold leading-tight text-white"
+            >
+              Project Evidence
+            </h2>
+          </div>
+
+          <GlassCard className="p-5 md:p-6" hover={false}>
+            <div className="grid gap-4 md:grid-cols-2">
+              <article className="min-w-0 rounded-lg border border-white/10 bg-navy-950/45 p-4">
+                <div className="mb-3 flex items-center gap-2">
+                  <BriefcaseBusiness
+                    className="h-4 w-4 shrink-0 text-electric-400"
+                    aria-hidden="true"
+                  />
+                  <h3 className="font-heading text-sm font-bold leading-tight text-white">
+                    Project type
+                  </h3>
+                </div>
+                <p className="break-words font-body text-sm leading-6 text-slate-300">
+                  {project.projectType}
+                </p>
+              </article>
+
+              <article className="min-w-0 rounded-lg border border-white/10 bg-navy-950/45 p-4">
+                <div className="mb-3 flex items-center gap-2">
+                  <UserRound
+                    className="h-4 w-4 shrink-0 text-electric-400"
+                    aria-hidden="true"
+                  />
+                  <h3 className="font-heading text-sm font-bold leading-tight text-white">
+                    Contribution
+                  </h3>
+                </div>
+                <p className="break-words font-body text-sm leading-6 text-slate-300">
+                  {project.ownership}
+                </p>
+              </article>
+
+              <article className="min-w-0 rounded-lg border border-white/10 bg-navy-950/45 p-4">
+                <div className="mb-3 flex items-center gap-2">
+                  <Database
+                    className="h-4 w-4 shrink-0 text-electric-400"
+                    aria-hidden="true"
+                  />
+                  <h3 className="font-heading text-sm font-bold leading-tight text-white">
+                    Dataset
+                  </h3>
+                </div>
+                <p className="break-words font-body text-sm leading-6 text-slate-300">
+                  {project.datasetDisclosure}
+                </p>
+              </article>
+
+              <article className="min-w-0 rounded-lg border border-white/10 bg-navy-950/45 p-4">
+                <div className="mb-3 flex items-center gap-2">
+                  <ListChecks
+                    className="h-4 w-4 shrink-0 text-electric-400"
+                    aria-hidden="true"
+                  />
+                  <h3 className="font-heading text-sm font-bold leading-tight text-white">
+                    Verifiable outputs
+                  </h3>
+                </div>
+                <ul className="space-y-2">
+                  {project.evidence.map((item) => (
+                    <li
+                      key={item}
+                      className="flex min-w-0 gap-2 font-body text-sm leading-6 text-slate-300"
+                    >
+                      <span
+                        className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-electric-400"
+                        aria-hidden="true"
+                      />
+                      <span className="min-w-0 break-words">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            </div>
+          </GlassCard>
+        </section>
+
         <div className="mb-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {project.kpis.map((kpi, i) => (
             <KpiCard
