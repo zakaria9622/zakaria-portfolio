@@ -60,7 +60,7 @@ export function ContactCommandBar() {
                 Contact
               </p>
               <AnimatedSectionHeading
-                text="Available for an Analytics, BI & Performance apprenticeship."
+                text="Available for an apprenticeship in Data Analytics, Business Intelligence or Business Analytics."
                 className="mt-4 font-heading text-3xl font-bold leading-tight text-white md:text-5xl"
               />
               <div className="mt-6 flex flex-wrap gap-3 font-body text-sm text-slate-300">
