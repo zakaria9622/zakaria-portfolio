@@ -19,6 +19,7 @@ import {
   ArrowRight,
   BarChart3,
   Download,
+  Mail,
   MapPin,
   ShieldCheck,
 } from "lucide-react";
@@ -405,24 +406,24 @@ export function ExecutiveHero() {
           </motion.p>
 
           <div className="mt-9 flex flex-wrap gap-3">
-            <Link
-              href="/#projects"
-              prefetch={false}
+            <a
+              href={profile.cvHref}
+              download
               data-magnetic="true"
               data-magnetic-strength="9"
               className="magnetic-target inline-flex items-center justify-center gap-2 rounded-md bg-cyan-200 px-5 py-3 font-body text-sm font-semibold leading-none text-ink-950 shadow-[0_18px_45px_rgba(35,184,216,0.18)] transition-colors duration-200 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
             >
-              View case studies
-              <ArrowRight className="size-4" />
-            </Link>
+              <Download className="size-4" />
+              Download CV
+            </a>
             <a
-              href={profile.cvHref}
+              href={`mailto:${profile.email}`}
               data-magnetic="true"
               data-magnetic-strength="8"
               className="magnetic-target inline-flex items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.05] px-5 py-3 font-body text-sm font-semibold leading-none text-white transition-colors duration-200 hover:border-white/30 hover:bg-white/[0.09] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
             >
-              <Download className="size-4" />
-              Download CV
+              <Mail className="size-4" />
+              Email me
             </a>
             <a
               href={profile.github}
