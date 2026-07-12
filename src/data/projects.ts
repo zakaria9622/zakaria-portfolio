@@ -4,6 +4,12 @@ export type ProjectKpi = {
   highlight?: boolean;
 };
 
+export type ProjectArtifact = {
+  label: string;
+  description: string;
+  href: string;
+};
+
 export type ProjectScreenshot = {
   src: string;
   alt: string;
@@ -30,6 +36,7 @@ export type Project = {
   datasetDisclosure: string;
   ownership: string;
   evidence: string[];
+  artifacts?: ProjectArtifact[];
   businessProblem: string;
   architecture?: string[];
   methodology: string[];
@@ -113,6 +120,43 @@ export const projects: Project[] = [
       "Data quality checks and Tableau-ready exports",
       "Tableau workbook and dashboard screenshot",
       "Sample data and documented methodology",
+    ],
+    artifacts: [
+      {
+        label: "Strict funnel SQL",
+        description:
+          "Time-ordered user-level logic for first view, first cart after view and first purchase after cart.",
+        href:
+          "https://github.com/zakaria9622/funnel-analysis-project/blob/main/sql/04_funnel_overall.sql",
+      },
+      {
+        label: "Data quality checks",
+        description:
+          "SQL checks covering row counts, event types, null identifiers, date range and funnel-ready records.",
+        href:
+          "https://github.com/zakaria9622/funnel-analysis-project/blob/main/sql/07_qa_checks.sql",
+      },
+      {
+        label: "Methodology",
+        description:
+          "Documented funnel definitions, sequencing rules, formulas and segment-analysis principles.",
+        href:
+          "https://github.com/zakaria9622/funnel-analysis-project/blob/main/docs/methodology.md",
+      },
+      {
+        label: "Sample event data",
+        description:
+          "Reviewable CSV sample showing the event schema used by the executable demonstration pipeline.",
+        href:
+          "https://github.com/zakaria9622/funnel-analysis-project/blob/main/data/ecommerce_events_sample.csv",
+      },
+      {
+        label: "Tableau workbook",
+        description:
+          "The Tableau workbook connected to the project’s generated analytical outputs.",
+        href:
+          "https://github.com/zakaria9622/funnel-analysis-project/blob/main/tableau/ecommerce_funnel_dashboard.twb",
+      },
     ],
     businessProblem:
       "This independent case study examines where users abandon an e-commerce purchase journey and quantifies conversion drop-offs at each funnel stage.",
