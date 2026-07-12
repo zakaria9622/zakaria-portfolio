@@ -243,6 +243,43 @@ export const projects: Project[] = [
       "Generated KPI outputs and visual analysis",
       "Reproducible GitHub repository",
     ],
+    artifacts: [
+      {
+        label: "Synthetic dataset generator",
+        description:
+          "Seeded Python generator defining customer behavior profiles, order frequency, recency and revenue distributions.",
+        href:
+          "https://github.com/zakaria9622/customer-segmentation-rfm/blob/main/scripts/generate_dataset.py",
+      },
+      {
+        label: "RFM scoring pipeline",
+        description:
+          "Customer-level aggregation, quintile scoring, mutually exclusive segment assignment and KPI export logic.",
+        href:
+          "https://github.com/zakaria9622/customer-segmentation-rfm/blob/main/scripts/rfm_segmentation.py",
+      },
+      {
+        label: "Committed run metrics",
+        description:
+          "Machine-readable output containing customer count, order count, revenue and exact segment-level results.",
+        href:
+          "https://github.com/zakaria9622/customer-segmentation-rfm/blob/main/outputs/metrics.json",
+      },
+      {
+        label: "Segment summary",
+        description:
+          "Published segment-level customer counts, revenue shares and average revenue per customer.",
+        href:
+          "https://github.com/zakaria9622/customer-segmentation-rfm/blob/main/outputs/segment_summary.csv",
+      },
+      {
+        label: "CRM playbook",
+        description:
+          "Business actions, campaign ideas and monitoring KPIs for VIP, Loyal, At-risk and Lost customers.",
+        href:
+          "https://github.com/zakaria9622/customer-segmentation-rfm/blob/main/docs/crm_playbook.md",
+      },
+    ],
     businessProblem:
       "This independent case study develops a data-driven customer segmentation approach based on recency, frequency and monetary value to prioritize retention and win-back actions.",
     methodology: [
