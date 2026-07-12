@@ -70,6 +70,43 @@ export const projects: Project[] = [
       "Tableau workbook and dashboard screenshot",
       "Reproducible GitHub repository",
     ],
+    artifacts: [
+      {
+        label: "Synthetic dataset generator",
+        description:
+          "Seeded Python generator defining category and region distributions, discount and cost profiles, and explicit profit-leak scenarios.",
+        href:
+          "https://github.com/zakaria9622/ecommerce-profit-leak-analysis/blob/main/scripts/generate_dataset.py",
+      },
+      {
+        label: "Profit staging model",
+        description:
+          "Order-level SQL transformation calculating profit, profit margin, discount bands and monthly reporting grain.",
+        href:
+          "https://github.com/zakaria9622/ecommerce-profit-leak-analysis/blob/main/sql/02_staging_profit_view.sql",
+      },
+      {
+        label: "Executive KPI SQL",
+        description:
+          "Aggregate SQL for orders, revenue, cost, profit, margin, average discount and loss-making order rate.",
+        href:
+          "https://github.com/zakaria9622/ecommerce-profit-leak-analysis/blob/main/sql/03_kpi_overview.sql",
+      },
+      {
+        label: "Profit-leak segment SQL",
+        description:
+          "Category-by-region analysis ranking the weakest segments by profit and margin performance.",
+        href:
+          "https://github.com/zakaria9622/ecommerce-profit-leak-analysis/blob/main/sql/06_category_region_segments.sql",
+      },
+      {
+        label: "Tableau workbook",
+        description:
+          "Inspectable Tableau workbook connected to the project’s generated profitability outputs.",
+        href:
+          "https://github.com/zakaria9622/ecommerce-profit-leak-analysis/blob/main/tableau/profit_leak_dashboard.twb",
+      },
+    ],
     businessProblem:
       "This independent case study examines where profitability erodes across categories, regions and discount strategies using order-level e-commerce data.",
     methodology: [
