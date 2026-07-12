@@ -21,6 +21,7 @@ import { GitHubIcon } from "@/components/ui/SocialIcons";
 import type { Project } from "@/data/projects";
 import { KpiCard } from "@/components/ui/KpiCard";
 import { DashboardPlaceholder } from "@/components/ui/DashboardPlaceholder";
+import { ProjectImageLightbox } from "@/components/project/ProjectImageLightbox";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { GlassCard } from "@/components/ui/GlassCard";
@@ -356,6 +357,7 @@ export function ProjectDetail({ project }: { project: Project }) {
                       />
                     </div>
                   </div>
+                  <ProjectImageLightbox src={screenshot.src} alt={screenshot.alt} caption={screenshot.caption} triggerLabel={`Expand screenshot: ${screenshot.alt}`} />
                   <figcaption className="mt-3 font-body text-sm leading-6 text-slate-400">
                     {screenshot.caption}
                   </figcaption>
