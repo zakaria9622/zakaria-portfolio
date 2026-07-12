@@ -103,7 +103,7 @@ export const projects: Project[] = [
     shortTitle: "Funnel Analysis",
     tools: ["SQL / DuckDB", "Tableau", "Python"],
     businessQuestion: "Where do users drop before purchase?",
-    scope: "More than 3M users",
+    scope: "3,022,130 view users",
     mainOutput:
       "Funnel dashboard, view-to-cart bottleneck diagnosis",
     github: "https://github.com/zakaria9622/funnel-analysis-project",
@@ -163,18 +163,20 @@ export const projects: Project[] = [
     methodology: [
       "Defined funnel stages: view → cart → purchase",
       "Used SQL CTEs to calculate unique users, conversion rates and drop-offs",
-      "Analyzed 3M+ user journeys with DuckDB for performant aggregation",
+      "Analyzed 3,022,130 view users with DuckDB for performant aggregation",
       "Built a Tableau funnel dashboard for stakeholder reporting",
       "Isolated the view-to-cart step as the primary friction point",
     ],
     kpis: [
-      { label: "Users analyzed", value: "3M+" },
-      { label: "Funnel stages", value: "View → Cart → Purchase" },
-      { label: "Primary friction", value: "View-to-cart", highlight: true },
-      { label: "Analysis method", value: "SQL CTEs" },
+      { label: "View users", value: "3,022,130" },
+      { label: "View-to-cart rate", value: "11.14%", highlight: true },
+      { label: "Cart-to-purchase rate", value: "58.35%" },
+      { label: "Total conversion rate", value: "6.50%", highlight: true },
+      { label: "Cart users", value: "336,718" },
+      { label: "Purchase users", value: "196,474" },
     ],
     mainInsight:
-      "The main friction occurs before add-to-cart — users view products but fail to engage with the cart step, indicating a product-page or UX conversion gap.",
+      "Only 11.14% of viewers add to cart, while 58.35% of cart users complete a purchase. The primary conversion bottleneck is therefore product view → add-to-cart, not checkout.",
     recommendations: [
       "A/B test product page CTAs and add-to-cart visibility",
       "Analyze product categories with highest view-to-cart drop-off",
