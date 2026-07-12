@@ -336,6 +336,16 @@ export function CaseStudySpotlight() {
                         View case study
                         <ArrowUpRight className="size-4" />
                       </Link>
+                      {project.artifacts && project.artifacts.length > 0 && (
+                        <Link
+                          href={`${project.href}#inspect-the-work`}
+                          prefetch={false}
+                          className="inline-flex items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.04] px-4 py-2.5 font-body text-sm font-semibold leading-none text-slate-200 transition-colors duration-200 hover:border-white/30 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+                        >
+                          Inspect {project.artifacts.length} artifacts
+                          <ArrowUpRight className="size-4" />
+                        </Link>
+                      )}
                       <a
                         href={project.github}
                         target="_blank"
@@ -471,6 +481,16 @@ export function CaseStudySpotlight() {
                       View case study
                       <ArrowUpRight className="size-4" />
                     </Link>
+                    {project.artifacts && project.artifacts.length > 0 && (
+                      <Link
+                        href={`${project.href}#inspect-the-work`}
+                        prefetch={false}
+                        className="inline-flex items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.04] px-4 py-2.5 font-body text-sm font-semibold leading-none text-slate-200 transition-colors duration-200 hover:border-white/30 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+                      >
+                        Inspect {project.artifacts.length} artifacts
+                        <ArrowUpRight className="size-4" />
+                      </Link>
+                    )}
                     <a
                       href={project.github}
                       target="_blank"

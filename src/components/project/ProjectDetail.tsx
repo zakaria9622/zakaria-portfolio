@@ -186,8 +186,15 @@ export function ProjectDetail({ project }: { project: Project }) {
           </GlassCard>
 
           {project.artifacts && project.artifacts.length > 0 && (
-            <div className="mt-6">
-              <h3 className="font-heading text-xl font-bold leading-tight text-white">
+            <div
+              id="inspect-the-work"
+              aria-labelledby="inspect-the-work-title"
+              className="mt-6 scroll-mt-28"
+            >
+              <h3
+                id="inspect-the-work-title"
+                className="font-heading text-xl font-bold leading-tight text-white"
+              >
                 Inspect the work
               </h3>
               <p className="mt-2 font-body text-sm leading-6 text-slate-400">
