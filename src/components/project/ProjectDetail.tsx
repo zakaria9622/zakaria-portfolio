@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useSpring } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowLeft,
   ArrowUpRight,
@@ -30,8 +30,56 @@ const chapterHeadingClass =
 const chapterEyebrowClass =
   "font-mono text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/80";
 
+const chapters = [
+  { id: "results", label: "Results" },
+  { id: "evidence", label: "Evidence" },
+  { id: "analysis", label: "Analysis" },
+  { id: "recommendations", label: "Recommendations" },
+] as const;
+
+type ChapterId = (typeof chapters)[number]["id"];
+
+type ChapterHeadingProps = {
+  eyebrow: string;
+  title: string;
+  titleId: string;
+  bordered?: boolean;
+};
+
+function ChapterHeading({
+  eyebrow,
+  title,
+  titleId,
+  bordered = true,
+}: ChapterHeadingProps) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.55 }}
+      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+      className={bordered ? "mb-8 border-b border-white/10 pb-7" : "mb-8"}
+    >
+      <p className={chapterEyebrowClass}>{eyebrow}</p>
+      <h2 id={titleId} className={`mt-3 ${chapterHeadingClass}`}>
+        {title}
+      </h2>
+      <motion.div
+        aria-hidden="true"
+        className="mt-5 h-px origin-left bg-gradient-to-r from-cyan-300/60 via-electric-400/35 to-transparent"
+        initial={{ scaleX: 0, opacity: 0 }}
+        whileInView={{ scaleX: 1, opacity: 1 }}
+        viewport={{ once: true, amount: 0.8 }}
+        transition={{ duration: 0.7, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+      />
+    </motion.div>
+  );
+}
+
 export function ProjectDetail({ project }: { project: Project }) {
   const articleRef = useRef<HTMLElement>(null);
+  const chapterNavRef = useRef<HTMLDivElement>(null);
+  const [activeChapter, setActiveChapter] = useState<ChapterId>("results");
   const { scrollYProgress } = useScroll({
     target: articleRef,
     offset: ["start start", "end end"],
@@ -41,6 +89,44 @@ export function ProjectDetail({ project }: { project: Project }) {
     damping: 30,
     restDelta: 0.001,
   });
+
+  useEffect(() => {
+    const sections = chapters
+      .map((chapter) => document.getElementById(chapter.id))
+      .filter((section): section is HTMLElement => section instanceof HTMLElement);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const candidates = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        const activeId = candidates[0]?.target.id as ChapterId | undefined;
+
+        if (activeId && chapters.some((chapter) => chapter.id === activeId)) {
+          setActiveChapter(activeId);
+        }
+      },
+      { root: null, rootMargin: "-26% 0px -58% 0px", threshold: [0, 0.1, 0.25, 0.5] }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const container = chapterNavRef.current;
+    const activeLink = container?.querySelector<HTMLAnchorElement>(
+      `[data-chapter-link="${activeChapter}"]`
+    );
+
+    if (!container || !activeLink) return;
+
+    const nextLeft = Math.max(
+      0,
+      activeLink.offsetLeft - (container.clientWidth - activeLink.clientWidth) / 2
+    );
+    container.scrollTo({ left: nextLeft, behavior: "smooth" });
+  }, [activeChapter]);
 
   return (
     <article ref={articleRef}>
@@ -205,32 +291,39 @@ export function ProjectDetail({ project }: { project: Project }) {
         aria-label="Case study sections"
         className="sticky top-24 z-30 border-y border-white/10 bg-ink-950/80 backdrop-blur-xl"
       >
-        <div className="mx-auto flex max-w-6xl gap-1 overflow-x-auto px-6 py-3 lg:px-8">
-          {[
-            ["Results", "#results"],
-            ["Evidence", "#evidence"],
-            ["Analysis", "#analysis"],
-            ["Recommendations", "#recommendations"],
-          ].map(([label, href]) => (
+        <div ref={chapterNavRef} className="mx-auto flex max-w-6xl gap-1 overflow-x-auto px-6 py-3 lg:px-8">
+          {chapters.map((chapter) => {
+            const isActive = activeChapter === chapter.id;
+
+            return (
             <a
-              key={href}
-              href={href}
-              className="shrink-0 rounded-md px-3 py-2 font-mono text-xs font-semibold uppercase tracking-[0.14em] text-slate-400 transition-colors hover:bg-white/[0.05] hover:text-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+              key={chapter.id}
+              href={`#${chapter.id}`}
+              data-chapter-link={chapter.id}
+              aria-current={isActive ? "location" : undefined}
+              onClick={() => setActiveChapter(chapter.id)}
+              className={`relative shrink-0 rounded-md px-3 py-2 font-mono text-xs font-semibold uppercase tracking-[0.14em] transition-colors hover:bg-white/[0.05] hover:text-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 ${
+                isActive ? "text-cyan-50" : "text-slate-400"
+              }`}
             >
-              {label}
+              {isActive && (
+                <motion.span
+                  layoutId="active-case-study-chapter"
+                  aria-hidden="true"
+                  className="absolute inset-0 rounded-md border border-cyan-200/25 bg-cyan-200/10 shadow-[0_0_22px_rgba(34,211,238,0.10)]"
+                  transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                />
+              )}
+              <span className="relative z-10">{chapter.label}</span>
             </a>
-          ))}
+            );
+          })}
         </div>
       </nav>
 
       <div className="mx-auto max-w-6xl space-y-20 px-6 py-16 lg:px-8 md:py-20">
         <section id="results" aria-labelledby="results-title" className="scroll-mt-32">
-          <div className="mb-8 border-b border-white/10 pb-7">
-            <p className={chapterEyebrowClass}>Results snapshot</p>
-            <h2 id="results-title" className={`mt-3 ${chapterHeadingClass}`}>
-              Key metrics and analytical output
-            </h2>
-          </div>
+          <ChapterHeading eyebrow="Results snapshot" title="Key metrics and analytical output" titleId="results-title" />
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {project.kpis.map((kpi, i) => (
@@ -277,15 +370,12 @@ export function ProjectDetail({ project }: { project: Project }) {
           aria-labelledby="project-evidence-title"
           className="scroll-mt-32 rounded-2xl border border-white/10 bg-white/[0.025] p-5 md:p-7"
         >
-          <div className="mb-5 flex items-center gap-3">
+          <div className="mb-5 flex items-start gap-3">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-electric-500/30 bg-electric-500/10">
               <BadgeCheck className="h-5 w-5 text-electric-300" aria-hidden="true" />
             </div>
-            <div>
-              <p className={chapterEyebrowClass}>Evidence trail</p>
-              <h2 id="project-evidence-title" className="mt-1 font-heading text-2xl font-bold leading-tight text-white">
-                Project Evidence
-              </h2>
+            <div className="min-w-0 flex-1">
+              <ChapterHeading eyebrow="Evidence trail" title="Project Evidence" titleId="project-evidence-title" bordered={false} />
             </div>
           </div>
 
@@ -365,12 +455,7 @@ export function ProjectDetail({ project }: { project: Project }) {
         </section>
 
         <section id="analysis" aria-labelledby="analysis-title" className="scroll-mt-32">
-          <div className="mb-8 border-b border-white/10 pb-7">
-            <p className={chapterEyebrowClass}>Analytical approach</p>
-            <h2 id="analysis-title" className={`mt-3 ${chapterHeadingClass}`}>
-              From business problem to decision insight
-            </h2>
-          </div>
+          <ChapterHeading eyebrow="Analytical approach" title="From business problem to decision insight" titleId="analysis-title" />
 
           <div className="grid gap-6 lg:grid-cols-2">
             <GlassCard hover={false}>
@@ -439,12 +524,7 @@ export function ProjectDetail({ project }: { project: Project }) {
         </section>
 
         <section id="recommendations" aria-labelledby="recommendations-title" className="scroll-mt-32 border-t border-white/10 pt-14">
-          <div className="mb-8">
-            <p className={chapterEyebrowClass}>Decision layer</p>
-            <h2 id="recommendations-title" className={`mt-3 ${chapterHeadingClass}`}>
-              Recommended business actions
-            </h2>
-          </div>
+          <ChapterHeading eyebrow="Decision layer" title="Recommended business actions" titleId="recommendations-title" bordered={false} />
 
           <GlassCard hover={false} delay={0.2}>
             <h3 className="mb-4 font-heading text-lg font-bold leading-tight text-white">Business Recommendations</h3>
