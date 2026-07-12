@@ -25,12 +25,24 @@ import {
 } from "lucide-react";
 import { GitHubIcon, LinkedInIcon } from "@/components/ui/SocialIcons";
 import { profile } from "@/data/profile";
-import { featuredProjects } from "@/data/projects";
+import { featuredProjects, getProjectBySlug } from "@/data/projects";
 import { EducationSection } from "@/components/home/EducationSection";
 import { ExperienceTimeline } from "@/components/home/ExperienceTimeline";
 import { enterEase, useHomeMotionSettings } from "@/components/home/motion";
 
-const previewProject = featuredProjects[0];
+const previewProject =
+  getProjectBySlug("funnel-analysis") ?? featuredProjects[0];
+
+const featuredMetricTones = [
+  "text-cyan-200",
+  "text-amber-200",
+  "text-emerald-200",
+];
+
+const heroMetrics = previewProject.kpis.slice(0, 3).map((metric, index) => ({
+  ...metric,
+  tone: featuredMetricTones[index],
+}));
 
 const subscribeToHydration = () => () => {};
 const getHydratedSnapshot = () => true;
@@ -107,12 +119,6 @@ const DataIntelligenceCore = dynamic(
     loading: () => <DataCoreFallback />,
   }
 );
-
-const heroMetrics = [
-  { label: "Orders", value: "12K", tone: "text-cyan-200" },
-  { label: "Revenue", value: "EUR 2.05M", tone: "text-amber-200" },
-  { label: "Margin", value: "10.42%", tone: "text-emerald-200" },
-];
 
 function heroItem(shouldSimplifyMotion: boolean, delay = 0) {
   return {
@@ -375,7 +381,7 @@ export function ExecutiveHero() {
             {...heroItem(shouldSimplifyMotion, 0.04)}
             className="mb-4 font-mono text-xs font-semibold uppercase tracking-[0.24em] text-cyan-200/80"
           >
-            Executive Analytics Portfolio
+            Data Analytics Portfolio
           </motion.p>
 
           <motion.h1
@@ -505,6 +511,11 @@ function FeaturedProjectProof({
           <p className="mt-3 font-body text-sm leading-7 text-slate-400">
             {previewProject.mainInsight}
           </p>
+          {previewProject.featuredContext && (
+            <div className="mt-4 rounded-md border border-white/10 bg-white/[0.03] px-3 py-2 font-body text-xs leading-5 text-slate-300">
+              {previewProject.featuredContext}
+            </div>
+          )}
           <Link
             href={previewProject.href}
             prefetch={false}
@@ -530,13 +541,13 @@ function FeaturedProjectProof({
                 </p>
               </div>
               <span className="rounded-md border border-cyan-300/20 bg-cyan-300/10 px-2.5 py-1 font-mono text-xs font-semibold leading-none tracking-[0.02em] text-cyan-100">
-                Live proof
+                Project evidence
               </span>
             </div>
 
             <div className="relative aspect-[16/10] overflow-hidden rounded-md border border-white/10 bg-ink-950">
               <Image
-                src="/projects/profit-leak.png"
+                src={`/projects/${previewProject.slug}.png`}
                 alt={`${previewProject.title} dashboard preview`}
                 fill
                 sizes="(max-width: 1024px) 100vw, 480px"
@@ -560,7 +571,7 @@ function FeaturedProjectProof({
               </p>
               <motion.p
                 {...metricMotion(shouldSimplifyMotion, 0.18 + index * 0.04)}
-                className={`mt-2 font-kpi text-xl font-bold tabular-nums ${metric.tone}`}
+                className={`mt-2 break-words font-kpi text-xl font-bold tabular-nums ${metric.tone}`}
               >
                 {metric.value}
               </motion.p>
