@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ProjectImageLightbox } from "@/components/project/ProjectImageLightbox";
 
 const PROJECT_IMAGE_PATHS: Record<string, string> = {
   "profit-leak": "/projects/profit-leak.png",
@@ -62,6 +63,7 @@ export function DashboardPlaceholder({
             />
           </div>
         </div>
+        <ProjectImageLightbox src={src} alt={alt} caption={alt} triggerLabel={`Expand ${label ?? "dashboard"} preview`} />
         <figcaption className="sr-only">{alt}</figcaption>
       </figure>
     );
@@ -81,6 +83,7 @@ export function DashboardPlaceholder({
           />
         </div>
       </div>
+      <ProjectImageLightbox src={src} alt={alt} caption={alt} triggerLabel={`Expand ${label ?? "dashboard"} preview`} />
       <figcaption className="sr-only">{alt}</figcaption>
     </figure>
   );
