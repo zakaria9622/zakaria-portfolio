@@ -25,6 +25,7 @@ export type Project = {
   liveDemo?: string;
   href: string;
   featuredOrder: number;
+  featuredContext?: string;
   projectType: string;
   datasetDisclosure: string;
   ownership: string;
@@ -101,6 +102,8 @@ export const projects: Project[] = [
     github: "https://github.com/zakaria9622/funnel-analysis-project",
     href: "/projects/funnel-analysis",
     featuredOrder: 2,
+    featuredContext:
+      "Independent case study using external event-level e-commerce data.",
     projectType: "Independent portfolio case study",
     datasetDisclosure:
       "External event-level e-commerce data used for analytical demonstration. The full dataset is excluded from the repository because of its size; a sample, aggregated outputs and methodology documentation are provided. This is not a client engagement.",
