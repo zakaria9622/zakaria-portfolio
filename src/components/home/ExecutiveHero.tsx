@@ -26,6 +26,7 @@ import {
 import { GitHubIcon, LinkedInIcon } from "@/components/ui/SocialIcons";
 import { profile } from "@/data/profile";
 import { featuredProjects } from "@/data/projects";
+import { EducationSection } from "@/components/home/EducationSection";
 import { ExperienceTimeline } from "@/components/home/ExperienceTimeline";
 import { enterEase, useHomeMotionSettings } from "@/components/home/motion";
 
@@ -474,6 +475,7 @@ export function ExecutiveHero() {
       </div>
     </section>
     <ExperienceTimeline />
+    <EducationSection />
     <FeaturedProjectProof shouldSimplifyMotion={shouldSimplifyMotion} />
     </>
   );
