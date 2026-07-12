@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 import { GitHubIcon, LinkedInIcon } from "@/components/ui/SocialIcons";
 import { profile } from "@/data/profile";
 import { Section, SectionHeader } from "@/components/ui/Section";
@@ -41,11 +41,6 @@ export function Contact() {
                   href: `mailto:${profile.email}`,
                   icon: Mail,
                   label: profile.email,
-                },
-                {
-                  href: `tel:${profile.phone.replace(/\s/g, "")}`,
-                  icon: Phone,
-                  label: profile.phone,
                 },
                 {
                   href: profile.github,
