@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { Download, Mail, MapPin, Phone } from "lucide-react";
+import { Download, Mail, MapPin } from "lucide-react";
 import { GitHubIcon, LinkedInIcon } from "@/components/ui/SocialIcons";
 import { profile } from "@/data/profile";
 import { AnimatedSectionHeading } from "@/components/home/AnimatedSectionHeading";
@@ -11,12 +11,6 @@ const contactLinks = [
     label: profile.email,
     href: `mailto:${profile.email}`,
     icon: Mail,
-    external: false,
-  },
-  {
-    label: profile.phone,
-    href: `tel:${profile.phone.replace(/\s/g, "")}`,
-    icon: Phone,
     external: false,
   },
   {
@@ -97,7 +91,7 @@ export function ContactCommandBar() {
               </a>
               <a
                 href={`mailto:${profile.email}`}
-                className="inline-flex min-h-14 items-center justify-center rounded-md bg-white px-4 py-3 font-body text-sm font-semibold leading-none text-ink-950 transition-colors duration-200 hover:bg-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+                className="inline-flex min-h-14 items-center justify-center rounded-md bg-white px-4 py-3 font-body text-sm font-semibold leading-none text-ink-950 transition-colors duration-200 hover:bg-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 sm:col-span-2"
               >
                 Send email
               </a>
