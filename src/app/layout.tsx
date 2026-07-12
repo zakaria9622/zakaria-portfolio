@@ -107,8 +107,16 @@ export default function RootLayout({
             __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
           }}
         />
+        <a
+          href="#main-content"
+          className="sr-only fixed top-4 left-4 z-[60] rounded-md bg-ink-950 px-4 py-3 font-body text-sm font-semibold text-white focus:not-sr-only focus:fixed focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-cyan-200"
+        >
+          Skip to main content
+        </a>
         <Header />
-        <main>{children}</main>
+        <main id="main-content" tabIndex={-1}>
+          {children}
+        </main>
         <Footer />
       </body>
     </html>

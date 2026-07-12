@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Download, Menu, X } from "lucide-react";
 import { profile } from "@/data/profile";
 import { projects } from "@/data/projects";
@@ -18,7 +18,42 @@ const navLinks = [
 export function Header() {
   const [open, setOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   useMagneticTargets(headerRef);
+
+  useEffect(() => {
+    const skipLink = document.querySelector<HTMLAnchorElement>(
+      'a[href="#main-content"]'
+    );
+    const focusMainContent = () => {
+      requestAnimationFrame(() => {
+        document.getElementById("main-content")?.focus();
+      });
+    };
+
+    skipLink?.addEventListener("click", focusMainContent);
+
+    return () => {
+      skipLink?.removeEventListener("click", focusMainContent);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [open]);
 
   return (
     <header ref={headerRef} className="fixed inset-x-0 top-4 z-50 px-3 sm:px-6">
@@ -38,7 +73,7 @@ export function Header() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-1 md:flex">
+        <nav aria-label="Primary navigation" className="hidden items-center gap-1 md:flex">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -74,23 +109,29 @@ export function Header() {
         </nav>
 
         <button
+          ref={menuButtonRef}
           type="button"
           className="rounded-md p-2 text-slate-300 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:hidden"
           onClick={() => setOpen(!open)}
           aria-expanded={open}
-          aria-label="Toggle menu"
+          aria-controls="mobile-navigation"
+          aria-label={open ? "Close navigation menu" : "Open navigation menu"}
         >
           {open ? <X className="size-5" /> : <Menu className="size-5" />}
         </button>
       </div>
 
       {open && (
-        <nav className="mx-auto mt-2 max-w-7xl rounded-lg border border-white/10 bg-ink-950/95 px-4 py-4 shadow-2xl shadow-black/30 backdrop-blur-xl md:hidden">
+        <nav
+          id="mobile-navigation"
+          aria-label="Mobile navigation"
+          className="mx-auto mt-2 max-w-7xl rounded-lg border border-white/10 bg-ink-950/95 px-4 py-4 shadow-2xl shadow-black/30 backdrop-blur-xl md:hidden"
+        >
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="block rounded-md px-3 py-2.5 font-body text-sm font-medium leading-none text-slate-300 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white"
+              className="block rounded-md px-3 py-2.5 font-body text-sm font-medium leading-none text-slate-300 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
               onClick={() => setOpen(false)}
             >
               {link.label}
@@ -105,7 +146,7 @@ export function Header() {
                 key={p.slug}
                 href={p.href}
                 prefetch={false}
-                className="block rounded-md px-3 py-2 font-body text-sm leading-6 text-cyan-100 transition-colors duration-200 hover:bg-white/[0.05]"
+                className="block rounded-md px-3 py-2 font-body text-sm leading-6 text-cyan-100 transition-colors duration-200 hover:bg-white/[0.05] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
                 onClick={() => setOpen(false)}
               >
                 {p.title}
@@ -114,7 +155,7 @@ export function Header() {
           </div>
           <a
             href={profile.cvHref}
-            className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-md border border-amber-200/20 bg-amber-200/10 px-4 py-3 font-body text-sm font-semibold leading-none text-amber-50"
+            className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-md border border-amber-200/20 bg-amber-200/10 px-4 py-3 font-body text-sm font-semibold leading-none text-amber-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
           >
             <Download className="size-4" />
             Download CV
