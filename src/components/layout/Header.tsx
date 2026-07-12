@@ -8,9 +8,10 @@ import { projects } from "@/data/projects";
 import { useMagneticTargets } from "@/components/ui/useMagneticTargets";
 
 const navLinks = [
+  { label: "Experience", href: "/#experience" },
+  { label: "Education", href: "/#education" },
   { label: "Projects", href: "/#projects" },
   { label: "Skills", href: "/#skills" },
-  { label: "Experience", href: "/#experience" },
   { label: "Contact", href: "/#contact" },
 ];
 
@@ -49,7 +50,7 @@ export function Header() {
               {link.label}
             </Link>
           ))}
-          <div className="ml-2 flex items-center gap-1 border-l border-white/10 pl-3">
+          <div className="ml-2 hidden items-center gap-1 border-l border-white/10 pl-3 xl:flex">
             {projects.map((p) => (
               <Link
                 key={p.slug}
