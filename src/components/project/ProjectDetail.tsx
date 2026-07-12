@@ -184,6 +184,44 @@ export function ProjectDetail({ project }: { project: Project }) {
               </article>
             </div>
           </GlassCard>
+
+          {project.artifacts && project.artifacts.length > 0 && (
+            <div className="mt-6">
+              <h3 className="font-heading text-xl font-bold leading-tight text-white">
+                Inspect the work
+              </h3>
+              <p className="mt-2 font-body text-sm leading-6 text-slate-400">
+                Open the underlying SQL, methodology, quality controls and analytical artifacts.
+              </p>
+              <ul className="mt-4 grid gap-3 md:grid-cols-2">
+                {project.artifacts.map((artifact) => (
+                  <li key={artifact.href} className="min-w-0">
+                    <a
+                      href={artifact.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${artifact.label} (opens in a new tab)`}
+                      className="group flex h-full min-w-0 flex-col rounded-lg border border-white/10 bg-navy-950/45 p-4 transition-colors duration-200 hover:border-electric-500/30 hover:bg-electric-500/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-electric-300"
+                    >
+                      <span className="flex items-start justify-between gap-3">
+                        <span className="break-words font-heading text-base font-bold leading-tight text-white">
+                          {artifact.label}
+                        </span>
+                        <ArrowUpRight
+                          className="h-4 w-4 shrink-0 text-electric-400"
+                          aria-hidden="true"
+                        />
+                      </span>
+                      <span className="mt-3 break-words font-body text-sm leading-6 text-slate-400">
+                        {artifact.description}
+                      </span>
+                      <span className="sr-only">Opens in a new tab</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </section>
 
         <div className="mb-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
