@@ -1,36 +1,181 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Zakaria Maachou — Data Analytics Portfolio
 
-## Getting Started
+Recruiter-facing portfolio presenting professional experience and independent case studies across Data Analytics, Business Intelligence and Business Analytics.
 
-First, run the development server:
+**Professional positioning:**
+
+Data Analyst | Business Intelligence & Business Analytics
+
+**Live portfolio:**
+
+https://www.zakariamaachou.com
+
+## Portfolio Overview
+
+This website presents my professional experience, technical capabilities and end-to-end analytical case studies.
+
+The portfolio focuses on turning raw data into:
+
+- reliable KPI definitions
+- SQL-driven analysis
+- decision-ready dashboards
+- business diagnostics
+- actionable recommendations
+- transparent and reproducible analytical workflows
+
+Professional Experience is intentionally displayed before personal projects so recruiters can evaluate real-world experience first.
+
+## Featured Case Studies
+
+### Profit Leak Analysis
+
+An e-commerce profitability analysis covering 12,000 synthetic orders.
+
+**Focus:** margin erosion, discount impact, category and regional profitability.
+
+**Stack:** SQL, DuckDB, Python, Tableau.
+
+[View case study](https://www.zakariamaachou.com/projects/profit-leak)
+
+### E-commerce Funnel Analysis
+
+A strict user-level conversion analysis covering product view, add-to-cart and purchase events.
+
+**Focus:** conversion rates, stage-level drop-off and product-page optimization priorities.
+
+**Stack:** SQL, DuckDB, Python, Tableau.
+
+[View case study](https://www.zakariamaachou.com/projects/funnel-analysis)
+
+### Customer Segmentation RFM
+
+A customer analytics project covering 5,000 synthetic customers and 45,356 simulated orders.
+
+**Focus:** RFM scoring, customer value, retention priorities and CRM segmentation.
+
+**Stack:** Python, pandas and business analytics.
+
+[View case study](https://www.zakariamaachou.com/projects/rfm-segmentation)
+
+### RenewalOS
+
+A synthetic B2B analytics system designed to analyze revenue quality, account health and customer-success priorities.
+
+**Focus:** data modeling, revenue reconciliation, explainable health scoring and account prioritization.
+
+**Stack:** DuckDB, dbt, Python and Streamlit.
+
+[View case study](https://www.zakariamaachou.com/projects/renewalos)
+
+## Evidence and Transparency
+
+Every project page identifies:
+
+- the project type
+- the origin and limitations of the dataset
+- my individual contribution
+- the available technical and visual evidence
+
+The projects are independent portfolio case studies.
+
+Synthetic datasets are explicitly identified. The portfolio does not present personal projects as real client engagements, production deployments or proven business impact.
+
+## Website Features
+
+- Experience-first homepage structure
+- Responsive recruiter-oriented interface
+- Downloadable CV and direct email actions
+- Dedicated project case-study pages
+- Project evidence and dataset-disclosure sections
+- Responsive Three.js analytical hero
+- Static fallback for unsupported or simplified-motion environments
+- Reduced-motion support
+- Production canonical URLs
+- Generated sitemap and robots metadata
+- Responsive desktop and mobile layouts
+
+## Technology Stack
+
+### Application
+
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS 4
+
+### Interface and Motion
+
+- Framer Motion
+- React Three Fiber
+- Drei
+- Three.js
+- Lucide React
+
+### Deployment
+
+- Vercel
+- Custom production domain: `www.zakariamaachou.com`
+
+## Local Development
+
+### Prerequisites
+
+- Node.js
+- npm
+
+### Installation
+
+```bash
+git clone https://github.com/zakaria9622/zakaria-portfolio.git
+cd zakaria-portfolio
+npm install
+```
+
+### Development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Production build
 
-## Learn More
+```bash
+npm run build
+npm run start
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Linting
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run lint
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Structure
 
-## Deploy on Vercel
+```text
+src/
+├── app/          # Next.js routes, metadata, sitemap and robots
+├── components/   # Homepage, project and reusable UI components
+└── data/         # Profile, experience and project content
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+public/
+├── og/           # Open Graph images
+├── projects/     # Project visual assets
+└── cv-zakaria-maachou.pdf
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Contact
+
+- Portfolio: https://www.zakariamaachou.com
+- LinkedIn: https://www.linkedin.com/in/zakaria-maachou
+- GitHub: https://github.com/zakaria9622
+
+---
+
+Built and maintained by Zakaria Maachou.
