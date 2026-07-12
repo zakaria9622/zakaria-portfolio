@@ -10,13 +10,61 @@ const PROJECT_IMAGE_PATHS: Record<string, string> = {
 type DashboardPreviewProps = {
   slug: string;
   alt: string;
+  variant?: "default" | "hero";
+  label?: string;
+  priority?: boolean;
 };
 
-export function DashboardPlaceholder({ slug, alt }: DashboardPreviewProps) {
+export function DashboardPlaceholder({
+  slug,
+  alt,
+  variant = "default",
+  label,
+  priority = false,
+}: DashboardPreviewProps) {
   const src = PROJECT_IMAGE_PATHS[slug];
 
   if (!src) {
     return null;
+  }
+
+  if (variant === "hero") {
+    return (
+      <figure className="relative w-full">
+        <div className="overflow-hidden rounded-2xl border border-cyan-200/20 bg-ink-950/85 shadow-[0_30px_100px_rgba(0,0,0,0.55)] ring-1 ring-cyan-200/10 backdrop-blur-xl">
+          <div className="flex items-center justify-between gap-3 border-b border-white/10 bg-white/[0.035] px-4 py-3">
+            <div className="flex min-w-0 items-center gap-3">
+              <span className="flex shrink-0 gap-1.5" aria-hidden="true">
+                <span className="size-2 rounded-full bg-rose-300/70" />
+                <span className="size-2 rounded-full bg-amber-200/70" />
+                <span className="size-2 rounded-full bg-cyan-200/70" />
+              </span>
+              {label && (
+                <span className="truncate font-heading text-sm font-semibold text-slate-100">
+                  {label}
+                </span>
+              )}
+            </div>
+            <span className="shrink-0 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-cyan-100/65">
+              Analytics workspace
+            </span>
+          </div>
+          <div className="relative min-h-[280px] aspect-[16/10] overflow-hidden bg-navy-950 lg:min-h-[420px]">
+            <div aria-hidden="true" className="pointer-events-none absolute -right-20 -top-20 size-64 rounded-full bg-cyan-300/10 blur-3xl" />
+            <div aria-hidden="true" className="pointer-events-none absolute -bottom-24 -left-20 size-64 rounded-full bg-electric-500/10 blur-3xl" />
+            <Image
+              src={src}
+              alt={alt}
+              fill
+              priority={priority}
+              className="relative object-contain p-3 sm:p-4 md:p-5"
+              sizes="(max-width: 1024px) 100vw, 640px"
+            />
+          </div>
+        </div>
+        <figcaption className="sr-only">{alt}</figcaption>
+      </figure>
+    );
   }
 
   return (
@@ -27,6 +75,7 @@ export function DashboardPlaceholder({ slug, alt }: DashboardPreviewProps) {
             src={src}
             alt={alt}
             fill
+            priority={priority}
             className="object-contain p-3 sm:p-4 md:p-6"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1152px"
           />
