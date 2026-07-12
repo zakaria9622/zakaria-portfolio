@@ -338,6 +338,43 @@ export const projects: Project[] = [
       "Explainable account-health and prioritization workflow",
       "Public Streamlit demonstration and GitHub repository",
     ],
+    artifacts: [
+      {
+        label: "Synthetic source generation",
+        description:
+          "Reproducible source-data generation and validation layer that injects and detects controlled quality incidents.",
+        href:
+          "https://github.com/zakaria9622/renewalos-b2b-revenue-quality-engine/blob/master/src/renewalos/generation/validate_generation.py",
+      },
+      {
+        label: "KPI trust gate",
+        description:
+          "dbt model that blocks, caveats or marks revenue metrics as not assessable based on quality and reconciliation evidence.",
+        href:
+          "https://github.com/zakaria9622/renewalos-b2b-revenue-quality-engine/blob/master/dbt/models/marts/mart_kpi_trust_status.sql",
+      },
+      {
+        label: "Quality-control validation",
+        description:
+          "Validation layer checking incident coverage, exception metadata, quality statuses and reconciliation gaps.",
+        href:
+          "https://github.com/zakaria9622/renewalos-b2b-revenue-quality-engine/blob/master/src/renewalos/quality/validation.py",
+      },
+      {
+        label: "Account-health methodology",
+        description:
+          "Documented quality gates, scoring components, simulated thresholds, explanation logic and limitations.",
+        href:
+          "https://github.com/zakaria9622/renewalos-b2b-revenue-quality-engine/blob/master/docs/account_health_methodology.md",
+      },
+      {
+        label: "Capacity-constrained optimizer",
+        description:
+          "OR-Tools scenario optimizer selecting eligible synthetic account priorities under CSM hour and account-capacity constraints.",
+        href:
+          "https://github.com/zakaria9622/renewalos-b2b-revenue-quality-engine/blob/master/src/renewalos/prioritization/optimizer.py",
+      },
+    ],
     businessProblem:
       "B2B teams often act on ARR, churn, renewal and account-health signals before source-system issues are visible. RenewalOS shows a synthetic analytics workflow where data exceptions, reconciliation gaps and decision rules are exposed before Customer Success prioritization is reviewed.",
     architecture: [
