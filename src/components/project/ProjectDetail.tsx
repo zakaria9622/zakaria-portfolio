@@ -278,7 +278,7 @@ export function ProjectDetail({ project }: { project: Project }) {
             >
               <DashboardPlaceholder
                 slug={project.slug}
-                alt={`${project.title} â€” ${project.screenshotPlaceholder}`}
+                alt={`${project.title} — ${project.screenshotPlaceholder}`}
                 variant="hero"
                 label={project.shortTitle}
                 priority
