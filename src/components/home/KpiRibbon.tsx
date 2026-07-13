@@ -77,18 +77,18 @@ export function KpiRibbon() {
               className="group relative min-h-32 rounded-md border border-white/10 bg-graphite-900/70 p-5 transition-colors duration-200 hover:border-white/20 hover:bg-graphite-800/80"
             >
               <div className="flex items-center justify-between gap-4">
-                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-500">
+                <p className="type-label text-slate-400">
                   {kpi.label}
                 </p>
                 <Icon className={`size-5 ${kpi.accent}`} />
               </div>
               <motion.p
                 {...metricReveal(shouldSimplifyMotion, 0.12 + index * 0.04)}
-                className={`mt-5 font-kpi text-3xl font-bold tabular-nums ${kpi.accent}`}
+                className={`type-kpi-large mt-5 font-kpi ${kpi.accent}`}
               >
                 {kpi.value}
               </motion.p>
-              <p className="mt-2 font-body text-sm leading-6 text-slate-400">
+              <p className="type-body-dense mt-2 text-slate-400">
                 {kpi.context}
               </p>
             </motion.div>

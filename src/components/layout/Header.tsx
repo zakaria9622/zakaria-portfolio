@@ -80,7 +80,7 @@ export function Header() {
               href={link.href}
               data-magnetic="true"
               data-magnetic-strength="7"
-              className="magnetic-target rounded-md px-3 py-2 font-body text-sm font-medium leading-none text-slate-400 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+              className="magnetic-target type-nav rounded-md px-3 py-2 text-slate-400 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
             >
               {link.label}
             </Link>
@@ -91,7 +91,7 @@ export function Header() {
                 key={p.slug}
                 href={p.href}
                 prefetch={false}
-                className="rounded-md px-2.5 py-2 font-body text-xs font-medium leading-none text-slate-500 transition-colors duration-200 hover:bg-white/[0.05] hover:text-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+                className="rounded-md px-2.5 py-2 font-body text-[13px] font-medium leading-none text-slate-500 transition-colors duration-200 hover:bg-white/[0.05] hover:text-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
               >
                 {p.shortTitle}
               </Link>
@@ -131,7 +131,7 @@ export function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className="block rounded-md px-3 py-2.5 font-body text-sm font-medium leading-none text-slate-300 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+              className="block rounded-md px-3 py-2.5 font-body text-[15px] font-medium leading-none text-slate-300 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
               onClick={() => setOpen(false)}
             >
               {link.label}
@@ -146,7 +146,7 @@ export function Header() {
                 key={p.slug}
                 href={p.href}
                 prefetch={false}
-                className="block rounded-md px-3 py-2 font-body text-sm leading-6 text-cyan-100 transition-colors duration-200 hover:bg-white/[0.05] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+                className="block rounded-md px-3 py-2 font-body text-[15px] leading-6 text-cyan-100 transition-colors duration-200 hover:bg-white/[0.05] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
                 onClick={() => setOpen(false)}
               >
                 {p.title}

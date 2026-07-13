@@ -70,12 +70,12 @@ export function ExperienceTimeline() {
       <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(17rem,.8fr)] lg:items-end">
           <div>
-            <p className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/80">
+            <p className="type-label text-cyan-200/80">
               Experience
             </p>
             <AnimatedSectionHeading
               text="Business, data & BI experience."
-              className="mt-4 max-w-3xl font-heading text-3xl font-bold leading-tight text-white md:text-5xl"
+              className="type-section-title mt-4 max-w-3xl font-heading text-white"
             />
           </div>
 
@@ -92,13 +92,13 @@ export function ExperienceTimeline() {
           >
             <div className="flex items-start justify-between gap-5">
               <div>
-                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-cyan-100/70">
+                <p className="type-label text-cyan-100/70">
                   Professional trajectory
                 </p>
                 <p className="mt-2 font-heading text-lg font-semibold text-white">
                   {experience.length} experiences
                 </p>
-                <p className="mt-1 font-body text-sm leading-6 text-slate-300">
+                <p className="type-body-dense mt-1 text-slate-300">
                   Business, marketing performance and data analytics.
                 </p>
               </div>
@@ -155,7 +155,7 @@ export function ExperienceTimeline() {
 
                   <div className="min-w-0 pt-0.5 text-left md:pr-8 md:text-right">
                     {index === 0 && (
-                      <span className="inline-flex rounded-full border border-cyan-200/20 bg-cyan-200/10 px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-cyan-100">
+                      <span className="inline-flex rounded-full border border-cyan-200/20 bg-cyan-200/10 px-2.5 py-1 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-cyan-100">
                         Latest experience
                       </span>
                     )}
@@ -204,10 +204,10 @@ export function ExperienceTimeline() {
                           <Icon className="size-5" aria-hidden="true" />
                         </div>
                         <div className="min-w-0">
-                          <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                          <p className="type-label text-slate-400">
                             Professional experience
                           </p>
-                          <h3 className="mt-2 font-heading text-2xl font-semibold leading-tight text-white">
+                          <h3 className="type-card-title mt-2 font-heading text-white">
                             {job.company}
                           </h3>
                           <p className="mt-2 font-body text-base font-medium leading-7 text-cyan-100">
@@ -217,7 +217,7 @@ export function ExperienceTimeline() {
                       </div>
 
                       <div className="mt-7 border-t border-white/10 pt-5">
-                        <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                        <p className="type-label text-slate-400">
                           Selected responsibilities
                         </p>
                         <ul className="mt-4 grid gap-3 sm:grid-cols-2">
@@ -239,7 +239,7 @@ export function ExperienceTimeline() {
                                       ease: [0.22, 1, 0.36, 1],
                                     }
                               }
-                              className="flex min-w-0 gap-3 rounded-xl border border-white/10 bg-white/[0.035] p-3.5 font-body text-sm leading-6 text-slate-300 transition-colors duration-200 hover:border-white/20 hover:bg-white/[0.055]"
+                              className="type-body-dense flex min-w-0 gap-3 rounded-xl border border-white/10 bg-white/[0.035] p-3.5 text-slate-300 transition-colors duration-200 hover:border-white/20 hover:bg-white/[0.055]"
                             >
                               <span className={`mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-md border ${accent.bullet}`}>
                                 <Check className="size-3" strokeWidth={2.5} aria-hidden="true" />

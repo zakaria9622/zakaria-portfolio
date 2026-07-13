@@ -368,11 +368,11 @@ export function ExecutiveHero() {
             {...heroItem(shouldSimplifyMotion)}
             className="mb-6 flex flex-wrap items-center gap-3"
           >
-            <span className="inline-flex items-center gap-2 rounded-md border border-emerald-400/25 bg-emerald-400/10 px-3 py-2 font-sans text-xs font-semibold leading-none tracking-normal text-emerald-100">
+            <span className="inline-flex items-center gap-2 rounded-md border border-emerald-400/25 bg-emerald-400/10 px-3 py-2 font-sans text-sm font-semibold leading-none tracking-normal text-emerald-100">
               <ShieldCheck className="size-4" />
               Apprenticeship · 2026–2027
             </span>
-            <span className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/[0.04] px-3 py-2 font-body text-xs font-medium leading-none text-slate-300">
+            <span className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/[0.04] px-3 py-2 font-body text-sm font-medium leading-none text-slate-300">
               <MapPin className="size-4 text-cyan-200" />
               {profile.alternance.location}
             </span>
@@ -380,14 +380,14 @@ export function ExecutiveHero() {
 
           <motion.p
             {...heroItem(shouldSimplifyMotion, 0.04)}
-            className="mb-4 font-mono text-xs font-semibold uppercase tracking-[0.24em] text-cyan-200/80"
+            className="mb-4 type-label text-cyan-200/80"
           >
             Data Analytics Portfolio
           </motion.p>
 
           <motion.h1
             aria-label={profile.name}
-            className="cinematic-headline max-w-4xl font-heading text-6xl font-bold leading-[0.88] text-white sm:text-7xl lg:text-8xl"
+            className="cinematic-headline type-hero-display max-w-4xl font-heading font-bold text-white"
           >
             {headlineWords.map((word, index) => (
               <span key={word} className="headline-word" aria-hidden="true">
@@ -401,14 +401,14 @@ export function ExecutiveHero() {
 
           <motion.p
             {...heroItem(shouldSimplifyMotion, 0.13)}
-            className="mt-5 font-heading text-xl font-semibold leading-tight text-cyan-100 md:text-2xl"
+            className="mt-5 font-heading text-xl font-semibold leading-snug text-cyan-100 md:text-2xl"
           >
             {profile.title}
           </motion.p>
 
           <motion.p
             {...heroItem(shouldSimplifyMotion, 0.18)}
-            className="mt-6 max-w-2xl font-body text-base leading-8 text-slate-300 md:text-lg"
+            className="type-lead mt-6 max-w-2xl text-slate-300"
           >
             {profile.tagline}
           </motion.p>
@@ -419,7 +419,7 @@ export function ExecutiveHero() {
               download
               data-magnetic="true"
               data-magnetic-strength="9"
-              className="magnetic-target inline-flex items-center justify-center gap-2 rounded-md bg-cyan-200 px-5 py-3 font-body text-sm font-semibold leading-none text-ink-950 shadow-[0_18px_45px_rgba(35,184,216,0.18)] transition-colors duration-200 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+            className="magnetic-target inline-flex items-center justify-center gap-2 rounded-md bg-cyan-200 px-5 py-3 font-body text-sm font-semibold leading-none text-ink-950 shadow-[0_18px_45px_rgba(35,184,216,0.18)] transition-colors duration-200 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
             >
               <Download className="size-4" />
               Download CV
@@ -503,17 +503,17 @@ function FeaturedProjectProof({
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/80">
             Featured Project
           </p>
-          <h2 className="mt-4 font-heading text-3xl font-bold leading-tight text-white">
+          <h2 className="type-card-title mt-4 font-heading text-white">
             {previewProject.shortTitle}
           </h2>
-          <p className="mt-3 font-body text-sm leading-7 text-slate-400">
+          <p className="type-body-dense mt-3 text-slate-400">
             {previewProject.businessQuestion}
           </p>
-          <p className="mt-3 font-body text-sm leading-7 text-slate-400">
+          <p className="type-body-dense mt-3 text-slate-400">
             {previewProject.mainInsight}
           </p>
           {previewProject.featuredContext && (
-            <div className="mt-4 rounded-md border border-white/10 bg-white/[0.03] px-3 py-2 font-body text-xs leading-5 text-slate-300">
+            <div className="type-body-dense mt-4 rounded-md border border-white/10 bg-white/[0.03] px-3 py-2 text-slate-300">
               {previewProject.featuredContext}
             </div>
           )}
@@ -549,7 +549,7 @@ function FeaturedProjectProof({
                 <p className="font-heading text-sm font-semibold leading-tight text-white">
                   {previewProject.shortTitle}
                 </p>
-                <p className="mt-1 font-body text-xs leading-5 text-slate-500">
+                <p className="type-body-dense mt-1 text-slate-500">
                   {previewProject.businessQuestion}
                 </p>
               </div>
@@ -579,12 +579,12 @@ function FeaturedProjectProof({
               key={metric.label}
               className="rounded-md border border-white/10 bg-ink-950/65 px-4 py-4"
             >
-              <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+              <p className="type-label text-slate-400">
                 {metric.label}
               </p>
               <motion.p
                 {...metricMotion(shouldSimplifyMotion, 0.18 + index * 0.04)}
-                className={`mt-2 break-words font-kpi text-xl font-bold tabular-nums ${metric.tone}`}
+                className={`type-kpi-medium mt-2 break-words font-kpi ${metric.tone}`}
               >
                 {metric.value}
               </motion.p>
