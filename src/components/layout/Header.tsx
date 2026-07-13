@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { Download, Menu, X } from "lucide-react";
 import { profile } from "@/data/profile";
-import { projects } from "@/data/projects";
 import { useMagneticTargets } from "@/components/ui/useMagneticTargets";
 
 const navLinks = [
@@ -62,12 +61,12 @@ export function Header() {
           href="/"
           data-magnetic="true"
           data-magnetic-strength="6"
-          className="magnetic-target flex min-w-0 items-center gap-2 rounded-md px-2 py-2 font-body text-sm font-semibold leading-none text-white transition-colors duration-200 hover:text-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+          className="magnetic-target flex shrink-0 items-center gap-2 rounded-md px-2 py-2 font-body text-sm font-semibold leading-none text-white transition-colors duration-200 hover:text-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
         >
           <span className="flex size-7 shrink-0 items-center justify-center rounded-md border border-cyan-200/20 bg-cyan-200/10 font-mono text-xs font-semibold leading-none text-cyan-100">
             ZM
           </span>
-          <span className="truncate">
+          <span className="whitespace-nowrap">
             {profile.name.split(" ")[0]}{" "}
             <span className="text-cyan-100">{profile.name.split(" ")[1]}</span>
           </span>
@@ -85,18 +84,6 @@ export function Header() {
               {link.label}
             </Link>
           ))}
-          <div className="ml-2 hidden items-center gap-1 border-l border-white/10 pl-3 xl:flex">
-            {projects.map((p) => (
-              <Link
-                key={p.slug}
-                href={p.href}
-                prefetch={false}
-                className="rounded-md px-2.5 py-2 font-body text-[13px] font-medium leading-none text-slate-500 transition-colors duration-200 hover:bg-white/[0.05] hover:text-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
-              >
-                {p.shortTitle}
-              </Link>
-            ))}
-          </div>
           <a
             href={profile.cvHref}
             data-magnetic="true"
@@ -137,22 +124,6 @@ export function Header() {
               {link.label}
             </Link>
           ))}
-          <div className="mt-4 border-t border-white/10 pt-4">
-            <p className="mb-2 font-mono text-xs font-semibold uppercase tracking-wider text-slate-500">
-              Case studies
-            </p>
-            {projects.map((p) => (
-              <Link
-                key={p.slug}
-                href={p.href}
-                prefetch={false}
-                className="block rounded-md px-3 py-2 font-body text-[15px] leading-6 text-cyan-100 transition-colors duration-200 hover:bg-white/[0.05] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
-                onClick={() => setOpen(false)}
-              >
-                {p.title}
-              </Link>
-            ))}
-          </div>
           <a
             href={profile.cvHref}
             className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-md border border-amber-200/20 bg-amber-200/10 px-4 py-3 font-body text-sm font-semibold leading-none text-amber-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
