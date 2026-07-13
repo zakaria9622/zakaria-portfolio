@@ -559,8 +559,8 @@ function FeaturedProjectProof({
                 src={`/projects/${previewProject.slug}.png`}
                 alt={`${previewProject.title} dashboard preview`}
                 fill
-                sizes="(max-width: 1024px) 100vw, 480px"
-                className="object-contain p-3"
+                sizes="(max-width: 1024px) 100vw, 580px"
+                className="object-contain p-1 sm:p-2"
               />
             </div>
           </div>

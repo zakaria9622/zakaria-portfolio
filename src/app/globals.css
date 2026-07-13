@@ -1485,8 +1485,8 @@ body > header > div {
   min-height: 304px;
   margin-inline: auto;
   padding-block: 38px 42px;
-  grid-template-columns: minmax(0, 350px) minmax(360px, 448px) minmax(220px, 280px);
-  gap: clamp(32px, 4.5vw, 68px);
+  grid-template-columns: minmax(0, 320px) minmax(480px, 580px) minmax(200px, 250px);
+  gap: clamp(24px, 3vw, 48px);
   align-items: start;
 }
 
@@ -1496,7 +1496,7 @@ body > header > div {
 
 .featured-project-dashboard {
   width: 100%;
-  max-width: 448px;
+  max-width: 580px;
   justify-self: center;
 }
 

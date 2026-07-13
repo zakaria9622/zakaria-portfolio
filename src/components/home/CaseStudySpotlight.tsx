@@ -21,6 +21,21 @@ const imageBySlug: Record<string, string> = {
   renewalos: "/projects/renewalos-home.png",
 };
 
+const projectImagePresentation: Record<string, { className: string }> = {
+  "profit-leak": {
+    className: "object-contain object-center",
+  },
+  "funnel-analysis": {
+    className: "object-contain object-[center_46%]",
+  },
+  "rfm-segmentation": {
+    className: "object-contain object-[center_52%]",
+  },
+  renewalos: {
+    className: "object-cover object-center",
+  },
+};
+
 const projectEntrance = [
   { opacity: 0, x: -22, y: 10, scale: 0.992 },
   { opacity: 0, x: 22, y: 12, scale: 0.992 },
@@ -231,6 +246,7 @@ export function CaseStudySpotlight() {
             const scopeBadge = project.cardScope ??
               (project.scope ? `Scope: ${project.scope}` : undefined);
             const imageSrc = imageBySlug[project.slug];
+            const imagePresentation = projectImagePresentation[project.slug];
             const isRenewalOS = project.slug === "renewalos";
 
             if (isRenewalOS) {
@@ -366,7 +382,7 @@ export function CaseStudySpotlight() {
                           alt={`${project.title} dashboard screenshot`}
                           fill
                           sizes="(max-width: 768px) 100vw, 1200px"
-                          className="premium-project-image object-contain"
+                          className={`premium-project-image ${imagePresentation.className}`}
                         />
                       </div>
                       <DashboardSignalOverlay />
@@ -384,16 +400,16 @@ export function CaseStudySpotlight() {
                 {...projectReveal(shouldSimplifyMotion, index)}
               >
                 <DepthProjectCard
-                  className="grid gap-6 overflow-hidden rounded-lg border border-white/10 bg-white/[0.035] p-4 shadow-[0_20px_60px_rgba(0,0,0,0.18)] md:grid-cols-[0.95fr_1.05fr] md:p-5"
+                  className="grid gap-6 overflow-hidden rounded-lg border border-white/10 bg-white/[0.035] p-4 shadow-[0_20px_60px_rgba(0,0,0,0.18)] md:grid-cols-[1.15fr_0.85fr] md:p-5 xl:grid-cols-[1.25fr_0.75fr]"
                 >
-                  <div className="premium-project-media relative min-h-64 overflow-hidden rounded-md border border-white/10 bg-ink-950 md:min-h-80">
+                  <div className="premium-project-media relative aspect-[16/10] min-h-[15rem] min-w-0 w-full overflow-hidden rounded-md border border-white/10 bg-ink-950 sm:min-h-[19rem] md:min-h-[24rem] xl:min-h-[27rem]">
                     {imageSrc && (
                       <Image
                         src={imageSrc}
                         alt={`${project.title} dashboard screenshot`}
                         fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 48vw, 590px"
-                        className="premium-project-image object-contain p-3"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 58vw, 760px"
+                        className={`premium-project-image ${imagePresentation.className}`}
                       />
                     )}
                     <DashboardSignalOverlay />
