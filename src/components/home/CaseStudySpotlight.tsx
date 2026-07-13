@@ -186,15 +186,15 @@ export function CaseStudySpotlight() {
       <div className="case-study-command-grid" aria-hidden="true" />
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <motion.div {...reveal(shouldSimplifyMotion)} className="mb-12">
-          <p className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/80">
+          <p className="type-label text-cyan-200/80">
             Case studies
           </p>
           <div className="mt-4 grid gap-6 lg:grid-cols-[0.82fr_1fr] lg:items-end">
             <AnimatedSectionHeading
               text="Business questions turned into measurable recommendations."
-              className="font-heading text-3xl font-bold leading-tight text-white md:text-5xl"
+              className="type-section-title font-heading text-white"
             />
-            <p className="max-w-2xl font-body text-base leading-7 text-slate-400 lg:ml-auto">
+            <p className="type-body max-w-2xl text-slate-400 lg:ml-auto">
               Each project keeps the line from raw data to stakeholder-ready output:
               SQL exploration, dashboarding, main insight, and a practical action plan.
             </p>
@@ -258,28 +258,28 @@ export function CaseStudySpotlight() {
                         ))}
                       </div>
 
-                      <h3 className="font-heading text-2xl font-bold leading-tight text-white md:text-3xl">
+                      <h3 className="type-card-title font-heading text-white">
                         {project.title}
                       </h3>
 
                       {project.summary && (
-                        <p className="mt-4 max-w-4xl font-body text-sm leading-7 text-slate-400">
+                        <p className="type-body-dense mt-4 max-w-4xl text-slate-400">
                           {project.summary}
                         </p>
                       )}
 
                       <div className="mt-6 grid gap-3 sm:grid-cols-2">
                         <div className="rounded-md border border-white/10 bg-ink-950/55 p-4">
-                          <p className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-slate-500">
+                          <p className="type-label flex items-center gap-2 text-slate-400">
                             <Target className="size-3.5 text-cyan-200" />
                             Business question
                           </p>
-                          <p className="mt-3 font-body text-sm leading-6 text-slate-200">
+                          <p className="type-body-dense mt-3 text-slate-200">
                             {project.businessQuestion}
                           </p>
                         </div>
                         <div className="rounded-md border border-amber-200/20 bg-amber-200/10 p-4">
-                          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-amber-100/70">
+                          <p className="type-label text-amber-100/70">
                             {project.cardMetric
                               ? project.cardMetric.label
                               : "Key metric"}
@@ -306,12 +306,12 @@ export function CaseStudySpotlight() {
                       </div>
 
                       {scopeBadge && (
-                        <p className="mt-4 inline-flex rounded-md border border-emerald-200/20 bg-emerald-200/10 px-3 py-2 font-mono text-sm font-medium text-emerald-100">
+                        <p className="mt-4 inline-flex rounded-md border border-emerald-200/20 bg-emerald-200/10 px-3 py-2 font-body text-sm font-medium text-emerald-100">
                           {scopeBadge}
                         </p>
                       )}
 
-                      <p className="mt-5 max-w-4xl font-body text-sm leading-7 text-slate-400">
+                      <p className="type-body-dense mt-5 max-w-4xl text-slate-400">
                         {project.mainInsight}
                       </p>
                     </div>
@@ -416,28 +416,28 @@ export function CaseStudySpotlight() {
                       ))}
                     </div>
 
-                    <h3 className="font-heading text-2xl font-bold leading-tight text-white md:text-3xl">
+                    <h3 className="type-card-title font-heading text-white">
                       {project.title}
                     </h3>
 
                     {project.summary && (
-                      <p className="mt-4 font-body text-sm leading-7 text-slate-400">
+                      <p className="type-body-dense mt-4 text-slate-400">
                         {project.summary}
                       </p>
                     )}
 
                     <div className="mt-6 grid gap-3 sm:grid-cols-2">
                       <div className="rounded-md border border-white/10 bg-ink-950/55 p-4">
-                        <p className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-slate-500">
+                        <p className="type-label flex items-center gap-2 text-slate-400">
                           <Target className="size-3.5 text-cyan-200" />
                           Business question
                         </p>
-                        <p className="mt-3 font-body text-sm leading-6 text-slate-200">
+                        <p className="type-body-dense mt-3 text-slate-200">
                           {project.businessQuestion}
                         </p>
                       </div>
                       <div className="rounded-md border border-amber-200/20 bg-amber-200/10 p-4">
-                        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-amber-100/70">
+                        <p className="type-label text-amber-100/70">
                           {project.cardMetric ? project.cardMetric.label : "Key metric"}
                         </p>
                         <motion.p
@@ -462,12 +462,12 @@ export function CaseStudySpotlight() {
                     </div>
 
                     {scopeBadge && (
-                      <p className="mt-4 inline-flex rounded-md border border-emerald-200/20 bg-emerald-200/10 px-3 py-2 font-mono text-sm font-medium text-emerald-100">
+                      <p className="mt-4 inline-flex rounded-md border border-emerald-200/20 bg-emerald-200/10 px-3 py-2 font-body text-sm font-medium text-emerald-100">
                         {scopeBadge}
                       </p>
                     )}
 
-                    <p className="mt-5 font-body text-sm leading-7 text-slate-400">
+                    <p className="type-body-dense mt-5 text-slate-400">
                       {project.mainInsight}
                     </p>
                   </div>

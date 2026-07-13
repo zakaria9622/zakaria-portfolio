@@ -27,9 +27,9 @@ import { Button } from "@/components/ui/Button";
 import { GlassCard } from "@/components/ui/GlassCard";
 
 const chapterHeadingClass =
-  "font-heading text-3xl font-bold leading-tight text-white md:text-4xl";
+  "type-chapter-title font-heading text-white";
 const chapterEyebrowClass =
-  "font-mono text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/80";
+  "type-label text-cyan-200/80";
 
 const chapters = [
   { id: "results", label: "Results" },
@@ -167,17 +167,17 @@ export function ProjectDetail({ project }: { project: Project }) {
               transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
               className="min-w-0"
             >
-              <p className="font-mono text-sm font-semibold uppercase tracking-widest text-electric-400">
+              <p className="type-label text-electric-400">
                 Case Study
               </p>
-              <h1 className="mt-3 max-w-2xl break-words font-heading text-4xl font-bold leading-[0.98] text-white md:text-5xl xl:text-6xl">
+              <h1 className="type-page-title mt-3 max-w-2xl break-words font-heading font-bold text-white">
                 {project.title}
               </h1>
-              <p className="mt-5 max-w-2xl font-body text-lg leading-8 text-slate-200 md:text-xl">
+              <p className="type-lead mt-5 max-w-2xl text-slate-200">
                 {project.businessQuestion}
               </p>
               {project.summary && (
-                <p className="mt-4 max-w-2xl font-body text-base leading-7 text-slate-400">
+                <p className="type-body mt-4 max-w-2xl text-slate-400">
                   {project.summary}
                 </p>
               )}
@@ -190,27 +190,27 @@ export function ProjectDetail({ project }: { project: Project }) {
 
               <div className="mt-7 flex flex-wrap gap-3">
                 <div className="min-w-[10rem] rounded-lg border border-white/10 bg-white/[0.035] px-3 py-2.5">
-                  <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                  <p className="type-label text-slate-400">
                     Project type
                   </p>
-                  <p className="mt-1 font-body text-xs leading-5 text-slate-200">
+                  <p className="type-body-dense mt-1 text-slate-200">
                     {project.projectType}
                   </p>
                 </div>
                 <div className="min-w-[10rem] rounded-lg border border-white/10 bg-white/[0.035] px-3 py-2.5">
-                  <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                  <p className="type-label text-slate-400">
                     Contribution
                   </p>
-                  <p className="mt-1 font-body text-xs leading-5 text-slate-200">
+                  <p className="type-body-dense mt-1 text-slate-200">
                     {project.ownership}
                   </p>
                 </div>
                 {project.artifacts && project.artifacts.length > 0 && (
                   <div className="min-w-[10rem] rounded-lg border border-cyan-200/15 bg-cyan-200/[0.035] px-3 py-2.5">
-                    <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-cyan-100/60">
+                    <p className="type-label text-cyan-100/60">
                       Inspectable work
                     </p>
-                    <p className="mt-1 font-body text-xs leading-5 text-cyan-50">
+                    <p className="type-body-dense mt-1 text-cyan-50">
                       {project.artifacts.length} artifacts
                     </p>
                   </div>

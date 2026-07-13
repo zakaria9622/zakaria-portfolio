@@ -50,14 +50,14 @@ export function ContactCommandBar() {
         >
           <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
             <div>
-              <p className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/80">
+              <p className="type-label text-cyan-200/80">
                 Contact
               </p>
               <AnimatedSectionHeading
                 text="Available for an apprenticeship in Data Analytics, Business Intelligence or Business Analytics."
-                className="mt-4 font-heading text-3xl font-bold leading-tight text-white md:text-5xl"
+                className="type-section-title mt-4 font-heading text-white"
               />
-              <div className="mt-6 flex flex-wrap gap-3 font-body text-sm text-slate-300">
+              <div className="mt-6 flex flex-wrap gap-3 font-body text-[15px] text-slate-300">
                 <span className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-ink-950/55 px-3 py-2">
                   <MapPin className="size-4 text-cyan-200" />
                   {profile.alternance.location}
@@ -75,7 +75,7 @@ export function ContactCommandBar() {
                     href={item.href}
                     target={item.external ? "_blank" : undefined}
                     rel={item.external ? "noopener noreferrer" : undefined}
-                    className="group inline-flex min-h-14 items-center gap-3 rounded-md border border-white/10 bg-ink-950/55 px-4 py-3 font-body text-sm font-medium leading-6 text-slate-200 transition-colors duration-200 hover:border-cyan-200/30 hover:bg-cyan-200/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+                    className="group inline-flex min-h-14 items-center gap-3 rounded-md border border-white/10 bg-ink-950/55 px-4 py-3 font-body text-[15px] font-medium leading-6 text-slate-200 transition-colors duration-200 hover:border-cyan-200/30 hover:bg-cyan-200/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
                   >
                     <Icon className="size-5 shrink-0 text-cyan-100" />
                     <span className="min-w-0 break-words">{item.label}</span>

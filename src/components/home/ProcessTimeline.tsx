@@ -103,12 +103,12 @@ export function ProcessTimeline() {
     <section className="relative py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <motion.div {...reveal(shouldSimplifyMotion)} className="mb-12">
-          <p className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/80">
+          <p className="type-label text-cyan-200/80">
             Analytics process
           </p>
           <AnimatedSectionHeading
             text="A repeatable path from question to action."
-            className="mt-4 max-w-3xl font-heading text-3xl font-bold leading-tight text-white md:text-5xl"
+            className="type-section-title mt-4 max-w-3xl font-heading text-white"
           />
         </motion.div>
 
@@ -176,10 +176,10 @@ export function ProcessTimeline() {
                   </span>
                   <Icon className={`size-5 ${step.accent}`} />
                 </div>
-                <h3 className="font-heading text-xl font-semibold leading-tight text-white">
+                <h3 className="font-heading text-xl font-semibold leading-snug text-white">
                   {step.title}
                 </h3>
-                <p className="mt-3 font-body text-sm leading-6 text-slate-400">
+                <p className="type-body-dense mt-3 text-slate-400">
                   {step.text}
                 </p>
               </motion.article>

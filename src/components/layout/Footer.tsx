@@ -7,8 +7,8 @@ export function Footer() {
     <footer className="border-t border-white/5 bg-navy-950 py-12">
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-6 md:flex-row lg:px-8">
         <div className="text-center md:text-left">
-          <p className="font-heading font-semibold text-white">{profile.name}</p>
-          <p className="mt-1 font-body text-sm text-slate-400">
+          <p className="font-heading text-base font-semibold text-white">{profile.name}</p>
+          <p className="mt-1 font-body text-[15px] text-slate-400">
             {profile.title}
           </p>
         </div>

@@ -77,14 +77,14 @@ export function EducationSection() {
       <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
           <div>
-            <p className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/80">
+            <p className="type-label text-cyan-200/80">
               Academic Background
             </p>
             <AnimatedSectionHeading
               text="Education"
-              className="mt-4 font-heading text-3xl font-bold leading-tight text-white md:text-5xl"
+              className="type-section-title mt-4 font-heading text-white"
             />
-            <p className="mt-4 max-w-3xl font-body text-base leading-7 text-slate-400">
+            <p className="type-body mt-4 max-w-3xl text-slate-400">
               Business education combined with specialized training in data management,
               analytics and artificial intelligence.
             </p>
@@ -103,7 +103,7 @@ export function EducationSection() {
           >
             <div className="flex items-start justify-between gap-5">
               <div>
-                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-cyan-100/70">
+                <p className="type-label text-cyan-100/70">
                   Academic trajectory
                 </p>
                 <p className="mt-2 font-heading text-lg font-semibold text-white">
@@ -225,13 +225,13 @@ export function EducationSection() {
                       <div className={`flex size-11 items-center justify-center rounded-xl border ${accent.icon}`}>
                         <Icon className="size-5" aria-hidden="true" />
                       </div>
-                      <p className="mt-7 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                      <p className="type-label mt-7 text-slate-400">
                         Academic program
                       </p>
-                      <h3 className="mt-2 break-words font-heading text-xl font-semibold leading-tight text-white md:text-2xl">
+                      <h3 className="type-card-title mt-2 break-words font-heading text-white">
                         {entry.program}
                       </h3>
-                      <p className="mt-4 break-words font-body text-sm font-medium leading-6 text-cyan-100">
+                      <p className="type-body-dense mt-4 break-words font-medium text-cyan-100">
                         {entry.school}
                       </p>
                       <span className={`mt-5 inline-flex items-center gap-2 rounded-full border px-3 py-1.5 font-mono text-xs font-medium leading-5 ${accent.date}`}>
