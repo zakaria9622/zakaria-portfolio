@@ -1,7 +1,7 @@
 export const experience = [
   {
     company: "Thélio",
-    role: "Alternant Consultant Data et BI",
+    role: "Consultant Data & BI Junior",
     dates: "10/2025 - 09/2026",
     highlights: [
       "Translate business requirements into functional specifications, KPI definitions and BI reporting needs.",
