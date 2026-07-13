@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { ExecutiveHero } from "@/components/home/ExecutiveHero";
 import { KpiRibbon } from "@/components/home/KpiRibbon";
+import { ExperienceTimeline } from "@/components/home/ExperienceTimeline";
+import { EducationSection } from "@/components/home/EducationSection";
 import { CaseStudySpotlight } from "@/components/home/CaseStudySpotlight";
 import { SkillProofMatrix } from "@/components/home/SkillProofMatrix";
 import { ProcessTimeline } from "@/components/home/ProcessTimeline";
@@ -19,6 +21,8 @@ export default function Home() {
       <CinematicPortfolioLayer />
       <ExecutiveHero />
       <KpiRibbon />
+      <ExperienceTimeline />
+      <EducationSection />
       <CaseStudySpotlight />
       <SkillProofMatrix />
       <ProcessTimeline />
