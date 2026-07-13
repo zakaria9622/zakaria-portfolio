@@ -147,7 +147,7 @@ export function ProjectDetail({ project }: { project: Project }) {
           className="pointer-events-none absolute inset-0 opacity-[0.16] [background-image:linear-gradient(rgba(125,211,252,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(125,211,252,0.045)_1px,transparent_1px)] [background-size:40px_40px]"
         />
 
-        <div className="relative mx-auto max-w-6xl px-6 lg:px-8">
+        <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
           <Link
             href="/#projects"
             className="mb-10 inline-flex items-center gap-2 font-body text-sm leading-none text-slate-400 transition-colors hover:text-electric-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
@@ -156,7 +156,7 @@ export function ProjectDetail({ project }: { project: Project }) {
             Back to projects
           </Link>
 
-          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-12">
+          <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-center lg:gap-10 xl:grid-cols-[0.72fr_1.28fr] xl:gap-12">
             <motion.div
               initial={{ opacity: 0, x: -18, y: 8 }}
               animate={{ opacity: 1, x: 0, y: 0 }}
