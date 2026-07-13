@@ -129,6 +129,9 @@ export function ProjectDetail({ project }: { project: Project }) {
     container.scrollTo({ left: nextLeft, behavior: "smooth" });
   }, [activeChapter]);
 
+  const heroTitle = project.heroTitle ?? project.title;
+  const heroSubtitle = project.heroSubtitle;
+
   return (
     <article ref={articleRef}>
       <motion.div
@@ -167,8 +170,13 @@ export function ProjectDetail({ project }: { project: Project }) {
                 Case Study
               </p>
               <h1 className="type-page-title mt-3 max-w-2xl break-words font-heading font-bold text-white">
-                {project.title}
+                {heroTitle}
               </h1>
+              {heroSubtitle && (
+                <p className="mt-3 max-w-xl font-heading text-lg font-semibold leading-snug text-cyan-100 sm:text-xl xl:text-2xl">
+                  {heroSubtitle}
+                </p>
+              )}
               <p className="type-lead mt-5 max-w-2xl text-slate-200">
                 {project.businessQuestion}
               </p>
