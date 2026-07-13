@@ -9,30 +9,30 @@ import { education } from "@/data/education";
 const educationAccents = [
   {
     node:
-      "border-cyan-200/35 bg-cyan-200/10 text-cyan-100 shadow-[0_0_28px_rgba(34,211,238,0.12)]",
+      "border-cyan-200/35 bg-cyan-200/10 text-cyan-100 shadow-[0_0_18px_rgba(34,211,238,0.06)]",
     icon: "border-cyan-200/25 bg-cyan-200/10 text-cyan-100",
     line: "from-cyan-300/80 via-cyan-300/30 to-transparent",
-    glow: "bg-cyan-300/10",
+    glow: "bg-cyan-300/[0.06]",
     date: "border-cyan-200/20 bg-cyan-200/[0.07] text-cyan-100",
-    number: "text-cyan-200/[0.08]",
+    number: "text-cyan-200/[0.05]",
   },
   {
     node:
-      "border-amber-200/35 bg-amber-200/10 text-amber-100 shadow-[0_0_28px_rgba(253,230,138,0.1)]",
+      "border-amber-200/35 bg-amber-200/10 text-amber-100 shadow-[0_0_18px_rgba(253,230,138,0.055)]",
     icon: "border-amber-200/25 bg-amber-200/10 text-amber-100",
     line: "from-amber-200/80 via-amber-200/30 to-transparent",
-    glow: "bg-amber-200/10",
+    glow: "bg-amber-200/[0.06]",
     date: "border-amber-200/20 bg-amber-200/[0.07] text-amber-100",
-    number: "text-amber-200/[0.08]",
+    number: "text-amber-200/[0.05]",
   },
   {
     node:
-      "border-emerald-200/35 bg-emerald-200/10 text-emerald-100 shadow-[0_0_28px_rgba(110,231,183,0.1)]",
+      "border-emerald-200/35 bg-emerald-200/10 text-emerald-100 shadow-[0_0_18px_rgba(110,231,183,0.055)]",
     icon: "border-emerald-200/25 bg-emerald-200/10 text-emerald-100",
     line: "from-emerald-300/80 via-emerald-300/30 to-transparent",
-    glow: "bg-emerald-300/10",
+    glow: "bg-emerald-300/[0.06]",
     date: "border-emerald-200/20 bg-emerald-200/[0.07] text-emerald-100",
-    number: "text-emerald-200/[0.08]",
+    number: "text-emerald-200/[0.05]",
   },
 ] as const;
 
@@ -59,19 +59,11 @@ export function EducationSection() {
     >
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -left-36 -top-36 size-96 rounded-full bg-cyan-300/[0.07] blur-3xl"
+        className="pointer-events-none absolute -left-28 -top-28 size-80 rounded-full bg-cyan-300/[0.04] blur-3xl"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -bottom-44 -right-36 size-[30rem] rounded-full bg-electric-400/[0.07] blur-3xl"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-[0.035] [background-image:linear-gradient(to_right,rgba(255,255,255,.65)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,.65)_1px,transparent_1px)] [background-size:44px_44px]"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[32rem] w-[52rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-200/[0.035] blur-3xl"
+        className="pointer-events-none absolute inset-0 opacity-[0.018] [background-image:linear-gradient(to_right,rgba(255,255,255,.65)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,.65)_1px,transparent_1px)] [background-size:48px_48px]"
       />
 
       <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
@@ -155,7 +147,7 @@ export function EducationSection() {
                     initial={
                       shouldReduceMotion
                         ? { opacity: 1, scale: 1, rotate: 0 }
-                        : { opacity: 0, scale: 0.6, rotate: -10 }
+                        : { opacity: 0, scale: 0.78, rotate: -4 }
                     }
                     whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
                     viewport={{ once: true, margin: "-90px" }}
@@ -185,8 +177,8 @@ export function EducationSection() {
                       shouldReduceMotion
                         ? undefined
                         : {
-                            y: -7,
-                            scale: 1.008,
+                            y: -3,
+                            scale: 1.003,
                             transition: { type: "spring", stiffness: 280, damping: 24 },
                           }
                     }
@@ -208,7 +200,7 @@ export function EducationSection() {
                     />
                     <div
                       aria-hidden="true"
-                      className={`pointer-events-none absolute -right-16 -top-16 size-40 rounded-full opacity-40 blur-3xl transition-opacity duration-300 group-hover:opacity-80 ${accent.glow}`}
+                      className={`pointer-events-none absolute -right-14 -top-14 size-36 rounded-full opacity-25 blur-3xl transition-opacity duration-300 group-hover:opacity-45 ${accent.glow}`}
                     />
                     <span
                       aria-hidden="true"
@@ -216,11 +208,6 @@ export function EducationSection() {
                     >
                       {milestoneNumber}
                     </span>
-                    <div
-                      aria-hidden="true"
-                      className={`pointer-events-none absolute inset-x-6 bottom-0 h-px origin-left scale-x-0 bg-gradient-to-r transition-transform duration-500 group-hover:scale-x-100 ${accent.line}`}
-                    />
-
                     <div className="relative">
                       <div className={`flex size-11 items-center justify-center rounded-xl border ${accent.icon}`}>
                         <Icon className="size-5" aria-hidden="true" />

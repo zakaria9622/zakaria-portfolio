@@ -55,10 +55,10 @@ function ChapterHeading({
 }: ChapterHeadingProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 18 }}
+      initial={{ opacity: 0, y: 10 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.55 }}
-      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
       className={bordered ? "mb-8 border-b border-white/10 pb-7" : "mb-8"}
     >
       <p className={chapterEyebrowClass}>{eyebrow}</p>
@@ -71,7 +71,7 @@ function ChapterHeading({
         initial={{ scaleX: 0, opacity: 0 }}
         whileInView={{ scaleX: 1, opacity: 1 }}
         viewport={{ once: true, amount: 0.8 }}
-        transition={{ duration: 0.7, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.45, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
       />
     </motion.div>
   );
@@ -133,22 +133,18 @@ export function ProjectDetail({ project }: { project: Project }) {
     <article ref={articleRef}>
       <motion.div
         aria-hidden="true"
-        className="pointer-events-none fixed inset-x-0 top-0 z-[55] h-[2px] origin-left bg-gradient-to-r from-cyan-300 via-electric-400 to-amber-200 shadow-[0_0_16px_rgba(103,232,249,0.65)]"
+        className="pointer-events-none fixed inset-x-0 top-0 z-[55] h-px origin-left bg-gradient-to-r from-cyan-300/80 via-electric-400/70 to-amber-200/80 shadow-[0_0_8px_rgba(103,232,249,0.28)]"
         style={{ scaleX: progressScale }}
       />
 
       <section className="relative overflow-hidden border-b border-white/10 bg-navy-950 pt-28 pb-14 md:pt-32 md:pb-20">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -top-36 right-[-8%] size-[28rem] rounded-full bg-cyan-300/10 blur-3xl"
+          className="pointer-events-none absolute -top-28 right-[-6%] size-96 rounded-full bg-cyan-300/[0.055] blur-3xl"
         />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -bottom-44 left-[-8%] size-[30rem] rounded-full bg-electric-500/10 blur-3xl"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 opacity-30 [background-image:linear-gradient(rgba(125,211,252,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(125,211,252,0.07)_1px,transparent_1px)] [background-size:34px_34px]"
+          className="pointer-events-none absolute inset-0 opacity-[0.16] [background-image:linear-gradient(rgba(125,211,252,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(125,211,252,0.045)_1px,transparent_1px)] [background-size:40px_40px]"
         />
 
         <div className="relative mx-auto max-w-6xl px-6 lg:px-8">
@@ -162,9 +158,9 @@ export function ProjectDetail({ project }: { project: Project }) {
 
           <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-12">
             <motion.div
-              initial={{ opacity: 0, x: -28, y: 12 }}
+              initial={{ opacity: 0, x: -18, y: 8 }}
               animate={{ opacity: 1, x: 0, y: 0 }}
-              transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.52, ease: [0.22, 1, 0.36, 1] }}
               className="min-w-0"
             >
               <p className="type-label text-electric-400">
@@ -253,11 +249,11 @@ export function ProjectDetail({ project }: { project: Project }) {
             <motion.div
               initial={{
                 opacity: 0,
-                x: 42,
-                y: 18,
-                rotateY: -8,
-                rotateX: 3,
-                scale: 0.97,
+                x: 24,
+                y: 10,
+                rotateY: -3,
+                rotateX: 1,
+                scale: 0.985,
               }}
               animate={{
                 opacity: 1,
@@ -268,11 +264,11 @@ export function ProjectDetail({ project }: { project: Project }) {
                 scale: 1,
               }}
               transition={{
-                duration: 0.85,
-                delay: 0.12,
+                duration: 0.62,
+                delay: 0.1,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              whileHover={{ y: -6, scale: 1.012, rotateX: 1.2, rotateY: -1.2 }}
+              whileHover={{ y: -2, scale: 1.004 }}
               style={{ perspective: 1400 }}
               className="min-w-0 transform-gpu"
             >
@@ -311,7 +307,7 @@ export function ProjectDetail({ project }: { project: Project }) {
                 <motion.span
                   layoutId="active-case-study-chapter"
                   aria-hidden="true"
-                  className="absolute inset-0 rounded-md border border-cyan-200/25 bg-cyan-200/10 shadow-[0_0_22px_rgba(34,211,238,0.10)]"
+                  className="absolute inset-0 rounded-md border border-cyan-200/20 bg-cyan-200/[0.07] shadow-[0_0_14px_rgba(34,211,238,0.05)]"
                   transition={{ type: "spring", stiffness: 380, damping: 32 }}
                 />
               )}

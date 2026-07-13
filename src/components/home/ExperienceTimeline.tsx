@@ -17,19 +17,19 @@ const experienceAccents = [
     node: "border-cyan-200/40 bg-cyan-200/10 text-cyan-100",
     line: "from-cyan-200 via-cyan-300/70 to-transparent",
     bullet: "border-cyan-200/25 bg-cyan-200/10 text-cyan-100",
-    glow: "bg-cyan-300/15",
+    glow: "bg-cyan-300/[0.08]",
   },
   {
     node: "border-amber-200/40 bg-amber-200/10 text-amber-100",
     line: "from-amber-200 via-amber-300/70 to-transparent",
     bullet: "border-amber-200/25 bg-amber-200/10 text-amber-100",
-    glow: "bg-amber-300/15",
+    glow: "bg-amber-300/[0.08]",
   },
   {
     node: "border-emerald-200/40 bg-emerald-200/10 text-emerald-100",
     line: "from-emerald-200 via-emerald-300/70 to-transparent",
     bullet: "border-emerald-200/25 bg-emerald-200/10 text-emerald-100",
-    glow: "bg-emerald-300/15",
+    glow: "bg-emerald-300/[0.08]",
   },
 ] as const;
 
@@ -56,15 +56,11 @@ export function ExperienceTimeline() {
     >
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -right-40 top-8 size-96 rounded-full bg-cyan-300/[0.07] blur-3xl"
+        className="pointer-events-none absolute -right-32 top-12 size-80 rounded-full bg-cyan-300/[0.045] blur-3xl"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -bottom-40 -left-36 size-[28rem] rounded-full bg-electric-400/[0.07] blur-3xl"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-[0.035] [background-image:linear-gradient(to_right,rgba(255,255,255,.65)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,.65)_1px,transparent_1px)] [background-size:44px_44px]"
+        className="pointer-events-none absolute inset-0 opacity-[0.018] [background-image:linear-gradient(to_right,rgba(255,255,255,.65)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,.65)_1px,transparent_1px)] [background-size:48px_48px]"
       />
 
       <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
@@ -134,7 +130,7 @@ export function ExperienceTimeline() {
                     initial={
                       shouldReduceMotion
                         ? false
-                        : { opacity: 0, scale: 0.65, rotate: -8 }
+                        : { opacity: 0, scale: 0.78, rotate: -4 }
                     }
                     whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
                     viewport={{ once: true, margin: "-90px" }}
@@ -172,7 +168,7 @@ export function ExperienceTimeline() {
                         : { opacity: 0, x: 28, y: 18, scale: 0.985 }
                     }
                     whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
-                    whileHover={shouldReduceMotion ? undefined : { y: -5, scale: 1.006 }}
+                    whileHover={shouldReduceMotion ? undefined : { y: -2, scale: 1.002 }}
                     viewport={{ once: true, margin: "-90px" }}
                     transition={
                       shouldReduceMotion
@@ -183,7 +179,7 @@ export function ExperienceTimeline() {
                             ease: [0.22, 1, 0.36, 1],
                           }
                     }
-                    className="group relative min-w-0 overflow-hidden rounded-2xl border border-white/10 bg-graphite-900/75 p-5 shadow-2xl shadow-black/20 backdrop-blur-sm transition-colors duration-200 hover:border-white/20 hover:bg-graphite-900/90 md:p-7"
+                    className="group relative min-w-0 overflow-hidden rounded-2xl border border-white/10 bg-graphite-900/75 p-5 shadow-[0_18px_55px_rgba(0,0,0,0.16)] backdrop-blur-sm transition-colors duration-200 hover:border-white/20 hover:bg-graphite-900/90 md:p-7"
                   >
                     <div
                       aria-hidden="true"
@@ -191,11 +187,7 @@ export function ExperienceTimeline() {
                     />
                     <div
                       aria-hidden="true"
-                      className={`absolute -right-16 -top-16 size-40 rounded-full blur-3xl transition-opacity duration-200 group-hover:opacity-100 ${accent.glow}`}
-                    />
-                    <div
-                      aria-hidden="true"
-                      className="absolute inset-x-8 bottom-0 h-px origin-left scale-x-0 bg-white/25 transition-transform duration-300 group-hover:scale-x-100"
+                      className={`absolute -right-16 -top-16 size-36 rounded-full opacity-[0.35] blur-3xl transition-opacity duration-200 group-hover:opacity-[0.55] ${accent.glow}`}
                     />
 
                     <div className="relative">

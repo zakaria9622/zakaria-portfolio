@@ -37,10 +37,10 @@ const steps = [
 ];
 
 const stepEntrance = [
-  { opacity: 0, x: -14, y: 8 },
-  { opacity: 0, x: 0, y: 16 },
-  { opacity: 0, x: 0, y: 16 },
-  { opacity: 0, x: 14, y: 8 },
+  { opacity: 0, x: -10, y: 6 },
+  { opacity: 0, x: 0, y: 10 },
+  { opacity: 0, x: 0, y: 10 },
+  { opacity: 0, x: 10, y: 6 },
 ];
 
 function reveal(shouldSimplifyMotion: boolean, delay = 0) {
@@ -79,20 +79,7 @@ function connectorReveal(shouldSimplifyMotion: boolean, axis: "x" | "y") {
     viewport: { once: true, margin: "-80px" },
     transition: shouldSimplifyMotion
       ? { duration: 0 }
-      : { duration: 0.58, delay: 0.06, ease: moveEase },
-  };
-}
-
-function pathReveal(shouldSimplifyMotion: boolean, delay = 0) {
-  return {
-    initial: shouldSimplifyMotion
-      ? { opacity: 1, pathLength: 1 }
-      : { opacity: 0, pathLength: 0 },
-    whileInView: { opacity: 1, pathLength: 1 },
-    viewport: { once: true, margin: "-90px" },
-    transition: shouldSimplifyMotion
-      ? { duration: 0 }
-      : { duration: 0.82, delay, ease: moveEase },
+      : { duration: 0.42, delay: 0.06, ease: moveEase },
   };
 }
 
@@ -123,44 +110,6 @@ export function ProcessTimeline() {
             className="process-flow-line process-flow-line-desktop"
             aria-hidden="true"
           />
-          <svg
-            className="process-map-lines"
-            viewBox="0 0 1120 260"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-          >
-            <motion.path
-              {...pathReveal(shouldSimplifyMotion, 0.08)}
-              className="process-map-path process-map-path-primary"
-              d="M62 82 C186 20 270 148 386 90 S574 34 690 112 874 198 1058 88"
-            />
-            <motion.path
-              {...pathReveal(shouldSimplifyMotion, 0.2)}
-              className="process-map-path process-map-path-secondary"
-              d="M62 170 C196 216 288 132 414 172 S626 236 742 152 908 80 1058 150"
-            />
-            {[62, 386, 690, 1058].map((x, index) => (
-              <motion.circle
-                key={x}
-                initial={
-                  shouldSimplifyMotion
-                    ? { opacity: 1, scale: 1 }
-                    : { opacity: 0, scale: 0.72 }
-                }
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true, margin: "-90px" }}
-                transition={
-                  shouldSimplifyMotion
-                    ? { duration: 0 }
-                    : { duration: 0.28, delay: 0.2 + index * 0.08, ease: enterEase }
-                }
-                className="process-map-node"
-                cx={x}
-                cy={index % 2 === 0 ? 82 : 90}
-                r="7"
-              />
-            ))}
-          </svg>
           {steps.map((step, index) => {
             const Icon = step.icon;
 

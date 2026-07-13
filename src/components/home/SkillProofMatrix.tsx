@@ -20,7 +20,7 @@ const categoryAccents = [
   {
     selector: "border-cyan-200/30 bg-cyan-200/[0.07] text-cyan-50",
     icon: "border-cyan-200/25 bg-cyan-200/10 text-cyan-100",
-    glow: "bg-cyan-300/10",
+    glow: "bg-cyan-300/[0.06]",
     chip: "border-cyan-200/20 bg-cyan-200/[0.06] text-cyan-50",
     line: "from-cyan-300/80 via-cyan-300/25 to-transparent",
     count: "border-cyan-200/20 bg-cyan-200/10 text-cyan-100",
@@ -28,7 +28,7 @@ const categoryAccents = [
   {
     selector: "border-amber-200/30 bg-amber-200/[0.07] text-amber-50",
     icon: "border-amber-200/25 bg-amber-200/10 text-amber-100",
-    glow: "bg-amber-200/10",
+    glow: "bg-amber-200/[0.06]",
     chip: "border-amber-200/20 bg-amber-200/[0.06] text-amber-50",
     line: "from-amber-200/80 via-amber-200/25 to-transparent",
     count: "border-amber-200/20 bg-amber-200/10 text-amber-100",
@@ -36,7 +36,7 @@ const categoryAccents = [
   {
     selector: "border-emerald-200/30 bg-emerald-200/[0.07] text-emerald-50",
     icon: "border-emerald-200/25 bg-emerald-200/10 text-emerald-100",
-    glow: "bg-emerald-300/10",
+    glow: "bg-emerald-300/[0.06]",
     chip: "border-emerald-200/20 bg-emerald-200/[0.06] text-emerald-50",
     line: "from-emerald-300/80 via-emerald-300/25 to-transparent",
     count: "border-emerald-200/20 bg-emerald-200/10 text-emerald-100",
@@ -91,17 +91,15 @@ export function SkillProofMatrix() {
 
   const panelTransition = shouldReduceMotion
     ? { duration: 0 }
-    : { duration: 0.42, ease: [0.22, 1, 0.36, 1] as const };
+    : { duration: 0.28, ease: [0.22, 1, 0.36, 1] as const };
 
   return (
     <section
       id="skills"
       className="relative overflow-hidden border-y border-white/10 bg-white/[0.025] py-20 md:py-28"
     >
-      <div aria-hidden="true" className="pointer-events-none absolute -right-36 -top-36 size-96 rounded-full bg-cyan-300/[0.07] blur-3xl" />
-      <div aria-hidden="true" className="pointer-events-none absolute -bottom-44 -left-36 size-[30rem] rounded-full bg-emerald-300/[0.06] blur-3xl" />
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-[0.035] [background-image:linear-gradient(to_right,rgba(255,255,255,.65)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,.65)_1px,transparent_1px)] [background-size:44px_44px]" />
-      <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-1/2 h-[32rem] w-[52rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-200/[0.035] blur-3xl" />
+      <div aria-hidden="true" className="pointer-events-none absolute -right-28 -top-28 size-80 rounded-full bg-cyan-300/[0.04] blur-3xl" />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-[0.018] [background-image:linear-gradient(to_right,rgba(255,255,255,.65)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,.65)_1px,transparent_1px)] [background-size:48px_48px]" />
 
       <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
@@ -117,7 +115,7 @@ export function SkillProofMatrix() {
             whileInView={{ opacity: 1, x: 0, y: 0 }}
             viewport={{ once: true, margin: "-90px" }}
             transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-            className="border-l border-cyan-200/30 bg-graphite-900/60 px-5 py-4 shadow-[0_18px_50px_rgba(34,211,238,0.06)] backdrop-blur-xl"
+            className="border-l border-cyan-200/25 bg-graphite-900/60 px-5 py-4 shadow-[0_16px_42px_rgba(34,211,238,0.035)] backdrop-blur-xl"
           >
             <div className="flex items-start justify-between gap-5">
               <div>
@@ -168,7 +166,7 @@ export function SkillProofMatrix() {
                     <motion.span
                       layoutId="active-skill-domain"
                       aria-hidden="true"
-                      className="absolute inset-0 rounded-xl border border-cyan-200/20 bg-cyan-200/[0.055] shadow-[0_0_40px_rgba(34,211,238,0.08)]"
+                      className="absolute inset-0 rounded-xl border border-cyan-200/20 bg-cyan-200/[0.045] shadow-[0_0_24px_rgba(34,211,238,0.04)]"
                       transition={shouldReduceMotion ? { duration: 0 } : { type: "spring", stiffness: 360, damping: 32 }}
                     />
                   )}
@@ -196,15 +194,15 @@ export function SkillProofMatrix() {
               id={`skill-domain-panel-${activeIndex}`}
               aria-labelledby={`skill-domain-tab-${activeIndex}`}
               tabIndex={0}
-              initial={shouldReduceMotion ? { opacity: 1, x: 0, y: 0, scale: 1 } : { opacity: 0, x: 22, y: 12, scale: 0.99 }}
+              initial={shouldReduceMotion ? { opacity: 1, x: 0, y: 0, scale: 1 } : { opacity: 0, x: 12, y: 6, scale: 0.995 }}
               animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
-              exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: -14, y: -4, scale: 0.995 }}
+              exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: -8, y: -2, scale: 0.998 }}
               transition={panelTransition}
-              className="relative min-h-[28rem] overflow-hidden rounded-2xl border border-white/10 bg-graphite-900/75 p-5 shadow-[0_28px_90px_rgba(0,0,0,0.28)] backdrop-blur-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:p-7 lg:p-8"
+              className="relative min-h-[28rem] overflow-hidden rounded-2xl border border-white/10 bg-graphite-900/75 p-5 shadow-[0_20px_65px_rgba(0,0,0,0.22)] backdrop-blur-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:p-7 lg:p-8"
             >
               <div aria-hidden="true" className={`absolute inset-x-0 top-0 h-px bg-gradient-to-r ${activeAccent.line}`} />
-              <div aria-hidden="true" className={`pointer-events-none absolute -right-16 -top-16 size-48 rounded-full blur-3xl ${activeAccent.glow}`} />
-              <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-[0.035] [background-image:linear-gradient(to_right,rgba(255,255,255,.65)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,.65)_1px,transparent_1px)] [background-size:36px_36px]" />
+              <div aria-hidden="true" className={`pointer-events-none absolute -right-14 -top-14 size-40 rounded-full opacity-70 blur-3xl ${activeAccent.glow}`} />
+              <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-[0.016] [background-image:linear-gradient(to_right,rgba(255,255,255,.65)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,.65)_1px,transparent_1px)] [background-size:40px_40px]" />
               <span aria-hidden="true" className="pointer-events-none absolute right-5 top-3 select-none font-kpi text-7xl font-bold leading-none text-white/[0.035] md:text-8xl">{String(activeIndex + 1).padStart(2, "0")}</span>
 
               <div className="relative flex h-full flex-col">
@@ -239,11 +237,11 @@ export function SkillProofMatrix() {
                     {activeGroup.skills.map((skill, skillIndex) => (
                       <motion.div
                         key={skill}
-                        initial={shouldReduceMotion ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 12, scale: 0.975 }}
+                        initial={shouldReduceMotion ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 6, scale: 0.99 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
-                        whileHover={shouldReduceMotion ? undefined : { y: -2, scale: 1.01 }}
-                        transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.34, delay: 0.08 + skillIndex * 0.045, ease: [0.22, 1, 0.36, 1] }}
-                        className={`group flex min-h-14 items-center gap-3 rounded-xl border px-4 py-3 font-mono text-[13px] font-medium transition-colors duration-200 hover:bg-white/[0.08] ${activeAccent.chip}`}
+                        whileHover={shouldReduceMotion ? undefined : { y: -1 }}
+                        transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.26, delay: 0.06 + skillIndex * 0.035, ease: [0.22, 1, 0.36, 1] }}
+                        className={`group flex min-h-14 items-center gap-3 rounded-xl border px-4 py-3 font-mono text-[13px] font-medium transition-colors duration-200 hover:bg-white/[0.06] ${activeAccent.chip}`}
                       >
                         <span className={`flex size-5 shrink-0 items-center justify-center rounded-md border ${activeAccent.icon}`}><Check className="size-3" strokeWidth={2.5} aria-hidden="true" /></span>
                         <span className="min-w-0 break-words">{skill}</span>
@@ -260,7 +258,6 @@ export function SkillProofMatrix() {
                   <p className="font-mono text-xs font-semibold text-slate-500">{activeIndex + 1} / {skillsByCategory.length}</p>
                 </div>
               </div>
-              <motion.div aria-hidden="true" initial={shouldReduceMotion ? { scaleX: 1, opacity: 1 } : { scaleX: 0, opacity: 0 }} animate={{ scaleX: 1, opacity: 1 }} transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.65, delay: 0.12, ease: [0.22, 1, 0.36, 1] }} className={`absolute inset-x-8 bottom-0 h-px origin-left bg-gradient-to-r ${activeAccent.line}`} />
             </motion.article>
           </AnimatePresence>
         </div>
