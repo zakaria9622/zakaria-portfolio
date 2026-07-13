@@ -19,6 +19,8 @@ export type ProjectScreenshot = {
 export type Project = {
   slug: string;
   title: string;
+  heroTitle?: string;
+  heroSubtitle?: string;
   shortTitle: string;
   tools: string[];
   businessQuestion: string;
@@ -309,6 +311,8 @@ export const projects: Project[] = [
   {
     slug: "renewalos",
     title: "RenewalOS — Revenue Quality & Account Health",
+    heroTitle: "RenewalOS",
+    heroSubtitle: "Revenue Quality & Account Health",
     shortTitle: "RenewalOS",
     tools: ["DuckDB", "dbt", "SQL", "Python", "Streamlit", "OR-Tools"],
     businessQuestion:
