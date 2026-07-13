@@ -108,7 +108,7 @@ html {
 .type-lead { font-family: var(--font-sans); font-size: clamp(1.0625rem, 1.5vw, 1.25rem); font-weight: 400; line-height: 1.65; }
 .type-body { font-family: var(--font-sans); font-size: 1rem; font-weight: 400; line-height: 1.72; }
 .type-body-dense { font-family: var(--font-sans); font-size: 0.9375rem; font-weight: 400; line-height: 1.65; }
-.type-label { font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 600; line-height: 1.25; letter-spacing: 0.16em; text-transform: uppercase; }
+.type-label { font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 600; line-height: 1.25; letter-spacing: 0.13em; text-transform: uppercase; opacity: 0.88; }
 .type-nav { font-family: var(--font-sans); font-size: 0.875rem; font-weight: 500; line-height: 1; }
 .type-kpi-large { font-family: var(--font-kpi); font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 700; line-height: 1; letter-spacing: -0.025em; font-variant-numeric: tabular-nums; }
 .type-kpi-medium { font-family: var(--font-kpi); font-size: clamp(1.375rem, 2vw, 1.875rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
@@ -118,14 +118,14 @@ html {
   overflow: hidden;
   background:
     linear-gradient(180deg, rgba(6, 7, 10, 0.86), rgba(17, 19, 24, 0.58) 46%, rgba(6, 7, 10, 0.96)),
-    linear-gradient(125deg, rgba(35, 184, 216, 0.1), transparent 34%, rgba(242, 169, 59, 0.065) 72%, transparent),
+    linear-gradient(125deg, rgba(35, 184, 216, 0.07), transparent 34%, rgba(242, 169, 59, 0.045) 72%, transparent),
     var(--ink-950);
 }
 
 .executive-grid-bg {
   background-image:
-    linear-gradient(rgba(244, 247, 251, 0.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(244, 247, 251, 0.045) 1px, transparent 1px);
+    linear-gradient(rgba(244, 247, 251, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244, 247, 251, 0.025) 1px, transparent 1px);
   background-size: 48px 48px;
   mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), transparent 85%);
 }
@@ -140,8 +140,8 @@ html {
   isolation: isolate;
   background:
     linear-gradient(180deg, rgba(6, 7, 10, 0.72), rgba(6, 7, 10, 0.28) 46%, rgba(6, 7, 10, 0.94)),
-    radial-gradient(circle at 68% 34%, rgba(125, 211, 252, 0.14), transparent 28%),
-    linear-gradient(135deg, rgba(35, 184, 216, 0.08), transparent 38%, rgba(242, 169, 59, 0.06) 72%, transparent),
+    radial-gradient(circle at 68% 34%, rgba(125, 211, 252, 0.09), transparent 28%),
+    linear-gradient(135deg, rgba(35, 184, 216, 0.05), transparent 38%, rgba(242, 169, 59, 0.035) 72%, transparent),
     var(--ink-950);
 }
 
@@ -157,12 +157,12 @@ html {
 .cinematic-hero::before {
   background: radial-gradient(
     circle at var(--hero-spot-x, 70%) var(--hero-spot-y, 38%),
-    rgba(244, 247, 251, 0.18),
-    rgba(125, 211, 252, 0.09) 18%,
+    rgba(244, 247, 251, 0.08),
+    rgba(125, 211, 252, 0.04) 18%,
     transparent 38%
   );
   mix-blend-mode: screen;
-  opacity: 0.74;
+  opacity: 0.4;
   transition: opacity 220ms ease;
 }
 
@@ -186,7 +186,7 @@ html {
   height: 190px;
   background:
     linear-gradient(180deg, transparent, rgba(6, 7, 10, 0.95)),
-    linear-gradient(90deg, transparent, rgba(125, 211, 252, 0.2), rgba(242, 169, 59, 0.14), transparent);
+    linear-gradient(90deg, transparent, rgba(125, 211, 252, 0.12), rgba(242, 169, 59, 0.08), transparent);
   mask-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.9));
 }
 
@@ -224,7 +224,7 @@ html {
   inset: 0;
   overflow: hidden;
   background:
-    radial-gradient(circle at 50% 46%, rgba(125, 211, 252, 0.1), transparent 34%),
+    radial-gradient(circle at 50% 46%, rgba(125, 211, 252, 0.06), transparent 34%),
     linear-gradient(180deg, rgba(8, 13, 19, 0.16), rgba(8, 13, 19, 0.72));
 }
 
@@ -239,8 +239,8 @@ html {
 
 .data-core-frame::before {
   background-image:
-    linear-gradient(rgba(244, 247, 251, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(244, 247, 251, 0.04) 1px, transparent 1px);
+    linear-gradient(rgba(244, 247, 251, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244, 247, 251, 0.02) 1px, transparent 1px);
   background-size: 64px 64px;
   mask-image: radial-gradient(circle at 52% 48%, rgba(0, 0, 0, 0.82), transparent 62%);
 }
@@ -469,10 +469,10 @@ html {
 }
 
 .hero-analytics-field {
-  opacity: 0.78;
+  opacity: 0.5;
   background-image:
-    linear-gradient(rgba(125, 211, 252, 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(125, 211, 252, 0.05) 1px, transparent 1px);
+    linear-gradient(rgba(125, 211, 252, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(125, 211, 252, 0.025) 1px, transparent 1px);
   background-size: 72px 72px;
   mask-image:
     radial-gradient(circle at 72% 38%, rgba(0, 0, 0, 0.72), transparent 44%),
@@ -492,17 +492,17 @@ html {
 }
 
 .hero-signal-line-primary {
-  stroke: rgba(125, 211, 252, 0.34);
+  stroke: rgba(125, 211, 252, 0.2);
   stroke-width: 1.2;
 }
 
 .hero-signal-line-secondary {
-  stroke: rgba(34, 197, 94, 0.18);
+  stroke: rgba(34, 197, 94, 0.11);
   stroke-width: 1;
 }
 
 .hero-signal-line-steps {
-  stroke: rgba(242, 169, 59, 0.18);
+  stroke: rgba(242, 169, 59, 0.1);
   stroke-width: 1;
 }
 
@@ -513,7 +513,7 @@ html {
 .case-study-experience {
   background:
     linear-gradient(180deg, rgba(6, 7, 10, 0.94), rgba(17, 19, 24, 0.74) 38%, rgba(6, 7, 10, 0.94)),
-    linear-gradient(125deg, transparent, rgba(125, 211, 252, 0.06) 42%, rgba(242, 169, 59, 0.045) 74%, transparent);
+    linear-gradient(125deg, transparent, rgba(125, 211, 252, 0.035) 42%, rgba(242, 169, 59, 0.025) 74%, transparent);
 }
 
 .case-study-stage-grid {
@@ -566,7 +566,7 @@ html {
   border: 1px solid rgba(125, 211, 252, 0.42);
   border-radius: 999px;
   background: var(--ink-950);
-  box-shadow: 0 0 0 5px rgba(125, 211, 252, 0.07);
+  box-shadow: 0 0 0 5px rgba(125, 211, 252, 0.04);
 }
 
 .case-study-story-stage span {
@@ -669,7 +669,7 @@ html {
   z-index: 3;
   width: 100%;
   height: 100%;
-  opacity: 0.34;
+  opacity: 0.2;
   overflow: visible;
   pointer-events: none;
   transform: translate3d(-2.5%, 2%, 0) scale(1.015);
@@ -680,7 +680,7 @@ html {
 
 .premium-project-analytics-lines path {
   fill: none;
-  stroke: rgba(125, 211, 252, 0.76);
+  stroke: rgba(125, 211, 252, 0.44);
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 1.35;
@@ -688,7 +688,7 @@ html {
 }
 
 .premium-project-analytics-lines path:nth-child(2) {
-  stroke: rgba(242, 169, 59, 0.62);
+  stroke: rgba(242, 169, 59, 0.34);
 }
 
 .premium-project-analytics-lines circle {
@@ -710,8 +710,8 @@ html {
   background: linear-gradient(
     180deg,
     rgba(125, 211, 252, 0),
-    rgba(125, 211, 252, 0.42),
-    rgba(242, 169, 59, 0.34),
+    rgba(125, 211, 252, 0.26),
+    rgba(242, 169, 59, 0.2),
     rgba(249, 115, 115, 0)
   );
   pointer-events: none;
@@ -723,39 +723,6 @@ html {
   left: 1.35rem;
   width: 1px;
   transform-origin: top;
-}
-
-.process-map-lines {
-  position: absolute;
-  inset: -18px 0;
-  z-index: 0;
-  display: none;
-  width: 100%;
-  height: calc(100% + 36px);
-  pointer-events: none;
-}
-
-.process-map-path {
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 1.2;
-  vector-effect: non-scaling-stroke;
-}
-
-.process-map-path-primary {
-  stroke: rgba(125, 211, 252, 0.48);
-}
-
-.process-map-path-secondary {
-  stroke: rgba(242, 169, 59, 0.3);
-}
-
-.process-map-node {
-  fill: #7dd3fc;
-  filter: drop-shadow(0 0 10px rgba(125, 211, 252, 0.58));
-  transform-box: fill-box;
-  transform-origin: center;
 }
 
 .process-flow-line-desktop {
@@ -776,9 +743,9 @@ html {
   inset: 0;
   content: "";
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.075), transparent 38%),
-    radial-gradient(circle at 18% 12%, rgba(125, 211, 252, 0.1), transparent 32%);
-  opacity: 0.72;
+    linear-gradient(135deg, rgba(255, 255, 255, 0.05), transparent 38%),
+    radial-gradient(circle at 18% 12%, rgba(125, 211, 252, 0.055), transparent 32%);
+  opacity: 0.42;
   pointer-events: none;
 }
 
@@ -789,9 +756,9 @@ html {
   width: 6px;
   height: 6px;
   content: "";
-  background: rgba(125, 211, 252, 0.74);
+  background: rgba(125, 211, 252, 0.5);
   border-radius: 999px;
-  box-shadow: 0 0 0 4px rgba(125, 211, 252, 0.08);
+  box-shadow: 0 0 0 4px rgba(125, 211, 252, 0.04);
 }
 
 @media (min-width: 768px) {
@@ -808,15 +775,11 @@ html {
     background: linear-gradient(
       90deg,
       rgba(125, 211, 252, 0),
-      rgba(125, 211, 252, 0.44),
-      rgba(242, 169, 59, 0.36),
+      rgba(125, 211, 252, 0.28),
+      rgba(242, 169, 59, 0.22),
       rgba(249, 115, 115, 0)
     );
     transform-origin: left;
-  }
-
-  .process-map-lines {
-    display: block;
   }
 }
 
@@ -976,10 +939,6 @@ html {
 
   .premium-project-analytics-lines {
     opacity: 0.48;
-  }
-
-  .process-map-lines {
-    opacity: 0.46;
   }
 }
 
@@ -1191,15 +1150,15 @@ html {
   z-index: 0;
   pointer-events: none;
   background-image:
-    linear-gradient(rgba(125, 211, 252, 0.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(125, 211, 252, 0.045) 1px, transparent 1px),
-    radial-gradient(ellipse at 50% 0%, rgba(125, 211, 252, 0.08), transparent 52%);
+    linear-gradient(rgba(125, 211, 252, 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(125, 211, 252, 0.022) 1px, transparent 1px),
+    radial-gradient(ellipse at 50% 0%, rgba(125, 211, 252, 0.04), transparent 52%);
   background-size:
     56px 56px,
     56px 56px,
     100% 100%;
   mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.88) 14%, rgba(0, 0, 0, 0.9) 82%, transparent 100%);
-  opacity: 0.68;
+  opacity: 0.34;
   animation: command-grid-drift 18s linear infinite paused;
 }
 
@@ -1235,7 +1194,7 @@ html {
       rgba(34, 197, 94, 0.38) 84%,
       transparent 90% 100%
     );
-  opacity: 0.32;
+  opacity: 0.2;
   -webkit-mask:
     linear-gradient(#000 0 0) content-box,
     linear-gradient(#000 0 0);
@@ -1376,7 +1335,7 @@ html {
   }
 
   .case-study-command-grid {
-    opacity: 0.38;
+    opacity: 0.24;
     animation: none;
   }
 
@@ -1502,7 +1461,7 @@ body > header > div {
   min-height: 304px;
   background:
     linear-gradient(180deg, rgba(6, 7, 10, 0.96), rgba(17, 19, 24, 0.76)),
-    linear-gradient(100deg, rgba(125, 211, 252, 0.08), transparent 45%, rgba(242, 169, 59, 0.05));
+    linear-gradient(100deg, rgba(125, 211, 252, 0.05), transparent 45%, rgba(242, 169, 59, 0.03));
 }
 
 .featured-project-proof::before {
@@ -1511,11 +1470,11 @@ body > header > div {
   content: "";
   pointer-events: none;
   background-image:
-    linear-gradient(rgba(125, 211, 252, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(125, 211, 252, 0.035) 1px, transparent 1px);
+    linear-gradient(rgba(125, 211, 252, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(125, 211, 252, 0.02) 1px, transparent 1px);
   background-size: 56px 56px;
   mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.76), rgba(0, 0, 0, 0.34), rgba(0, 0, 0, 0.68));
-  opacity: 0.58;
+  opacity: 0.34;
 }
 
 .featured-project-proof-grid {
@@ -1626,7 +1585,7 @@ body > header > div {
 .hero-stage-shell .hero-core-column {
   z-index: 1;
   min-height: 680px !important;
-  opacity: 0.92;
+  opacity: 0.78;
   transform: translate3d(-72px, -96px, 0);
 }
 
@@ -1637,8 +1596,8 @@ body > header > div {
 .hero-stage-shell .data-core-frame {
   overflow: visible;
   background:
-    radial-gradient(circle at 52% 48%, rgba(244, 247, 251, 0.1), transparent 25%),
-    radial-gradient(circle at 70% 47%, rgba(125, 211, 252, 0.09), transparent 34%),
+    radial-gradient(circle at 52% 48%, rgba(244, 247, 251, 0.065), transparent 25%),
+    radial-gradient(circle at 70% 47%, rgba(125, 211, 252, 0.055), transparent 34%),
     linear-gradient(90deg, transparent, rgba(6, 7, 10, 0.1) 45%, rgba(6, 7, 10, 0.28));
 }
 
@@ -1665,19 +1624,19 @@ body > header > div {
   width: 100%;
   height: 100%;
   background:
-    radial-gradient(circle at 53% 48%, rgba(248, 251, 255, 0.14), transparent 18%),
-    radial-gradient(circle at 55% 50%, rgba(125, 211, 252, 0.12), transparent 42%),
-    radial-gradient(circle at 74% 45%, rgba(242, 169, 59, 0.06), transparent 34%);
+    radial-gradient(circle at 53% 48%, rgba(248, 251, 255, 0.09), transparent 18%),
+    radial-gradient(circle at 55% 50%, rgba(125, 211, 252, 0.075), transparent 42%),
+    radial-gradient(circle at 74% 45%, rgba(242, 169, 59, 0.035), transparent 34%);
 }
 
 .core-fallback-halo ellipse {
   fill: none;
-  stroke: rgba(248, 251, 255, 0.16);
+  stroke: rgba(248, 251, 255, 0.11);
   stroke-width: 1;
 }
 
 .core-fallback-halo ellipse:first-child {
-  stroke: rgba(125, 211, 252, 0.18);
+  stroke: rgba(125, 211, 252, 0.12);
 }
 
 .core-fallback-flow path {
@@ -1685,7 +1644,7 @@ body > header > div {
   stroke: url("#core-fallback-flow");
   stroke-linecap: round;
   stroke-width: 1.4;
-  opacity: 0.24;
+  opacity: 0.18;
 }
 
 .core-fallback-points circle {
@@ -1694,7 +1653,7 @@ body > header > div {
 
 .core-fallback-atmosphere circle {
   fill: rgba(248, 251, 255, 0.62);
-  opacity: 0.2;
+  opacity: 0.14;
 }
 
 @media (max-width: 1023px) {
@@ -1726,7 +1685,7 @@ body > header > div {
 }
 
 .premium-project-card::after {
-  opacity: 0.32 !important;
+  opacity: 0.2 !important;
 }
 
 .premium-project-image {
@@ -1734,7 +1693,7 @@ body > header > div {
 }
 
 .premium-project-analytics-lines {
-  opacity: 0.34 !important;
+  opacity: 0.2 !important;
   transform: translate3d(-2.5%, 2%, 0) scale(1.015) !important;
 }
 
@@ -1773,7 +1732,6 @@ body > header > div {
 
 .hero-transfer-node,
 .project-micro-viz,
-.process-map-node,
 .core-fallback-points circle {
   filter: none !important;
 }
