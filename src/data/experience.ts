@@ -22,13 +22,13 @@ export const experience = [
     ],
   },
   {
-    company: "Adecco Paris Rive Gauche, Paris — Stage",
-    role: "Stagiaire Assistant d’agence d’emploi",
+    company: "Vapoa, Paris — Internship",
+    role: "Digital Marketing Intern",
     dates: "05/2023 - 08/2023",
     highlights: [
-      "Maintain candidate records and verify the administrative information required for assignments.",
-      "Support the tracking of client staffing needs, applications, scheduled interviews and candidate availability.",
-      "Update Excel monitoring files covering applications, interviews, open assignments and placements for weekly agency reviews.",
+      "Implemented digital marketing initiatives and created content for online channels.",
+      "Monitored website traffic, audience engagement and digital performance indicators.",
+      "Analyzed market trends to support digital communication and marketing activities.",
     ],
   },
 ] as const;
