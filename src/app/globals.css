@@ -1775,6 +1775,20 @@ html {
     overflow-x: clip;
   }
 
+  body,
+  body *,
+  body *::before,
+  body *::after {
+    font-family: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif !important;
+  }
+
+  body :is(code, pre, kbd, samp),
+  body :is(code, pre, kbd, samp) *,
+  body :is(code, pre, kbd, samp)::before,
+  body :is(code, pre, kbd, samp)::after {
+    font-family: var(--font-jetbrains-mono, ui-monospace), SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  }
+
   :where(section[id]) {
     scroll-margin-top: 72px;
   }
@@ -1786,38 +1800,83 @@ html {
 
   .type-hero-display {
     font-size: clamp(3.25rem, 16vw, 4rem);
+    font-weight: 700;
     line-height: 0.92;
   }
 
   .type-page-title {
     font-size: clamp(2.35rem, 11vw, 3rem);
+    font-weight: 700;
     line-height: 1;
   }
 
   .type-section-title {
     font-size: clamp(2.25rem, 10vw, 2.625rem);
+    font-weight: 700;
     line-height: 1.04;
   }
 
   .type-chapter-title {
     font-size: clamp(1.75rem, 8.5vw, 2.15rem);
+    font-weight: 700;
   }
 
   .type-card-title {
     font-size: 1.375rem;
+    font-weight: 650;
     line-height: 1.15;
   }
 
-  .type-lead,
-  .type-body,
+  p {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.65;
+  }
+
+  .type-lead {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.65;
+    letter-spacing: normal;
+  }
+
+  .type-body {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.65;
+    letter-spacing: normal;
+  }
+
   .type-body-dense {
-    font-size: 1rem;
-    line-height: 1.5;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.6;
+    letter-spacing: normal;
+  }
+
+  .type-label,
+  .font-mono,
+  .font-technical {
+    font-weight: 600;
+    letter-spacing: 0.08em;
   }
 
   .type-label {
     font-size: 0.6875rem;
     line-height: 1.35;
+  }
+
+  :where(h1, h2, h3, h4, h5, h6),
+  .font-heading,
+  .font-display {
+    font-weight: 650;
+  }
+
+  .type-kpi-large,
+  .type-kpi-medium,
+  .font-kpi {
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
   }
 
   .portfolio-scroll-progress,
@@ -1941,7 +2000,7 @@ html {
   }
 
   .kpi-ribbon-item .type-body-dense {
-    font-size: 0.875rem;
+    font-size: 15px;
   }
 
   #experience .type-section-title,
