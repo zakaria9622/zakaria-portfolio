@@ -1,10 +1,11 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Download, Mail, MapPin } from "lucide-react";
 import { GitHubIcon, LinkedInIcon } from "@/components/ui/SocialIcons";
 import { profile } from "@/data/profile";
 import { AnimatedSectionHeading } from "@/components/home/AnimatedSectionHeading";
+import { useHomeMotionSettings } from "@/components/home/motion";
 
 const contactLinks = [
   {
@@ -39,14 +40,14 @@ function reveal(shouldReduceMotion: boolean) {
 }
 
 export function ContactCommandBar() {
-  const shouldReduceMotion = useReducedMotion() ?? false;
+  const { shouldSimplifyMotion } = useHomeMotionSettings();
 
   return (
-    <section id="contact" className="relative py-20 pb-28 md:py-28">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+    <section id="contact" className="relative py-12 pb-14 md:py-28">
+      <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
         <motion.div
-          {...reveal(shouldReduceMotion)}
-          className="rounded-lg border border-white/10 bg-white/[0.04] p-5 shadow-2xl shadow-black/30 md:p-7"
+          {...reveal(shouldSimplifyMotion)}
+          className="rounded-lg border border-white/10 bg-white/[0.04] p-4 shadow-2xl shadow-black/30 md:p-7"
         >
           <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
             <div>
@@ -57,7 +58,7 @@ export function ContactCommandBar() {
                 text="Available for a Data & BI apprenticeship."
                 className="type-section-title mt-4 font-heading text-white"
               />
-              <div className="mt-6 flex flex-wrap gap-3 font-body text-[15px] text-slate-300">
+              <div className="mt-4 flex flex-wrap gap-3 font-body text-[15px] text-slate-300 md:mt-6">
                 <span className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-ink-950/55 px-3 py-2">
                   <MapPin className="size-4 text-cyan-200" />
                   {profile.alternance.location}
@@ -75,23 +76,23 @@ export function ContactCommandBar() {
                     href={item.href}
                     target={item.external ? "_blank" : undefined}
                     rel={item.external ? "noopener noreferrer" : undefined}
-                    className="group inline-flex min-h-14 items-center gap-3 rounded-md border border-white/10 bg-ink-950/55 px-4 py-3 font-body text-[15px] font-medium leading-6 text-slate-200 transition-colors duration-200 hover:border-cyan-200/30 hover:bg-cyan-200/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+                    className="group inline-flex min-h-12 w-full items-center gap-3 rounded-md border border-white/10 bg-ink-950/55 px-4 py-3 font-body text-[15px] font-medium leading-6 text-slate-200 transition-colors duration-200 hover:border-cyan-200/30 hover:bg-cyan-200/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-14"
                   >
                     <Icon className="size-5 shrink-0 text-cyan-100" />
-                    <span className="min-w-0 break-words">{item.label}</span>
+                    <span className="min-w-0 [overflow-wrap:anywhere]">{item.label}</span>
                   </a>
                 );
               })}
               <a
                 href={profile.cvHref}
-                className="group inline-flex min-h-14 items-center gap-3 rounded-md border border-amber-200/20 bg-amber-200/10 px-4 py-3 font-body text-sm font-semibold leading-none text-amber-50 transition-colors duration-200 hover:border-amber-100/40 hover:bg-amber-200/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200"
+                className="group inline-flex min-h-12 w-full items-center gap-3 rounded-md border border-amber-200/20 bg-amber-200/10 px-4 py-3 font-body text-sm font-semibold leading-none text-amber-50 transition-colors duration-200 hover:border-amber-100/40 hover:bg-amber-200/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200 md:min-h-14"
               >
                 <Download className="size-5 shrink-0" />
                 Download CV
               </a>
               <a
                 href={`mailto:${profile.email}`}
-                className="inline-flex min-h-14 items-center justify-center rounded-md bg-white px-4 py-3 font-body text-sm font-semibold leading-none text-ink-950 transition-colors duration-200 hover:bg-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 sm:col-span-2"
+                className="inline-flex min-h-12 w-full items-center justify-center rounded-md bg-white px-4 py-3 font-body text-sm font-semibold leading-none text-ink-950 transition-colors duration-200 hover:bg-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 sm:col-span-2 md:min-h-14"
               >
                 Send email
               </a>

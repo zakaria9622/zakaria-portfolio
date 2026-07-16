@@ -42,6 +42,8 @@ const heroMetrics = previewProject.kpis.slice(0, 3).map((metric, index) => ({
   ...metric,
   tone: featuredMetricTones[index],
 }));
+const featuredMetric =
+  previewProject.kpis.find((metric) => metric.highlight) ?? heroMetrics[0];
 
 const subscribeToHydration = () => () => {};
 const getHydratedSnapshot = () => true;
@@ -364,7 +366,7 @@ export function ExecutiveHero() {
         <motion.div>
           <motion.div
             {...heroItem(shouldSimplifyMotion)}
-            className="mb-6 flex flex-wrap items-center gap-3"
+            className="hero-status-row mb-6 flex flex-wrap items-center gap-3"
           >
             <span className="inline-flex items-center gap-2 rounded-md border border-emerald-400/25 bg-emerald-400/10 px-3 py-2 font-sans text-sm font-semibold leading-none tracking-normal text-emerald-100">
               <ShieldCheck className="size-4" />
@@ -411,13 +413,13 @@ export function ExecutiveHero() {
             {profile.tagline}
           </motion.p>
 
-          <div className="mt-9 flex flex-wrap gap-3">
+          <div className="hero-actions mt-9 flex flex-wrap gap-3">
             <a
               href={profile.cvHref}
               download
               data-magnetic="true"
               data-magnetic-strength="9"
-            className="magnetic-target inline-flex items-center justify-center gap-2 rounded-md bg-cyan-200 px-5 py-3 font-body text-sm font-semibold leading-none text-ink-950 shadow-[0_18px_45px_rgba(35,184,216,0.18)] transition-colors duration-200 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+            className="magnetic-target inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-cyan-200 px-5 py-3 font-body text-sm font-semibold leading-none text-ink-950 shadow-[0_18px_45px_rgba(35,184,216,0.18)] transition-colors duration-200 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
             >
               <Download className="size-4" />
               Download CV
@@ -426,7 +428,7 @@ export function ExecutiveHero() {
               href={`mailto:${profile.email}`}
               data-magnetic="true"
               data-magnetic-strength="8"
-              className="magnetic-target inline-flex items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.05] px-5 py-3 font-body text-sm font-semibold leading-none text-white transition-colors duration-200 hover:border-white/30 hover:bg-white/[0.09] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+              className="magnetic-target inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.05] px-5 py-3 font-body text-sm font-semibold leading-none text-white transition-colors duration-200 hover:border-white/30 hover:bg-white/[0.09] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
             >
               <Mail className="size-4" />
               Email me
@@ -453,7 +455,7 @@ export function ExecutiveHero() {
 
           <motion.div
             {...heroItem(shouldSimplifyMotion, 0.22)}
-            className="mt-8 flex flex-wrap gap-3 text-sm text-slate-400"
+            className="hero-tool-line mt-8 flex flex-wrap gap-3 text-sm text-slate-400"
           >
             <span className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/[0.03] px-3 py-2 font-mono font-medium tracking-[0.02em]">
               <BarChart3 className="size-4 text-emerald-200" />
@@ -505,19 +507,25 @@ function FeaturedProjectProof({
           <p className="type-body-dense mt-3 text-slate-400">
             {previewProject.businessQuestion}
           </p>
-          <p className="type-body-dense mt-3 text-slate-400">
+          <p className="featured-project-desktop-copy type-body-dense mt-3 text-slate-400">
             {previewProject.mainInsight}
           </p>
           {previewProject.featuredContext && (
-            <div className="type-body-dense mt-4 rounded-md border border-white/10 bg-white/[0.03] px-3 py-2 text-slate-300">
+            <div className="featured-project-desktop-copy type-body-dense mt-4 rounded-md border border-white/10 bg-white/[0.03] px-3 py-2 text-slate-300">
               {previewProject.featuredContext}
             </div>
           )}
+          <div className="featured-project-mobile-kpi mt-4 rounded-md border border-amber-200/20 bg-amber-200/10 px-3 py-3 md:hidden">
+            <p className="type-label text-amber-100/70">{featuredMetric.label}</p>
+            <p className="mt-1 font-kpi text-2xl font-bold tabular-nums text-amber-100">
+              {featuredMetric.value}
+            </p>
+          </div>
           <div className="mt-5 flex flex-wrap gap-3">
             <Link
               href={previewProject.href}
               prefetch={false}
-              className="inline-flex items-center justify-center gap-2 rounded-md border border-cyan-200/30 bg-cyan-200/10 px-4 py-2.5 font-body text-sm font-semibold leading-none text-cyan-50 transition-colors duration-200 hover:border-cyan-100/50 hover:bg-cyan-200/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-cyan-200/30 bg-cyan-200/10 px-4 py-2.5 font-body text-sm font-semibold leading-none text-cyan-50 transition-colors duration-200 hover:border-cyan-100/50 hover:bg-cyan-200/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
             >
               View case study
               <ArrowRight className="size-4" />
@@ -526,7 +534,7 @@ function FeaturedProjectProof({
               <Link
                 href={`${previewProject.href}#inspect-the-work`}
                 prefetch={false}
-                className="inline-flex items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.04] px-4 py-2.5 font-body text-sm font-semibold leading-none text-slate-200 transition-colors duration-200 hover:border-white/30 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+                className="featured-project-secondary-link inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.04] px-4 py-2.5 font-body text-sm font-semibold leading-none text-slate-200 transition-colors duration-200 hover:border-white/30 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
               >
                 Inspect {artifactCount} artifacts
                 <ArrowRight className="size-4" />

@@ -87,9 +87,9 @@ export function ProcessTimeline() {
   const { shouldSimplifyMotion } = useHomeMotionSettings();
 
   return (
-    <section className="relative py-20 md:py-28">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <motion.div {...reveal(shouldSimplifyMotion)} className="mb-12">
+    <section className="analytics-process relative py-14 md:py-28">
+      <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
+        <motion.div {...reveal(shouldSimplifyMotion)} className="mb-8 md:mb-12">
           <p className="type-label text-cyan-200/80">
             Analytics process
           </p>
@@ -119,18 +119,20 @@ export function ProcessTimeline() {
                 {...stepReveal(shouldSimplifyMotion, index)}
                 className="process-step-card relative rounded-lg border border-white/10 bg-white/[0.035] p-5"
               >
-                <div className="mb-8 flex items-center justify-between">
+                <div className="process-step-marker mb-8 flex items-center justify-between">
                   <span className="font-mono text-xs font-semibold text-slate-500">
                     0{index + 1}
                   </span>
-                  <Icon className={`size-5 ${step.accent}`} />
+                  <Icon className={`size-5 ${step.accent}`} aria-hidden="true" />
                 </div>
-                <h3 className="font-heading text-xl font-semibold leading-snug text-white">
-                  {step.title}
-                </h3>
-                <p className="type-body-dense mt-3 text-slate-400">
-                  {step.text}
-                </p>
+                <div className="process-step-copy">
+                  <h3 className="font-heading text-xl font-semibold leading-snug text-white">
+                    {step.title}
+                  </h3>
+                  <p className="type-body-dense mt-3 text-slate-400">
+                    {step.text}
+                  </p>
+                </div>
               </motion.article>
             );
           })}

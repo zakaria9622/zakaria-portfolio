@@ -55,13 +55,13 @@ export function Header() {
   }, [open]);
 
   return (
-    <header ref={headerRef} className="fixed inset-x-0 top-4 z-50 px-3 sm:px-6">
+    <header ref={headerRef} className="fixed inset-x-0 top-3 z-50 px-3 md:top-4 md:px-6">
       <div className="mx-auto flex min-h-14 max-w-7xl items-center justify-between rounded-lg border border-white/10 bg-ink-950/80 px-3 shadow-2xl shadow-black/25 backdrop-blur-xl sm:px-4 lg:px-5">
         <Link
           href="/"
           data-magnetic="true"
           data-magnetic-strength="6"
-          className="magnetic-target flex shrink-0 items-center gap-2 rounded-md px-2 py-2 font-body text-sm font-semibold leading-none text-white transition-colors duration-200 hover:text-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+          className="magnetic-target flex min-h-11 shrink-0 items-center gap-2 rounded-md px-2 py-2 font-body text-sm font-semibold leading-none text-white transition-colors duration-200 hover:text-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
         >
           <span className="flex size-7 shrink-0 items-center justify-center rounded-md border border-cyan-200/20 bg-cyan-200/10 font-mono text-xs font-semibold leading-none text-cyan-100">
             ZM
@@ -98,7 +98,7 @@ export function Header() {
         <button
           ref={menuButtonRef}
           type="button"
-          className="rounded-md p-2 text-slate-300 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:hidden"
+          className="flex size-11 items-center justify-center rounded-md text-slate-300 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:hidden"
           onClick={() => setOpen(!open)}
           aria-expanded={open}
           aria-controls="mobile-navigation"
@@ -112,13 +112,13 @@ export function Header() {
         <nav
           id="mobile-navigation"
           aria-label="Mobile navigation"
-          className="mx-auto mt-2 max-w-7xl rounded-lg border border-white/10 bg-ink-950/95 px-4 py-4 shadow-2xl shadow-black/30 backdrop-blur-xl md:hidden"
+          className="mx-auto mt-2 max-h-[calc(100svh-88px)] max-w-7xl overflow-y-auto rounded-lg border border-white/10 bg-ink-950/95 px-2 py-2 shadow-2xl shadow-black/30 backdrop-blur-xl md:hidden"
         >
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="block rounded-md px-3 py-2.5 font-body text-[15px] font-medium leading-none text-slate-300 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+              className="flex min-h-11 items-center rounded-md px-3 py-2.5 font-body text-[15px] font-medium leading-none text-slate-300 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
               onClick={() => setOpen(false)}
             >
               {link.label}
@@ -126,7 +126,7 @@ export function Header() {
           ))}
           <a
             href={profile.cvHref}
-            className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-md border border-amber-200/20 bg-amber-200/10 px-4 py-3 font-body text-sm font-semibold leading-none text-amber-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+            className="mt-2 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md border border-amber-200/20 bg-amber-200/10 px-4 py-3 font-body text-sm font-semibold leading-none text-amber-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
           >
             <Download className="size-4" />
             Download CV

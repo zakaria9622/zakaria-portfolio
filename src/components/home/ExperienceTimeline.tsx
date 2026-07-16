@@ -1,15 +1,17 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useReducedMotion, useScroll, useSpring } from "framer-motion";
+import { useRef, useState } from "react";
+import { motion, useScroll, useSpring } from "framer-motion";
 import {
   BriefcaseBusiness,
   CalendarDays,
   Check,
+  ChevronDown,
   Database,
   Layers3,
 } from "lucide-react";
 import { AnimatedSectionHeading } from "@/components/home/AnimatedSectionHeading";
+import { useHomeMotionSettings } from "@/components/home/motion";
 import { experience } from "@/data/experience";
 
 const experienceAccents = [
@@ -36,7 +38,10 @@ const experienceAccents = [
 const experienceIcons = [Database, Layers3, BriefcaseBusiness] as const;
 
 export function ExperienceTimeline() {
-  const shouldReduceMotion = useReducedMotion() ?? false;
+  const { shouldSimplifyMotion } = useHomeMotionSettings();
+  const [openExperiences, setOpenExperiences] = useState<Set<number>>(
+    () => new Set([0])
+  );
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -48,11 +53,20 @@ export function ExperienceTimeline() {
     restDelta: 0.001,
   });
 
+  function toggleExperience(index: number) {
+    setOpenExperiences((current) => {
+      const next = new Set(current);
+      if (next.has(index)) next.delete(index);
+      else next.add(index);
+      return next;
+    });
+  }
+
   return (
     <section
       ref={sectionRef}
       id="experience"
-      className="relative overflow-hidden border-y border-white/10 bg-white/[0.025] py-20 md:py-28"
+      className="relative overflow-hidden border-y border-white/10 bg-white/[0.025] py-14 md:py-28"
     >
       <div
         aria-hidden="true"
@@ -63,7 +77,7 @@ export function ExperienceTimeline() {
         className="pointer-events-none absolute inset-0 opacity-[0.018] [background-image:linear-gradient(to_right,rgba(255,255,255,.65)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,.65)_1px,transparent_1px)] [background-size:48px_48px]"
       />
 
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(17rem,.8fr)] lg:items-end">
           <div>
             <p className="type-label text-cyan-200/80">
@@ -76,15 +90,15 @@ export function ExperienceTimeline() {
           </div>
 
           <motion.div
-            initial={shouldReduceMotion ? false : { opacity: 0, x: 20 }}
+            initial={shouldSimplifyMotion ? false : { opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-90px" }}
             transition={
-              shouldReduceMotion
+              shouldSimplifyMotion
                 ? { duration: 0 }
                 : { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
             }
-            className="border-l border-cyan-200/30 bg-cyan-200/[0.055] px-5 py-4"
+            className="hidden border-l border-cyan-200/30 bg-cyan-200/[0.055] px-5 py-4 md:block"
           >
             <div className="flex items-start justify-between gap-5">
               <div>
@@ -105,37 +119,38 @@ export function ExperienceTimeline() {
           </motion.div>
         </div>
 
-        <div className="relative mt-14">
+        <div className="relative mt-8 md:mt-14">
           <div
             aria-hidden="true"
-            className="absolute bottom-0 left-[21px] top-0 w-px bg-white/10 md:left-[14rem]"
+            className="absolute bottom-0 left-[21px] top-0 hidden w-px bg-white/10 md:block md:left-[14rem]"
           />
           <motion.div
             aria-hidden="true"
-            className="absolute bottom-0 left-[21px] top-0 w-px origin-top bg-gradient-to-b from-cyan-200 via-electric-400 to-emerald-300 md:left-[14rem]"
-            style={{ scaleY: shouldReduceMotion ? 1 : timelineProgress }}
+            className="absolute bottom-0 left-[21px] top-0 hidden w-px origin-top bg-gradient-to-b from-cyan-200 via-electric-400 to-emerald-300 md:block md:left-[14rem]"
+            style={{ scaleY: shouldSimplifyMotion ? 1 : timelineProgress }}
           />
 
-          <div className="space-y-8 md:space-y-10">
+          <div className="space-y-3 md:space-y-10">
             {experience.map((job, index) => {
               const accent = experienceAccents[index % experienceAccents.length];
               const Icon = experienceIcons[index % experienceIcons.length];
+              const isOpen = openExperiences.has(index);
 
               return (
                 <div
                   key={job.company}
-                  className="relative grid gap-5 pl-16 md:grid-cols-[14rem_1fr] md:gap-12 md:pl-0"
+                  className="relative grid gap-0 md:grid-cols-[14rem_1fr] md:gap-12"
                 >
                   <motion.div
                     initial={
-                      shouldReduceMotion
+                      shouldSimplifyMotion
                         ? false
                         : { opacity: 0, scale: 0.78, rotate: -4 }
                     }
                     whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
                     viewport={{ once: true, margin: "-90px" }}
                     transition={
-                      shouldReduceMotion
+                      shouldSimplifyMotion
                         ? { duration: 0 }
                         : {
                             type: "spring",
@@ -144,12 +159,12 @@ export function ExperienceTimeline() {
                             delay: index * 0.09,
                           }
                     }
-                    className={`absolute left-0 top-0 z-10 flex size-11 items-center justify-center rounded-full border font-mono text-xs font-semibold tracking-[0.12em] shadow-lg md:left-[calc(14rem-22px)] ${accent.node}`}
+                    className={`absolute left-0 top-0 z-10 hidden size-11 items-center justify-center rounded-full border font-mono text-xs font-semibold tracking-[0.12em] shadow-lg md:left-[calc(14rem-22px)] md:flex ${accent.node}`}
                   >
                     {String(index + 1).padStart(2, "0")}
                   </motion.div>
 
-                  <div className="min-w-0 pt-0.5 text-left md:pr-8 md:text-right">
+                  <div className="hidden min-w-0 pt-0.5 text-left md:block md:pr-8 md:text-right">
                     {index === 0 && (
                       <span className="inline-flex rounded-full border border-cyan-200/20 bg-cyan-200/10 px-2.5 py-1 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-cyan-100">
                         Latest experience
@@ -163,15 +178,15 @@ export function ExperienceTimeline() {
 
                   <motion.article
                     initial={
-                      shouldReduceMotion
+                      shouldSimplifyMotion
                         ? false
                         : { opacity: 0, x: 28, y: 18, scale: 0.985 }
                     }
                     whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
-                    whileHover={shouldReduceMotion ? undefined : { y: -2, scale: 1.002 }}
+                    whileHover={shouldSimplifyMotion ? undefined : { y: -2, scale: 1.002 }}
                     viewport={{ once: true, margin: "-90px" }}
                     transition={
-                      shouldReduceMotion
+                      shouldSimplifyMotion
                         ? { duration: 0 }
                         : {
                             duration: 0.58,
@@ -179,7 +194,7 @@ export function ExperienceTimeline() {
                             ease: [0.22, 1, 0.36, 1],
                           }
                     }
-                    className="group relative min-w-0 overflow-hidden rounded-2xl border border-white/10 bg-graphite-900/75 p-5 shadow-[0_18px_55px_rgba(0,0,0,0.16)] backdrop-blur-sm transition-colors duration-200 hover:border-white/20 hover:bg-graphite-900/90 md:p-7"
+                    className="group relative min-w-0 overflow-hidden rounded-xl border border-white/10 bg-graphite-900/75 p-4 shadow-[0_18px_55px_rgba(0,0,0,0.16)] backdrop-blur-sm transition-colors duration-200 hover:border-white/20 hover:bg-graphite-900/90 md:rounded-2xl md:p-7"
                   >
                     <div
                       aria-hidden="true"
@@ -191,7 +206,42 @@ export function ExperienceTimeline() {
                     />
 
                     <div className="relative">
-                      <div className="grid gap-5 sm:grid-cols-[auto_1fr] sm:items-start">
+                      <button
+                        type="button"
+                        aria-expanded={isOpen}
+                        aria-controls={`experience-details-${index}`}
+                        onClick={() => toggleExperience(index)}
+                        className="flex min-h-11 w-full items-start gap-3 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200 md:hidden"
+                      >
+                        <span className={`flex size-10 shrink-0 items-center justify-center rounded-lg border ${accent.bullet}`}>
+                          <Icon className="size-5" aria-hidden="true" />
+                        </span>
+                        <span className="min-w-0 flex-1">
+                          <span className="flex flex-wrap items-center gap-2">
+                            <span className="font-heading text-lg font-semibold leading-tight text-white">
+                              {job.company}
+                            </span>
+                            {index === 0 && (
+                              <span className="rounded-full border border-cyan-200/20 bg-cyan-200/10 px-2 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-cyan-100">
+                                Latest
+                              </span>
+                            )}
+                          </span>
+                          <span className="mt-1 block font-body text-base font-medium leading-snug text-cyan-100">
+                            {job.role}
+                          </span>
+                          <span className="mt-2 flex items-center gap-2 font-mono text-xs text-slate-400">
+                            <CalendarDays className="size-3.5" aria-hidden="true" />
+                            {job.dates}
+                          </span>
+                        </span>
+                        <ChevronDown
+                          className={`mt-1 size-5 shrink-0 text-slate-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                          aria-hidden="true"
+                        />
+                      </button>
+
+                      <div className="hidden gap-5 sm:grid-cols-[auto_1fr] sm:items-start md:grid">
                         <div className={`flex size-11 items-center justify-center rounded-xl border ${accent.bullet}`}>
                           <Icon className="size-5" aria-hidden="true" />
                         </div>
@@ -208,21 +258,24 @@ export function ExperienceTimeline() {
                         </div>
                       </div>
 
-                      <div className="mt-7 border-t border-white/10 pt-5">
+                      <div
+                        id={`experience-details-${index}`}
+                        className={`${isOpen ? "block" : "hidden"} mt-4 border-t border-white/10 pt-4 md:mt-7 md:block md:pt-5`}
+                      >
                         <p className="type-label text-slate-400">
                           Selected responsibilities
                         </p>
-                        <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+                        <ul className="mt-3 grid gap-2 md:mt-4 md:gap-3 sm:grid-cols-2">
                           {job.highlights.map((highlight, highlightIndex) => (
                             <motion.li
                               key={highlight}
                               initial={
-                                shouldReduceMotion ? false : { opacity: 0, y: 10 }
+                                shouldSimplifyMotion ? false : { opacity: 0, y: 10 }
                               }
                               whileInView={{ opacity: 1, y: 0 }}
                               viewport={{ once: true, margin: "-90px" }}
                               transition={
-                                shouldReduceMotion
+                                shouldSimplifyMotion
                                   ? { duration: 0 }
                                   : {
                                       duration: 0.38,
@@ -231,7 +284,7 @@ export function ExperienceTimeline() {
                                       ease: [0.22, 1, 0.36, 1],
                                     }
                               }
-                              className="type-body-dense flex min-w-0 gap-3 rounded-xl border border-white/10 bg-white/[0.035] p-3.5 text-slate-300 transition-colors duration-200 hover:border-white/20 hover:bg-white/[0.055]"
+                              className="type-body-dense flex min-w-0 gap-3 rounded-lg border border-white/10 bg-white/[0.035] p-3 text-slate-300 transition-colors duration-200 hover:border-white/20 hover:bg-white/[0.055] md:rounded-xl md:p-3.5"
                             >
                               <span className={`mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-md border ${accent.bullet}`}>
                                 <Check className="size-3" strokeWidth={2.5} aria-hidden="true" />

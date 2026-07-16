@@ -65,8 +65,8 @@ export function KpiRibbon() {
   const { shouldSimplifyMotion } = useHomeMotionSettings();
 
   return (
-    <section className="relative border-y border-white/10 bg-white/[0.025]">
-      <div className="mx-auto grid max-w-7xl gap-px px-6 py-4 sm:grid-cols-2 lg:grid-cols-4 lg:px-8">
+    <section className="kpi-ribbon relative border-y border-white/10 bg-white/[0.025]">
+      <div className="kpi-ribbon-grid mx-auto grid max-w-7xl gap-px px-4 py-3 sm:grid-cols-2 md:px-6 md:py-4 lg:grid-cols-4 lg:px-8">
         {kpis.map((kpi, index) => {
           const Icon = kpi.icon;
 
@@ -74,7 +74,7 @@ export function KpiRibbon() {
             <motion.div
               key={kpi.label}
               {...reveal(shouldSimplifyMotion, index * 0.04)}
-              className="group relative min-h-32 rounded-md border border-white/10 bg-graphite-900/70 p-5 transition-colors duration-200 hover:border-white/20 hover:bg-graphite-800/80"
+              className="kpi-ribbon-item group relative min-h-32 rounded-md border border-white/10 bg-graphite-900/70 p-5 transition-colors duration-200 hover:border-white/20 hover:bg-graphite-800/80"
             >
               <div className="flex items-center justify-between gap-4">
                 <p className="type-label text-slate-400">

@@ -50,7 +50,7 @@ export function DashboardPlaceholder({
               Analytics workspace
             </span>
           </div>
-          <div className="relative aspect-[16/10] min-h-[260px] overflow-hidden bg-navy-950 sm:min-h-[320px] lg:min-h-0">
+          <div className="relative aspect-[16/10] min-h-0 overflow-hidden bg-navy-950 sm:min-h-[320px] lg:min-h-0">
             <div aria-hidden="true" className="pointer-events-none absolute -right-20 -top-20 size-64 rounded-full bg-cyan-300/10 blur-3xl" />
             <div aria-hidden="true" className="pointer-events-none absolute -bottom-24 -left-20 size-64 rounded-full bg-electric-500/10 blur-3xl" />
             <Image
@@ -58,7 +58,7 @@ export function DashboardPlaceholder({
               alt={alt}
               fill
               priority={priority}
-              className="relative object-contain p-1 sm:p-2"
+              className="relative object-cover object-center md:object-contain md:p-2"
               sizes="(max-width: 1024px) 100vw, (max-width: 1440px) 62vw, 820px"
             />
           </div>
@@ -72,13 +72,13 @@ export function DashboardPlaceholder({
   return (
     <figure className="relative w-full">
       <div className="overflow-hidden rounded-2xl border border-white/15 bg-navy-900/60 p-1.5 shadow-2xl shadow-black/40 ring-1 ring-electric-500/10">
-        <div className="relative h-[min(420px,58vh)] w-full overflow-hidden rounded-xl border border-white/5 bg-gradient-to-br from-navy-950 via-navy-900 to-navy-950 md:h-[600px] md:max-h-[600px]">
+        <div className="relative aspect-[16/10] h-auto w-full overflow-hidden rounded-xl border border-white/5 bg-gradient-to-br from-navy-950 via-navy-900 to-navy-950 md:h-[600px] md:max-h-[600px] md:aspect-auto">
           <Image
             src={src}
             alt={alt}
             fill
             priority={priority}
-            className="object-contain p-1 sm:p-2 md:p-3"
+            className="object-cover object-center md:object-contain md:p-3"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1152px"
           />
         </div>

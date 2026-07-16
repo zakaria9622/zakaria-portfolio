@@ -31,7 +31,7 @@ export function Button({
   icon,
 }: ButtonProps) {
   const base =
-    "inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 font-body text-sm font-semibold leading-none transition-[background-color,border-color,color,box-shadow] duration-200";
+    "inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-5 py-2.5 font-body text-sm font-semibold leading-none transition-[background-color,border-color,color,box-shadow] duration-200 md:min-h-0";
   const classes = `${base} ${variants[variant]} ${className}`;
 
   if (!href) {

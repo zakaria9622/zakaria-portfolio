@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useHomeMotionSettings } from "@/components/home/motion";
 
 type KpiCardProps = {
   label: string;
@@ -10,13 +11,21 @@ type KpiCardProps = {
 };
 
 export function KpiCard({ label, value, highlight, delay = 0 }: KpiCardProps) {
+  const { shouldSimplifyMotion } = useHomeMotionSettings();
+  const mobileValueParts =
+    label === "VIP share"
+      ? ["27.9% customers", "75.4% revenue"]
+      : label === "Lost share"
+        ? ["23.62% customers", "2.95% revenue"]
+        : [value];
+
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.96 }}
+      initial={shouldSimplifyMotion ? false : { opacity: 0, scale: 0.96 }}
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.4, delay }}
-      className={`rounded-xl border p-5 ${
+      transition={shouldSimplifyMotion ? { duration: 0 } : { duration: 0.4, delay }}
+      className={`rounded-xl border p-4 md:p-5 ${
         highlight
           ? "border-electric-500/40 bg-electric-500/10 shadow-lg shadow-electric-500/10"
           : "border-white/10 bg-white/5"
@@ -30,7 +39,18 @@ export function KpiCard({ label, value, highlight, delay = 0 }: KpiCardProps) {
           highlight ? "text-electric-300" : "text-white"
         }`}
       >
-        {value}
+        {mobileValueParts.length > 1 ? (
+          <>
+            <span className="md:hidden">
+              {mobileValueParts.map((part) => (
+                <span key={part} className="block [&+&]:mt-1">{part}</span>
+              ))}
+            </span>
+            <span className="hidden md:inline">{value}</span>
+          </>
+        ) : (
+          value
+        )}
       </p>
     </motion.div>
   );

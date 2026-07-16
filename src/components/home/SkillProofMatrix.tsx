@@ -1,7 +1,7 @@
 "use client";
 
 import { type KeyboardEvent, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   BarChart3,
   ChartNoAxesCombined,
@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { skillsByCategory } from "@/data/skills";
 import { AnimatedSectionHeading } from "@/components/home/AnimatedSectionHeading";
+import { useHomeMotionSettings } from "@/components/home/motion";
 
 const categoryIcons = [Database, ChartNoAxesCombined, BarChart3] as const;
 
@@ -50,7 +51,7 @@ const proofNotes = [
 ] as const;
 
 export function SkillProofMatrix() {
-  const shouldReduceMotion = useReducedMotion() ?? false;
+  const { shouldSimplifyMotion } = useHomeMotionSettings();
   const [activeIndex, setActiveIndex] = useState(0);
   const selectorRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const activeGroup = skillsByCategory[activeIndex];
@@ -89,19 +90,19 @@ export function SkillProofMatrix() {
     }
   }
 
-  const panelTransition = shouldReduceMotion
+  const panelTransition = shouldSimplifyMotion
     ? { duration: 0 }
     : { duration: 0.28, ease: [0.22, 1, 0.36, 1] as const };
 
   return (
     <section
       id="skills"
-      className="relative overflow-hidden border-y border-white/10 bg-white/[0.025] py-20 md:py-28"
+      className="relative overflow-hidden border-y border-white/10 bg-white/[0.025] py-14 md:py-28"
     >
       <div aria-hidden="true" className="pointer-events-none absolute -right-28 -top-28 size-80 rounded-full bg-cyan-300/[0.04] blur-3xl" />
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-[0.018] [background-image:linear-gradient(to_right,rgba(255,255,255,.65)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,.65)_1px,transparent_1px)] [background-size:48px_48px]" />
 
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
           <div>
             <p className="type-label text-cyan-200/80">Skill proof matrix</p>
@@ -111,11 +112,11 @@ export function SkillProofMatrix() {
             />
           </div>
           <motion.div
-            initial={shouldReduceMotion ? { opacity: 1, x: 0, y: 0 } : { opacity: 0, x: 22, y: 8 }}
+            initial={shouldSimplifyMotion ? false : { opacity: 0, x: 22, y: 8 }}
             whileInView={{ opacity: 1, x: 0, y: 0 }}
             viewport={{ once: true, margin: "-90px" }}
-            transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-            className="border-l border-cyan-200/25 bg-graphite-900/60 px-5 py-4 shadow-[0_16px_42px_rgba(34,211,238,0.035)] backdrop-blur-xl"
+            transition={shouldSimplifyMotion ? { duration: 0 } : { duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            className="hidden border-l border-cyan-200/25 bg-graphite-900/60 px-5 py-4 shadow-[0_16px_42px_rgba(34,211,238,0.035)] backdrop-blur-xl md:block"
           >
             <div className="flex items-start justify-between gap-5">
               <div>
@@ -131,11 +132,11 @@ export function SkillProofMatrix() {
           </motion.div>
         </div>
 
-        <div className="mt-14 grid gap-5 lg:grid-cols-[0.68fr_1.32fr] lg:gap-7">
+        <div className="mt-8 grid gap-3 md:mt-14 md:gap-5 lg:grid-cols-[0.68fr_1.32fr] lg:gap-7">
           <div
             role="tablist"
             aria-label="Skill domains"
-            className="flex gap-3 overflow-x-auto pb-2 lg:flex-col lg:overflow-visible lg:pb-0"
+            className="flex gap-2 overflow-x-auto pb-2 lg:flex-col lg:gap-3 lg:overflow-visible lg:pb-0"
           >
             {skillsByCategory.map((group, index) => {
               const Icon = categoryIcons[index] ?? Layers3;
@@ -156,31 +157,31 @@ export function SkillProofMatrix() {
                   onFocus={() => selectCategory(index)}
                   onMouseEnter={() => selectCategory(index)}
                   onKeyDown={(event) => handleSelectorKeyDown(event, index)}
-                  initial={shouldReduceMotion ? { opacity: 1, x: 0, y: 0 } : { opacity: 0, x: -18, y: 10 }}
+                  initial={shouldSimplifyMotion ? false : { opacity: 0, x: -18, y: 10 }}
                   whileInView={{ opacity: 1, x: 0, y: 0 }}
                   viewport={{ once: true, margin: "-80px" }}
-                  transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.45, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
-                  className="group relative min-w-[17rem] overflow-hidden rounded-xl border border-white/10 bg-graphite-900/65 p-4 text-left transition-colors duration-300 hover:border-white/20 hover:bg-graphite-900/85 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 lg:min-w-0"
+                  transition={shouldSimplifyMotion ? { duration: 0 } : { duration: 0.45, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
+                  className="group relative min-h-11 min-w-max overflow-hidden rounded-md border border-white/10 bg-graphite-900/65 px-3 py-2 text-left transition-colors duration-200 hover:border-white/20 hover:bg-graphite-900/85 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-w-[17rem] md:rounded-xl md:p-4 lg:min-w-0"
                 >
                   {isActive && (
                     <motion.span
                       layoutId="active-skill-domain"
                       aria-hidden="true"
-                      className="absolute inset-0 rounded-xl border border-cyan-200/20 bg-cyan-200/[0.045] shadow-[0_0_24px_rgba(34,211,238,0.04)]"
-                      transition={shouldReduceMotion ? { duration: 0 } : { type: "spring", stiffness: 360, damping: 32 }}
+                      className="absolute inset-0 rounded-md border border-cyan-200/20 bg-cyan-200/[0.045] shadow-[0_0_24px_rgba(34,211,238,0.04)] md:rounded-xl"
+                      transition={shouldSimplifyMotion ? { duration: 0 } : { type: "spring", stiffness: 360, damping: 32 }}
                     />
                   )}
-                  <span className="relative z-10 flex items-start justify-between gap-4">
-                    <span className="flex items-center gap-3">
-                      <span className={`flex size-10 items-center justify-center rounded-xl border ${isActive ? accent.icon : "border-white/10 bg-white/[0.04] text-slate-300"}`}>
-                        <Icon className="size-5" aria-hidden="true" />
+                  <span className="relative z-10 flex items-center justify-between gap-3 md:items-start md:gap-4">
+                    <span className="flex items-center gap-2 md:gap-3">
+                      <span className={`flex size-8 items-center justify-center rounded-md border md:size-10 md:rounded-xl ${isActive ? accent.icon : "border-white/10 bg-white/[0.04] text-slate-300"}`}>
+                        <Icon className="size-4 md:size-5" aria-hidden="true" />
                       </span>
                       <span>
-                        <span className="font-mono text-xs font-semibold text-slate-500">{String(index + 1).padStart(2, "0")}</span>
-                        <span className={`mt-1 block font-heading text-base font-semibold leading-snug ${isActive ? "text-white" : "text-slate-300"}`}>{group.category}</span>
+                        <span className="hidden font-mono text-xs font-semibold text-slate-500 md:inline">{String(index + 1).padStart(2, "0")}</span>
+                        <span className={`block whitespace-nowrap font-heading text-sm font-semibold leading-snug md:mt-1 md:text-base ${isActive ? "text-white" : "text-slate-300"}`}>{group.category}</span>
                       </span>
                     </span>
-                    <span className={`rounded-full border px-2.5 py-1 font-mono text-xs font-semibold ${isActive ? accent.count : "border-white/10 bg-white/[0.04] text-slate-400"}`}>{group.skills.length} skills</span>
+                    <span className={`hidden rounded-full border px-2.5 py-1 font-mono text-xs font-semibold md:inline-flex ${isActive ? accent.count : "border-white/10 bg-white/[0.04] text-slate-400"}`}>{group.skills.length} skills</span>
                   </span>
                 </motion.button>
               );
@@ -194,11 +195,11 @@ export function SkillProofMatrix() {
               id={`skill-domain-panel-${activeIndex}`}
               aria-labelledby={`skill-domain-tab-${activeIndex}`}
               tabIndex={0}
-              initial={shouldReduceMotion ? { opacity: 1, x: 0, y: 0, scale: 1 } : { opacity: 0, x: 12, y: 6, scale: 0.995 }}
+              initial={shouldSimplifyMotion ? false : { opacity: 0, x: 12, y: 6, scale: 0.995 }}
               animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
-              exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: -8, y: -2, scale: 0.998 }}
+              exit={shouldSimplifyMotion ? { opacity: 0 } : { opacity: 0, x: -8, y: -2, scale: 0.998 }}
               transition={panelTransition}
-              className="relative min-h-[28rem] overflow-hidden rounded-2xl border border-white/10 bg-graphite-900/75 p-5 shadow-[0_20px_65px_rgba(0,0,0,0.22)] backdrop-blur-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:p-7 lg:p-8"
+              className="relative min-h-0 overflow-hidden rounded-xl border border-white/10 bg-graphite-900/75 p-4 shadow-[0_20px_65px_rgba(0,0,0,0.22)] backdrop-blur-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-[28rem] md:rounded-2xl md:p-7 lg:p-8"
             >
               <div aria-hidden="true" className={`absolute inset-x-0 top-0 h-px bg-gradient-to-r ${activeAccent.line}`} />
               <div aria-hidden="true" className={`pointer-events-none absolute -right-14 -top-14 size-40 rounded-full opacity-70 blur-3xl ${activeAccent.glow}`} />
@@ -206,10 +207,10 @@ export function SkillProofMatrix() {
               <span aria-hidden="true" className="pointer-events-none absolute right-5 top-3 select-none font-kpi text-7xl font-bold leading-none text-white/[0.035] md:text-8xl">{String(activeIndex + 1).padStart(2, "0")}</span>
 
               <div className="relative flex h-full flex-col">
-                <div className="flex flex-wrap items-start justify-between gap-5">
-                  <div className="flex min-w-0 items-start gap-4">
-                    <div className={`flex size-12 shrink-0 items-center justify-center rounded-xl border ${activeAccent.icon}`}>
-                      <ActiveIcon className="size-6" aria-hidden="true" />
+                <div className="flex flex-wrap items-start justify-between gap-3 md:gap-5">
+                  <div className="flex min-w-0 items-start gap-3 md:gap-4">
+                    <div className={`flex size-10 shrink-0 items-center justify-center rounded-lg border md:size-12 md:rounded-xl ${activeAccent.icon}`}>
+                      <ActiveIcon className="size-5 md:size-6" aria-hidden="true" />
                     </div>
                     <div>
                       <p className="type-label text-slate-400">Selected competency domain</p>
@@ -219,29 +220,29 @@ export function SkillProofMatrix() {
                   <span className={`rounded-full border px-3 py-1.5 font-mono text-xs font-semibold ${activeAccent.count}`}>{activeGroup.skills.length} skills</span>
                 </div>
 
-                <div className={`mt-8 rounded-xl border bg-white/[0.035] p-5 ${activeAccent.chip}`}>
+                <div className={`mt-4 rounded-lg border bg-white/[0.035] p-3 md:mt-8 md:rounded-xl md:p-5 ${activeAccent.chip}`}>
                   <div className="flex items-start gap-3">
                     <span className={`mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-lg border ${activeAccent.icon}`}>
                       <Sparkles className="size-3.5" aria-hidden="true" />
                     </span>
                     <div>
                       <p className="type-label text-slate-400">Evidence connection</p>
-                      <p className="type-body mt-3 max-w-3xl text-slate-200">{proofNotes[activeIndex]}</p>
+                      <p className="type-body mt-2 max-w-3xl text-slate-200 md:mt-3">{proofNotes[activeIndex]}</p>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-8">
+                <div className="mt-5 md:mt-8">
                   <p className="type-label text-slate-400">Tools and capabilities</p>
-                  <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                  <div className="mt-3 grid grid-cols-2 gap-2 md:mt-4 md:gap-3 xl:grid-cols-3">
                     {activeGroup.skills.map((skill, skillIndex) => (
                       <motion.div
                         key={skill}
-                        initial={shouldReduceMotion ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 6, scale: 0.99 }}
+                        initial={shouldSimplifyMotion ? false : { opacity: 0, y: 6, scale: 0.99 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
-                        whileHover={shouldReduceMotion ? undefined : { y: -1 }}
-                        transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.26, delay: 0.06 + skillIndex * 0.035, ease: [0.22, 1, 0.36, 1] }}
-                        className={`group flex min-h-14 items-center gap-3 rounded-xl border px-4 py-3 font-mono text-[13px] font-medium transition-colors duration-200 hover:bg-white/[0.06] ${activeAccent.chip}`}
+                        whileHover={shouldSimplifyMotion ? undefined : { y: -1 }}
+                        transition={shouldSimplifyMotion ? { duration: 0 } : { duration: 0.26, delay: 0.06 + skillIndex * 0.035, ease: [0.22, 1, 0.36, 1] }}
+                        className={`group flex min-h-11 items-center gap-3 rounded-lg border px-3 py-2.5 font-mono text-[13px] font-medium transition-colors duration-200 hover:bg-white/[0.06] md:min-h-14 md:rounded-xl md:px-4 md:py-3 ${activeAccent.chip}`}
                       >
                         <span className={`flex size-5 shrink-0 items-center justify-center rounded-md border ${activeAccent.icon}`}><Check className="size-3" strokeWidth={2.5} aria-hidden="true" /></span>
                         <span className="min-w-0 break-words">{skill}</span>
@@ -250,7 +251,7 @@ export function SkillProofMatrix() {
                   </div>
                 </div>
 
-                <div className="mt-auto flex flex-wrap items-end justify-between gap-4 border-t border-white/10 pt-6">
+                <div className="skill-panel-footer mt-5 flex flex-wrap items-end justify-between gap-3 border-t border-white/10 pt-4 md:mt-auto md:gap-4 md:pt-6">
                   <div>
                     <p className="type-label text-slate-500">Portfolio evidence model</p>
                     <p className="type-body-dense mt-1 text-slate-400">Tools → analysis → stakeholder-ready output</p>

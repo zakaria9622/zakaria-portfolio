@@ -25,6 +25,7 @@ import { ProjectImageLightbox } from "@/components/project/ProjectImageLightbox"
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { GlassCard } from "@/components/ui/GlassCard";
+import { useHomeMotionSettings } from "@/components/home/motion";
 
 const chapterHeadingClass =
   "type-chapter-title font-heading text-white";
@@ -53,13 +54,15 @@ function ChapterHeading({
   titleId,
   bordered = true,
 }: ChapterHeadingProps) {
+  const { shouldSimplifyMotion } = useHomeMotionSettings();
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
+      initial={shouldSimplifyMotion ? false : { opacity: 0, y: 10 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.55 }}
-      transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
-      className={bordered ? "mb-8 border-b border-white/10 pb-7" : "mb-8"}
+      transition={shouldSimplifyMotion ? { duration: 0 } : { duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
+      className={bordered ? "mb-6 border-b border-white/10 pb-5 md:mb-8 md:pb-7" : "mb-6 md:mb-8"}
     >
       <p className={chapterEyebrowClass}>{eyebrow}</p>
       <h2 id={titleId} className={`mt-3 ${chapterHeadingClass}`}>
@@ -68,16 +71,17 @@ function ChapterHeading({
       <motion.div
         aria-hidden="true"
         className="mt-5 h-px origin-left bg-gradient-to-r from-cyan-300/60 via-electric-400/35 to-transparent"
-        initial={{ scaleX: 0, opacity: 0 }}
+        initial={shouldSimplifyMotion ? false : { scaleX: 0, opacity: 0 }}
         whileInView={{ scaleX: 1, opacity: 1 }}
         viewport={{ once: true, amount: 0.8 }}
-        transition={{ duration: 0.45, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+        transition={shouldSimplifyMotion ? { duration: 0 } : { duration: 0.45, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
       />
     </motion.div>
   );
 }
 
 export function ProjectDetail({ project }: { project: Project }) {
+  const { shouldSimplifyMotion } = useHomeMotionSettings();
   const articleRef = useRef<HTMLElement>(null);
   const chapterNavRef = useRef<HTMLDivElement>(null);
   const [activeChapter, setActiveChapter] = useState<ChapterId>("results");
@@ -95,23 +99,35 @@ export function ProjectDetail({ project }: { project: Project }) {
     const sections = chapters
       .map((chapter) => document.getElementById(chapter.id))
       .filter((section): section is HTMLElement => section instanceof HTMLElement);
+    let frame = 0;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const candidates = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        const activeId = candidates[0]?.target.id as ChapterId | undefined;
+    const updateActiveChapter = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const activationLine = window.innerWidth < 768 ? 176 : 188;
+        let nextActive = sections[0]?.id as ChapterId | undefined;
 
-        if (activeId && chapters.some((chapter) => chapter.id === activeId)) {
-          setActiveChapter(activeId);
+        for (const section of sections) {
+          if (section.getBoundingClientRect().top <= activationLine) {
+            nextActive = section.id as ChapterId;
+          } else {
+            break;
+          }
         }
-      },
-      { root: null, rootMargin: "-26% 0px -58% 0px", threshold: [0, 0.1, 0.25, 0.5] }
-    );
 
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
+        if (nextActive) setActiveChapter(nextActive);
+      });
+    };
+
+    updateActiveChapter();
+    window.addEventListener("scroll", updateActiveChapter, { passive: true });
+    window.addEventListener("resize", updateActiveChapter);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", updateActiveChapter);
+      window.removeEventListener("resize", updateActiveChapter);
+    };
   }, []);
 
   useEffect(() => {
@@ -133,14 +149,14 @@ export function ProjectDetail({ project }: { project: Project }) {
   const heroSubtitle = project.heroSubtitle;
 
   return (
-    <article ref={articleRef}>
+    <article ref={articleRef} className="project-detail">
       <motion.div
         aria-hidden="true"
         className="pointer-events-none fixed inset-x-0 top-0 z-[55] h-px origin-left bg-gradient-to-r from-cyan-300/80 via-electric-400/70 to-amber-200/80 shadow-[0_0_8px_rgba(103,232,249,0.28)]"
         style={{ scaleX: progressScale }}
       />
 
-      <section className="relative overflow-hidden border-b border-white/10 bg-navy-950 pt-28 pb-14 md:pt-32 md:pb-20">
+      <section className="project-detail-hero relative overflow-hidden border-b border-white/10 bg-navy-950 pt-24 pb-12 md:pt-32 md:pb-20">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -top-28 right-[-6%] size-96 rounded-full bg-cyan-300/[0.055] blur-3xl"
@@ -150,26 +166,26 @@ export function ProjectDetail({ project }: { project: Project }) {
           className="pointer-events-none absolute inset-0 opacity-[0.16] [background-image:linear-gradient(rgba(125,211,252,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(125,211,252,0.045)_1px,transparent_1px)] [background-size:40px_40px]"
         />
 
-        <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="relative mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
           <Link
             href="/#projects"
-            className="mb-10 inline-flex items-center gap-2 font-body text-sm leading-none text-slate-400 transition-colors hover:text-electric-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+            className="mb-6 inline-flex min-h-11 items-center gap-2 font-body text-sm leading-none text-slate-400 transition-colors hover:text-electric-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:mb-10 md:min-h-0"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to projects
           </Link>
 
-          <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-center lg:gap-10 xl:grid-cols-[0.72fr_1.28fr] xl:gap-12">
+          <div className="grid gap-7 md:gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-center lg:gap-10 xl:grid-cols-[0.72fr_1.28fr] xl:gap-12">
             <motion.div
-              initial={{ opacity: 0, x: -18, y: 8 }}
+              initial={shouldSimplifyMotion ? false : { opacity: 0, x: -18, y: 8 }}
               animate={{ opacity: 1, x: 0, y: 0 }}
-              transition={{ duration: 0.52, ease: [0.22, 1, 0.36, 1] }}
+              transition={shouldSimplifyMotion ? { duration: 0 } : { duration: 0.52, ease: [0.22, 1, 0.36, 1] }}
               className="min-w-0"
             >
               <p className="type-label text-electric-400">
                 Case Study
               </p>
-              <h1 className="type-page-title mt-3 max-w-2xl break-words font-heading font-bold text-white">
+              <h1 className="type-page-title mt-3 max-w-2xl font-heading font-bold text-white">
                 {heroTitle}
               </h1>
               {heroSubtitle && (
@@ -255,7 +271,7 @@ export function ProjectDetail({ project }: { project: Project }) {
             </motion.div>
 
             <motion.div
-              initial={{
+              initial={shouldSimplifyMotion ? false : {
                 opacity: 0,
                 x: 24,
                 y: 10,
@@ -271,12 +287,12 @@ export function ProjectDetail({ project }: { project: Project }) {
                 rotateX: 0,
                 scale: 1,
               }}
-              transition={{
+              transition={shouldSimplifyMotion ? { duration: 0 } : {
                 duration: 0.62,
                 delay: 0.1,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              whileHover={{ y: -2, scale: 1.004 }}
+              whileHover={shouldSimplifyMotion ? undefined : { y: -2, scale: 1.004 }}
               style={{ perspective: 1400 }}
               className="min-w-0 transform-gpu"
             >
@@ -294,9 +310,9 @@ export function ProjectDetail({ project }: { project: Project }) {
 
       <nav
         aria-label="Case study sections"
-        className="sticky top-24 z-30 border-y border-white/10 bg-ink-950/80 backdrop-blur-xl"
+        className="sticky top-[76px] z-30 border-y border-white/10 bg-ink-950/90 backdrop-blur-xl md:top-24"
       >
-        <div ref={chapterNavRef} className="mx-auto flex max-w-6xl gap-1 overflow-x-auto px-6 py-3 lg:px-8">
+        <div ref={chapterNavRef} className="mx-auto flex max-w-6xl gap-1 overflow-x-auto px-4 py-2 md:px-6 md:py-3 lg:px-8">
           {chapters.map((chapter) => {
             const isActive = activeChapter === chapter.id;
 
@@ -307,7 +323,7 @@ export function ProjectDetail({ project }: { project: Project }) {
               data-chapter-link={chapter.id}
               aria-current={isActive ? "location" : undefined}
               onClick={() => setActiveChapter(chapter.id)}
-              className={`relative shrink-0 rounded-md px-3 py-2 font-mono text-xs font-semibold uppercase tracking-[0.14em] transition-colors hover:bg-white/[0.05] hover:text-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 ${
+              className={`relative flex min-h-11 shrink-0 items-center rounded-md px-3 py-2 font-mono text-xs font-semibold uppercase tracking-[0.14em] transition-colors hover:bg-white/[0.05] hover:text-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0 ${
                 isActive ? "text-cyan-50" : "text-slate-400"
               }`}
             >
@@ -326,7 +342,7 @@ export function ProjectDetail({ project }: { project: Project }) {
         </div>
       </nav>
 
-      <div className="mx-auto max-w-6xl space-y-20 px-6 py-16 lg:px-8 md:py-20">
+      <div className="mx-auto max-w-6xl space-y-14 px-4 py-12 md:space-y-20 md:px-6 md:py-20 lg:px-8">
         <section id="results" aria-labelledby="results-title" className="scroll-mt-32">
           <ChapterHeading eyebrow="Results snapshot" title="Key metrics and analytical output" titleId="results-title" />
 
@@ -351,12 +367,12 @@ export function ProjectDetail({ project }: { project: Project }) {
               {project.supportingScreenshots.map((screenshot) => (
                 <figure key={screenshot.src} className="relative w-full">
                   <div className="overflow-hidden rounded-xl border border-white/10 bg-navy-900/60 p-1.5 shadow-xl shadow-black/30">
-                    <div className="relative h-[min(300px,45vh)] overflow-hidden rounded-lg border border-white/5 bg-navy-950 md:h-[340px]">
+                    <div className="relative aspect-[16/10] h-auto overflow-hidden rounded-lg border border-white/5 bg-navy-950 md:h-[340px] md:aspect-auto">
                       <Image
                         src={screenshot.src}
                         alt={screenshot.alt}
                         fill
-                        className="object-contain p-3 sm:p-4"
+                        className="object-cover object-center md:object-contain md:p-4"
                         sizes="(max-width: 1024px) 100vw, 560px"
                       />
                     </div>
@@ -374,7 +390,7 @@ export function ProjectDetail({ project }: { project: Project }) {
         <section
           id="evidence"
           aria-labelledby="project-evidence-title"
-          className="scroll-mt-32 rounded-2xl border border-white/10 bg-white/[0.025] p-5 md:p-7"
+          className="scroll-mt-32 rounded-xl border border-white/10 bg-white/[0.025] p-4 md:rounded-2xl md:p-7"
         >
           <div className="mb-5 flex items-start gap-3">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-electric-500/30 bg-electric-500/10">
@@ -561,7 +577,7 @@ export function ProjectDetail({ project }: { project: Project }) {
             </GlassCard>
           )}
 
-          <div className="mt-12 flex flex-wrap gap-3 border-t border-white/10 pt-12">
+          <div className="mt-8 flex flex-col gap-3 border-t border-white/10 pt-8 sm:flex-row sm:flex-wrap md:mt-12 md:pt-12">
             {project.liveDemo && (
               <Button href={project.liveDemo} variant="primary" external icon={<ArrowUpRight className="h-4 w-4" />}>
                 Open live demo
