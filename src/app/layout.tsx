@@ -35,7 +35,7 @@ const structuredData = {
       url: "https://www.zakariamaachou.com/",
       name: "Zakaria Maachou Portfolio",
       description:
-        "Data Analytics, Business Intelligence and Business Analytics portfolio featuring professional experience, SQL analysis, BI dashboards and independent case studies.",
+        "Portfolio of Zakaria Maachou, Growth Analyst specializing in acquisition, conversion, retention, funnel analytics, CRM and marketing performance.",
       inLanguage: "en",
       author: {
         "@id": "https://www.zakariamaachou.com/#person",
@@ -49,12 +49,15 @@ const structuredData = {
       jobTitle: profile.title,
       sameAs: [profile.linkedin, profile.github],
       knowsAbout: [
-        "Data Analytics",
-        "Business Intelligence",
-        "Business Analytics",
+        "Growth Analytics",
+        "Acquisition Analysis",
+        "Conversion Analysis",
+        "Retention Analysis",
+        "Funnel Analytics",
+        "CRM Analytics",
+        "Marketing Performance",
         "SQL",
-        "Data Visualization",
-        "Dashboard Reporting",
+        "Business Intelligence",
       ],
     },
   ],
@@ -62,13 +65,13 @@ const structuredData = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.zakariamaachou.com"),
-  title: "Zakaria Maachou | Data Analyst, Business Intelligence & Business Analytics",
+  title: "Zakaria Maachou | Growth Analyst — Acquisition, Conversion & Retention",
   description:
-    "Portfolio of Zakaria Maachou, a Data Analyst specializing in Business Intelligence, Business Analytics, SQL, dashboards and actionable business recommendations.",
+    "Portfolio of Zakaria Maachou, Growth Analyst specializing in acquisition, conversion, retention, funnel analytics, CRM and marketing performance.",
   openGraph: {
-    title: "Zakaria Maachou | Data Analyst, Business Intelligence & Business Analytics",
+    title: "Zakaria Maachou | Growth Analyst — Acquisition, Conversion & Retention",
     description:
-      "Data Analytics, Business Intelligence and Business Analytics portfolio featuring SQL analysis, BI dashboards and business recommendations.",
+      "Portfolio of Zakaria Maachou, Growth Analyst specializing in acquisition, conversion, retention, funnel analytics, CRM and marketing performance.",
     url: "/",
     siteName: "Zakaria Maachou Portfolio",
     type: "website",
@@ -78,19 +81,19 @@ export const metadata: Metadata = {
         url: "/og/home.png",
         width: 1200,
         height: 627,
-        alt: "Zakaria Maachou — Data Analyst, Business Intelligence & Business Analytics",
+        alt: "Zakaria Maachou | Growth Analyst — Acquisition, Conversion & Retention",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Zakaria Maachou | Data Analyst, Business Intelligence & Business Analytics",
+    title: "Zakaria Maachou | Growth Analyst — Acquisition, Conversion & Retention",
     description:
-      "Data Analytics, Business Intelligence and Business Analytics portfolio featuring SQL analysis, BI dashboards and business recommendations.",
+      "Portfolio of Zakaria Maachou, Growth Analyst specializing in acquisition, conversion, retention, funnel analytics, CRM and marketing performance.",
     images: [
       {
         url: "/og/home.png",
-        alt: "Zakaria Maachou — Data Analyst, Business Intelligence & Business Analytics",
+        alt: "Zakaria Maachou | Growth Analyst — Acquisition, Conversion & Retention",
       },
     ],
   },

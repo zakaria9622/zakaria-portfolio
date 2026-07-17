@@ -207,12 +207,12 @@ export function CaseStudySpotlight() {
           </p>
           <div className="mt-4 grid gap-6 lg:grid-cols-[0.82fr_1fr] lg:items-end">
             <AnimatedSectionHeading
-              text="Business questions turned into measurable recommendations."
+              text="Growth questions turned into measurable recommendations."
               className="type-section-title font-heading text-white"
             />
             <p className="type-body max-w-2xl text-slate-400 lg:ml-auto">
-              Each project keeps the line from raw data to stakeholder-ready output:
-              SQL exploration, dashboarding, main insight, and a practical action plan.
+              Each case study connects data preparation, analysis and visualization to a
+              growth decision involving conversion, customer value, profitability or retention.
             </p>
           </div>
         </motion.div>
@@ -263,7 +263,7 @@ export function CaseStudySpotlight() {
                     <div>
                       <div className="mb-4 flex flex-wrap items-center gap-2 md:mb-5 md:gap-3">
                         <span className="rounded-md border border-cyan-200/20 bg-cyan-200/10 px-3 py-1.5 font-mono text-xs font-semibold text-cyan-100">
-                          0{project.featuredOrder}
+                          {project.featuredCategory}
                         </span>
                         {project.tools.map((tool) => (
                           <span
@@ -292,7 +292,7 @@ export function CaseStudySpotlight() {
                             Business question
                           </p>
                           <p className="type-body-dense mt-3 text-slate-200">
-                            {project.businessQuestion}
+                            {project.featuredBusinessQuestion ?? project.businessQuestion}
                           </p>
                         </div>
                         <div className="rounded-md border border-amber-200/20 bg-amber-200/10 p-4">
@@ -337,7 +337,7 @@ export function CaseStudySpotlight() {
                       )}
 
                       <p className="mobile-project-conclusion type-body-dense mt-4 max-w-4xl text-slate-400 md:mt-5">
-                        {project.mainInsight}
+                        {project.featuredInsight ?? project.mainInsight}
                       </p>
                     </div>
 
@@ -441,7 +441,7 @@ export function CaseStudySpotlight() {
                   <div>
                     <div className="mb-4 flex flex-wrap items-center gap-2 md:mb-5 md:gap-3">
                       <span className="rounded-md border border-cyan-200/20 bg-cyan-200/10 px-3 py-1.5 font-mono text-xs font-semibold text-cyan-100">
-                        0{project.featuredOrder}
+                        {project.featuredCategory}
                       </span>
                       {project.tools.map((tool) => (
                         <span
@@ -470,7 +470,7 @@ export function CaseStudySpotlight() {
                           Business question
                         </p>
                         <p className="type-body-dense mt-3 text-slate-200">
-                          {project.businessQuestion}
+                          {project.featuredBusinessQuestion ?? project.businessQuestion}
                         </p>
                       </div>
                       <div className="rounded-md border border-amber-200/20 bg-amber-200/10 p-4">
@@ -513,7 +513,7 @@ export function CaseStudySpotlight() {
                     )}
 
                     <p className="mobile-project-conclusion type-body-dense mt-4 text-slate-400 md:mt-5">
-                      {project.mainInsight}
+                      {project.featuredInsight ?? project.mainInsight}
                     </p>
                   </div>
 

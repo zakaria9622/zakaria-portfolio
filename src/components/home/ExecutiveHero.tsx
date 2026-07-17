@@ -370,7 +370,7 @@ export function ExecutiveHero() {
           >
             <span className="inline-flex items-center gap-2 rounded-md border border-emerald-400/25 bg-emerald-400/10 px-3 py-2 font-sans text-sm font-semibold leading-none tracking-normal text-emerald-100">
               <ShieldCheck className="size-4" />
-              Apprenticeship · 2026–2027
+              Seeking a 2026–2027 apprenticeship · Available from September 2026
             </span>
             <span className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/[0.04] px-3 py-2 font-body text-sm font-medium leading-none text-slate-300">
               <MapPin className="size-4 text-cyan-200" />
@@ -382,7 +382,7 @@ export function ExecutiveHero() {
             {...heroItem(shouldSimplifyMotion, 0.04)}
             className="mb-4 type-label text-cyan-200/80"
           >
-            Data Analytics Portfolio
+            Growth Analytics Portfolio
           </motion.p>
 
           <motion.h1
@@ -459,7 +459,7 @@ export function ExecutiveHero() {
           >
             <span className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/[0.03] px-3 py-2 font-mono font-medium tracking-[0.02em]">
               <BarChart3 className="size-4 text-emerald-200" />
-              SQL, Tableau, Python, BI reporting
+              SQL · Python · Tableau · Funnel Analytics · CRM Analytics
             </span>
           </motion.div>
         </motion.div>
@@ -505,10 +505,10 @@ function FeaturedProjectProof({
             {previewProject.shortTitle}
           </h2>
           <p className="type-body-dense mt-3 text-slate-400">
-            {previewProject.businessQuestion}
+            {previewProject.featuredBusinessQuestion ?? previewProject.businessQuestion}
           </p>
           <p className="featured-project-desktop-copy type-body-dense mt-3 text-slate-400">
-            {previewProject.mainInsight}
+            {previewProject.featuredInsight ?? previewProject.mainInsight}
           </p>
           {previewProject.featuredContext && (
             <div className="featured-project-desktop-copy type-body-dense mt-4 rounded-md border border-white/10 bg-white/[0.03] px-3 py-2 text-slate-300">
@@ -554,7 +554,7 @@ function FeaturedProjectProof({
                   {previewProject.shortTitle}
                 </p>
                 <p className="type-body-dense mt-1 text-slate-500">
-                  {previewProject.businessQuestion}
+                  {previewProject.featuredBusinessQuestion ?? previewProject.businessQuestion}
                 </p>
               </div>
               <span className="rounded-md border border-cyan-300/20 bg-cyan-300/10 px-2.5 py-1 font-mono text-xs font-semibold leading-none tracking-[0.02em] text-cyan-100">

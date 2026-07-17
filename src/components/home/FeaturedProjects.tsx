@@ -23,8 +23,8 @@ export function FeaturedProjects() {
       <div className="relative">
         <SectionHeader
           label="Case Studies"
-          title="Featured Projects"
-          description="End-to-end analytics projects — from SQL exploration to business recommendations."
+          title="Growth questions turned into measurable recommendations."
+          description="Each case study connects data preparation, analysis and visualization to a growth decision involving conversion, customer value, profitability or retention."
         />
 
         <div className="flex flex-col gap-8">
@@ -84,7 +84,7 @@ export function FeaturedProjects() {
                         Business question
                       </p>
                       <p className="mt-2 font-body text-sm leading-relaxed text-slate-200 md:text-base">
-                        {project.businessQuestion}
+                        {project.featuredBusinessQuestion ?? project.businessQuestion}
                       </p>
                     </div>
                     {project.scope && (

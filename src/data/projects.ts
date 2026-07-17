@@ -33,6 +33,9 @@ export type Project = {
   liveDemo?: string;
   href: string;
   featuredOrder: number;
+  featuredCategory: string;
+  featuredBusinessQuestion?: string;
+  featuredInsight?: string;
   featuredContext?: string;
   projectType: string;
   datasetDisclosure: string;
@@ -61,7 +64,8 @@ export const projects: Project[] = [
       "Profitability dashboard, discount impact, weak category-region segments",
     github: "https://github.com/zakaria9622/ecommerce-profit-leak-analysis",
     href: "/projects/profit-leak",
-    featuredOrder: 1,
+    featuredOrder: 3,
+    featuredCategory: "Growth Profitability Analytics",
     projectType: "Independent portfolio case study",
     datasetDisclosure:
       "Synthetic e-commerce order data generated with Python. The analysis covers 12,000 simulated orders and does not represent the performance of a real company.",
@@ -147,7 +151,12 @@ export const projects: Project[] = [
       "Funnel dashboard, view-to-cart bottleneck diagnosis",
     github: "https://github.com/zakaria9622/funnel-analysis-project",
     href: "/projects/funnel-analysis",
-    featuredOrder: 2,
+    featuredOrder: 1,
+    featuredCategory: "Conversion Analytics",
+    featuredBusinessQuestion:
+      "Where is the main conversion bottleneck before purchase?",
+    featuredInsight:
+      "Only 11.14% of viewers add a product to their cart, while 58.35% of cart users complete a purchase. The main growth opportunity is therefore improving the product-view-to-cart stage rather than the checkout stage.",
     featuredContext:
       "Independent case study using external event-level e-commerce data.",
     projectType: "Independent portfolio case study",
@@ -234,7 +243,8 @@ export const projects: Project[] = [
       "VIP, Loyal, At-risk and Lost customer segmentation",
     github: "https://github.com/zakaria9622/customer-segmentation-rfm",
     href: "/projects/rfm-segmentation",
-    featuredOrder: 3,
+    featuredOrder: 2,
+    featuredCategory: "CRM & Retention Analytics",
     projectType: "Independent portfolio case study",
     datasetDisclosure:
       "Synthetic but business-realistic e-commerce order data generated with Python. The dataset contains 5,000 simulated customers and 45,356 orders and does not represent a real company.",
@@ -332,6 +342,7 @@ export const projects: Project[] = [
     liveDemo: "https://renewalos-zakaria.streamlit.app/",
     href: "/projects/renewalos",
     featuredOrder: 4,
+    featuredCategory: "Revenue & Retention Analytics",
     projectType: "Independent synthetic B2B analytics system",
     datasetDisclosure:
       "Synthetic B2B data only. No production customer data, production deployment, observed intervention result or real business impact is claimed.",

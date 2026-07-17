@@ -84,7 +84,7 @@ export function ExperienceTimeline() {
               Experience
             </p>
             <AnimatedSectionHeading
-              text="Business, data & BI experience."
+              text="Growth, marketing & data experience."
               className="type-section-title mt-4 max-w-3xl font-heading text-white"
             />
           </div>
@@ -109,7 +109,7 @@ export function ExperienceTimeline() {
                   {experience.length} experiences
                 </p>
                 <p className="type-body-dense mt-1 text-slate-300">
-                  Business, marketing performance and data analytics.
+                  Acquisition, conversion, marketing performance and data analytics.
                 </p>
               </div>
               <div className="flex size-10 shrink-0 items-center justify-center rounded-xl border border-cyan-200/25 bg-cyan-200/10">

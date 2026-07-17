@@ -1,10 +1,10 @@
-# Zakaria Maachou — Data Analytics Portfolio
+# Zakaria Maachou — Growth Analytics Portfolio
 
-Recruiter-facing portfolio presenting professional experience and independent case studies across Data Analytics, Business Intelligence and Business Analytics.
+Recruiter-facing portfolio presenting professional experience and independent case studies across acquisition, conversion, retention, CRM and marketing performance.
 
 **Professional positioning:**
 
-Data Analyst | Business Intelligence & Business Analytics
+Growth Analyst — Acquisition, Conversion & Retention
 
 **Live portfolio:**
 

@@ -16,7 +16,7 @@ export function SkillsByCategory() {
         <SectionHeader
           label="Expertise"
           title="Skills by Category"
-          description="Technical stack and business analytics capabilities aligned with Data & BI roles."
+          description="Growth capabilities supported by data and business intelligence tools."
         />
 
         <div className="grid gap-6 md:grid-cols-3">

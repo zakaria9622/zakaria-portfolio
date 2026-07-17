@@ -1,13 +1,13 @@
 export const education = [
   {
-    school: "INSEEC Paris",
-    program: "MSc Data Management & AI for Business",
-    dates: "09/2025 - 09/2027",
+    school: "INSEEC MSc",
+    program: "Master in Data Management & AI for Business",
+    dates: "Sep 2025 – Sep 2027",
   },
   {
-    school: "EBS Paris",
-    program: "Programme Grande École — Master Digital Business Marketing",
-    dates: "09/2023 - 09/2024",
+    school: "EBS Paris – European Business School",
+    program: "Master in Digital Business & Marketing — Grande École Programme",
+    dates: "Sep 2023 – Sep 2025",
   },
   {
     school: "Université Paris-Panthéon-Assas",

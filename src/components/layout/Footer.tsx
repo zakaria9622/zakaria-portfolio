@@ -40,7 +40,7 @@ export function Footer() {
           </a>
         </div>
         <p className="font-body text-center text-xs text-slate-500 md:text-right">
-          © {new Date().getFullYear()} · Data & BI Portfolio
+          © {new Date().getFullYear()} · Growth Analytics Portfolio
         </p>
       </div>
     </footer>

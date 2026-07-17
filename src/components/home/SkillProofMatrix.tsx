@@ -45,9 +45,9 @@ const categoryAccents = [
 ] as const;
 
 const proofNotes = [
-  "Used across SQL exploration, DuckDB/dbt models, Tableau dashboards, and Python checks.",
-  "Applied to profitability analysis, funnel drop-off diagnosis, data-quality gates, and diagnostic KPI controls.",
-  "Connected to acquisition, CRM segmentation, conversion analysis, CSM prioritization, and stakeholder reports.",
+  "Used to identify acquisition opportunities, conversion bottlenecks, valuable customer segments and retention priorities.",
+  "Used to transform raw data into reliable KPIs, analytical models and decision-ready dashboards.",
+  "Used to translate analytical findings into actions for growth, profitability and customer performance.",
 ] as const;
 
 export function SkillProofMatrix() {

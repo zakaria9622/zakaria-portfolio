@@ -27,12 +27,12 @@ export function Hero() {
               <Sparkles className="h-3.5 w-3.5 text-electric-300" />
               <span className="h-2 w-2 rounded-full bg-electric-400 animate-pulse" />
               <span className="font-body text-sm font-medium leading-none text-electric-200">
-                Open to apprenticeships in Data Analytics, Business Intelligence or Business Analytics
+                Seeking a 2026–2027 apprenticeship · Available from September 2026
               </span>
             </div>
 
             <p className="mb-3 font-mono text-sm font-semibold tracking-wide text-electric-400/90">
-              Data · BI · Analytics
+              Growth Analytics Portfolio
             </p>
 
             <h1 className="bg-gradient-to-br from-white via-white to-slate-400 bg-clip-text font-heading text-4xl font-bold leading-tight text-transparent md:text-5xl lg:text-6xl xl:text-[4.25rem] xl:leading-[1.05]">

@@ -11,26 +11,26 @@ import {
 
 const steps = [
   {
-    title: "Question",
-    text: "Frame the business problem before touching the dashboard layer.",
+    title: "Growth question",
+    text: "Define the acquisition, conversion, retention or profitability problem before analyzing the data.",
     icon: Search,
     accent: "text-cyan-200",
   },
   {
-    title: "SQL model",
-    text: "Build reliable metrics with SQL, DuckDB, Python, and clear assumptions.",
+    title: "Data model",
+    text: "Prepare reliable metrics using SQL, Python and documented business rules.",
     icon: Database,
     accent: "text-emerald-200",
   },
   {
-    title: "Dashboard",
-    text: "Turn the analysis into focused Tableau views and stakeholder-ready KPIs.",
+    title: "Analysis and dashboard",
+    text: "Identify patterns, bottlenecks and priority segments through focused analysis and visualization.",
     icon: LayoutDashboard,
     accent: "text-amber-200",
   },
   {
-    title: "Recommendation",
-    text: "Translate the pattern into a decision: pricing, funnel, or CRM action.",
+    title: "Growth recommendation",
+    text: "Translate the findings into a concrete acquisition, conversion, CRM or retention action.",
     icon: Lightbulb,
     accent: "text-coral-200",
   },

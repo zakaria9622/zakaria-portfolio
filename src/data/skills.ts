@@ -13,31 +13,39 @@ export const skillsStrip = [
 
 export const skillsByCategory = [
   {
-    category: "Data & BI",
-    skills: ["SQL", "DuckDB", "dbt", "Tableau", "Python pandas"],
-  },
-  {
-    category: "Business Analytics",
+    category: "Growth & Marketing Analytics",
     skills: [
-      "KPI tracking",
-      "reporting",
-      "dashboards",
-      "profitability analysis",
-      "funnel analysis",
-      "data quality",
-      "analytics engineering",
+      "Acquisition analysis",
+      "Conversion analysis",
+      "Funnel analysis",
+      "Campaign performance",
+      "CRM segmentation",
+      "Retention analysis",
+      "GA4",
     ],
   },
   {
-    category: "Marketing / CRM Analytics",
+    category: "Data & Business Intelligence",
     skills: [
-      "Google Analytics",
-      "Search Console",
+      "SQL",
+      "Python",
+      "pandas",
+      "Tableau",
+      "Power BI",
       "Looker Studio",
-      "CRM segmentation",
-      "conversion analysis",
-      "data governance",
-      "capacity optimization",
+      "ETL",
+      "dbt",
+      "Data quality",
+    ],
+  },
+  {
+    category: "Business & Performance Analysis",
+    skills: [
+      "KPI definition",
+      "Stakeholder requirements",
+      "Performance reporting",
+      "Profitability analysis",
+      "Business recommendations",
     ],
   },
 ] as const;
