@@ -223,7 +223,7 @@ export function ExperienceTimeline() {
                             </span>
                             {index === 0 && (
                               <span className="rounded-full border border-cyan-200/20 bg-cyan-200/10 px-2 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-cyan-100">
-                                Latest
+                                {"label" in job ? job.label : "Latest"}
                               </span>
                             )}
                           </span>
@@ -247,7 +247,7 @@ export function ExperienceTimeline() {
                         </div>
                         <div className="min-w-0">
                           <p className="type-label text-slate-400">
-                            Professional experience
+                            {"label" in job ? job.label : "Professional experience"}
                           </p>
                           <h3 className="type-card-title mt-2 font-heading text-white">
                             {job.company}

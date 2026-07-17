@@ -1,13 +1,14 @@
 export const experience = [
   {
     company: "Thélio",
-    role: "Consultant Data & BI Junior",
-    dates: "10/2025 - 09/2026",
+    role: "Data & BI Analyst",
+    label: "Work-study position · Data & Business Intelligence",
+    dates: "Oct 2025 — Sep 2026",
     highlights: [
-      "Translate business requirements into functional specifications, KPI definitions and BI reporting needs.",
-      "Contribute to data architecture analysis and data warehouse modeling for analytics use cases.",
-      "Design and develop ETL flows to integrate, transform and prepare data for reporting.",
-      "Deliver BI dashboards from requirements gathering and data validation through deployment.",
+      "Translated requirements from 5 business stakeholders into 12 sales, inventory and margin KPIs.",
+      "Extracted, transformed and validated 1.2M rows from 4 data sources using SQL and Talend, implementing 30 data-quality checks.",
+      "Built 2 Tableau dashboards for weekly performance monitoring across a network of 412 retail locations.",
+      "Automated the reporting workflow, reducing preparation time from 4 hours to 1 hour, and executed 25 UAT cases before release.",
     ],
   },
   {
