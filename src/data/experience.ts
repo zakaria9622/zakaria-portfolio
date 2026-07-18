@@ -5,10 +5,10 @@ export const experience = [
     label: "Apprenticeship · Lyon, Auvergne-Rhône-Alpes, France",
     dates: "Sep 2025 – Present",
     highlights: [
-      "Translated the needs of 5 business stakeholders into 12 sales, inventory and margin KPIs.",
-      "Extracted, transformed and validated 1.2 million rows from 4 sources using SQL and Talend, with 30 data-quality controls.",
-      "Built 2 Tableau dashboards for the weekly monitoring of 412 retail locations.",
-      "Reduced recurring reporting time from 4 hours to 1 hour and executed 25 user acceptance test cases before production.",
+      "Gathered client reporting needs and translated them into KPI definitions.",
+      "Prepared, transformed and validated data using SQL and ETL workflows.",
+      "Built Tableau dashboards to support business performance monitoring.",
+      "Supported dashboard testing, documentation and delivery to client teams.",
     ],
   },
   {
