@@ -30,7 +30,6 @@ import { enterEase, useHomeMotionSettings } from "@/components/home/motion";
 
 const previewProject =
   getProjectBySlug("funnel-analysis") ?? featuredProjects[0];
-const artifactCount = previewProject.artifacts?.length ?? 0;
 
 const featuredMetricTones = [
   "text-cyan-200",
@@ -511,9 +510,9 @@ function FeaturedProjectProof({
             {previewProject.featuredInsight ?? previewProject.mainInsight}
           </p>
           {previewProject.featuredContext && (
-            <div className="featured-project-desktop-copy type-body-dense mt-4 rounded-md border border-white/10 bg-white/[0.03] px-3 py-2 text-slate-300">
-              {previewProject.featuredContext}
-            </div>
+            <p className="mt-3 font-body text-xs leading-5 text-slate-500">
+              Source · {previewProject.featuredContext}
+            </p>
           )}
           <div className="featured-project-mobile-kpi mt-4 rounded-md border border-amber-200/20 bg-amber-200/10 px-3 py-3 md:hidden">
             <p className="type-label text-amber-100/70">{featuredMetric.label}</p>
@@ -530,16 +529,6 @@ function FeaturedProjectProof({
               View case study
               <ArrowRight className="size-4" />
             </Link>
-            {artifactCount > 0 && (
-              <Link
-                href={`${previewProject.href}#inspect-the-work`}
-                prefetch={false}
-                className="featured-project-secondary-link inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.04] px-4 py-2.5 font-cta text-sm font-semibold leading-none text-slate-200 transition-colors duration-200 hover:border-white/30 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
-              >
-                Inspect {artifactCount} artifacts
-                <ArrowRight className="size-4" />
-              </Link>
-            )}
           </div>
         </motion.div>
 
@@ -552,9 +541,6 @@ function FeaturedProjectProof({
               <div>
                 <p className="font-heading text-sm font-semibold leading-tight text-white">
                   {previewProject.shortTitle}
-                </p>
-                <p className="type-question mt-1 text-slate-400">
-                  {previewProject.featuredBusinessQuestion ?? previewProject.businessQuestion}
                 </p>
               </div>
               <span className="rounded-md border border-cyan-300/20 bg-cyan-300/10 px-2.5 py-1 font-mono text-xs font-semibold leading-none tracking-[0.02em] text-cyan-100">

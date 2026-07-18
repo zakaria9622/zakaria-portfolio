@@ -66,6 +66,8 @@ export const projects: Project[] = [
     href: "/projects/profit-leak",
     featuredOrder: 3,
     featuredCategory: "Growth Profitability Analytics",
+    featuredInsight:
+      "Electronics / EU drives margin loss; higher discounts reduce margin.",
     projectType: "Independent portfolio case study",
     datasetDisclosure:
       "Synthetic e-commerce order data generated with Python. The analysis covers 12,000 simulated orders and does not represent the performance of a real company.",
@@ -155,10 +157,9 @@ export const projects: Project[] = [
     featuredCategory: "Conversion Analytics",
     featuredBusinessQuestion:
       "Where is the main conversion bottleneck before purchase?",
-    featuredInsight:
-      "Only 11.14% of viewers add a product to their cart, while 58.35% of cart users complete a purchase. The main growth opportunity is therefore improving the product-view-to-cart stage rather than the checkout stage.",
+    featuredInsight: "View-to-cart bottleneck: 11.14%.",
     featuredContext:
-      "Independent case study using external event-level e-commerce data.",
+      "External event-level e-commerce data · independent case study.",
     projectType: "Independent portfolio case study",
     datasetDisclosure:
       "External event-level e-commerce data used for analytical demonstration. The full dataset is excluded from the repository because of its size; a sample, aggregated outputs and methodology documentation are provided. This is not a client engagement.",
@@ -245,6 +246,8 @@ export const projects: Project[] = [
     href: "/projects/rfm-segmentation",
     featuredOrder: 2,
     featuredCategory: "CRM & Retention Analytics",
+    featuredInsight:
+      "VIP customers represent 27.9% of customers and generate 75.4% of revenue.",
     projectType: "Independent portfolio case study",
     datasetDisclosure:
       "Synthetic but business-realistic e-commerce order data generated with Python. The dataset contains 5,000 simulated customers and 45,356 orders and does not represent a real company.",
@@ -343,6 +346,8 @@ export const projects: Project[] = [
     href: "/projects/renewalos",
     featuredOrder: 4,
     featuredCategory: "Revenue & Retention Analytics",
+    featuredInsight:
+      "KPI outputs stay gated until data-quality exceptions are reviewed.",
     projectType: "Independent synthetic B2B analytics system",
     datasetDisclosure:
       "Synthetic B2B data only. No production customer data, production deployment, observed intervention result or real business impact is claimed.",

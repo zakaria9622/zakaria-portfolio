@@ -8,7 +8,6 @@ import {
   Check,
   Database,
   Layers3,
-  Network,
   Sparkles,
 } from "lucide-react";
 import { skillsByCategory } from "@/data/skills";
@@ -45,9 +44,9 @@ const categoryAccents = [
 ] as const;
 
 const proofNotes = [
-  "Used to identify acquisition opportunities, conversion bottlenecks, valuable customer segments and retention priorities.",
-  "Used to transform raw data into reliable KPIs, analytical models and decision-ready dashboards.",
-  "Used to translate analytical findings into actions for growth, profitability and customer performance.",
+  "Connects acquisition, conversion, segmentation and retention signals to growth priorities.",
+  "Turns raw data into trusted KPIs, models and dashboards.",
+  "Turns findings into actions for growth, profitability and customer performance.",
 ] as const;
 
 export function SkillProofMatrix() {
@@ -57,10 +56,6 @@ export function SkillProofMatrix() {
   const activeGroup = skillsByCategory[activeIndex];
   const ActiveIcon = categoryIcons[activeIndex] ?? Layers3;
   const activeAccent = categoryAccents[activeIndex] ?? categoryAccents[0];
-  const totalSkills = skillsByCategory.reduce(
-    (total, group) => total + group.skills.length,
-    0
-  );
 
   function selectCategory(index: number, focus = false) {
     setActiveIndex(index);
@@ -103,33 +98,12 @@ export function SkillProofMatrix() {
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-[0.018] [background-image:linear-gradient(to_right,rgba(255,255,255,.65)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,.65)_1px,transparent_1px)] [background-size:48px_48px]" />
 
       <div className="relative mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
-        <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
-          <div>
-            <p className="type-label text-cyan-200/80">Skill proof matrix</p>
-            <AnimatedSectionHeading
-              text="Tools are presented as evidence, not keyword lists."
-              className="type-section-title mt-4 max-w-3xl font-heading text-white"
-            />
-          </div>
-          <motion.div
-            initial={shouldSimplifyMotion ? false : { opacity: 0, x: 22, y: 8 }}
-            whileInView={{ opacity: 1, x: 0, y: 0 }}
-            viewport={{ once: true, margin: "-90px" }}
-            transition={shouldSimplifyMotion ? { duration: 0 } : { duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-            className="hidden border-l border-cyan-200/25 bg-graphite-900/60 px-5 py-4 shadow-[0_16px_42px_rgba(34,211,238,0.035)] backdrop-blur-xl md:block"
-          >
-            <div className="flex items-start justify-between gap-5">
-              <div>
-                <p className="type-label text-cyan-100/70">Portfolio skill coverage</p>
-                <p className="mt-2 font-heading text-lg font-semibold text-white">{skillsByCategory.length} domains</p>
-                <p className="type-body-dense mt-1 text-slate-300">{totalSkills} listed capabilities</p>
-                <p className="type-body-dense mt-2 text-slate-400">Technical tools connected to analytical and business use cases.</p>
-              </div>
-              <div className="flex size-10 shrink-0 items-center justify-center rounded-xl border border-cyan-200/25 bg-cyan-200/10">
-                <Network className="size-5 text-cyan-100" aria-hidden="true" />
-              </div>
-            </div>
-          </motion.div>
+        <div>
+          <p className="type-label text-cyan-200/80">Skill proof matrix</p>
+          <AnimatedSectionHeading
+            text="Tools as evidence, not keyword lists."
+            className="type-section-title mt-4 max-w-3xl font-heading text-white"
+          />
         </div>
 
         <div className="mt-8 grid gap-3 md:mt-14 md:gap-5 lg:grid-cols-[0.68fr_1.32fr] lg:gap-7">
@@ -254,7 +228,7 @@ export function SkillProofMatrix() {
                 <div className="skill-panel-footer mt-5 flex flex-wrap items-end justify-between gap-3 border-t border-white/10 pt-4 md:mt-auto md:gap-4 md:pt-6">
                   <div>
                     <p className="type-label text-slate-500">Portfolio evidence model</p>
-                    <p className="type-body-dense mt-1 text-slate-400">Tools → analysis → stakeholder-ready output</p>
+                    <p className="type-body-dense mt-1 text-slate-400">Tools → analysis → business output</p>
                   </div>
                   <p className="font-mono text-xs font-semibold text-slate-500">{activeIndex + 1} / {skillsByCategory.length}</p>
                 </div>

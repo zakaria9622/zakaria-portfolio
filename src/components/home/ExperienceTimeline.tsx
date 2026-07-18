@@ -78,45 +78,14 @@ export function ExperienceTimeline() {
       />
 
       <div className="relative mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(17rem,.8fr)] lg:items-end">
-          <div>
-            <p className="type-label text-cyan-200/80">
-              Experience
-            </p>
-            <AnimatedSectionHeading
-              text="Growth, marketing & data experience."
-              className="type-section-title mt-4 max-w-3xl font-heading text-white"
-            />
-          </div>
-
-          <motion.div
-            initial={shouldSimplifyMotion ? false : { opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-90px" }}
-            transition={
-              shouldSimplifyMotion
-                ? { duration: 0 }
-                : { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
-            }
-            className="hidden border-l border-cyan-200/30 bg-cyan-200/[0.055] px-5 py-4 md:block"
-          >
-            <div className="flex items-start justify-between gap-5">
-              <div>
-                <p className="type-label text-cyan-100/70">
-                  Professional trajectory
-                </p>
-                <p className="mt-2 font-heading text-lg font-semibold text-white">
-                  {experience.length} experiences
-                </p>
-                <p className="type-body-dense mt-1 text-slate-300">
-                  Acquisition, conversion, marketing performance and data analytics.
-                </p>
-              </div>
-              <div className="flex size-10 shrink-0 items-center justify-center rounded-xl border border-cyan-200/25 bg-cyan-200/10">
-                <BriefcaseBusiness className="size-5 text-cyan-100" aria-hidden="true" />
-              </div>
-            </div>
-          </motion.div>
+        <div>
+          <p className="type-label text-cyan-200/80">
+            Experience
+          </p>
+          <AnimatedSectionHeading
+            text="Growth, marketing & data experience."
+            className="type-section-title mt-4 max-w-3xl font-heading text-white"
+          />
         </div>
 
         <div className="relative mt-8 md:mt-14">

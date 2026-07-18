@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight, Target } from "lucide-react";
-import { GitHubIcon } from "@/components/ui/SocialIcons";
 import { ProjectImageLightbox } from "@/components/project/ProjectImageLightbox";
 import { featuredProjects } from "@/data/projects";
 import { AnimatedSectionHeading } from "@/components/home/AnimatedSectionHeading";
@@ -211,8 +210,7 @@ export function CaseStudySpotlight() {
               className="type-section-title font-heading text-white"
             />
             <p className="type-body max-w-2xl text-slate-400 lg:ml-auto">
-              Each case study connects data preparation, analysis and visualization to a
-              growth decision involving conversion, customer value, profitability or retention.
+              Each case study connects analysis to a clear growth decision.
             </p>
           </div>
         </motion.div>
@@ -244,8 +242,6 @@ export function CaseStudySpotlight() {
             const highlightedKpi =
               project.kpis.find((kpi) => kpi.highlight) ?? project.kpis[0];
             const cardMetric = project.cardMetric ?? highlightedKpi;
-            const scopeBadge = project.cardScope ??
-              (project.scope ? `Scope: ${project.scope}` : undefined);
             const imageSrc = imageBySlug[project.slug];
             const imagePresentation = projectImagePresentation[project.slug];
             const isRenewalOS = project.slug === "renewalos";
@@ -265,25 +261,11 @@ export function CaseStudySpotlight() {
                         <span className="rounded-md border border-cyan-200/20 bg-cyan-200/10 px-3 py-1.5 font-mono text-xs font-semibold text-cyan-100">
                           {project.featuredCategory}
                         </span>
-                        {project.tools.map((tool) => (
-                          <span
-                            key={tool}
-                            className="rounded-md border border-white/10 bg-white/[0.04] px-2 py-1 font-mono text-[11px] font-medium text-slate-300 md:px-2.5 md:py-1.5 md:text-xs"
-                          >
-                            {tool}
-                          </span>
-                        ))}
                       </div>
 
                       <h3 className="type-card-title font-heading text-white">
                         {project.title}
                       </h3>
-
-                      {project.summary && (
-                        <p className="mobile-project-summary type-body-dense mt-4 max-w-4xl text-slate-400">
-                          {project.summary}
-                        </p>
-                      )}
 
                       <div className="mt-4 grid grid-cols-2 gap-2 md:mt-6 md:gap-3">
                         <div className="question-block rounded-md border border-white/10 bg-ink-950/55 p-4">
@@ -330,29 +312,12 @@ export function CaseStudySpotlight() {
                         </div>
                       </div>
 
-                      {scopeBadge && (
-                        <p className="mobile-project-scope mt-4 inline-flex rounded-md border border-emerald-200/20 bg-emerald-200/10 px-3 py-2 font-body text-sm font-medium text-emerald-100">
-                          {scopeBadge}
-                        </p>
-                      )}
-
                       <p className="mobile-project-conclusion insight-block type-insight mt-4 max-w-4xl md:mt-5">
                         {project.featuredInsight ?? project.mainInsight}
                       </p>
                     </div>
 
                     <div className="flex flex-wrap gap-3">
-                      {project.liveDemo && (
-                        <a
-                          href={project.liveDemo}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="mobile-project-extra-link inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-white px-4 py-2.5 font-cta text-sm font-semibold leading-none text-ink-950 transition-colors duration-200 hover:bg-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
-                        >
-                          Open live demo
-                          <ArrowUpRight className="size-4" />
-                        </a>
-                      )}
                       <Link
                         href={project.href}
                         prefetch={false}
@@ -361,25 +326,6 @@ export function CaseStudySpotlight() {
                         View case study
                         <ArrowUpRight className="size-4" />
                       </Link>
-                      {project.artifacts && project.artifacts.length > 0 && (
-                        <Link
-                          href={`${project.href}#inspect-the-work`}
-                          prefetch={false}
-                          className="mobile-project-extra-link inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.04] px-4 py-2.5 font-cta text-sm font-semibold leading-none text-slate-200 transition-colors duration-200 hover:border-white/30 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
-                        >
-                          Inspect {project.artifacts.length} artifacts
-                          <ArrowUpRight className="size-4" />
-                        </Link>
-                      )}
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mobile-project-extra-link inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.04] px-4 py-2.5 font-cta text-sm font-semibold leading-none text-slate-200 transition-colors duration-200 hover:border-white/30 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
-                      >
-                        <GitHubIcon className="size-4" />
-                        Repository
-                      </a>
                     </div>
                   </div>
 
@@ -443,25 +389,11 @@ export function CaseStudySpotlight() {
                       <span className="rounded-md border border-cyan-200/20 bg-cyan-200/10 px-3 py-1.5 font-mono text-xs font-semibold text-cyan-100">
                         {project.featuredCategory}
                       </span>
-                      {project.tools.map((tool) => (
-                        <span
-                          key={tool}
-                          className="rounded-md border border-white/10 bg-white/[0.04] px-2 py-1 font-mono text-[11px] font-medium text-slate-300 md:px-2.5 md:py-1.5 md:text-xs"
-                        >
-                          {tool}
-                        </span>
-                      ))}
                     </div>
 
                     <h3 className="type-card-title font-heading text-white">
                       {project.title}
                     </h3>
-
-                    {project.summary && (
-                      <p className="mobile-project-summary type-body-dense mt-4 text-slate-400">
-                        {project.summary}
-                      </p>
-                    )}
 
                     <div className="mt-4 grid grid-cols-2 gap-2 md:mt-6 md:gap-3">
                       <div className="question-block rounded-md border border-white/10 bg-ink-950/55 p-4">
@@ -506,12 +438,6 @@ export function CaseStudySpotlight() {
                       </div>
                     </div>
 
-                    {scopeBadge && (
-                        <p className="mobile-project-scope mt-4 inline-flex rounded-md border border-emerald-200/20 bg-emerald-200/10 px-3 py-2 font-body text-sm font-medium text-emerald-100">
-                        {scopeBadge}
-                      </p>
-                    )}
-
                     <p className="mobile-project-conclusion insight-block type-insight mt-4 md:mt-5">
                       {project.featuredInsight ?? project.mainInsight}
                     </p>
@@ -526,25 +452,6 @@ export function CaseStudySpotlight() {
                       View case study
                       <ArrowUpRight className="size-4" />
                     </Link>
-                    {project.artifacts && project.artifacts.length > 0 && (
-                      <Link
-                        href={`${project.href}#inspect-the-work`}
-                        prefetch={false}
-                        className="mobile-project-extra-link inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.04] px-4 py-2.5 font-cta text-sm font-semibold leading-none text-slate-200 transition-colors duration-200 hover:border-white/30 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
-                      >
-                        Inspect {project.artifacts.length} artifacts
-                        <ArrowUpRight className="size-4" />
-                      </Link>
-                    )}
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mobile-project-extra-link inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.04] px-4 py-2.5 font-cta text-sm font-semibold leading-none text-slate-200 transition-colors duration-200 hover:border-white/30 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
-                    >
-                      <GitHubIcon className="size-4" />
-                      Repository
-                    </a>
                   </div>
                   </div>
                 </DepthProjectCard>
