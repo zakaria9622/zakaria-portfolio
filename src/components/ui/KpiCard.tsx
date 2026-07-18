@@ -25,7 +25,7 @@ export function KpiCard({ label, value, highlight, delay = 0 }: KpiCardProps) {
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
       transition={shouldSimplifyMotion ? { duration: 0 } : { duration: 0.4, delay }}
-      className={`rounded-xl border p-4 md:p-5 ${
+      className={`kpi-card rounded-xl border p-4 md:p-5 ${
         highlight
           ? "border-electric-500/40 bg-electric-500/10 shadow-lg shadow-electric-500/10"
           : "border-white/10 bg-white/5"

@@ -85,14 +85,14 @@ export function ContactCommandBar() {
               })}
               <a
                 href={profile.cvHref}
-                className="group inline-flex min-h-12 w-full items-center gap-3 rounded-md border border-amber-200/20 bg-amber-200/10 px-4 py-3 font-body text-sm font-semibold leading-none text-amber-50 transition-colors duration-200 hover:border-amber-100/40 hover:bg-amber-200/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200 md:min-h-14"
+                className="group inline-flex min-h-12 w-full items-center gap-3 rounded-md border border-amber-200/20 bg-amber-200/10 px-4 py-3 font-cta text-sm font-semibold leading-none text-amber-50 transition-colors duration-200 hover:border-amber-100/40 hover:bg-amber-200/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200 md:min-h-14"
               >
                 <Download className="size-5 shrink-0" />
                 Download CV
               </a>
               <a
                 href={`mailto:${profile.email}`}
-                className="inline-flex min-h-12 w-full items-center justify-center rounded-md bg-white px-4 py-3 font-body text-sm font-semibold leading-none text-ink-950 transition-colors duration-200 hover:bg-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 sm:col-span-2 md:min-h-14"
+                className="inline-flex min-h-12 w-full items-center justify-center rounded-md bg-white px-4 py-3 font-cta text-sm font-semibold leading-none text-ink-950 transition-colors duration-200 hover:bg-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 sm:col-span-2 md:min-h-14"
               >
                 Send email
               </a>

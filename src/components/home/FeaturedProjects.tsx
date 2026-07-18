@@ -83,7 +83,7 @@ export function FeaturedProjects() {
                       <p className="font-mono text-xs font-semibold uppercase tracking-wider text-slate-500">
                         Business question
                       </p>
-                      <p className="mt-2 font-body text-sm leading-relaxed text-slate-200 md:text-base">
+                      <p className="type-question mt-2 text-slate-100">
                         {project.featuredBusinessQuestion ?? project.businessQuestion}
                       </p>
                     </div>
@@ -105,7 +105,7 @@ export function FeaturedProjects() {
                       <p className="font-mono text-xs font-semibold uppercase tracking-wider text-slate-500">
                         Main output
                       </p>
-                      <p className="mt-2 font-body text-sm leading-relaxed text-slate-300 md:text-base">
+                      <p className="insight-block type-insight mt-2">
                         {project.mainOutput}
                       </p>
                     </div>
@@ -129,7 +129,7 @@ export function FeaturedProjects() {
 
                   <Link
                     href={project.href}
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-electric-600 to-electric-500 px-6 py-3.5 font-body text-sm font-semibold leading-none text-white shadow-lg shadow-electric-500/25 transition-colors duration-200 hover:from-electric-500 hover:to-electric-400 lg:w-auto"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-electric-600 to-electric-500 px-6 py-3.5 font-cta text-sm font-semibold leading-none text-white shadow-lg shadow-electric-500/25 transition-colors duration-200 hover:from-electric-500 hover:to-electric-400 lg:w-auto"
                   >
                     View case study
                     <ArrowRight className="h-4 w-4" />

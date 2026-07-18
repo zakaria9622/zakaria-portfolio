@@ -419,7 +419,7 @@ export function ExecutiveHero() {
               download
               data-magnetic="true"
               data-magnetic-strength="9"
-            className="magnetic-target inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-cyan-200 px-5 py-3 font-body text-sm font-semibold leading-none text-ink-950 shadow-[0_18px_45px_rgba(35,184,216,0.18)] transition-colors duration-200 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
+            className="magnetic-target inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-cyan-200 px-5 py-3 font-cta text-sm font-semibold leading-none text-ink-950 shadow-[0_18px_45px_rgba(35,184,216,0.18)] transition-colors duration-200 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
             >
               <Download className="size-4" />
               Download CV
@@ -428,7 +428,7 @@ export function ExecutiveHero() {
               href={`mailto:${profile.email}`}
               data-magnetic="true"
               data-magnetic-strength="8"
-              className="magnetic-target inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.05] px-5 py-3 font-body text-sm font-semibold leading-none text-white transition-colors duration-200 hover:border-white/30 hover:bg-white/[0.09] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
+              className="magnetic-target inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.05] px-5 py-3 font-cta text-sm font-semibold leading-none text-white transition-colors duration-200 hover:border-white/30 hover:bg-white/[0.09] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
             >
               <Mail className="size-4" />
               Email me
@@ -504,10 +504,10 @@ function FeaturedProjectProof({
           <h2 className="type-card-title mt-4 font-heading text-white">
             {previewProject.shortTitle}
           </h2>
-          <p className="type-body-dense mt-3 text-slate-400">
+          <p className="type-question mt-3 text-slate-200">
             {previewProject.featuredBusinessQuestion ?? previewProject.businessQuestion}
           </p>
-          <p className="featured-project-desktop-copy type-body-dense mt-3 text-slate-400">
+          <p className="featured-project-desktop-copy insight-block insight-block-amber type-insight mt-4">
             {previewProject.featuredInsight ?? previewProject.mainInsight}
           </p>
           {previewProject.featuredContext && (
@@ -525,7 +525,7 @@ function FeaturedProjectProof({
             <Link
               href={previewProject.href}
               prefetch={false}
-              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-cyan-200/30 bg-cyan-200/10 px-4 py-2.5 font-body text-sm font-semibold leading-none text-cyan-50 transition-colors duration-200 hover:border-cyan-100/50 hover:bg-cyan-200/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-cyan-200/30 bg-cyan-200/10 px-4 py-2.5 font-cta text-sm font-semibold leading-none text-cyan-50 transition-colors duration-200 hover:border-cyan-100/50 hover:bg-cyan-200/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
             >
               View case study
               <ArrowRight className="size-4" />
@@ -534,7 +534,7 @@ function FeaturedProjectProof({
               <Link
                 href={`${previewProject.href}#inspect-the-work`}
                 prefetch={false}
-                className="featured-project-secondary-link inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.04] px-4 py-2.5 font-body text-sm font-semibold leading-none text-slate-200 transition-colors duration-200 hover:border-white/30 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
+                className="featured-project-secondary-link inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.04] px-4 py-2.5 font-cta text-sm font-semibold leading-none text-slate-200 transition-colors duration-200 hover:border-white/30 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
               >
                 Inspect {artifactCount} artifacts
                 <ArrowRight className="size-4" />
@@ -553,7 +553,7 @@ function FeaturedProjectProof({
                 <p className="font-heading text-sm font-semibold leading-tight text-white">
                   {previewProject.shortTitle}
                 </p>
-                <p className="type-body-dense mt-1 text-slate-500">
+                <p className="type-question mt-1 text-slate-400">
                   {previewProject.featuredBusinessQuestion ?? previewProject.businessQuestion}
                 </p>
               </div>

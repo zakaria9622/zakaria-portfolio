@@ -286,16 +286,16 @@ export function CaseStudySpotlight() {
                       )}
 
                       <div className="mt-4 grid grid-cols-2 gap-2 md:mt-6 md:gap-3">
-                        <div className="rounded-md border border-white/10 bg-ink-950/55 p-4">
+                        <div className="question-block rounded-md border border-white/10 bg-ink-950/55 p-4">
                           <p className="type-label flex items-center gap-2 text-slate-400">
                             <Target className="size-3.5 text-cyan-200" />
                             Business question
                           </p>
-                          <p className="type-body-dense mt-3 text-slate-200">
+                          <p className="type-question mt-3 text-slate-100">
                             {project.featuredBusinessQuestion ?? project.businessQuestion}
                           </p>
                         </div>
-                        <div className="rounded-md border border-amber-200/20 bg-amber-200/10 p-4">
+                        <div className="kpi-highlight-block rounded-md border border-amber-200/20 bg-amber-200/10 p-4">
                           <p className="type-label text-amber-100/70">
                             {project.cardMetric
                               ? project.cardMetric.label
@@ -336,7 +336,7 @@ export function CaseStudySpotlight() {
                         </p>
                       )}
 
-                      <p className="mobile-project-conclusion type-body-dense mt-4 max-w-4xl text-slate-400 md:mt-5">
+                      <p className="mobile-project-conclusion insight-block type-insight mt-4 max-w-4xl md:mt-5">
                         {project.featuredInsight ?? project.mainInsight}
                       </p>
                     </div>
@@ -347,7 +347,7 @@ export function CaseStudySpotlight() {
                           href={project.liveDemo}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="mobile-project-extra-link inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-white px-4 py-2.5 font-body text-sm font-semibold leading-none text-ink-950 transition-colors duration-200 hover:bg-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
+                          className="mobile-project-extra-link inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-white px-4 py-2.5 font-cta text-sm font-semibold leading-none text-ink-950 transition-colors duration-200 hover:bg-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
                         >
                           Open live demo
                           <ArrowUpRight className="size-4" />
@@ -356,7 +356,7 @@ export function CaseStudySpotlight() {
                       <Link
                         href={project.href}
                         prefetch={false}
-                        className="mobile-project-primary-link inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-white px-4 py-2.5 font-body text-sm font-semibold leading-none text-ink-950 transition-colors duration-200 hover:bg-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
+                        className="mobile-project-primary-link inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-white px-4 py-2.5 font-cta text-sm font-semibold leading-none text-ink-950 transition-colors duration-200 hover:bg-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
                       >
                         View case study
                         <ArrowUpRight className="size-4" />
@@ -365,7 +365,7 @@ export function CaseStudySpotlight() {
                         <Link
                           href={`${project.href}#inspect-the-work`}
                           prefetch={false}
-                          className="mobile-project-extra-link inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.04] px-4 py-2.5 font-body text-sm font-semibold leading-none text-slate-200 transition-colors duration-200 hover:border-white/30 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
+                          className="mobile-project-extra-link inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.04] px-4 py-2.5 font-cta text-sm font-semibold leading-none text-slate-200 transition-colors duration-200 hover:border-white/30 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
                         >
                           Inspect {project.artifacts.length} artifacts
                           <ArrowUpRight className="size-4" />
@@ -375,7 +375,7 @@ export function CaseStudySpotlight() {
                         href={project.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="mobile-project-extra-link inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.04] px-4 py-2.5 font-body text-sm font-semibold leading-none text-slate-200 transition-colors duration-200 hover:border-white/30 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
+                        className="mobile-project-extra-link inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.04] px-4 py-2.5 font-cta text-sm font-semibold leading-none text-slate-200 transition-colors duration-200 hover:border-white/30 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
                       >
                         <GitHubIcon className="size-4" />
                         Repository
@@ -464,16 +464,16 @@ export function CaseStudySpotlight() {
                     )}
 
                     <div className="mt-4 grid grid-cols-2 gap-2 md:mt-6 md:gap-3">
-                      <div className="rounded-md border border-white/10 bg-ink-950/55 p-4">
+                      <div className="question-block rounded-md border border-white/10 bg-ink-950/55 p-4">
                         <p className="type-label flex items-center gap-2 text-slate-400">
                           <Target className="size-3.5 text-cyan-200" />
                           Business question
                         </p>
-                        <p className="type-body-dense mt-3 text-slate-200">
+                        <p className="type-question mt-3 text-slate-100">
                           {project.featuredBusinessQuestion ?? project.businessQuestion}
                         </p>
                       </div>
-                      <div className="rounded-md border border-amber-200/20 bg-amber-200/10 p-4">
+                      <div className="kpi-highlight-block rounded-md border border-amber-200/20 bg-amber-200/10 p-4">
                         <p className="type-label text-amber-100/70">
                           {project.cardMetric ? project.cardMetric.label : "Key metric"}
                         </p>
@@ -512,7 +512,7 @@ export function CaseStudySpotlight() {
                       </p>
                     )}
 
-                    <p className="mobile-project-conclusion type-body-dense mt-4 text-slate-400 md:mt-5">
+                    <p className="mobile-project-conclusion insight-block type-insight mt-4 md:mt-5">
                       {project.featuredInsight ?? project.mainInsight}
                     </p>
                   </div>
@@ -521,7 +521,7 @@ export function CaseStudySpotlight() {
                     <Link
                       href={project.href}
                       prefetch={false}
-                      className="mobile-project-primary-link inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-white px-4 py-2.5 font-body text-sm font-semibold leading-none text-ink-950 transition-colors duration-200 hover:bg-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
+                      className="mobile-project-primary-link inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-white px-4 py-2.5 font-cta text-sm font-semibold leading-none text-ink-950 transition-colors duration-200 hover:bg-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
                     >
                       View case study
                       <ArrowUpRight className="size-4" />
@@ -530,7 +530,7 @@ export function CaseStudySpotlight() {
                       <Link
                         href={`${project.href}#inspect-the-work`}
                         prefetch={false}
-                        className="mobile-project-extra-link inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.04] px-4 py-2.5 font-body text-sm font-semibold leading-none text-slate-200 transition-colors duration-200 hover:border-white/30 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
+                        className="mobile-project-extra-link inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.04] px-4 py-2.5 font-cta text-sm font-semibold leading-none text-slate-200 transition-colors duration-200 hover:border-white/30 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
                       >
                         Inspect {project.artifacts.length} artifacts
                         <ArrowUpRight className="size-4" />
@@ -540,7 +540,7 @@ export function CaseStudySpotlight() {
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mobile-project-extra-link inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.04] px-4 py-2.5 font-body text-sm font-semibold leading-none text-slate-200 transition-colors duration-200 hover:border-white/30 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
+                      className="mobile-project-extra-link inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.04] px-4 py-2.5 font-cta text-sm font-semibold leading-none text-slate-200 transition-colors duration-200 hover:border-white/30 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
                     >
                       <GitHubIcon className="size-4" />
                       Repository

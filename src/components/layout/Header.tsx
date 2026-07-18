@@ -61,7 +61,7 @@ export function Header() {
           href="/"
           data-magnetic="true"
           data-magnetic-strength="6"
-          className="magnetic-target flex min-h-11 shrink-0 items-center gap-2 rounded-md px-2 py-2 font-body text-sm font-semibold leading-none text-white transition-colors duration-200 hover:text-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+          className="magnetic-target flex min-h-11 shrink-0 items-center gap-2 rounded-md px-2 py-2 font-heading text-sm font-semibold leading-none text-white transition-colors duration-200 hover:text-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
         >
           <span className="flex size-7 shrink-0 items-center justify-center rounded-md border border-cyan-200/20 bg-cyan-200/10 font-mono text-xs font-semibold leading-none text-cyan-100">
             ZM
@@ -88,7 +88,7 @@ export function Header() {
             href={profile.cvHref}
             data-magnetic="true"
             data-magnetic-strength="7"
-            className="magnetic-target ml-2 inline-flex items-center gap-2 rounded-md border border-amber-200/20 bg-amber-200/10 px-3 py-2 font-body text-sm font-semibold leading-none text-amber-50 transition-colors duration-200 hover:border-amber-100/40 hover:bg-amber-200/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-200"
+            className="magnetic-target ml-2 inline-flex items-center gap-2 rounded-md border border-amber-200/20 bg-amber-200/10 px-3 py-2 font-cta text-sm font-semibold leading-none text-amber-50 transition-colors duration-200 hover:border-amber-100/40 hover:bg-amber-200/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-200"
           >
             <Download className="size-4" />
             CV
@@ -126,7 +126,7 @@ export function Header() {
           ))}
           <a
             href={profile.cvHref}
-            className="mt-2 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md border border-amber-200/20 bg-amber-200/10 px-4 py-3 font-body text-sm font-semibold leading-none text-amber-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+            className="mt-2 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md border border-amber-200/20 bg-amber-200/10 px-4 py-3 font-cta text-sm font-semibold leading-none text-amber-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
           >
             <Download className="size-4" />
             Download CV

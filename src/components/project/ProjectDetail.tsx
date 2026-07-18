@@ -193,7 +193,7 @@ export function ProjectDetail({ project }: { project: Project }) {
                   {heroSubtitle}
                 </p>
               )}
-              <p className="type-lead mt-5 max-w-2xl text-slate-200">
+              <p className="type-question mt-5 max-w-2xl text-slate-100">
                 {project.businessQuestion}
               </p>
               {project.summary && (
@@ -390,7 +390,7 @@ export function ProjectDetail({ project }: { project: Project }) {
         <section
           id="evidence"
           aria-labelledby="project-evidence-title"
-          className="scroll-mt-32 rounded-xl border border-white/10 bg-white/[0.025] p-4 md:rounded-2xl md:p-7"
+          className="evidence-panel scroll-mt-32 rounded-xl border border-white/10 bg-white/[0.025] p-4 md:rounded-2xl md:p-7"
         >
           <div className="mb-5 flex items-start gap-3">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-electric-500/30 bg-electric-500/10">
@@ -406,7 +406,7 @@ export function ProjectDetail({ project }: { project: Project }) {
               <article className="min-w-0 rounded-lg border border-white/10 bg-navy-950/45 p-4">
                 <div className="mb-3 flex items-center gap-2">
                   <BriefcaseBusiness className="h-4 w-4 shrink-0 text-electric-400" aria-hidden="true" />
-                  <h3 className="font-heading text-sm font-bold leading-tight text-white">Project type</h3>
+                  <h3 className="font-heading text-base font-bold leading-tight text-white">Project type</h3>
                 </div>
                 <p className="break-words font-body text-sm leading-6 text-slate-300">{project.projectType}</p>
               </article>
@@ -414,7 +414,7 @@ export function ProjectDetail({ project }: { project: Project }) {
               <article className="min-w-0 rounded-lg border border-white/10 bg-navy-950/45 p-4">
                 <div className="mb-3 flex items-center gap-2">
                   <UserRound className="h-4 w-4 shrink-0 text-electric-400" aria-hidden="true" />
-                  <h3 className="font-heading text-sm font-bold leading-tight text-white">Contribution</h3>
+                  <h3 className="font-heading text-base font-bold leading-tight text-white">Contribution</h3>
                 </div>
                 <p className="break-words font-body text-sm leading-6 text-slate-300">{project.ownership}</p>
               </article>
@@ -422,7 +422,7 @@ export function ProjectDetail({ project }: { project: Project }) {
               <article className="min-w-0 rounded-lg border border-white/10 bg-navy-950/45 p-4">
                 <div className="mb-3 flex items-center gap-2">
                   <Database className="h-4 w-4 shrink-0 text-electric-400" aria-hidden="true" />
-                  <h3 className="font-heading text-sm font-bold leading-tight text-white">Dataset</h3>
+                  <h3 className="font-heading text-base font-bold leading-tight text-white">Dataset</h3>
                 </div>
                 <p className="break-words font-body text-sm leading-6 text-slate-300">{project.datasetDisclosure}</p>
               </article>
@@ -430,7 +430,7 @@ export function ProjectDetail({ project }: { project: Project }) {
               <article className="min-w-0 rounded-lg border border-white/10 bg-navy-950/45 p-4">
                 <div className="mb-3 flex items-center gap-2">
                   <ListChecks className="h-4 w-4 shrink-0 text-electric-400" aria-hidden="true" />
-                  <h3 className="font-heading text-sm font-bold leading-tight text-white">Verifiable outputs</h3>
+                  <h3 className="font-heading text-base font-bold leading-tight text-white">Verifiable outputs</h3>
                 </div>
                 <ul className="space-y-2">
                   {project.evidence.map((item) => (
@@ -483,7 +483,7 @@ export function ProjectDetail({ project }: { project: Project }) {
             <GlassCard hover={false}>
               <div className="mb-4 flex items-center gap-2">
                 <Target className="h-5 w-5 text-electric-400" />
-                <h3 className="font-heading text-lg font-bold leading-tight text-white">Business Problem</h3>
+                <h3 className="font-heading text-xl font-bold leading-tight text-white">Business Problem</h3>
               </div>
               <p className="font-body text-sm leading-relaxed text-slate-400">{project.businessProblem}</p>
             </GlassCard>
@@ -491,7 +491,7 @@ export function ProjectDetail({ project }: { project: Project }) {
             <GlassCard hover={false} delay={0.05}>
               <div className="mb-4 flex items-center gap-2">
                 <Wrench className="h-5 w-5 text-electric-400" />
-                <h3 className="font-heading text-lg font-bold leading-tight text-white">Tools</h3>
+                <h3 className="font-heading text-xl font-bold leading-tight text-white">Tools</h3>
               </div>
               <ul className="space-y-2">
                 {project.tools.map((tool) => (
@@ -508,7 +508,7 @@ export function ProjectDetail({ project }: { project: Project }) {
             <GlassCard className="mt-6" hover={false} delay={0.08}>
               <div className="mb-4 flex items-center gap-2">
                 <Database className="h-5 w-5 text-electric-400" />
-                <h3 className="font-heading text-lg font-bold leading-tight text-white">Architecture</h3>
+                <h3 className="font-heading text-xl font-bold leading-tight text-white">Architecture</h3>
               </div>
               <ol className="space-y-3">
                 {project.architecture.map((step, i) => (
@@ -524,7 +524,7 @@ export function ProjectDetail({ project }: { project: Project }) {
           <GlassCard className="mt-6" hover={false} delay={0.1}>
             <div className="mb-4 flex items-center gap-2">
               <ListChecks className="h-5 w-5 text-electric-400" />
-              <h3 className="font-heading text-lg font-bold leading-tight text-white">Methodology</h3>
+              <h3 className="font-heading text-xl font-bold leading-tight text-white">Methodology</h3>
             </div>
             <ol className="space-y-3">
               {project.methodology.map((step, i) => (
@@ -536,20 +536,20 @@ export function ProjectDetail({ project }: { project: Project }) {
             </ol>
           </GlassCard>
 
-          <GlassCard className="mt-6 border-electric-500/30 bg-electric-500/5" hover={false} delay={0.15}>
+          <GlassCard className="insight-block mt-6 border-electric-500/30 bg-electric-500/5" hover={false} delay={0.15}>
             <div className="mb-4 flex items-center gap-2">
               <Lightbulb className="h-5 w-5 text-electric-400" />
-              <h3 className="font-heading text-lg font-bold leading-tight text-white">Main Insight</h3>
+              <h3 className="font-heading text-xl font-bold leading-tight text-white">Main Insight</h3>
             </div>
-            <p className="font-body text-base leading-relaxed text-slate-300">{project.mainInsight}</p>
+            <p className="type-insight text-slate-200">{project.mainInsight}</p>
           </GlassCard>
         </section>
 
         <section id="recommendations" aria-labelledby="recommendations-title" className="scroll-mt-32 border-t border-white/10 pt-14">
           <ChapterHeading eyebrow="Decision layer" title="Recommended business actions" titleId="recommendations-title" bordered={false} />
 
-          <GlassCard hover={false} delay={0.2}>
-            <h3 className="mb-4 font-heading text-lg font-bold leading-tight text-white">Business Recommendations</h3>
+          <GlassCard className="decision-panel" hover={false} delay={0.2}>
+            <h3 className="mb-4 font-heading text-xl font-bold leading-tight text-white">Business Recommendations</h3>
             <ul className="space-y-3">
               {project.recommendations.map((rec) => (
                 <li key={rec} className="flex gap-3 font-body text-sm leading-relaxed text-slate-400">
@@ -564,7 +564,7 @@ export function ProjectDetail({ project }: { project: Project }) {
             <GlassCard className="mt-6 border-amber-300/25 bg-amber-300/5" hover={false} delay={0.25}>
               <div className="mb-4 flex items-center gap-2">
                 <ShieldAlert className="h-5 w-5 text-amber-200" />
-                <h3 className="font-heading text-lg font-bold leading-tight text-white">Limitations</h3>
+                <h3 className="font-heading text-xl font-bold leading-tight text-white">Limitations</h3>
               </div>
               <ul className="space-y-3">
                 {project.limitations.map((limitation) => (

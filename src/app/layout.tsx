@@ -1,23 +1,24 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono, Plus_Jakarta_Sans, Sora } from "next/font/google";
+import { DM_Sans, IBM_Plex_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { profile } from "@/data/profile";
 
-const sora = Sora({
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  variable: "--font-sora",
+  variable: "--font-space-grotesk",
 });
 
-const plusJakartaSans = Plus_Jakarta_Sans({
+const dmSans = DM_Sans({
   subsets: ["latin"],
-  variable: "--font-plus-jakarta-sans",
+  variable: "--font-dm-sans",
 });
 
-const jetBrainsMono = JetBrains_Mono({
+const ibmPlexMono = IBM_Plex_Mono({
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
-  variable: "--font-jetbrains-mono",
+  variable: "--font-ibm-plex-mono",
 });
 
 const structuredData = {
@@ -101,7 +102,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${sora.variable} ${plusJakartaSans.variable} ${jetBrainsMono.variable} scroll-smooth`}
+      className={`${spaceGrotesk.variable} ${dmSans.variable} ${ibmPlexMono.variable} scroll-smooth`}
     >
       <body className="min-h-screen bg-navy-950 font-body text-slate-300 antialiased">
         <script
