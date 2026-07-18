@@ -323,7 +323,7 @@ export function ProjectDetail({ project }: { project: Project }) {
               data-chapter-link={chapter.id}
               aria-current={isActive ? "location" : undefined}
               onClick={() => setActiveChapter(chapter.id)}
-              className={`relative flex min-h-11 shrink-0 items-center rounded-md px-3 py-2 font-mono text-xs font-semibold uppercase tracking-[0.14em] transition-colors hover:bg-white/[0.05] hover:text-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0 ${
+              className={`relative flex min-h-11 shrink-0 items-center rounded-md px-3 py-2 font-body text-xs font-semibold uppercase tracking-[0.14em] transition-colors hover:bg-white/[0.05] hover:text-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0 ${
                 isActive ? "text-cyan-50" : "text-slate-400"
               }`}
             >

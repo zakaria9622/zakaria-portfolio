@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono, Sora, Space_Grotesk } from "next/font/google";
+import { JetBrains_Mono, Plus_Jakarta_Sans, Sora } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -10,15 +10,9 @@ const sora = Sora({
   variable: "--font-sora",
 });
 
-const inter = Inter({
+const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  variable: "--font-inter",
-});
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-space-grotesk",
+  variable: "--font-plus-jakarta-sans",
 });
 
 const jetBrainsMono = JetBrains_Mono({
@@ -107,7 +101,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${sora.variable} ${inter.variable} ${spaceGrotesk.variable} ${jetBrainsMono.variable} scroll-smooth`}
+      className={`${sora.variable} ${plusJakartaSans.variable} ${jetBrainsMono.variable} scroll-smooth`}
     >
       <body className="min-h-screen bg-navy-950 font-body text-slate-300 antialiased">
         <script

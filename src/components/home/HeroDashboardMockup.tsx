@@ -244,7 +244,7 @@ export function HeroDashboardMockup() {
         </div>
 
         <div className="relative mt-3 flex gap-2 overflow-hidden rounded-lg border border-electric-500/20 bg-electric-500/5 px-3 py-2">
-          <p className="truncate font-mono text-[10px] text-slate-400">
+          <p className="truncate font-body text-[10px] text-slate-400">
             <span className="font-semibold text-electric-300">Insight:</span>{" "}
             Margin leak in Electronics/EU · view-to-cart friction · VIP = 75.4% revenue
           </p>

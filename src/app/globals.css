@@ -34,8 +34,8 @@
   --color-mist-100: var(--mist-100);
   --color-muted-400: var(--muted-400);
   --color-coral-200: var(--risk-coral);
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-plus-jakarta-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-plus-jakarta-sans), ui-sans-serif, system-ui, sans-serif;
   --font-heading: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono, ui-monospace), SFMono-Regular, Menlo, Monaco, Consolas, monospace;
@@ -1773,20 +1773,6 @@ html {
 
   body {
     overflow-x: clip;
-  }
-
-  body,
-  body *,
-  body *::before,
-  body *::after {
-    font-family: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif !important;
-  }
-
-  body :is(code, pre, kbd, samp),
-  body :is(code, pre, kbd, samp) *,
-  body :is(code, pre, kbd, samp)::before,
-  body :is(code, pre, kbd, samp)::after {
-    font-family: var(--font-jetbrains-mono, ui-monospace), SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
   }
 
   :where(section[id]) {
