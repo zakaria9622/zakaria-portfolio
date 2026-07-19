@@ -30,7 +30,7 @@ const structuredData = {
       url: "https://www.zakariamaachou.com/",
       name: "Zakaria Maachou Portfolio",
       description:
-        "Portfolio of Zakaria Maachou, Growth Analyst specializing in acquisition, conversion, retention, funnel analytics, CRM and marketing performance.",
+        "Marketing Data Analyst specializing in growth, acquisition, conversion and retention. Explore SQL, GA4, Tableau, Python and CRM analytics case studies.",
       inLanguage: "en",
       author: {
         "@id": "https://www.zakariamaachou.com/#person",
@@ -44,15 +44,17 @@ const structuredData = {
       jobTitle: profile.title,
       sameAs: [profile.linkedin, profile.github],
       knowsAbout: [
+        "Marketing Analytics",
         "Growth Analytics",
-        "Acquisition Analysis",
-        "Conversion Analysis",
-        "Retention Analysis",
+        "Acquisition Analytics",
         "Funnel Analytics",
+        "Conversion Analytics",
+        "Retention Analytics",
         "CRM Analytics",
-        "Marketing Performance",
         "SQL",
-        "Business Intelligence",
+        "GA4",
+        "Tableau",
+        "Python",
       ],
     },
   ],
@@ -60,13 +62,13 @@ const structuredData = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.zakariamaachou.com"),
-  title: "Zakaria Maachou | Growth Analyst — Acquisition, Conversion & Retention",
+  title: "Zakaria Maachou | Marketing Data Analyst",
   description:
-    "Portfolio of Zakaria Maachou, Growth Analyst specializing in acquisition, conversion, retention, funnel analytics, CRM and marketing performance.",
+    "Marketing Data Analyst specializing in growth, acquisition, conversion and retention. Explore SQL, GA4, Tableau, Python and CRM analytics case studies.",
   openGraph: {
-    title: "Zakaria Maachou | Growth Analyst — Acquisition, Conversion & Retention",
+    title: "Zakaria Maachou | Marketing Data Analyst",
     description:
-      "Portfolio of Zakaria Maachou, Growth Analyst specializing in acquisition, conversion, retention, funnel analytics, CRM and marketing performance.",
+      "Growth, acquisition, conversion and retention analytics through evidence-led marketing data case studies.",
     url: "/",
     siteName: "Zakaria Maachou Portfolio",
     type: "website",
@@ -76,19 +78,19 @@ export const metadata: Metadata = {
         url: "/og/home.png",
         width: 1200,
         height: 627,
-        alt: "Zakaria Maachou | Growth Analyst — Acquisition, Conversion & Retention",
+        alt: "Zakaria Maachou | Marketing Data Analyst",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Zakaria Maachou | Growth Analyst — Acquisition, Conversion & Retention",
+    title: "Zakaria Maachou | Marketing Data Analyst",
     description:
-      "Portfolio of Zakaria Maachou, Growth Analyst specializing in acquisition, conversion, retention, funnel analytics, CRM and marketing performance.",
+      "Marketing data case studies covering acquisition, funnel conversion, CRM and retention.",
     images: [
       {
         url: "/og/home.png",
-        alt: "Zakaria Maachou | Growth Analyst — Acquisition, Conversion & Retention",
+        alt: "Zakaria Maachou | Marketing Data Analyst",
       },
     ],
   },

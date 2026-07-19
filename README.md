@@ -1,10 +1,10 @@
-# Zakaria Maachou — Growth Analytics Portfolio
+# Zakaria Maachou — Marketing Data Analytics Portfolio
 
 Recruiter-facing portfolio presenting professional experience and independent case studies across acquisition, conversion, retention, CRM and marketing performance.
 
 **Professional positioning:**
 
-Growth Analyst — Acquisition, Conversion & Retention
+Marketing Data Analyst | Growth, Acquisition, Conversion & Retention
 
 **Live portfolio:**
 

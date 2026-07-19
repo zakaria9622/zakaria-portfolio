@@ -16,7 +16,7 @@ export function Contact() {
         <SectionHeader
           label="Get in touch"
           title="Contact"
-          description="Available for a Growth Analyst apprenticeship from September 2026."
+          description="Available for a Marketing Data Analyst apprenticeship from September 2026."
         />
 
         <HomeGlassCard glow className="max-w-4xl">

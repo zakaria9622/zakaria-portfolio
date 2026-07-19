@@ -5,15 +5,16 @@ import sharp from "sharp";
 const WIDTH = 1200;
 const HEIGHT = 627;
 const OUT_DIR = path.join(process.cwd(), "public", "og");
+const COMPAT_HOME_OUTPUT = path.join(process.cwd(), "public", "og-image.png");
 
 const cards = [
   {
     file: "home.png",
     kicker: "PORTFOLIO",
-    title: "Zakaria Maachou",
-    subtitle: "Growth Analyst — Acquisition, Conversion & Retention",
+    title: "Marketing Data Analyst",
+    subtitle: "Growth · Acquisition · Conversion · Retention",
     badges: ["SQL", "Tableau", "Python", "Looker", "Data Quality"],
-    footer: "Growth Analytics Portfolio",
+    footer: "Zakaria Maachou",
     accent: "#22d3ee",
     accentSoft: "#0e7490",
   },
@@ -153,7 +154,7 @@ function svg(card) {
   ${textLines(subtitleLines, 98, 302, 34, "#cbd5e1", 600, 1.32)}
   ${badgeGroup(card.badges, card.accent)}
   <text x="96" y="550" class="text" font-size="24" font-weight="650" fill="#e2e8f0">${escapeXml(card.footer)}</text>
-  <text x="1104" y="550" class="mono" text-anchor="end" font-size="19" font-weight="700" fill="#94a3b8">DATA / BI</text>
+  <text x="1104" y="550" class="mono" text-anchor="end" font-size="19" font-weight="700" fill="#94a3b8">MARKETING / DATA</text>
 </svg>`;
 }
 
@@ -165,3 +166,9 @@ for (const card of cards) {
   const metadata = await sharp(output).metadata();
   console.log(`${path.relative(process.cwd(), output)} ${metadata.width}x${metadata.height}`);
 }
+
+await fs.copyFile(path.join(OUT_DIR, "home.png"), COMPAT_HOME_OUTPUT);
+const compatMetadata = await sharp(COMPAT_HOME_OUTPUT).metadata();
+console.log(
+  `${path.relative(process.cwd(), COMPAT_HOME_OUTPUT)} ${compatMetadata.width}x${compatMetadata.height}`
+);

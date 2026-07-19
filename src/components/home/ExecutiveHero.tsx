@@ -381,11 +381,11 @@ export function ExecutiveHero() {
             {...heroItem(shouldSimplifyMotion, 0.04)}
             className="mb-4 type-label text-cyan-200/80"
           >
-            Growth Analytics Portfolio
+            Marketing Data Analytics Portfolio
           </motion.p>
 
           <motion.h1
-            aria-label={profile.name}
+            aria-label={profile.positioning}
             className="cinematic-headline type-hero-display max-w-4xl font-heading font-bold text-white"
           >
             {headlineWords.map((word, index) => (
@@ -396,14 +396,13 @@ export function ExecutiveHero() {
                 </motion.span>
               </span>
             ))}
+            <motion.span
+              {...heroItem(shouldSimplifyMotion, 0.13)}
+              className="mt-5 block font-heading text-xl font-semibold leading-snug text-cyan-100 md:text-2xl"
+            >
+              {profile.positioning}
+            </motion.span>
           </motion.h1>
-
-          <motion.p
-            {...heroItem(shouldSimplifyMotion, 0.13)}
-            className="mt-5 font-heading text-xl font-semibold leading-snug text-cyan-100 md:text-2xl"
-          >
-            {profile.title}
-          </motion.p>
 
           <motion.p
             {...heroItem(shouldSimplifyMotion, 0.18)}

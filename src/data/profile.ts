@@ -1,6 +1,8 @@
 export const profile = {
   name: "Zakaria Maachou",
-  title: "Growth Analyst — Acquisition, Conversion & Retention",
+  title: "Marketing Data Analyst",
+  positioning:
+    "Marketing Data Analyst | Growth, Acquisition, Conversion & Retention",
   tagline:
     "I turn acquisition, funnel and customer data into clearer growth decisions.",
   email: "zakariamaachou96@gmail.com",

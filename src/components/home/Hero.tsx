@@ -32,7 +32,7 @@ export function Hero() {
             </div>
 
             <p className="mb-3 font-mono text-sm font-semibold tracking-wide text-electric-400/90">
-              Growth Analytics Portfolio
+              Marketing Data Analytics Portfolio
             </p>
 
             <h1 className="bg-gradient-to-br from-white via-white to-slate-400 bg-clip-text font-heading text-4xl font-bold leading-tight text-transparent md:text-5xl lg:text-6xl xl:text-[4.25rem] xl:leading-[1.05]">
@@ -41,7 +41,7 @@ export function Hero() {
 
             <p className="mt-4 font-heading text-xl font-semibold leading-tight md:text-2xl">
               <span className="bg-gradient-to-r from-electric-300 to-electric-500 bg-clip-text text-transparent">
-                {profile.title}
+                {profile.positioning}
               </span>
             </p>
 
