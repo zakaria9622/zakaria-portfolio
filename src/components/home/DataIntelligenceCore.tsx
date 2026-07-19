@@ -1,16 +1,18 @@
 "use client";
 
-import { Preload } from "@react-three/drei";
-import { Canvas, useFrame } from "@react-three/fiber";
 import {
   AdditiveBlending,
   BufferGeometry,
   Float32BufferAttribute,
   Group,
   MathUtils,
+  PerspectiveCamera,
+  Points,
+  Scene,
   ShaderMaterial,
+  WebGLRenderer,
 } from "three";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 type SceneVisibility = {
   isVisible: { current: boolean };
@@ -39,19 +41,6 @@ type SceneControls = SceneVisibility & {
   };
   scroll: { current: number };
   hasSettledOffscreen: { current: boolean };
-};
-
-type RenderMotion = {
-  current: {
-    pointerX: number;
-    pointerY: number;
-    hoverAmount: number;
-    hoverX: number;
-    hoverY: number;
-    dragX: number;
-    dragY: number;
-    scroll: number;
-  };
 };
 
 type ParticleUniforms = {
@@ -433,33 +422,155 @@ void main() {
 }
 `;
 
-function useSceneControls(anchorSelector: string): SceneControls {
-  const isVisible = useRef(true);
-  const isInViewport = useRef(true);
-  const pointer = useRef({ x: 0, y: 0 });
-  const hover = useRef({
-    targetAmount: 0,
-    targetX: 0,
-    targetY: 0,
+function createParticleUniforms(
+  globalAlpha: number,
+  pixelRatio: number
+): ParticleUniforms {
+  return {
+    uTime: { value: 0 },
+    uPixelRatio: { value: pixelRatio },
+    uGlobalAlpha: { value: globalAlpha },
+    uParallaxX: { value: 0 },
+    uParallaxY: { value: 0 },
+    uHoverAmount: { value: 0 },
+    uHoverX: { value: 0 },
+    uHoverY: { value: 0 },
+  };
+}
+
+function createParticleMaterial(
+  uniforms: ParticleUniforms,
+  vertexShader: string
+) {
+  return new ShaderMaterial({
+    transparent: true,
+    depthTest: true,
+    depthWrite: false,
+    blending: AdditiveBlending,
+    fragmentShader: particleFragmentShader,
+    toneMapped: false,
+    uniforms,
+    vertexShader,
   });
-  const drag = useRef({
-    active: false,
-    targetX: 0,
-    targetY: 0,
-    originX: 0,
-    originY: 0,
-    startClientX: 0,
-    startClientY: 0,
-  });
-  const scroll = useRef(0);
-  const hasSettledOffscreen = useRef(false);
+}
+
+export function DataIntelligenceCore({
+  anchorSelector,
+}: {
+  anchorSelector: string;
+}) {
+  const mountRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const mount = mountRef.current;
     const hero = document.querySelector<HTMLElement>(anchorSelector);
-    if (!hero) return;
+    if (!mount || !hero) return;
 
-    const core = hero.querySelector<HTMLElement>(".data-core-frame");
-    const isFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const deviceMemory =
+      (navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 8;
+    const isLowerPowerDevice =
+      navigator.hardwareConcurrency <= 4 || deviceMemory <= 4;
+    const pixelRatio = Math.min(
+      window.devicePixelRatio || 1,
+      isLowerPowerDevice ? 1 : 1.2
+    );
+    let renderer: WebGLRenderer;
+
+    try {
+      renderer = new WebGLRenderer({
+        alpha: true,
+        antialias: true,
+        depth: true,
+        powerPreference: "high-performance",
+        stencil: false,
+      });
+    } catch {
+      mount.dataset.webglStatus = "unsupported";
+      return;
+    }
+
+    renderer.setPixelRatio(pixelRatio);
+    renderer.setClearColor(0x000000, 0);
+    renderer.domElement.className = "data-core-canvas";
+    renderer.domElement.setAttribute("aria-hidden", "true");
+    renderer.domElement.setAttribute("role", "presentation");
+    mount.appendChild(renderer.domElement);
+    mount.dataset.webglStatus = "ready";
+    mount.dataset.animationState = "paused";
+
+    const scene = new Scene();
+    const camera = new PerspectiveCamera(42, 1, 0.1, 24);
+    camera.position.set(0, 0, 6.8);
+
+    const system = new Group();
+    system.position.set(0.04, -0.05, 0);
+    system.scale.setScalar(1.28);
+
+    const atmosphericGroup = new Group();
+    atmosphericGroup.position.set(0.04, 0.02, -0.34);
+    atmosphericGroup.scale.setScalar(1.05);
+    const globeGroup = new Group();
+
+    const globeGeometry = createGlobeGeometry();
+    const fieldGeometry = createFieldGeometry();
+    const signalGeometry = createSignalGeometry();
+    const globeUniforms = createParticleUniforms(0.76, pixelRatio);
+    const fieldUniforms = createParticleUniforms(0.42, pixelRatio);
+    const signalUniforms = createParticleUniforms(0.4, pixelRatio);
+    const globeMaterial = createParticleMaterial(
+      globeUniforms,
+      particleVertexShader
+    );
+    const fieldMaterial = createParticleMaterial(
+      fieldUniforms,
+      particleVertexShader
+    );
+    const signalMaterial = createParticleMaterial(
+      signalUniforms,
+      signalVertexShader
+    );
+    const globePoints = new Points(globeGeometry, globeMaterial);
+    const fieldPoints = new Points(fieldGeometry, fieldMaterial);
+    const signalPoints = new Points(signalGeometry, signalMaterial);
+    globePoints.frustumCulled = false;
+    fieldPoints.frustumCulled = false;
+    signalPoints.frustumCulled = false;
+    globeGroup.add(globePoints);
+    atmosphericGroup.add(fieldPoints);
+    system.add(atmosphericGroup, globeGroup, signalPoints);
+    scene.add(system);
+
+    const controls: SceneControls = {
+      isVisible: { current: true },
+      isInViewport: { current: true },
+      pointer: { current: { x: 0, y: 0 } },
+      hover: {
+        current: { targetAmount: 0, targetX: 0, targetY: 0 },
+      },
+      drag: {
+        current: {
+          active: false,
+          targetX: 0,
+          targetY: 0,
+          originX: 0,
+          originY: 0,
+          startClientX: 0,
+          startClientY: 0,
+        },
+      },
+      scroll: { current: 0 },
+      hasSettledOffscreen: { current: false },
+    };
+    const motion = {
+      pointerX: 0,
+      pointerY: 0,
+      hoverAmount: 0,
+      hoverX: 0,
+      hoverY: 0,
+      dragX: 0,
+      dragY: 0,
+      scroll: 0,
+    };
     const layout = {
       heroLeft: 0,
       heroTop: 0,
@@ -472,32 +583,204 @@ function useSceneControls(anchorSelector: string): SceneControls {
       scrollDistance: 1,
     };
     const pendingPointer = { clientX: 0, clientY: 0, hasUpdate: false };
+    const finePointerQuery = window.matchMedia(
+      "(hover: hover) and (pointer: fine)"
+    );
+    let animationFrame = 0;
+    let elapsedSeconds = 0;
+    let lastFrameTime = performance.now();
     let scrollFrame = 0;
     let pointerFrame = 0;
     let layoutFrame = 0;
+    let resizeFrame = 0;
+    let pageIsActive = !document.hidden;
+    let contextIsLost = false;
+    let disposed = false;
+
+    const renderScene = (delta: number) => {
+      const pointerEase = 1 - Math.pow(0.001, Math.min(delta * 3.2, 1));
+      const hoverEase = 1 - Math.pow(0.001, Math.min(delta * 4.1, 1));
+      const dragEase = 1 - Math.pow(0.001, Math.min(delta * 2.8, 1));
+      const scrollEase = 1 - Math.pow(0.001, Math.min(delta * 2.2, 1));
+
+      motion.pointerX = MathUtils.lerp(
+        motion.pointerX,
+        controls.pointer.current.x,
+        pointerEase
+      );
+      motion.pointerY = MathUtils.lerp(
+        motion.pointerY,
+        controls.pointer.current.y,
+        pointerEase
+      );
+      motion.hoverAmount = MathUtils.lerp(
+        motion.hoverAmount,
+        controls.hover.current.targetAmount,
+        hoverEase
+      );
+      motion.hoverX = MathUtils.lerp(
+        motion.hoverX,
+        controls.hover.current.targetX,
+        hoverEase
+      );
+      motion.hoverY = MathUtils.lerp(
+        motion.hoverY,
+        controls.hover.current.targetY,
+        hoverEase
+      );
+      motion.dragX = MathUtils.lerp(
+        motion.dragX,
+        controls.drag.current.active ? controls.drag.current.targetX : 0,
+        dragEase
+      );
+      motion.dragY = MathUtils.lerp(
+        motion.dragY,
+        controls.drag.current.active ? controls.drag.current.targetY : 0,
+        dragEase
+      );
+      motion.scroll = MathUtils.lerp(
+        motion.scroll,
+        easeOutCubic(controls.scroll.current),
+        scrollEase
+      );
+
+      const scrollAmount = motion.scroll;
+      const targetRotationX =
+        Math.cos(elapsedSeconds * 0.07) * 0.018 -
+        motion.pointerY * 0.07 +
+        motion.dragY;
+      const targetRotationY =
+        Math.sin(elapsedSeconds * 0.08) * 0.045 +
+        motion.pointerX * 0.1 +
+        motion.dragX +
+        scrollAmount * 0.055;
+      const targetRotationZ =
+        Math.sin(elapsedSeconds * 0.06) * 0.01 -
+        motion.pointerX * 0.018;
+      system.rotation.x = MathUtils.lerp(
+        system.rotation.x,
+        targetRotationX,
+        0.08
+      );
+      system.rotation.y = MathUtils.lerp(
+        system.rotation.y,
+        targetRotationY,
+        0.08
+      );
+      system.rotation.z = MathUtils.lerp(
+        system.rotation.z,
+        targetRotationZ,
+        0.08
+      );
+      system.position.x = MathUtils.lerp(
+        system.position.x,
+        scrollAmount * 0.22 + motion.pointerX * 0.035,
+        0.07
+      );
+      system.position.y = MathUtils.lerp(
+        system.position.y,
+        -0.05 + Math.sin(elapsedSeconds * 0.11) * 0.024 + scrollAmount * 0.16,
+        0.07
+      );
+      system.scale.setScalar(1.28 * (1 - scrollAmount * 0.075));
+
+      globeGroup.rotation.y += delta * 0.055;
+      globeGroup.rotation.x = Math.sin(elapsedSeconds * 0.12) * 0.028;
+      globeGroup.rotation.z = Math.cos(elapsedSeconds * 0.1) * 0.018;
+      atmosphericGroup.rotation.y -= delta * 0.018;
+      atmosphericGroup.rotation.z =
+        Math.sin(elapsedSeconds * 0.08) * 0.012;
+
+      globeUniforms.uTime.value = elapsedSeconds;
+      globeUniforms.uParallaxX.value = motion.pointerX;
+      globeUniforms.uParallaxY.value = -motion.pointerY;
+      globeUniforms.uHoverAmount.value = motion.hoverAmount * 0.42;
+      globeUniforms.uHoverX.value = motion.hoverX;
+      globeUniforms.uHoverY.value = motion.hoverY;
+      fieldUniforms.uTime.value = elapsedSeconds;
+      fieldUniforms.uParallaxX.value = motion.pointerX * 1.16;
+      fieldUniforms.uParallaxY.value = -motion.pointerY * 1.16;
+      signalUniforms.uTime.value = elapsedSeconds;
+      signalUniforms.uParallaxX.value = motion.pointerX * 0.82;
+      signalUniforms.uParallaxY.value = -motion.pointerY * 0.82;
+      renderer.render(scene, camera);
+    };
+
+    const shouldAnimate = () =>
+      !disposed &&
+      !contextIsLost &&
+      pageIsActive &&
+      controls.isVisible.current &&
+      controls.isInViewport.current &&
+      !controls.hasSettledOffscreen.current;
+
+    const stopAnimation = () => {
+      if (animationFrame !== 0) {
+        cancelAnimationFrame(animationFrame);
+        animationFrame = 0;
+      }
+      mount.dataset.animationState = "paused";
+    };
+
+    const animate = (now: number) => {
+      animationFrame = 0;
+      if (!shouldAnimate()) return;
+      const delta = Math.min((now - lastFrameTime) / 1000, 0.05);
+      lastFrameTime = now;
+      elapsedSeconds += delta;
+      renderScene(delta);
+      animationFrame = requestAnimationFrame(animate);
+    };
+
+    const startAnimation = () => {
+      if (animationFrame !== 0 || !shouldAnimate()) return;
+      lastFrameTime = performance.now();
+      mount.dataset.animationState = "running";
+      animationFrame = requestAnimationFrame(animate);
+    };
+
+    const reconcileAnimation = () => {
+      if (shouldAnimate()) startAnimation();
+      else stopAnimation();
+    };
+
+    const resizeRenderer = () => {
+      resizeFrame = 0;
+      const rect = mount.getBoundingClientRect();
+      const width = Math.max(1, Math.round(rect.width));
+      const height = Math.max(1, Math.round(rect.height));
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height, false);
+      if (!contextIsLost) renderer.render(scene, camera);
+    };
+
+    const scheduleResize = () => {
+      if (resizeFrame === 0) {
+        resizeFrame = requestAnimationFrame(resizeRenderer);
+      }
+    };
 
     const measureLayout = () => {
       const scrollX = window.scrollX;
       const scrollY = window.scrollY;
-      const nextHeroRect = hero.getBoundingClientRect();
-      layout.heroLeft = nextHeroRect.left + scrollX;
-      layout.heroTop = nextHeroRect.top + scrollY;
-      layout.heroWidth = Math.max(nextHeroRect.width, 1);
-      layout.heroHeight = Math.max(nextHeroRect.height, 1);
+      const heroRect = hero.getBoundingClientRect();
+      const coreRect = mount.getBoundingClientRect();
+      layout.heroLeft = heroRect.left + scrollX;
+      layout.heroTop = heroRect.top + scrollY;
+      layout.heroWidth = Math.max(heroRect.width, 1);
+      layout.heroHeight = Math.max(heroRect.height, 1);
       layout.scrollDistance = Math.max(layout.heroHeight * 0.58, 1);
-
-      const nextCoreRect = core?.getBoundingClientRect();
-      if (nextCoreRect) {
-        layout.coreLeft = nextCoreRect.left + scrollX;
-        layout.coreTop = nextCoreRect.top + scrollY;
-        layout.coreWidth = Math.max(nextCoreRect.width, 1);
-        layout.coreHeight = Math.max(nextCoreRect.height, 1);
-      }
+      layout.coreLeft = coreRect.left + scrollX;
+      layout.coreTop = coreRect.top + scrollY;
+      layout.coreWidth = Math.max(coreRect.width, 1);
+      layout.coreHeight = Math.max(coreRect.height, 1);
     };
 
     const scheduleLayoutMeasure = () => {
       cancelAnimationFrame(layoutFrame);
       layoutFrame = requestAnimationFrame(() => {
+        layoutFrame = 0;
         measureLayout();
       });
     };
@@ -505,18 +788,20 @@ function useSceneControls(anchorSelector: string): SceneControls {
     const updateScroll = () => {
       cancelAnimationFrame(scrollFrame);
       scrollFrame = requestAnimationFrame(() => {
+        scrollFrame = 0;
         const nextScroll = clamp01(
           (window.scrollY - layout.heroTop) / layout.scrollDistance
         );
-        scroll.current = nextScroll;
-        hasSettledOffscreen.current = nextScroll > 0.985;
+        controls.scroll.current = nextScroll;
+        controls.hasSettledOffscreen.current = nextScroll > 0.985;
+        reconcileAnimation();
       });
     };
 
     const resetPointer = () => {
-      pointer.current.x = 0;
-      pointer.current.y = 0;
-      hover.current.targetAmount = 0;
+      controls.pointer.current.x = 0;
+      controls.pointer.current.y = 0;
+      controls.hover.current.targetAmount = 0;
     };
 
     const pointerIsInCore = (clientX: number, clientY: number) => {
@@ -531,34 +816,32 @@ function useSceneControls(anchorSelector: string): SceneControls {
     };
 
     const updatePointerTargets = (clientX: number, clientY: number) => {
-      if (!isFinePointer.matches) {
+      if (!finePointerQuery.matches) {
         resetPointer();
         return;
       }
-
       const heroLeft = layout.heroLeft - window.scrollX;
       const heroTop = layout.heroTop - window.scrollY;
-      pointer.current.x = clamp(
+      controls.pointer.current.x = clamp(
         (clientX - heroLeft) / layout.heroWidth - 0.5,
         -0.5,
         0.5
       );
-      pointer.current.y = clamp(
+      controls.pointer.current.y = clamp(
         (clientY - heroTop) / layout.heroHeight - 0.5,
         -0.5,
         0.5
       );
-
       const isHoveringCore = pointerIsInCore(clientX, clientY);
-      hover.current.targetAmount = isHoveringCore ? 1 : 0;
+      controls.hover.current.targetAmount = isHoveringCore ? 1 : 0;
       if (isHoveringCore) {
         const coreLeft = layout.coreLeft - window.scrollX;
         const coreTop = layout.coreTop - window.scrollY;
-        hover.current.targetX =
-          clamp((clientX - coreLeft) / layout.coreWidth * 2 - 1, -1, 1) *
+        controls.hover.current.targetX =
+          clamp(((clientX - coreLeft) / layout.coreWidth) * 2 - 1, -1, 1) *
           1.15;
-        hover.current.targetY =
-          clamp(1 - (clientY - coreTop) / layout.coreHeight * 2, -1, 1) *
+        controls.hover.current.targetY =
+          clamp(1 - ((clientY - coreTop) / layout.coreHeight) * 2, -1, 1) *
           1.05;
       }
     };
@@ -566,16 +849,23 @@ function useSceneControls(anchorSelector: string): SceneControls {
     const flushPointerUpdate = () => {
       pointerFrame = 0;
       if (!pendingPointer.hasUpdate) return;
-
       pendingPointer.hasUpdate = false;
-      const { clientX, clientY } = pendingPointer;
-      updatePointerTargets(clientX, clientY);
-
-      if (drag.current.active) {
-        const deltaX = clientX - drag.current.startClientX;
-        const deltaY = clientY - drag.current.startClientY;
-        drag.current.targetX = clamp(drag.current.originX + deltaX * 0.0024, -0.26, 0.26);
-        drag.current.targetY = clamp(drag.current.originY + deltaY * 0.0018, -0.14, 0.14);
+      updatePointerTargets(pendingPointer.clientX, pendingPointer.clientY);
+      if (controls.drag.current.active) {
+        const deltaX =
+          pendingPointer.clientX - controls.drag.current.startClientX;
+        const deltaY =
+          pendingPointer.clientY - controls.drag.current.startClientY;
+        controls.drag.current.targetX = clamp(
+          controls.drag.current.originX + deltaX * 0.0024,
+          -0.26,
+          0.26
+        );
+        controls.drag.current.targetY = clamp(
+          controls.drag.current.originY + deltaY * 0.0018,
+          -0.14,
+          0.14
+        );
       }
     };
 
@@ -583,411 +873,151 @@ function useSceneControls(anchorSelector: string): SceneControls {
       pendingPointer.clientX = clientX;
       pendingPointer.clientY = clientY;
       pendingPointer.hasUpdate = true;
-
       if (pointerFrame === 0) {
         pointerFrame = requestAnimationFrame(flushPointerUpdate);
       }
     };
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        isVisible.current = entry.isIntersecting;
-      },
-      { rootMargin: "180px" }
-    );
-    const viewportObserver = new IntersectionObserver(
-      ([entry]) => {
-        isInViewport.current = entry.isIntersecting;
-      },
-      { rootMargin: "0px" }
-    );
-
     const handlePointerMove = (event: PointerEvent) => {
-      if (!isVisible.current && !drag.current.active) return;
+      if (!controls.isInViewport.current && !controls.drag.current.active) {
+        return;
+      }
       schedulePointerUpdate(event.clientX, event.clientY);
     };
 
     const handlePointerDown = (event: PointerEvent) => {
       if (
         event.button !== 0 ||
-        !isFinePointer.matches ||
+        !finePointerQuery.matches ||
         !pointerIsInCore(event.clientX, event.clientY)
       ) {
         return;
       }
-
-      drag.current.active = true;
-      drag.current.startClientX = event.clientX;
-      drag.current.startClientY = event.clientY;
-      drag.current.originX = drag.current.targetX;
-      drag.current.originY = drag.current.targetY;
+      controls.drag.current.active = true;
+      controls.drag.current.startClientX = event.clientX;
+      controls.drag.current.startClientY = event.clientY;
+      controls.drag.current.originX = controls.drag.current.targetX;
+      controls.drag.current.originY = controls.drag.current.targetY;
     };
 
     const handlePointerUp = () => {
-      drag.current.active = false;
-      drag.current.targetX = 0;
-      drag.current.targetY = 0;
+      controls.drag.current.active = false;
+      controls.drag.current.targetX = 0;
+      controls.drag.current.targetY = 0;
     };
 
     const handlePointerLeave = () => {
       resetPointer();
-      drag.current.active = false;
+      handlePointerUp();
     };
 
-    measureLayout();
-    updateScroll();
-    observer.observe(hero);
-    viewportObserver.observe(hero);
+    const handleVisibilityChange = () => {
+      pageIsActive = !document.hidden;
+      reconcileAnimation();
+    };
+    const handlePageHide = () => {
+      pageIsActive = false;
+      reconcileAnimation();
+    };
+    const handlePageShow = () => {
+      pageIsActive = !document.hidden;
+      reconcileAnimation();
+    };
+    const handleContextLost = (event: Event) => {
+      event.preventDefault();
+      contextIsLost = true;
+      mount.dataset.webglStatus = "lost";
+      stopAnimation();
+    };
+    const handleContextRestored = () => {
+      contextIsLost = false;
+      mount.dataset.webglStatus = "ready";
+      resizeRenderer();
+      reconcileAnimation();
+    };
+
+    const viewportObserver = new IntersectionObserver(([entry]) => {
+      controls.isVisible.current = entry.isIntersecting;
+      controls.isInViewport.current = entry.isIntersecting;
+      reconcileAnimation();
+    });
+    const resizeObserver = new ResizeObserver(() => {
+      scheduleResize();
+      scheduleLayoutMeasure();
+    });
+
+    renderer.domElement.addEventListener(
+      "webglcontextlost",
+      handleContextLost
+    );
+    renderer.domElement.addEventListener(
+      "webglcontextrestored",
+      handleContextRestored
+    );
     window.addEventListener("pointermove", handlePointerMove);
     window.addEventListener("pointerdown", handlePointerDown);
     window.addEventListener("pointerup", handlePointerUp);
     window.addEventListener("pointercancel", handlePointerUp);
-    hero.addEventListener("pointerleave", handlePointerLeave);
     window.addEventListener("scroll", updateScroll, { passive: true });
-    window.addEventListener("resize", scheduleLayoutMeasure);
-    window.addEventListener("resize", updateScroll);
+    window.addEventListener("pagehide", handlePageHide);
+    window.addEventListener("pageshow", handlePageShow);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    hero.addEventListener("pointerleave", handlePointerLeave);
+    viewportObserver.observe(hero);
+    resizeObserver.observe(mount);
+    measureLayout();
+    resizeRenderer();
+    updateScroll();
+    startAnimation();
 
     return () => {
+      disposed = true;
+      stopAnimation();
       cancelAnimationFrame(scrollFrame);
       cancelAnimationFrame(pointerFrame);
       cancelAnimationFrame(layoutFrame);
-      observer.disconnect();
+      cancelAnimationFrame(resizeFrame);
       viewportObserver.disconnect();
+      resizeObserver.disconnect();
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("pointerdown", handlePointerDown);
       window.removeEventListener("pointerup", handlePointerUp);
       window.removeEventListener("pointercancel", handlePointerUp);
-      hero.removeEventListener("pointerleave", handlePointerLeave);
       window.removeEventListener("scroll", updateScroll);
-      window.removeEventListener("resize", scheduleLayoutMeasure);
-      window.removeEventListener("resize", updateScroll);
+      window.removeEventListener("pagehide", handlePageHide);
+      window.removeEventListener("pageshow", handlePageShow);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      hero.removeEventListener("pointerleave", handlePointerLeave);
+      renderer.domElement.removeEventListener(
+        "webglcontextlost",
+        handleContextLost
+      );
+      renderer.domElement.removeEventListener(
+        "webglcontextrestored",
+        handleContextRestored
+      );
+      scene.clear();
+      globeGeometry.dispose();
+      fieldGeometry.dispose();
+      signalGeometry.dispose();
+      globeMaterial.dispose();
+      fieldMaterial.dispose();
+      signalMaterial.dispose();
+      renderer.dispose();
+      renderer.forceContextLoss();
+      renderer.domElement.remove();
     };
   }, [anchorSelector]);
 
-  return {
-    isVisible,
-    isInViewport,
-    pointer,
-    hover,
-    drag,
-    scroll,
-    hasSettledOffscreen,
-  };
-}
-
-function useParticleUniforms(globalAlpha: number): ParticleUniforms {
-  return useMemo(
-    () => ({
-      uTime: { value: 0 },
-      uPixelRatio: {
-        value:
-          typeof window === "undefined"
-            ? 1
-            : Math.min(window.devicePixelRatio || 1, 1.2),
-      },
-      uGlobalAlpha: { value: globalAlpha },
-      uParallaxX: { value: 0 },
-      uParallaxY: { value: 0 },
-      uHoverAmount: { value: 0 },
-      uHoverX: { value: 0 },
-      uHoverY: { value: 0 },
-    }),
-    [globalAlpha]
-  );
-}
-
-function GlobeParticles({
-  controls,
-  motion,
-}: {
-  controls: SceneControls;
-  motion: RenderMotion;
-}) {
-  const geometry = useMemo(() => createGlobeGeometry(), []);
-  const materialRef = useRef<ShaderMaterial>(null);
-  const groupRef = useRef<Group>(null);
-  const uniforms = useParticleUniforms(0.76);
-
-  useFrame(({ clock }, delta) => {
-    if (!controls.isVisible.current || controls.hasSettledOffscreen.current) {
-      return;
-    }
-
-    const elapsed = clock.elapsedTime;
-
-    const group = groupRef.current;
-    if (!group) return;
-
-    group.rotation.y += delta * 0.055;
-    group.rotation.x = Math.sin(elapsed * 0.12) * 0.028;
-    group.rotation.z = Math.cos(elapsed * 0.1) * 0.018;
-
-    if (materialRef.current) {
-      materialRef.current.uniforms.uTime.value = elapsed;
-      materialRef.current.uniforms.uParallaxX.value = motion.current.pointerX;
-      materialRef.current.uniforms.uParallaxY.value = -motion.current.pointerY;
-      materialRef.current.uniforms.uHoverAmount.value =
-        motion.current.hoverAmount * 0.42;
-      materialRef.current.uniforms.uHoverX.value = motion.current.hoverX;
-      materialRef.current.uniforms.uHoverY.value = motion.current.hoverY;
-    }
-  });
-
   return (
-    <group ref={groupRef}>
-      <points geometry={geometry} frustumCulled={false}>
-        <shaderMaterial
-          ref={materialRef}
-          transparent
-          depthTest
-          depthWrite={false}
-          blending={AdditiveBlending}
-          fragmentShader={particleFragmentShader}
-          toneMapped={false}
-          uniforms={uniforms}
-          vertexShader={particleVertexShader}
-        />
-      </points>
-    </group>
-  );
-}
-
-function AtmosphericField({
-  controls,
-  motion,
-}: {
-  controls: SceneControls;
-  motion: RenderMotion;
-}) {
-  const geometry = useMemo(() => createFieldGeometry(), []);
-  const materialRef = useRef<ShaderMaterial>(null);
-  const groupRef = useRef<Group>(null);
-  const uniforms = useParticleUniforms(0.42);
-
-  useFrame(({ clock }, delta) => {
-    if (!controls.isVisible.current || controls.hasSettledOffscreen.current) {
-      return;
-    }
-
-    const elapsed = clock.elapsedTime;
-
-    const group = groupRef.current;
-    if (!group) return;
-
-    group.rotation.y -= delta * 0.018;
-    group.rotation.z = Math.sin(elapsed * 0.08) * 0.012;
-
-    if (materialRef.current) {
-      materialRef.current.uniforms.uTime.value = elapsed;
-      materialRef.current.uniforms.uParallaxX.value =
-        motion.current.pointerX * 1.16;
-      materialRef.current.uniforms.uParallaxY.value =
-        -motion.current.pointerY * 1.16;
-    }
-  });
-
-  return (
-    <group ref={groupRef} position={[0.04, 0.02, -0.34]} scale={1.05}>
-      <points geometry={geometry} frustumCulled={false}>
-        <shaderMaterial
-          ref={materialRef}
-          transparent
-          depthTest
-          depthWrite={false}
-          blending={AdditiveBlending}
-          fragmentShader={particleFragmentShader}
-          toneMapped={false}
-          uniforms={uniforms}
-          vertexShader={particleVertexShader}
-        />
-      </points>
-    </group>
-  );
-}
-
-function SignalStreams({
-  controls,
-  motion,
-}: {
-  controls: SceneControls;
-  motion: RenderMotion;
-}) {
-  const geometry = useMemo(() => createSignalGeometry(), []);
-  const materialRef = useRef<ShaderMaterial>(null);
-  const uniforms = useParticleUniforms(0.4);
-
-  useFrame(({ clock }) => {
-    if (!controls.isVisible.current || controls.hasSettledOffscreen.current) {
-      return;
-    }
-
-    const elapsed = clock.elapsedTime;
-
-    if (materialRef.current) {
-      materialRef.current.uniforms.uTime.value = elapsed;
-      materialRef.current.uniforms.uParallaxX.value =
-        motion.current.pointerX * 0.82;
-      materialRef.current.uniforms.uParallaxY.value =
-        -motion.current.pointerY * 0.82;
-    }
-  });
-
-  return (
-    <points geometry={geometry} frustumCulled={false}>
-      <shaderMaterial
-        ref={materialRef}
-        transparent
-        depthTest
-        depthWrite={false}
-        blending={AdditiveBlending}
-        fragmentShader={particleFragmentShader}
-        toneMapped={false}
-        uniforms={uniforms}
-        vertexShader={signalVertexShader}
-      />
-    </points>
-  );
-}
-
-function DataCoreScene({ controls }: { controls: SceneControls }) {
-  const systemRef = useRef<Group>(null);
-  const motionRef = useRef({
-    pointerX: 0,
-    pointerY: 0,
-    hoverAmount: 0,
-    hoverX: 0,
-    hoverY: 0,
-    dragX: 0,
-    dragY: 0,
-    scroll: 0,
-  });
-
-  useFrame(({ clock }, delta) => {
-    if (!controls.isVisible.current || !controls.isInViewport.current) return;
-    const motion = motionRef.current;
-
-    const pointerEase = 1 - Math.pow(0.001, Math.min(delta * 3.2, 1));
-    const hoverEase = 1 - Math.pow(0.001, Math.min(delta * 4.1, 1));
-    const dragEase = 1 - Math.pow(0.001, Math.min(delta * 2.8, 1));
-    const scrollEase = 1 - Math.pow(0.001, Math.min(delta * 2.2, 1));
-
-    motion.pointerX = MathUtils.lerp(
-      motion.pointerX,
-      controls.pointer.current.x,
-      pointerEase
-    );
-    motion.pointerY = MathUtils.lerp(
-      motion.pointerY,
-      controls.pointer.current.y,
-      pointerEase
-    );
-    motion.hoverAmount = MathUtils.lerp(
-      motion.hoverAmount,
-      controls.hover.current.targetAmount,
-      hoverEase
-    );
-    motion.hoverX = MathUtils.lerp(
-      motion.hoverX,
-      controls.hover.current.targetX,
-      hoverEase
-    );
-    motion.hoverY = MathUtils.lerp(
-      motion.hoverY,
-      controls.hover.current.targetY,
-      hoverEase
-    );
-    motion.dragX = MathUtils.lerp(
-      motion.dragX,
-      controls.drag.current.active ? controls.drag.current.targetX : 0,
-      dragEase
-    );
-    motion.dragY = MathUtils.lerp(
-      motion.dragY,
-      controls.drag.current.active ? controls.drag.current.targetY : 0,
-      dragEase
-    );
-    motion.scroll = MathUtils.lerp(
-      motion.scroll,
-      easeOutCubic(controls.scroll.current),
-      scrollEase
-    );
-
-    const system = systemRef.current;
-    if (!system) return;
-
-    const elapsed = clock.elapsedTime;
-    const scrollAmount = motion.scroll;
-    const targetRotationX =
-      Math.cos(elapsed * 0.07) * 0.018 -
-      motion.pointerY * 0.07 +
-      motion.dragY;
-    const targetRotationY =
-      Math.sin(elapsed * 0.08) * 0.045 +
-      motion.pointerX * 0.1 +
-      motion.dragX +
-      scrollAmount * 0.055;
-    const targetRotationZ =
-      Math.sin(elapsed * 0.06) * 0.01 -
-      motion.pointerX * 0.018;
-
-    system.rotation.x = MathUtils.lerp(system.rotation.x, targetRotationX, 0.08);
-    system.rotation.y = MathUtils.lerp(system.rotation.y, targetRotationY, 0.08);
-    system.rotation.z = MathUtils.lerp(system.rotation.z, targetRotationZ, 0.08);
-    system.position.x = MathUtils.lerp(
-      system.position.x,
-      scrollAmount * 0.22 + motion.pointerX * 0.035,
-      0.07
-    );
-    system.position.y = MathUtils.lerp(
-      system.position.y,
-      -0.05 + Math.sin(elapsed * 0.11) * 0.024 + scrollAmount * 0.16,
-      0.07
-    );
-    system.scale.setScalar(1.28 * (1 - scrollAmount * 0.075));
-  }, -1);
-
-  return (
-    <group ref={systemRef} position={[0.04, -0.05, 0]} scale={1.28}>
-      <AtmosphericField controls={controls} motion={motionRef} />
-      <GlobeParticles controls={controls} motion={motionRef} />
-      <SignalStreams controls={controls} motion={motionRef} />
-    </group>
-  );
-}
-
-function WebglFallback() {
-  return <div className="data-core-webgl-fallback" aria-hidden="true" />;
-}
-
-export function DataIntelligenceCore({
-  anchorSelector,
-}: {
-  anchorSelector: string;
-}) {
-  const controls = useSceneControls(anchorSelector);
-
-  return (
-    <Canvas
+    <div
+      ref={mountRef}
+      className="data-core-webgl-root"
+      data-webgl-status="pending"
       aria-hidden="true"
-      className="data-core-canvas"
-      camera={{ position: [0, 0, 6.8], fov: 42, near: 0.1, far: 24 }}
-      dpr={[1, 1.2]}
-      fallback={<WebglFallback />}
-      frameloop="always"
-      gl={{
-        alpha: true,
-        antialias: true,
-        depth: true,
-        powerPreference: "high-performance",
-        stencil: false,
-      }}
-      onCreated={({ gl }) => {
-        gl.setClearColor(0x000000, 0);
-      }}
       role="presentation"
     >
-      <DataCoreScene controls={controls} />
-      <Preload all />
-    </Canvas>
+      <div className="data-core-webgl-fallback" />
+    </div>
   );
 }
