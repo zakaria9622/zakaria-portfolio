@@ -5,7 +5,6 @@ import {
   type RefObject,
   useEffect,
   useRef,
-  useState,
   useSyncExternalStore,
 } from "react";
 import Image from "next/image";
@@ -44,31 +43,6 @@ const heroMetrics = previewProject.kpis.slice(0, 3).map((metric, index) => ({
 }));
 const featuredMetric =
   previewProject.kpis.find((metric) => metric.highlight) ?? heroMetrics[0];
-const funnelProofMetrics = [
-  {
-    label: "View → Cart",
-    value:
-      previewProject.kpis.find((metric) => metric.label === "View-to-cart rate")
-        ?.value ?? "11.14%",
-  },
-  {
-    label: "Cart → Purchase",
-    value:
-      previewProject.kpis.find(
-        (metric) => metric.label === "Cart-to-purchase rate"
-      )?.value ?? "58.35%",
-  },
-  {
-    label: "Overall conversion",
-    value:
-      previewProject.kpis.find(
-        (metric) => metric.label === "Total conversion rate"
-      )?.value ?? "6.50%",
-  },
-];
-const funnelViewerCount =
-  previewProject.kpis.find((metric) => metric.label === "View users")?.value ??
-  "3,022,130";
 
 const subscribeToHydration = () => () => {};
 const getHydratedSnapshot = () => true;
@@ -241,100 +215,73 @@ function HeroAnalyticalBackground({
 
 function DataCoreFallback() {
   return (
-    <div className="data-core-fallback" aria-hidden="true" />
-  );
-}
+    <div className="data-core-fallback" aria-hidden="true">
+      <svg viewBox="0 0 760 620" role="presentation">
+        <defs>
+          <radialGradient id="core-fallback-glow" cx="53%" cy="49%" r="54%">
+            <stop offset="0%" stopColor="#f8fbff" stopOpacity="0.2" />
+            <stop offset="42%" stopColor="#7dd3fc" stopOpacity="0.13" />
+            <stop offset="74%" stopColor="#f2a93b" stopOpacity="0.055" />
+            <stop offset="100%" stopColor="#06070a" stopOpacity="0" />
+          </radialGradient>
+          <linearGradient id="core-fallback-flow" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0%" stopColor="#7dd3fc" />
+            <stop offset="62%" stopColor="#f2a93b" />
+            <stop offset="100%" stopColor="#f8fbff" />
+          </linearGradient>
+        </defs>
+        <rect width="760" height="620" fill="url(#core-fallback-glow)" />
+        <g className="core-fallback-halo">
+          <ellipse cx="404" cy="306" rx="222" ry="216" />
+          <ellipse cx="404" cy="306" rx="180" ry="174" />
+        </g>
+        <g className="core-fallback-flow">
+          <path d="M724 172 C642 206 574 218 498 258 S392 294 320 318" />
+          <path d="M714 424 C636 398 574 372 504 352 S398 332 300 324" />
+          <path d="M706 294 C624 298 560 300 492 304 S378 314 280 340" />
+        </g>
+        <g className="core-fallback-points">
+          {Array.from({ length: 210 }).map((_, index) => {
+            const angle = index * 2.399963229728653;
+            const band = 1 - ((index + 0.5) / 210) * 2;
+            const radius = Math.sqrt(Math.max(0, 1 - band * band));
+            const wobble = 1 + Math.sin(index * 0.83) * 0.055;
+            const depth = Math.sin(angle) * radius;
+            const x = 404 + Math.cos(angle) * radius * 210 * wobble;
+            const y = 306 + band * 205 * (0.94 + Math.cos(index) * 0.025);
+            const opacity = 0.36 + (depth + 1) * 0.25;
+            const isAccent = index % 31 === 0 || index % 43 === 0;
+            const fill =
+              index % 43 === 0
+                ? "#f2a93b"
+                : isAccent
+                  ? "#7dd3fc"
+                  : "#f8fbff";
 
-function supportsWebGL() {
-  try {
-    const canvas = document.createElement("canvas");
-    const context = canvas.getContext("webgl2", {
-      alpha: true,
-      antialias: true,
-      depth: true,
-      stencil: false,
-    });
-    if (!context) return false;
-    context.getExtension("WEBGL_lose_context")?.loseContext();
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-function DeferredDataIntelligenceCore({
-  anchorSelector,
-  enabled,
-}: {
-  anchorSelector: string;
-  enabled: boolean;
-}) {
-  const [canMount, setCanMount] = useState(false);
-  const supportRef = useRef<boolean | null>(null);
-
-  useEffect(() => {
-    if (!enabled || supportRef.current === false) return;
-    if (supportRef.current === true) {
-      setCanMount(true);
-      return;
-    }
-
-    let cancelled = false;
-    let idleId = 0;
-    let timeoutId = 0;
-    const loadWhenReady = () => {
-      if (cancelled) return;
-      const isSupported = supportsWebGL();
-      supportRef.current = isSupported;
-      if (isSupported) setCanMount(true);
-    };
-
-    if (typeof window.requestIdleCallback === "function") {
-      idleId = window.requestIdleCallback(loadWhenReady, { timeout: 1400 });
-    } else {
-      timeoutId = window.setTimeout(loadWhenReady, 180);
-    }
-
-    return () => {
-      cancelled = true;
-      if (idleId) window.cancelIdleCallback(idleId);
-      if (timeoutId) window.clearTimeout(timeoutId);
-    };
-  }, [enabled]);
-
-  if (!enabled || !canMount) return <DataCoreFallback />;
-  return <DataIntelligenceCore anchorSelector={anchorSelector} />;
-}
-
-function FunnelProofCard() {
-  return (
-    <article className="hero-funnel-proof" aria-labelledby="funnel-proof-title">
-      <p className="hero-funnel-proof-eyebrow">
-        FEATURED CASE · FUNNEL ANALYSIS
-      </p>
-      <h2 id="funnel-proof-title" className="hero-funnel-proof-title">
-        Where conversion drops
-      </h2>
-      <dl className="hero-funnel-proof-metrics">
-        {funnelProofMetrics.map((metric) => (
-          <div key={metric.label}>
-            <dt>{metric.label}</dt>
-            <dd>{metric.value}</dd>
-          </div>
-        ))}
-      </dl>
-      <p className="hero-funnel-proof-context">
-        {funnelViewerCount} product viewers · SQL + Tableau
-      </p>
-      <Link
-        href="/projects/funnel-analysis"
-        prefetch={false}
-        className="hero-funnel-proof-link"
-      >
-        View case study
-        <ArrowRight className="size-4" aria-hidden="true" />
-      </Link>
-    </article>
+            return (
+              <circle
+                key={index}
+                cx={x.toFixed(3)}
+                cy={y.toFixed(3)}
+                fill={fill}
+                opacity={opacity.toFixed(3)}
+                r={(isAccent ? 2.3 : 1.35 + (index % 5) * 0.16).toFixed(2)}
+              />
+            );
+          })}
+        </g>
+        <g className="core-fallback-atmosphere">
+          {Array.from({ length: 36 }).map((_, index) => (
+            <circle
+              key={index}
+              cx={126 + ((index * 47) % 580)}
+              cy={90 + ((index * 83) % 430)}
+              r={index % 6 === 0 ? 2.1 : 1.1}
+            />
+          ))}
+        </g>
+      </svg>
+    </div>
   );
 }
 
@@ -381,6 +328,7 @@ function HeroDataTransfer({
 export function ExecutiveHero() {
   const {
     shouldSimplifyMotion: prefersSimplifiedMotion,
+    enableFinePointerMotion: prefersFinePointerMotion,
   } = useHomeMotionSettings();
   const hasHydrated = useSyncExternalStore(
     subscribeToHydration,
@@ -392,6 +340,7 @@ export function ExecutiveHero() {
   const shouldSimplifyMotion = hasHydrated
     ? prefersSimplifiedMotion
     : true;
+  const enableFinePointerMotion = hasHydrated && prefersFinePointerMotion;
   const scrollYProgress = useHeroScrollProgress(
     sectionRef,
     !shouldSimplifyMotion
@@ -418,7 +367,7 @@ export function ExecutiveHero() {
             {...heroItem(shouldSimplifyMotion)}
             className="hero-status-row mb-6 flex flex-wrap items-center gap-3"
           >
-            <span className="hero-apprenticeship-badge inline-flex items-center gap-2 rounded-md border border-emerald-400/25 bg-emerald-400/10 px-3 py-2 font-sans text-sm font-semibold leading-none tracking-normal text-emerald-100">
+            <span className="inline-flex max-w-full items-center gap-2 whitespace-nowrap rounded-md border border-emerald-400/25 bg-emerald-400/10 px-3 py-2 font-sans text-sm font-semibold leading-none tracking-normal text-emerald-100">
               <ShieldCheck className="size-4" />
               Apprenticeship · 2026–2027
             </span>
@@ -519,13 +468,14 @@ export function ExecutiveHero() {
         >
           <div className="data-core-stage">
             <div className="data-core-frame">
-              <DeferredDataIntelligenceCore
-                anchorSelector="[data-data-core-hero]"
-                enabled={hasHydrated && !shouldSimplifyMotion}
-              />
+              {enableFinePointerMotion ? (
+                <DataIntelligenceCore anchorSelector="[data-data-core-hero]" />
+              ) : (
+                <DataCoreFallback />
+              )}
             </div>
           </div>
-          <FunnelProofCard />
+
         </motion.div>
       </div>
     </section>
