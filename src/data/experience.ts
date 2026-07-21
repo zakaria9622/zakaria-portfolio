@@ -1,8 +1,8 @@
 export const experience = [
   {
-    company: "Thélio",
+    company: "My Job Glasses",
     role: "Data & BI Analyst",
-    label: "Apprenticeship · Lyon, Auvergne-Rhône-Alpes, France",
+    label: "Apprenticeship · Paris, Île-de-France, France",
     dates: "Sep 2025 – Present",
     highlights: [
       "Defined client KPIs from reporting needs.",
