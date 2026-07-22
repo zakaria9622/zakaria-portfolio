@@ -58,7 +58,6 @@ export function Hero() {
               >
                 View Projects
               </Button>
-              {/* TODO: Add CV PDF to /public/cv-zakaria-maachou.pdf */}
               <Button
                 href={profile.cvHref}
                 variant="secondary"

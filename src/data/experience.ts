@@ -2,8 +2,8 @@ export const experience = [
   {
     company: "My Job Glasses",
     role: "Data & BI Analyst",
-    label: "Apprenticeship · Paris, Île-de-France, France",
-    dates: "Sep 2025 – Present",
+    label: "Internship · Paris, Île-de-France, France",
+    dates: "Mar 2026 – Aug 2026",
     highlights: [
       "Defined client KPIs from reporting needs.",
       "Prepared and validated data with SQL and ETL workflows.",
