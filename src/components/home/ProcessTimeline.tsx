@@ -1,143 +1,74 @@
-"use client";
-
-import { motion } from "framer-motion";
-import { Database, LayoutDashboard, Lightbulb, Search } from "lucide-react";
-import { AnimatedSectionHeading } from "@/components/home/AnimatedSectionHeading";
-import {
-  enterEase,
-  moveEase,
-  useHomeMotionSettings,
-} from "@/components/home/motion";
+import { EditorialMarker } from "@/components/home/EditorialMarker";
 
 const steps = [
   {
     title: "Growth question",
-    text: "Define the acquisition, conversion, retention or profitability problem before analyzing the data.",
-    icon: Search,
-    accent: "text-cyan-200",
+    text: "Define the acquisition, conversion, retention or profitability problem before touching the data.",
+    output: "A decision-shaped scope",
   },
   {
     title: "Data model",
-    text: "Prepare reliable metrics using SQL, Python and documented business rules.",
-    icon: Database,
-    accent: "text-emerald-200",
+    text: "Prepare reliable metrics with documented business rules.",
+    output: "Trusted analytical inputs",
   },
   {
     title: "Analysis and dashboard",
-    text: "Identify patterns, bottlenecks and priority segments through focused analysis and visualization.",
-    icon: LayoutDashboard,
-    accent: "text-amber-200",
+    text: "Isolate the bottleneck, pattern or priority segment.",
+    output: "A decision-ready signal",
   },
   {
     title: "Growth recommendation",
-    text: "Translate the findings into a concrete acquisition, conversion, CRM or retention action.",
-    icon: Lightbulb,
-    accent: "text-coral-200",
+    text: "Translate the evidence into a concrete acquisition, conversion, CRM or retention action.",
+    output: "The next business decision",
   },
-];
-
-const stepEntrance = [
-  { opacity: 0, x: -10, y: 6 },
-  { opacity: 0, x: 0, y: 10 },
-  { opacity: 0, x: 0, y: 10 },
-  { opacity: 0, x: 10, y: 6 },
-];
-
-function reveal(shouldSimplifyMotion: boolean, delay = 0) {
-  return {
-    initial: shouldSimplifyMotion ? { opacity: 1 } : { opacity: 0, y: 14 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, margin: "-80px" },
-    transition: shouldSimplifyMotion
-      ? { duration: 0 }
-      : { duration: 0.44, delay, ease: enterEase },
-  };
-}
-
-function stepReveal(shouldSimplifyMotion: boolean, index: number) {
-  return {
-    initial: shouldSimplifyMotion
-      ? { opacity: 1 }
-      : stepEntrance[index % stepEntrance.length],
-    whileInView: { opacity: 1, x: 0, y: 0 },
-    viewport: { once: true, margin: "-80px" },
-    transition: shouldSimplifyMotion
-      ? { duration: 0 }
-      : { duration: 0.38, delay: 0.08 + index * 0.06, ease: moveEase },
-  };
-}
-
-function connectorReveal(shouldSimplifyMotion: boolean, axis: "x" | "y") {
-  const hidden =
-    axis === "x" ? { opacity: 0, scaleX: 0 } : { opacity: 0, scaleY: 0 };
-  const visible =
-    axis === "x" ? { opacity: 1, scaleX: 1 } : { opacity: 1, scaleY: 1 };
-
-  return {
-    initial: shouldSimplifyMotion ? visible : hidden,
-    whileInView: visible,
-    viewport: { once: true, margin: "-80px" },
-    transition: shouldSimplifyMotion
-      ? { duration: 0 }
-      : { duration: 0.42, delay: 0.06, ease: moveEase },
-  };
-}
+] as const;
 
 export function ProcessTimeline() {
-  const { shouldSimplifyMotion } = useHomeMotionSettings();
-
   return (
-    <section className="analytics-process relative py-14 md:py-28">
-      <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
-        <motion.div {...reveal(shouldSimplifyMotion)} className="mb-8 md:mb-12">
-          <p className="type-label text-cyan-200/80">
-            Analytics process
-          </p>
-          <AnimatedSectionHeading
-            text="A repeatable path from question to action."
-            className="type-section-title mt-4 max-w-3xl font-heading text-white"
-          />
-        </motion.div>
-
-        <div className="process-flow relative grid gap-3 md:grid-cols-4">
-          <motion.div
-            {...connectorReveal(shouldSimplifyMotion, "y")}
-            className="process-flow-line process-flow-line-mobile"
-            aria-hidden="true"
-          />
-          <motion.div
-            {...connectorReveal(shouldSimplifyMotion, "x")}
-            className="process-flow-line process-flow-line-desktop"
-            aria-hidden="true"
-          />
-          {steps.map((step, index) => {
-            const Icon = step.icon;
-
-            return (
-              <motion.article
-                key={step.title}
-                {...stepReveal(shouldSimplifyMotion, index)}
-                className="process-step-card relative rounded-lg border border-white/10 bg-white/[0.035] p-5"
-              >
-                <div className="process-step-marker mb-8 flex items-center justify-between">
-                  <span className="font-mono text-xs font-semibold text-slate-500">
-                    0{index + 1}
-                  </span>
-                  <Icon className={`size-5 ${step.accent}`} aria-hidden="true" />
-                </div>
-                <div className="process-step-copy">
-                  <h3 className="font-heading text-xl font-semibold leading-snug text-white">
-                    {step.title}
-                  </h3>
-                  <p className="type-body-dense mt-3 text-slate-400">
-                    {step.text}
-                  </p>
-                </div>
-              </motion.article>
-            );
-          })}
+    <section
+      className="growth-decision-system"
+      aria-labelledby="growth-decision-system-title"
+    >
+      <header className="growth-decision-system-heading">
+        <EditorialMarker index="05" label="Growth decision system" tone="blue" />
+        <div>
+          <p>Method / from ambiguity to action</p>
+          <h2 id="growth-decision-system-title">
+            The analysis is only useful when it changes the next decision.
+          </h2>
         </div>
-      </div>
+      </header>
+
+      <ol className="growth-decision-system-sequence">
+        {steps.map((step, index) => (
+          <li
+            key={step.title}
+            className={index === steps.length - 1 ? "is-decision" : undefined}
+          >
+            <div className="growth-decision-system-index" aria-hidden="true">
+              {String(index + 1).padStart(2, "0")}
+            </div>
+            <div className="growth-decision-system-copy">
+              <p>{index === 0 ? "Input" : "Receives"}</p>
+              <h3>{step.title}</h3>
+              <span>{step.text}</span>
+            </div>
+            <div className="growth-decision-system-output">
+              <p>Produces</p>
+              <strong>{step.output}</strong>
+            </div>
+            {index < steps.length - 1 && (
+              <span className="growth-decision-system-arrow" aria-hidden="true">
+                ↓
+              </span>
+            )}
+          </li>
+        ))}
+      </ol>
+
+      <p className="growth-decision-system-note">
+        Question → evidence → interpretation → decision
+      </p>
     </section>
   );
 }

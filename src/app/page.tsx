@@ -17,16 +17,18 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div className="executive-home">
+    <div className="editorial-home">
       <CinematicPortfolioLayer />
       <ExecutiveHero />
       <KpiRibbon />
       <ExperienceTimeline />
-      <EducationSection />
       <CaseStudySpotlight />
-      <SkillProofMatrix />
-      <ProcessTimeline />
-      <ContactCommandBar />
+      <div className="editorial-lower-sequence">
+        <ProcessTimeline />
+        <SkillProofMatrix />
+        <EducationSection />
+        <ContactCommandBar />
+      </div>
     </div>
   );
 }

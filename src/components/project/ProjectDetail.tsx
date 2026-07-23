@@ -1,594 +1,515 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useScroll, useSpring } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
-import {
-  ArrowLeft,
-  ArrowUpRight,
-  BadgeCheck,
-  BriefcaseBusiness,
-  Database,
-  Lightbulb,
-  ListChecks,
-  ShieldAlert,
-  Target,
-  UserRound,
-  Wrench,
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { GitHubIcon } from "@/components/ui/SocialIcons";
-import type { Project } from "@/data/projects";
-import { KpiCard } from "@/components/ui/KpiCard";
-import { DashboardPlaceholder } from "@/components/ui/DashboardPlaceholder";
+import {
+  featuredProjects,
+  type Project,
+  type ProjectKpi,
+} from "@/data/projects";
+import { ProjectAnalyticalSignature } from "@/components/project/ProjectAnalyticalSignature";
+import { ProjectChapterNav } from "@/components/project/ProjectChapterNav";
 import { ProjectImageLightbox } from "@/components/project/ProjectImageLightbox";
-import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
-import { GlassCard } from "@/components/ui/GlassCard";
-import { useHomeMotionSettings } from "@/components/home/motion";
 
-const chapterHeadingClass =
-  "type-chapter-title font-heading text-white";
-const chapterEyebrowClass =
-  "type-label text-cyan-200/80";
-
-const chapters = [
-  { id: "results", label: "Results" },
-  { id: "evidence", label: "Evidence" },
-  { id: "analysis", label: "Analysis" },
-  { id: "recommendations", label: "Recommendations" },
-] as const;
-
-type ChapterId = (typeof chapters)[number]["id"];
-
-type ChapterHeadingProps = {
-  eyebrow: string;
-  title: string;
-  titleId: string;
-  bordered?: boolean;
+const projectImages: Record<string, string> = {
+  "profit-leak": "/projects/profit-leak.png",
+  "funnel-analysis": "/projects/funnel-analysis.png",
+  "rfm-segmentation": "/projects/rfm-segmentation.png",
+  renewalos: "/projects/renewalos-home.png",
 };
 
-function ChapterHeading({
+function principalSignal(project: Project) {
+  return (
+    project.featuredInsight ??
+    project.kpis.find((metric) => metric.highlight)?.value ??
+    project.mainInsight
+  );
+}
+
+function getNextProject(project: Project) {
+  const index = featuredProjects.findIndex(
+    (candidate) => candidate.slug === project.slug
+  );
+  return featuredProjects[(index + 1) % featuredProjects.length];
+}
+
+function ProjectMarker({
+  index,
+  label,
+}: {
+  index: string;
+  label: string;
+}) {
+  return (
+    <div className="project-marker">
+      <span>{index}</span>
+      <p>{label}</p>
+    </div>
+  );
+}
+
+function SectionHeading({
+  number,
   eyebrow,
   title,
   titleId,
-  bordered = true,
-}: ChapterHeadingProps) {
-  const { shouldSimplifyMotion } = useHomeMotionSettings();
+  description,
+}: {
+  number: string;
+  eyebrow: string;
+  title: string;
+  titleId: string;
+  description?: string;
+}) {
+  return (
+    <header className="project-section-heading">
+      <ProjectMarker index={number} label={eyebrow} />
+      <div>
+        <h2 id={titleId}>{title}</h2>
+        {description && <p>{description}</p>}
+      </div>
+    </header>
+  );
+}
+
+function DecisionBrief({ project }: { project: Project }) {
+  const highlightedMetrics = project.kpis
+    .filter((metric) => metric.highlight)
+    .slice(0, 2);
 
   return (
-    <motion.div
-      initial={shouldSimplifyMotion ? false : { opacity: 0, y: 10 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.55 }}
-      transition={shouldSimplifyMotion ? { duration: 0 } : { duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
-      className={bordered ? "mb-6 border-b border-white/10 pb-5 md:mb-8 md:pb-7" : "mb-6 md:mb-8"}
+    <section
+      id="decision-brief"
+      className="project-decision-brief project-anchor"
+      aria-labelledby="decision-brief-title"
     >
-      <p className={chapterEyebrowClass}>{eyebrow}</p>
-      <h2 id={titleId} className={`mt-3 ${chapterHeadingClass}`}>
-        {title}
-      </h2>
-      <motion.div
-        aria-hidden="true"
-        className="mt-5 h-px origin-left bg-gradient-to-r from-cyan-300/60 via-electric-400/35 to-transparent"
-        initial={shouldSimplifyMotion ? false : { scaleX: 0, opacity: 0 }}
-        whileInView={{ scaleX: 1, opacity: 1 }}
-        viewport={{ once: true, amount: 0.8 }}
-        transition={shouldSimplifyMotion ? { duration: 0 } : { duration: 0.45, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+      <SectionHeading
+        number="01"
+        eyebrow="Executive decision brief"
+        title="The decision, before the documentation."
+        titleId="decision-brief-title"
+        description="A concise chain from the commercial question to the recommended action."
       />
-    </motion.div>
+
+      <ol className="project-decision-chain">
+        <li>
+          <span>Question</span>
+          <p>{project.businessQuestion}</p>
+        </li>
+        <li>
+          <span>Observed signal</span>
+          <p>{principalSignal(project)}</p>
+          {highlightedMetrics.length > 0 && (
+            <dl>
+              {highlightedMetrics.map((metric) => (
+                <div key={metric.label}>
+                  <dt>{metric.label}</dt>
+                  <dd>{metric.value}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
+        </li>
+        <li>
+          <span>Interpretation</span>
+          <p>{project.mainInsight}</p>
+        </li>
+        <li>
+          <span>Recommended decision</span>
+          <p>{project.recommendations[0]}</p>
+        </li>
+      </ol>
+    </section>
+  );
+}
+
+function PrimaryEvidence({ project }: { project: Project }) {
+  const src = projectImages[project.slug];
+  const alt = `${project.title} dashboard showing ${project.screenshotPlaceholder.toLowerCase()}`;
+
+  return (
+    <section
+      id="evidence"
+      className="project-evidence-chapter project-anchor"
+      aria-labelledby="evidence-title"
+    >
+      <SectionHeading
+        number="02"
+        eyebrow="Primary evidence"
+        title="Inspect the analytical exhibit."
+        titleId="evidence-title"
+        description="The dashboard is presented as reviewable evidence, with the full analytical context preserved."
+      />
+
+      <figure className="project-primary-exhibit">
+        <div className="project-exhibit-register">
+          <span>Exhibit 01</span>
+          <p>{project.shortTitle} / primary analytical output</p>
+        </div>
+        <div className="project-exhibit-image">
+          <Image
+            src={src}
+            alt={alt}
+            fill
+            loading="lazy"
+            sizes="(max-width: 760px) 100vw, (max-width: 1200px) 92vw, 1280px"
+            className="project-exhibit-image-content"
+          />
+          <ProjectImageLightbox
+            src={src}
+            alt={alt}
+            caption={project.screenshotPlaceholder}
+            triggerLabel={`Expand exhibit: ${project.screenshotPlaceholder}`}
+          />
+        </div>
+        <figcaption>
+          <span>Figure 01</span>
+          <p>{project.screenshotPlaceholder}</p>
+          <small>{project.datasetDisclosure}</small>
+        </figcaption>
+      </figure>
+
+      {project.supportingScreenshots?.map((screenshot, index) => (
+        <figure
+          key={screenshot.src}
+          className="project-primary-exhibit project-supporting-exhibit"
+        >
+          <div className="project-exhibit-register">
+            <span>Exhibit {String(index + 2).padStart(2, "0")}</span>
+            <p>Supporting diagnostic view</p>
+          </div>
+          <div className="project-exhibit-image">
+            <Image
+              src={screenshot.src}
+              alt={screenshot.alt}
+              fill
+              loading="lazy"
+              sizes="(max-width: 760px) 100vw, (max-width: 1200px) 92vw, 1280px"
+              className="project-exhibit-image-content"
+            />
+            <ProjectImageLightbox
+              src={screenshot.src}
+              alt={screenshot.alt}
+              caption={screenshot.caption}
+              triggerLabel={`Expand exhibit: ${screenshot.alt}`}
+            />
+          </div>
+          <figcaption>
+            <span>Figure {String(index + 2).padStart(2, "0")}</span>
+            <p>{screenshot.caption}</p>
+            <small>{project.datasetDisclosure}</small>
+          </figcaption>
+        </figure>
+      ))}
+    </section>
+  );
+}
+
+function AnalysisChapter({ project }: { project: Project }) {
+  return (
+    <section
+      id="analysis"
+      className="project-analysis-chapter project-anchor"
+      aria-labelledby="analysis-title"
+    >
+      <SectionHeading
+        number="03"
+        eyebrow="Analysis and diagnosis"
+        title="From signal to commercial meaning."
+        titleId="analysis-title"
+        description={project.businessProblem}
+      />
+
+      <ProjectAnalyticalSignature project={project} />
+
+      <div className="project-finding">
+        <p>Finding / interpretation</p>
+        <blockquote>{project.mainInsight}</blockquote>
+      </div>
+
+      <div className="project-recommendations">
+        <header>
+          <p>Decision layer</p>
+          <h3>Recommended business action</h3>
+          <span>
+            Recommendations follow the evidence in this independent case study;
+            no tested uplift is implied.
+          </span>
+        </header>
+        <ol>
+          {project.recommendations.map((recommendation, index) => (
+            <li key={recommendation}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <p>{recommendation}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  );
+}
+
+function MethodChapter({ project }: { project: Project }) {
+  return (
+    <section
+      id="method"
+      className="project-method-chapter project-anchor"
+      aria-labelledby="method-title"
+    >
+      <SectionHeading
+        number="04"
+        eyebrow="Method and quality"
+        title="How the conclusion was built."
+        titleId="method-title"
+        description="The technical record stays inspectable without displacing the business question."
+      />
+
+      <div className="project-method-grid">
+        <div>
+          <p>Methodology</p>
+          <ol>
+            {project.methodology.map((step, index) => (
+              <li key={step}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <p>{step}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <div>
+          <p>{project.architecture ? "Architecture" : "Quality controls"}</p>
+          <ol>
+            {(project.architecture ?? project.evidence).map((item, index) => (
+              <li key={item}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <p>{item}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+
+      {project.architecture && (
+        <div className="project-quality-record">
+          <p>Evidence and quality controls</p>
+          <ul>
+            {project.evidence.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <div className="project-tool-register">
+        <p>Tools in service of the question</p>
+        <ul>
+          {project.tools.map((tool) => (
+            <li key={tool}>{tool}</li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
+function TransparencyChapter({ project }: { project: Project }) {
+  const records = [
+    { label: "Project type", value: project.projectType },
+    { label: "Ownership", value: project.ownership },
+    { label: "Dataset origin and boundary", value: project.datasetDisclosure },
+  ];
+
+  return (
+    <section
+      id="transparency"
+      className="project-transparency-chapter project-anchor"
+      aria-labelledby="transparency-title"
+    >
+      <SectionHeading
+        number="05"
+        eyebrow="Transparency record"
+        title="What this work does—and does not—claim."
+        titleId="transparency-title"
+        description="Dataset origin, ownership and material limitations remain part of the main narrative."
+      />
+
+      <dl className="project-transparency-record">
+        {records.map((record, index) => (
+          <div key={record.label}>
+            <dt>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              {record.label}
+            </dt>
+            <dd>{record.value}</dd>
+          </div>
+        ))}
+      </dl>
+
+      {project.limitations && project.limitations.length > 0 && (
+        <div className="project-limitations">
+          <p>Material limitations</p>
+          <ul>
+            {project.limitations.map((limitation) => (
+              <li key={limitation}>{limitation}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </section>
+  );
+}
+
+function WorkClose({
+  project,
+  nextProject,
+}: {
+  project: Project;
+  nextProject: Project;
+}) {
+  return (
+    <section
+      id="inspect-the-work"
+      className="project-work-close project-anchor"
+      aria-labelledby="inspect-the-work-title"
+    >
+      <SectionHeading
+        number="06"
+        eyebrow="Evidence handoff"
+        title="Inspect the work."
+        titleId="inspect-the-work-title"
+        description="Open the underlying repository, methodology and analytical artifacts."
+      />
+
+      {project.artifacts && (
+        <ol className="project-artifact-register">
+          {project.artifacts.map((artifact, index) => (
+            <li key={artifact.href}>
+              <a
+                href={artifact.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <div>
+                  <strong>{artifact.label}</strong>
+                  <p>{artifact.description}</p>
+                </div>
+                <ArrowUpRight aria-hidden="true" />
+                <span className="sr-only">(opens in a new tab)</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      )}
+
+      <div className="project-work-actions">
+        <a
+          href={project.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="project-work-primary"
+        >
+          <GitHubIcon aria-hidden="true" />
+          GitHub repository
+          <ArrowUpRight aria-hidden="true" />
+        </a>
+        {project.liveDemo && (
+          <a
+            href={project.liveDemo}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="project-work-secondary"
+          >
+            Live demo
+            <ArrowUpRight aria-hidden="true" />
+          </a>
+        )}
+        <Link href="/#projects" className="project-work-secondary">
+          All projects
+          <ArrowLeft aria-hidden="true" />
+        </Link>
+      </div>
+
+      <Link href={nextProject.href} className="project-next-case">
+        <span>Next case / {nextProject.featuredCategory}</span>
+        <strong>{nextProject.shortTitle}</strong>
+        <p>{nextProject.businessQuestion}</p>
+        <ArrowRight aria-hidden="true" />
+      </Link>
+    </section>
   );
 }
 
 export function ProjectDetail({ project }: { project: Project }) {
-  const { shouldSimplifyMotion } = useHomeMotionSettings();
-  const articleRef = useRef<HTMLElement>(null);
-  const chapterNavRef = useRef<HTMLDivElement>(null);
-  const [activeChapter, setActiveChapter] = useState<ChapterId>("results");
-  const { scrollYProgress } = useScroll({
-    target: articleRef,
-    offset: ["start start", "end end"],
-  });
-  const progressScale = useSpring(scrollYProgress, {
-    stiffness: 110,
-    damping: 30,
-    restDelta: 0.001,
-  });
-
-  useEffect(() => {
-    const sections = chapters
-      .map((chapter) => document.getElementById(chapter.id))
-      .filter((section): section is HTMLElement => section instanceof HTMLElement);
-    let frame = 0;
-
-    const updateActiveChapter = () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        const activationLine = window.innerWidth < 768 ? 176 : 188;
-        let nextActive = sections[0]?.id as ChapterId | undefined;
-
-        for (const section of sections) {
-          if (section.getBoundingClientRect().top <= activationLine) {
-            nextActive = section.id as ChapterId;
-          } else {
-            break;
-          }
-        }
-
-        if (nextActive) setActiveChapter(nextActive);
-      });
-    };
-
-    updateActiveChapter();
-    window.addEventListener("scroll", updateActiveChapter, { passive: true });
-    window.addEventListener("resize", updateActiveChapter);
-
-    return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", updateActiveChapter);
-      window.removeEventListener("resize", updateActiveChapter);
-    };
-  }, []);
-
-  useEffect(() => {
-    const container = chapterNavRef.current;
-    const activeLink = container?.querySelector<HTMLAnchorElement>(
-      `[data-chapter-link="${activeChapter}"]`
-    );
-
-    if (!container || !activeLink) return;
-
-    const nextLeft = Math.max(
-      0,
-      activeLink.offsetLeft - (container.clientWidth - activeLink.clientWidth) / 2
-    );
-    container.scrollTo({ left: nextLeft, behavior: "smooth" });
-  }, [activeChapter]);
-
   const heroTitle = project.heroTitle ?? project.title;
-  const heroSubtitle = project.heroSubtitle;
+  const nextProject = getNextProject(project);
+  const caseNumber = String(project.featuredOrder).padStart(2, "0");
+  const heroMetrics = project.kpis.slice(0, 3);
 
   return (
-    <article ref={articleRef} className="project-detail">
-      <motion.div
-        aria-hidden="true"
-        className="pointer-events-none fixed inset-x-0 top-0 z-[55] h-px origin-left bg-gradient-to-r from-cyan-300/80 via-electric-400/70 to-amber-200/80 shadow-[0_0_8px_rgba(103,232,249,0.28)]"
-        style={{ scaleX: progressScale }}
-      />
-
-      <section className="project-detail-hero relative overflow-hidden border-b border-white/10 bg-navy-950 pt-24 pb-12 md:pt-32 md:pb-20">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -top-28 right-[-6%] size-96 rounded-full bg-cyan-300/[0.055] blur-3xl"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 opacity-[0.16] [background-image:linear-gradient(rgba(125,211,252,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(125,211,252,0.045)_1px,transparent_1px)] [background-size:40px_40px]"
-        />
-
-        <div className="relative mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
-          <Link
-            href="/#projects"
-            className="mb-6 inline-flex min-h-11 items-center gap-2 font-body text-sm leading-none text-slate-400 transition-colors hover:text-electric-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:mb-10 md:min-h-0"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to projects
+    <article
+      className="editorial-project"
+      data-project-slug={project.slug}
+    >
+      <header className="project-hero">
+        <div className="project-hero-masthead">
+          <Link href="/#projects" className="project-back-link">
+            <ArrowLeft aria-hidden="true" />
+            Selected projects
           </Link>
-
-          <div className="grid gap-7 md:gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-center lg:gap-10 xl:grid-cols-[0.72fr_1.28fr] xl:gap-12">
-            <motion.div
-              initial={shouldSimplifyMotion ? false : { opacity: 0, x: -18, y: 8 }}
-              animate={{ opacity: 1, x: 0, y: 0 }}
-              transition={shouldSimplifyMotion ? { duration: 0 } : { duration: 0.52, ease: [0.22, 1, 0.36, 1] }}
-              className="min-w-0"
-            >
-              <p className="type-label text-electric-400">
-                Case Study
-              </p>
-              <h1 className="type-page-title mt-3 max-w-2xl font-heading font-bold text-white">
-                {heroTitle}
-              </h1>
-              {heroSubtitle && (
-                <p className="mt-3 max-w-xl font-heading text-lg font-semibold leading-snug text-cyan-100 sm:text-xl xl:text-2xl">
-                  {heroSubtitle}
-                </p>
-              )}
-              <p className="type-question mt-5 max-w-2xl text-slate-100">
-                {project.businessQuestion}
-              </p>
-              {project.summary && (
-                <p className="type-body mt-4 max-w-2xl text-slate-400">
-                  {project.summary}
-                </p>
-              )}
-
-              <div className="mt-7 flex flex-wrap gap-2">
-                {project.tools.map((tool) => (
-                  <Badge key={tool}>{tool}</Badge>
-                ))}
-              </div>
-
-              <div className="mt-7 flex flex-wrap gap-3">
-                <div className="min-w-[10rem] rounded-lg border border-white/10 bg-white/[0.035] px-3 py-2.5">
-                  <p className="type-label text-slate-400">
-                    Project type
-                  </p>
-                  <p className="type-body-dense mt-1 text-slate-200">
-                    {project.projectType}
-                  </p>
-                </div>
-                <div className="min-w-[10rem] rounded-lg border border-white/10 bg-white/[0.035] px-3 py-2.5">
-                  <p className="type-label text-slate-400">
-                    Contribution
-                  </p>
-                  <p className="type-body-dense mt-1 text-slate-200">
-                    {project.ownership}
-                  </p>
-                </div>
-                {project.artifacts && project.artifacts.length > 0 && (
-                  <div className="min-w-[10rem] rounded-lg border border-cyan-200/15 bg-cyan-200/[0.035] px-3 py-2.5">
-                    <p className="type-label text-cyan-100/60">
-                      Inspectable work
-                    </p>
-                    <p className="type-body-dense mt-1 text-cyan-50">
-                      {project.artifacts.length} artifacts
-                    </p>
-                  </div>
-                )}
-              </div>
-
-              <div className="mt-8">
-                {project.liveDemo ? (
-                  <div className="flex flex-wrap gap-3">
-                    <Button
-                      href={project.liveDemo}
-                      variant="primary"
-                      external
-                      icon={<ArrowUpRight className="h-4 w-4" />}
-                    >
-                      Open live demo
-                    </Button>
-                    <Button
-                      href={project.github}
-                      variant="secondary"
-                      external
-                      icon={<GitHubIcon className="h-4 w-4" />}
-                    >
-                      View on GitHub
-                    </Button>
-                  </div>
-                ) : (
-                  <Button
-                    href={project.github}
-                    variant="primary"
-                    external
-                    icon={<GitHubIcon className="h-4 w-4" />}
-                  >
-                    View on GitHub
-                  </Button>
-                )}
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={shouldSimplifyMotion ? false : {
-                opacity: 0,
-                x: 24,
-                y: 10,
-                rotateY: -3,
-                rotateX: 1,
-                scale: 0.985,
-              }}
-              animate={{
-                opacity: 1,
-                x: 0,
-                y: 0,
-                rotateY: 0,
-                rotateX: 0,
-                scale: 1,
-              }}
-              transition={shouldSimplifyMotion ? { duration: 0 } : {
-                duration: 0.62,
-                delay: 0.1,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              whileHover={shouldSimplifyMotion ? undefined : { y: -2, scale: 1.004 }}
-              style={{ perspective: 1400 }}
-              className="min-w-0 transform-gpu"
-            >
-              <DashboardPlaceholder
-                slug={project.slug}
-                alt={`${project.title} — ${project.screenshotPlaceholder}`}
-                variant="hero"
-                label={project.shortTitle}
-                priority
-              />
-            </motion.div>
-          </div>
+          <p>{project.projectType}</p>
         </div>
-      </section>
 
-      <nav
-        aria-label="Case study sections"
-        className="sticky top-[76px] z-30 border-y border-white/10 bg-ink-950/90 backdrop-blur-xl md:top-24"
-      >
-        <div ref={chapterNavRef} className="mx-auto flex max-w-6xl gap-1 overflow-x-auto px-4 py-2 md:px-6 md:py-3 lg:px-8">
-          {chapters.map((chapter) => {
-            const isActive = activeChapter === chapter.id;
+        <div className="project-hero-grid">
+          <div className="project-hero-title">
+            <ProjectMarker
+              index={caseNumber}
+              label={`Case study / ${project.featuredCategory}`}
+            />
+            <h1>{heroTitle}</h1>
+            {project.heroSubtitle && <p>{project.heroSubtitle}</p>}
+          </div>
 
-            return (
-            <a
-              key={chapter.id}
-              href={`#${chapter.id}`}
-              data-chapter-link={chapter.id}
-              aria-current={isActive ? "location" : undefined}
-              onClick={() => setActiveChapter(chapter.id)}
-              className={`relative flex min-h-11 shrink-0 items-center rounded-md px-3 py-2 font-body text-xs font-semibold uppercase tracking-[0.14em] transition-colors hover:bg-white/[0.05] hover:text-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0 ${
-                isActive ? "text-cyan-50" : "text-slate-400"
-              }`}
-            >
-              {isActive && (
-                <motion.span
-                  layoutId="active-case-study-chapter"
-                  aria-hidden="true"
-                  className="absolute inset-0 rounded-md border border-cyan-200/20 bg-cyan-200/[0.07] shadow-[0_0_14px_rgba(34,211,238,0.05)]"
-                  transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                />
-              )}
-              <span className="relative z-10">{chapter.label}</span>
+          <div className="project-hero-brief">
+            <p>Business question</p>
+            <h2>{project.businessQuestion}</h2>
+            <div>
+              <span>Verified signal</span>
+              <strong>{principalSignal(project)}</strong>
+            </div>
+            <a href="#evidence">
+              Inspect the evidence
+              <ArrowRight aria-hidden="true" />
             </a>
-            );
-          })}
+          </div>
         </div>
-      </nav>
 
-      <div className="mx-auto max-w-6xl space-y-14 px-4 py-12 md:space-y-20 md:px-6 md:py-20 lg:px-8">
-        <section id="results" aria-labelledby="results-title" className="scroll-mt-32">
-          <ChapterHeading eyebrow="Results snapshot" title="Key metrics and analytical output" titleId="results-title" />
-
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {project.kpis.map((kpi, i) => (
-              <KpiCard
-                key={kpi.label}
-                label={kpi.label}
-                value={kpi.value}
-                highlight={kpi.highlight}
-                delay={i * 0.08}
-              />
+        <div className="project-hero-record">
+          <dl>
+            {heroMetrics.map((metric: ProjectKpi) => (
+              <div key={metric.label}>
+                <dt>{metric.label}</dt>
+                <dd>{metric.value}</dd>
+              </div>
             ))}
-          </div>
+          </dl>
+          <p>
+            <span>Dataset disclosure</span>
+            {project.datasetDisclosure}
+          </p>
+        </div>
+      </header>
 
-          {project.supportingScreenshots && project.supportingScreenshots.length > 0 && (
-            <div
-              className={`mt-10 grid gap-6 ${
-                project.supportingScreenshots.length > 1 ? "lg:grid-cols-2" : ""
-              }`}
-            >
-              {project.supportingScreenshots.map((screenshot) => (
-                <figure key={screenshot.src} className="relative w-full">
-                  <div className="overflow-hidden rounded-xl border border-white/10 bg-navy-900/60 p-1.5 shadow-xl shadow-black/30">
-                    <div className="relative aspect-[16/10] h-auto overflow-hidden rounded-lg border border-white/5 bg-navy-950 md:h-[340px] md:aspect-auto">
-                      <Image
-                        src={screenshot.src}
-                        alt={screenshot.alt}
-                        fill
-                        className="object-cover object-center md:object-contain md:p-4"
-                        sizes="(max-width: 1024px) 100vw, 560px"
-                      />
-                    </div>
-                  </div>
-                  <ProjectImageLightbox src={screenshot.src} alt={screenshot.alt} caption={screenshot.caption} triggerLabel={`Expand screenshot: ${screenshot.alt}`} />
-                  <figcaption className="mt-3 font-body text-sm leading-6 text-slate-400">
-                    {screenshot.caption}
-                  </figcaption>
-                </figure>
-              ))}
-            </div>
-          )}
-        </section>
+      <ProjectChapterNav />
 
-        <section
-          id="evidence"
-          aria-labelledby="project-evidence-title"
-          className="evidence-panel scroll-mt-32 rounded-xl border border-white/10 bg-white/[0.025] p-4 md:rounded-2xl md:p-7"
-        >
-          <div className="mb-5 flex items-start gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-electric-500/30 bg-electric-500/10">
-              <BadgeCheck className="h-5 w-5 text-electric-300" aria-hidden="true" />
-            </div>
-            <div className="min-w-0 flex-1">
-              <ChapterHeading eyebrow="Evidence trail" title="Project Evidence" titleId="project-evidence-title" bordered={false} />
-            </div>
-          </div>
-
-          <GlassCard className="p-5 md:p-6" hover={false}>
-            <div className="grid gap-4 md:grid-cols-2">
-              <article className="min-w-0 rounded-lg border border-white/10 bg-navy-950/45 p-4">
-                <div className="mb-3 flex items-center gap-2">
-                  <BriefcaseBusiness className="h-4 w-4 shrink-0 text-electric-400" aria-hidden="true" />
-                  <h3 className="font-heading text-base font-bold leading-tight text-white">Project type</h3>
-                </div>
-                <p className="break-words font-body text-sm leading-6 text-slate-300">{project.projectType}</p>
-              </article>
-
-              <article className="min-w-0 rounded-lg border border-white/10 bg-navy-950/45 p-4">
-                <div className="mb-3 flex items-center gap-2">
-                  <UserRound className="h-4 w-4 shrink-0 text-electric-400" aria-hidden="true" />
-                  <h3 className="font-heading text-base font-bold leading-tight text-white">Contribution</h3>
-                </div>
-                <p className="break-words font-body text-sm leading-6 text-slate-300">{project.ownership}</p>
-              </article>
-
-              <article className="min-w-0 rounded-lg border border-white/10 bg-navy-950/45 p-4">
-                <div className="mb-3 flex items-center gap-2">
-                  <Database className="h-4 w-4 shrink-0 text-electric-400" aria-hidden="true" />
-                  <h3 className="font-heading text-base font-bold leading-tight text-white">Dataset</h3>
-                </div>
-                <p className="break-words font-body text-sm leading-6 text-slate-300">{project.datasetDisclosure}</p>
-              </article>
-
-              <article className="min-w-0 rounded-lg border border-white/10 bg-navy-950/45 p-4">
-                <div className="mb-3 flex items-center gap-2">
-                  <ListChecks className="h-4 w-4 shrink-0 text-electric-400" aria-hidden="true" />
-                  <h3 className="font-heading text-base font-bold leading-tight text-white">Verifiable outputs</h3>
-                </div>
-                <ul className="space-y-2">
-                  {project.evidence.map((item) => (
-                    <li key={item} className="flex min-w-0 gap-2 font-body text-sm leading-6 text-slate-300">
-                      <span className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-electric-400" aria-hidden="true" />
-                      <span className="min-w-0 break-words">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            </div>
-          </GlassCard>
-
-          {project.artifacts && project.artifacts.length > 0 && (
-            <div id="inspect-the-work" aria-labelledby="inspect-the-work-title" className="mt-6 scroll-mt-28">
-              <h3 id="inspect-the-work-title" className="font-heading text-xl font-bold leading-tight text-white">
-                Inspect the work
-              </h3>
-              <p className="mt-2 font-body text-sm leading-6 text-slate-400">
-                Open the underlying SQL, methodology, quality controls and analytical artifacts.
-              </p>
-              <ul className="mt-4 grid gap-3 md:grid-cols-2">
-                {project.artifacts.map((artifact) => (
-                  <li key={artifact.href} className="min-w-0">
-                    <a
-                      href={artifact.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`${artifact.label} (opens in a new tab)`}
-                      className="group flex h-full min-w-0 flex-col rounded-lg border border-white/10 bg-navy-950/45 p-4 transition-colors duration-200 hover:border-electric-500/30 hover:bg-electric-500/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-electric-300"
-                    >
-                      <span className="flex items-start justify-between gap-3">
-                        <span className="break-words font-heading text-base font-bold leading-tight text-white">{artifact.label}</span>
-                        <ArrowUpRight className="h-4 w-4 shrink-0 text-electric-400" aria-hidden="true" />
-                      </span>
-                      <span className="mt-3 break-words font-body text-sm leading-6 text-slate-400">{artifact.description}</span>
-                      <span className="sr-only">Opens in a new tab</span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </section>
-
-        <section id="analysis" aria-labelledby="analysis-title" className="scroll-mt-32">
-          <ChapterHeading eyebrow="Analytical approach" title="From business problem to decision insight" titleId="analysis-title" />
-
-          <div className="grid gap-6 lg:grid-cols-2">
-            <GlassCard hover={false}>
-              <div className="mb-4 flex items-center gap-2">
-                <Target className="h-5 w-5 text-electric-400" />
-                <h3 className="font-heading text-xl font-bold leading-tight text-white">Business Problem</h3>
-              </div>
-              <p className="font-body text-sm leading-relaxed text-slate-400">{project.businessProblem}</p>
-            </GlassCard>
-
-            <GlassCard hover={false} delay={0.05}>
-              <div className="mb-4 flex items-center gap-2">
-                <Wrench className="h-5 w-5 text-electric-400" />
-                <h3 className="font-heading text-xl font-bold leading-tight text-white">Tools</h3>
-              </div>
-              <ul className="space-y-2">
-                {project.tools.map((tool) => (
-                  <li key={tool} className="flex items-center gap-2 font-mono text-sm text-slate-400">
-                    <span className="h-1 w-1 rounded-full bg-electric-500" />
-                    {tool}
-                  </li>
-                ))}
-              </ul>
-            </GlassCard>
-          </div>
-
-          {project.architecture && project.architecture.length > 0 && (
-            <GlassCard className="mt-6" hover={false} delay={0.08}>
-              <div className="mb-4 flex items-center gap-2">
-                <Database className="h-5 w-5 text-electric-400" />
-                <h3 className="font-heading text-xl font-bold leading-tight text-white">Architecture</h3>
-              </div>
-              <ol className="space-y-3">
-                {project.architecture.map((step, i) => (
-                  <li key={step} className="flex gap-3 font-body text-sm leading-relaxed text-slate-400">
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-electric-500/30 bg-electric-500/10 font-mono text-xs font-bold text-electric-300">{i + 1}</span>
-                    {step}
-                  </li>
-                ))}
-              </ol>
-            </GlassCard>
-          )}
-
-          <GlassCard className="mt-6" hover={false} delay={0.1}>
-            <div className="mb-4 flex items-center gap-2">
-              <ListChecks className="h-5 w-5 text-electric-400" />
-              <h3 className="font-heading text-xl font-bold leading-tight text-white">Methodology</h3>
-            </div>
-            <ol className="space-y-3">
-              {project.methodology.map((step, i) => (
-                <li key={step} className="flex gap-3 font-body text-sm leading-relaxed text-slate-400">
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-electric-500/30 bg-electric-500/10 font-mono text-xs font-bold text-electric-300">{i + 1}</span>
-                  {step}
-                </li>
-              ))}
-            </ol>
-          </GlassCard>
-
-          <GlassCard className="insight-block mt-6 border-electric-500/30 bg-electric-500/5" hover={false} delay={0.15}>
-            <div className="mb-4 flex items-center gap-2">
-              <Lightbulb className="h-5 w-5 text-electric-400" />
-              <h3 className="font-heading text-xl font-bold leading-tight text-white">Main Insight</h3>
-            </div>
-            <p className="type-insight text-slate-200">{project.mainInsight}</p>
-          </GlassCard>
-        </section>
-
-        <section id="recommendations" aria-labelledby="recommendations-title" className="scroll-mt-32 border-t border-white/10 pt-14">
-          <ChapterHeading eyebrow="Decision layer" title="Recommended business actions" titleId="recommendations-title" bordered={false} />
-
-          <GlassCard className="decision-panel" hover={false} delay={0.2}>
-            <h3 className="mb-4 font-heading text-xl font-bold leading-tight text-white">Business Recommendations</h3>
-            <ul className="space-y-3">
-              {project.recommendations.map((rec) => (
-                <li key={rec} className="flex gap-3 font-body text-sm leading-relaxed text-slate-400">
-                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-electric-400" />
-                  {rec}
-                </li>
-              ))}
-            </ul>
-          </GlassCard>
-
-          {project.limitations && project.limitations.length > 0 && (
-            <GlassCard className="mt-6 border-amber-300/25 bg-amber-300/5" hover={false} delay={0.25}>
-              <div className="mb-4 flex items-center gap-2">
-                <ShieldAlert className="h-5 w-5 text-amber-200" />
-                <h3 className="font-heading text-xl font-bold leading-tight text-white">Limitations</h3>
-              </div>
-              <ul className="space-y-3">
-                {project.limitations.map((limitation) => (
-                  <li key={limitation} className="flex gap-3 font-body text-sm leading-relaxed text-slate-300">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-200" />
-                    {limitation}
-                  </li>
-                ))}
-              </ul>
-            </GlassCard>
-          )}
-
-          <div className="mt-8 flex flex-col gap-3 border-t border-white/10 pt-8 sm:flex-row sm:flex-wrap md:mt-12 md:pt-12">
-            {project.liveDemo && (
-              <Button href={project.liveDemo} variant="primary" external icon={<ArrowUpRight className="h-4 w-4" />}>
-                Open live demo
-              </Button>
-            )}
-            <Button href={project.github} variant={project.liveDemo ? "secondary" : "primary"} external icon={<GitHubIcon className="h-4 w-4" />}>
-              GitHub Repository
-            </Button>
-            <Button href="/#projects" variant="secondary">All Projects</Button>
-          </div>
-        </section>
+      <div className="project-publication">
+        <DecisionBrief project={project} />
+        <PrimaryEvidence project={project} />
+        <AnalysisChapter project={project} />
+        <MethodChapter project={project} />
+        <TransparencyChapter project={project} />
+        <WorkClose project={project} nextProject={nextProject} />
       </div>
     </article>
   );

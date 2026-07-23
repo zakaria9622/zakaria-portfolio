@@ -1,585 +1,78 @@
-"use client";
-
-import dynamic from "next/dynamic";
-import {
-  type RefObject,
-  useEffect,
-  useRef,
-  useSyncExternalStore,
-} from "react";
-import Image from "next/image";
-import Link from "next/link";
-import {
-  motion,
-  type MotionValue,
-  useMotionValue,
-  useTransform,
-} from "framer-motion";
-import {
-  ArrowRight,
-  BarChart3,
-  Download,
-  Mail,
-  MapPin,
-  ShieldCheck,
-} from "lucide-react";
+import { Download, Mail, MapPin } from "lucide-react";
 import { GitHubIcon, LinkedInIcon } from "@/components/ui/SocialIcons";
+import { DecisionTrace } from "@/components/home/DecisionTrace";
+import { EditorialMarker } from "@/components/home/EditorialMarker";
 import { profile } from "@/data/profile";
 import { featuredProjects, getProjectBySlug } from "@/data/projects";
-import { enterEase, useHomeMotionSettings } from "@/components/home/motion";
 
-const previewProject =
+const featuredProject =
   getProjectBySlug("funnel-analysis") ?? featuredProjects[0];
 
-const featuredMetricTones = [
-  "text-cyan-200",
-  "text-amber-200",
-  "text-emerald-200",
-];
-
-const heroMetrics = previewProject.kpis.slice(0, 3).map((metric, index) => ({
-  ...metric,
-  tone: featuredMetricTones[index],
-}));
-const featuredMetric =
-  previewProject.kpis.find((metric) => metric.highlight) ?? heroMetrics[0];
-
-const subscribeToHydration = () => () => {};
-const getHydratedSnapshot = () => true;
-const getServerHydrationSnapshot = () => false;
-
-function clampProgress(value: number) {
-  return Math.min(1, Math.max(0, value));
-}
-
-function useHeroScrollProgress(
-  sectionRef: RefObject<HTMLElement | null>,
-  enabled: boolean
-) {
-  const progress = useMotionValue(0);
-
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section || !enabled) {
-      progress.set(0);
-      return;
-    }
-
-    const layout = {
-      top: 0,
-      distance: 1,
-    };
-    let measureFrame = 0;
-    let scrollFrame = 0;
-
-    const measure = () => {
-      const rect = section.getBoundingClientRect();
-      layout.top = rect.top + window.scrollY;
-      layout.distance = Math.max(rect.height, 1);
-    };
-
-    const update = () => {
-      cancelAnimationFrame(scrollFrame);
-      scrollFrame = requestAnimationFrame(() => {
-        progress.set(clampProgress((window.scrollY - layout.top) / layout.distance));
-      });
-    };
-
-    const scheduleMeasure = () => {
-      cancelAnimationFrame(measureFrame);
-      measureFrame = requestAnimationFrame(() => {
-        measure();
-        update();
-      });
-    };
-
-    measure();
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", scheduleMeasure);
-
-    return () => {
-      cancelAnimationFrame(measureFrame);
-      cancelAnimationFrame(scrollFrame);
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", scheduleMeasure);
-    };
-  }, [enabled, progress, sectionRef]);
-
-  return progress;
-}
-
-const DataIntelligenceCore = dynamic(
-  () =>
-    import("@/components/home/DataIntelligenceCore").then(
-      (mod) => mod.DataIntelligenceCore
-    ),
-  {
-    ssr: false,
-    loading: () => <DataCoreFallback />,
-  }
-);
-
-function heroItem(shouldSimplifyMotion: boolean, delay = 0) {
-  return {
-    initial: shouldSimplifyMotion ? { opacity: 1 } : { opacity: 0, y: 14 },
-    animate: { opacity: 1, y: 0 },
-    transition: shouldSimplifyMotion
-      ? { duration: 0 }
-      : { duration: 0.52, delay, ease: enterEase },
-  };
-}
-
-function heroPreview(shouldSimplifyMotion: boolean) {
-  return {
-    initial: shouldSimplifyMotion
-      ? { opacity: 1 }
-      : { opacity: 0, y: 18, scale: 0.992 },
-    animate: { opacity: 1, y: 0, scale: 1 },
-    transition: shouldSimplifyMotion
-      ? { duration: 0 }
-      : { duration: 0.62, delay: 0.1, ease: enterEase },
-  };
-}
-
-function metricMotion(shouldSimplifyMotion: boolean, delay = 0) {
-  return {
-    initial: shouldSimplifyMotion ? { opacity: 1 } : { opacity: 0, y: 6 },
-    animate: { opacity: 1, y: 0 },
-    transition: shouldSimplifyMotion
-      ? { duration: 0 }
-      : { duration: 0.28, delay, ease: enterEase },
-  };
-}
-
-function headlineWord(shouldSimplifyMotion: boolean, index: number) {
-  return {
-    initial: shouldSimplifyMotion
-      ? { opacity: 1 }
-      : { opacity: 0, y: "112%", filter: "blur(8px)" },
-    animate: { opacity: 1, y: "0%", filter: "blur(0px)" },
-    transition: shouldSimplifyMotion
-      ? { duration: 0 }
-      : {
-          duration: 0.72,
-          delay: 0.12 + index * 0.08,
-          ease: enterEase,
-        },
-  };
-}
-
-function HeroAnalyticalBackground({
-  shouldSimplifyMotion,
-}: {
-  shouldSimplifyMotion: boolean;
-}) {
-  return (
-    <div
-      className="hero-analytics-field pointer-events-none absolute inset-0"
-      aria-hidden="true"
-    >
-      <svg
-        className="absolute inset-0 h-full w-full"
-        viewBox="0 0 1440 760"
-        preserveAspectRatio="none"
-      >
-        <motion.g
-          className="hero-signal-layer"
-          initial={
-            shouldSimplifyMotion ? { opacity: 0.54 } : { opacity: 0, x: -18 }
-          }
-          animate={{ opacity: 0.54, x: 0 }}
-          transition={
-            shouldSimplifyMotion
-              ? { duration: 0 }
-              : { duration: 0.75, delay: 0.12, ease: enterEase }
-          }
-        >
-          <path
-            d="M80 505 C245 455 310 520 455 462 S735 312 902 354 1148 515 1360 432"
-            className="hero-signal-line hero-signal-line-primary"
-          />
-          <path
-            d="M114 365 C275 314 391 358 510 326 S736 205 905 246 1174 368 1320 297"
-            className="hero-signal-line hero-signal-line-secondary"
-          />
-          <path
-            d="M164 587 L310 532 L455 556 L612 472 L784 498 L930 424 L1115 452 L1300 378"
-            className="hero-signal-line hero-signal-line-steps"
-          />
-        </motion.g>
-      </svg>
-    </div>
-  );
-}
-
-function DataCoreFallback() {
-  return (
-    <div className="data-core-fallback" aria-hidden="true">
-      <svg viewBox="0 0 760 620" role="presentation">
-        <defs>
-          <radialGradient id="core-fallback-glow" cx="53%" cy="49%" r="54%">
-            <stop offset="0%" stopColor="#f8fbff" stopOpacity="0.2" />
-            <stop offset="42%" stopColor="#7dd3fc" stopOpacity="0.13" />
-            <stop offset="74%" stopColor="#f2a93b" stopOpacity="0.055" />
-            <stop offset="100%" stopColor="#06070a" stopOpacity="0" />
-          </radialGradient>
-          <linearGradient id="core-fallback-flow" x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0%" stopColor="#7dd3fc" />
-            <stop offset="62%" stopColor="#f2a93b" />
-            <stop offset="100%" stopColor="#f8fbff" />
-          </linearGradient>
-        </defs>
-        <rect width="760" height="620" fill="url(#core-fallback-glow)" />
-        <g className="core-fallback-halo">
-          <ellipse cx="404" cy="306" rx="222" ry="216" />
-          <ellipse cx="404" cy="306" rx="180" ry="174" />
-        </g>
-        <g className="core-fallback-flow">
-          <path d="M724 172 C642 206 574 218 498 258 S392 294 320 318" />
-          <path d="M714 424 C636 398 574 372 504 352 S398 332 300 324" />
-          <path d="M706 294 C624 298 560 300 492 304 S378 314 280 340" />
-        </g>
-        <g className="core-fallback-points">
-          {Array.from({ length: 210 }).map((_, index) => {
-            const angle = index * 2.399963229728653;
-            const band = 1 - ((index + 0.5) / 210) * 2;
-            const radius = Math.sqrt(Math.max(0, 1 - band * band));
-            const wobble = 1 + Math.sin(index * 0.83) * 0.055;
-            const depth = Math.sin(angle) * radius;
-            const x = 404 + Math.cos(angle) * radius * 210 * wobble;
-            const y = 306 + band * 205 * (0.94 + Math.cos(index) * 0.025);
-            const opacity = 0.36 + (depth + 1) * 0.25;
-            const isAccent = index % 31 === 0 || index % 43 === 0;
-            const fill =
-              index % 43 === 0
-                ? "#f2a93b"
-                : isAccent
-                  ? "#7dd3fc"
-                  : "#f8fbff";
-
-            return (
-              <circle
-                key={index}
-                cx={x.toFixed(3)}
-                cy={y.toFixed(3)}
-                fill={fill}
-                opacity={opacity.toFixed(3)}
-                r={(isAccent ? 2.3 : 1.35 + (index % 5) * 0.16).toFixed(2)}
-              />
-            );
-          })}
-        </g>
-        <g className="core-fallback-atmosphere">
-          {Array.from({ length: 36 }).map((_, index) => (
-            <circle
-              key={index}
-              cx={126 + ((index * 47) % 580)}
-              cy={90 + ((index * 83) % 430)}
-              r={index % 6 === 0 ? 2.1 : 1.1}
-            />
-          ))}
-        </g>
-      </svg>
-    </div>
-  );
-}
-
-function HeroDataTransfer({
-  progress,
-  shouldSimplifyMotion,
-}: {
-  progress: MotionValue<number>;
-  shouldSimplifyMotion: boolean;
-}) {
-  const opacity = useTransform(progress, [0.42, 0.68, 0.96], [0, 0.82, 0.16]);
-
-  if (shouldSimplifyMotion) {
-    return null;
-  }
-
-  return (
-    <motion.div
-      className="hero-data-transfer pointer-events-none absolute inset-x-0 bottom-0"
-      style={{ opacity }}
-      aria-hidden="true"
-    >
-      <svg viewBox="0 0 1440 260" preserveAspectRatio="none">
-        <motion.path
-          className="hero-transfer-path hero-transfer-path-primary"
-          d="M752 28 C804 78 836 128 918 142 S1116 154 1246 238"
-        />
-        <motion.path
-          className="hero-transfer-path hero-transfer-path-secondary"
-          d="M676 38 C620 96 618 146 536 160 S338 174 198 238"
-        />
-        <motion.path
-          className="hero-transfer-path hero-transfer-path-tertiary"
-          d="M820 54 C860 112 760 146 710 178 S612 220 566 254"
-        />
-        <circle className="hero-transfer-node" cx="752" cy="28" r="4" />
-        <circle className="hero-transfer-node" cx="918" cy="142" r="3.5" />
-        <circle className="hero-transfer-node" cx="536" cy="160" r="3.5" />
-      </svg>
-    </motion.div>
-  );
-}
-
 export function ExecutiveHero() {
-  const {
-    shouldSimplifyMotion: prefersSimplifiedMotion,
-    enableFinePointerMotion: prefersFinePointerMotion,
-  } = useHomeMotionSettings();
-  const hasHydrated = useSyncExternalStore(
-    subscribeToHydration,
-    getHydratedSnapshot,
-    getServerHydrationSnapshot
-  );
-  const sectionRef = useRef<HTMLElement>(null);
-  const headlineWords = profile.name.split(" ");
-  const shouldSimplifyMotion = hasHydrated
-    ? prefersSimplifiedMotion
-    : true;
-  const enableFinePointerMotion = hasHydrated && prefersFinePointerMotion;
-  const scrollYProgress = useHeroScrollProgress(
-    sectionRef,
-    !shouldSimplifyMotion
-  );
-
   return (
-    <>
-    <section
-      ref={sectionRef}
-      data-data-core-hero
-      className="cinematic-hero relative min-h-[100svh] overflow-hidden pt-28 pb-20 sm:pt-32 md:pb-24"
-    >
-      <div className="executive-grid-bg pointer-events-none absolute inset-0" />
-      <HeroAnalyticalBackground shouldSimplifyMotion={shouldSimplifyMotion} />
-      <div className="hero-data-bridge pointer-events-none absolute inset-x-0 bottom-0" />
-      <HeroDataTransfer
-        progress={scrollYProgress}
-        shouldSimplifyMotion={shouldSimplifyMotion}
-      />
+    <section className="editorial-hero" aria-labelledby="home-hero-title">
+      <div className="editorial-hero-masthead">
+        <EditorialMarker index="VOL. 01" label="Editorial growth lab" />
+        <div className="editorial-hero-status" aria-label="Availability and location">
+          <span>Apprenticeship · 2026–2027</span>
+          <span>
+            <MapPin aria-hidden="true" />
+            {profile.alternance.location}
+          </span>
+        </div>
+      </div>
 
-      <div className="hero-stage-shell">
-        <motion.div>
-          <motion.div
-            {...heroItem(shouldSimplifyMotion)}
-            className="hero-status-row mb-6 flex flex-wrap items-center gap-3"
-          >
-            <span className="inline-flex max-w-full items-center gap-2 whitespace-nowrap rounded-md border border-emerald-400/25 bg-emerald-400/10 px-3 py-2 font-sans text-sm font-semibold leading-none tracking-normal text-emerald-100">
-              <ShieldCheck className="size-4" />
-              Apprenticeship · 2026–2027
-            </span>
-            <span className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/[0.04] px-3 py-2 font-body text-sm font-medium leading-none text-slate-300">
-              <MapPin className="size-4 text-cyan-200" />
-              {profile.alternance.location}
-            </span>
-          </motion.div>
+      <div className="editorial-hero-grid">
+        <div className="editorial-hero-copy">
+          <p className="editorial-byline">
+            {profile.name} / {profile.title}
+          </p>
+          <h1 id="home-hero-title">
+            I find where growth leaks <em>— and what to do next.</em>
+          </h1>
+          <p className="editorial-hero-support">
+            Marketing Data Analyst connecting acquisition, conversion, retention
+            and profitability data to clearer growth decisions.
+          </p>
 
-          <motion.p
-            {...heroItem(shouldSimplifyMotion, 0.04)}
-            className="mb-4 type-label text-cyan-200/80"
-          >
-            Marketing Data Analytics Portfolio
-          </motion.p>
-
-          <motion.h1
-            aria-label={profile.positioning}
-            className="cinematic-headline type-hero-display max-w-4xl font-heading font-bold text-white"
-          >
-            {headlineWords.map((word, index) => (
-              <span key={word} className="headline-word" aria-hidden="true">
-                <motion.span {...headlineWord(shouldSimplifyMotion, index)}>
-                  {word}
-                  {index < headlineWords.length - 1 ? " " : ""}
-                </motion.span>
-              </span>
-            ))}
-            <motion.span
-              {...heroItem(shouldSimplifyMotion, 0.13)}
-              className="mt-5 block font-heading text-xl font-semibold leading-snug text-cyan-100 md:text-2xl"
-            >
-              {profile.positioning}
-            </motion.span>
-          </motion.h1>
-
-          <motion.p
-            {...heroItem(shouldSimplifyMotion, 0.18)}
-            className="type-lead mt-6 max-w-2xl text-slate-300"
-          >
-            {profile.tagline}
-          </motion.p>
-
-          <div className="hero-actions mt-9 flex flex-wrap gap-3">
-            <a
-              href={profile.cvHref}
-              download
-              data-magnetic="true"
-              data-magnetic-strength="9"
-            className="magnetic-target inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-cyan-200 px-5 py-3 font-cta text-sm font-semibold leading-none text-ink-950 shadow-[0_18px_45px_rgba(35,184,216,0.18)] transition-colors duration-200 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
-            >
-              <Download className="size-4" />
+          <div className="editorial-hero-actions">
+            <a href={profile.cvHref} download className="editorial-primary-action">
+              <Download aria-hidden="true" />
               Download CV
             </a>
-            <a
-              href={`mailto:${profile.email}`}
-              data-magnetic="true"
-              data-magnetic-strength="8"
-              className="magnetic-target inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.05] px-5 py-3 font-cta text-sm font-semibold leading-none text-white transition-colors duration-200 hover:border-white/30 hover:bg-white/[0.09] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
-            >
-              <Mail className="size-4" />
+            <a href={`mailto:${profile.email}`} className="editorial-secondary-action">
+              <Mail aria-hidden="true" />
               Email me
             </a>
-            <a
-              href={profile.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex size-11 items-center justify-center rounded-md border border-white/15 bg-white/[0.04] text-slate-300 transition-colors duration-200 hover:border-white/30 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
-              aria-label="GitHub profile"
-            >
-              <GitHubIcon className="size-5" />
-            </a>
-            <a
-              href={profile.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex size-11 items-center justify-center rounded-md border border-white/15 bg-white/[0.04] text-slate-300 transition-colors duration-200 hover:border-white/30 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
-              aria-label="LinkedIn profile"
-            >
-              <LinkedInIcon className="size-5" />
-            </a>
-          </div>
-
-          <motion.div
-            {...heroItem(shouldSimplifyMotion, 0.22)}
-            className="hero-tool-line mt-8 flex flex-wrap gap-3 text-sm text-slate-400"
-          >
-            <span className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/[0.03] px-3 py-2 font-mono font-medium tracking-[0.02em]">
-              <BarChart3 className="size-4 text-emerald-200" />
-              SQL · Python · Tableau · Funnel Analytics · CRM Analytics
-            </span>
-          </motion.div>
-        </motion.div>
-
-        <motion.div
-          {...heroPreview(shouldSimplifyMotion)}
-          className="hero-core-column relative min-h-[560px] lg:min-h-[680px]"
-        >
-          <div className="data-core-stage">
-            <div className="data-core-frame">
-              {enableFinePointerMotion ? (
-                <DataIntelligenceCore anchorSelector="[data-data-core-hero]" />
-              ) : (
-                <DataCoreFallback />
-              )}
-            </div>
-          </div>
-
-        </motion.div>
-      </div>
-    </section>
-    <FeaturedProjectProof shouldSimplifyMotion={shouldSimplifyMotion} />
-    </>
-  );
-}
-
-function FeaturedProjectProof({
-  shouldSimplifyMotion,
-}: {
-  shouldSimplifyMotion: boolean;
-}) {
-  return (
-    <section className="featured-project-proof relative overflow-hidden border-y border-white/10 bg-white/[0.025]">
-      <div className="featured-project-proof-grid">
-        <motion.div
-          {...heroItem(shouldSimplifyMotion)}
-          className="featured-project-copy"
-        >
-          <p className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/80">
-            Featured Project
-          </p>
-          <h2 className="type-card-title mt-4 font-heading text-white">
-            {previewProject.shortTitle}
-          </h2>
-          <p className="type-question mt-3 text-slate-200">
-            {previewProject.featuredBusinessQuestion ?? previewProject.businessQuestion}
-          </p>
-          <p className="featured-project-desktop-copy insight-block insight-block-amber type-insight mt-4">
-            {previewProject.featuredInsight ?? previewProject.mainInsight}
-          </p>
-          {previewProject.featuredContext && (
-            <p className="mt-3 font-body text-xs leading-5 text-slate-500">
-              Source · {previewProject.featuredContext}
-            </p>
-          )}
-          <div className="featured-project-mobile-kpi mt-4 rounded-md border border-amber-200/20 bg-amber-200/10 px-3 py-3 md:hidden">
-            <p className="type-label text-amber-100/70">{featuredMetric.label}</p>
-            <p className="mt-1 font-kpi text-2xl font-bold tabular-nums text-amber-100">
-              {featuredMetric.value}
-            </p>
-          </div>
-          <div className="mt-5 flex flex-wrap gap-3">
-            <Link
-              href={previewProject.href}
-              prefetch={false}
-              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-cyan-200/30 bg-cyan-200/10 px-4 py-2.5 font-cta text-sm font-semibold leading-none text-cyan-50 transition-colors duration-200 hover:border-cyan-100/50 hover:bg-cyan-200/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 md:min-h-0"
-            >
-              View case study
-              <ArrowRight className="size-4" />
-            </Link>
-          </div>
-        </motion.div>
-
-        <motion.div
-          {...heroPreview(shouldSimplifyMotion)}
-          className="featured-project-dashboard"
-        >
-          <div className="executive-surface relative overflow-hidden rounded-lg border border-white/10 bg-white/[0.04] p-3 backdrop-blur-xl">
-            <div className="mb-3 flex items-center justify-between border-b border-white/10 px-2 pb-3">
-              <div>
-                <p className="font-heading text-sm font-semibold leading-tight text-white">
-                  {previewProject.shortTitle}
-                </p>
-              </div>
-              <span className="rounded-md border border-cyan-300/20 bg-cyan-300/10 px-2.5 py-1 font-mono text-xs font-semibold leading-none tracking-[0.02em] text-cyan-100">
-                Project evidence
-              </span>
-            </div>
-
-            <div className="relative aspect-[16/10] overflow-hidden rounded-md border border-white/10 bg-ink-950">
-              <Image
-                src={`/projects/${previewProject.slug}.png`}
-                alt={`${previewProject.title} dashboard preview`}
-                fill
-                sizes="(max-width: 1024px) 100vw, 580px"
-                className="object-contain p-1 sm:p-2"
-              />
-            </div>
-          </div>
-        </motion.div>
-
-        <motion.div
-          {...heroItem(shouldSimplifyMotion, 0.12)}
-          className="featured-project-kpis"
-        >
-          {heroMetrics.map((metric, index) => (
-            <div
-              key={metric.label}
-              className="rounded-md border border-white/10 bg-ink-950/65 px-4 py-4"
-            >
-              <p className="type-label text-slate-400">
-                {metric.label}
-              </p>
-              <motion.p
-                {...metricMotion(shouldSimplifyMotion, 0.18 + index * 0.04)}
-                className={`type-kpi-medium mt-2 break-words font-kpi ${metric.tone}`}
+            <span className="editorial-social-links" aria-label="Social profiles">
+              <a
+                href={profile.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn profile"
               >
-                {metric.value}
-              </motion.p>
-            </div>
-          ))}
-        </motion.div>
+                <LinkedInIcon />
+              </a>
+              <a
+                href={profile.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub profile"
+              >
+                <GitHubIcon />
+              </a>
+            </span>
+          </div>
+
+          <div className="editorial-capability-line">
+            <span>Acquisition</span>
+            <span>Conversion</span>
+            <span>Retention</span>
+            <span>Profitability</span>
+          </div>
+        </div>
+
+        <DecisionTrace project={featuredProject} />
       </div>
     </section>
   );

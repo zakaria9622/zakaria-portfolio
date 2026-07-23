@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
-import { DM_Sans, IBM_Plex_Mono, Space_Grotesk } from "next/font/google";
+import {
+  DM_Sans,
+  IBM_Plex_Mono,
+  Newsreader,
+} from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { profile } from "@/data/profile";
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-space-grotesk",
-});
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -19,6 +18,12 @@ const ibmPlexMono = IBM_Plex_Mono({
   weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
   variable: "--font-ibm-plex-mono",
+});
+
+const newsreader = Newsreader({
+  subsets: ["latin"],
+  variable: "--font-newsreader",
+  display: "swap",
 });
 
 const structuredData = {
@@ -77,7 +82,7 @@ export const metadata: Metadata = {
       {
         url: "/og/home.png",
         width: 1200,
-        height: 627,
+        height: 630,
         alt: "Zakaria Maachou | Marketing Data Analyst",
       },
     ],
@@ -104,7 +109,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${dmSans.variable} ${ibmPlexMono.variable} scroll-smooth`}
+      className={`${dmSans.variable} ${ibmPlexMono.variable} ${newsreader.variable} scroll-smooth`}
     >
       <body className="min-h-screen bg-navy-950 font-body text-slate-300 antialiased">
         <script

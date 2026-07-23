@@ -3,60 +3,64 @@ import path from "node:path";
 import sharp from "sharp";
 
 const WIDTH = 1200;
-const HEIGHT = 627;
+const HEIGHT = 630;
 const OUT_DIR = path.join(process.cwd(), "public", "og");
 const COMPAT_HOME_OUTPUT = path.join(process.cwd(), "public", "og-image.png");
+
+const palette = {
+  ink: "#141512",
+  paper: "#f2eee4",
+  paperDeep: "#e5dfd2",
+  slate: "#60625e",
+  signal: "#2458e8",
+  white: "#fffdf7",
+};
 
 const cards = [
   {
     file: "home.png",
-    kicker: "PORTFOLIO",
-    title: "Marketing Data Analyst",
-    subtitle: "Growth · Acquisition · Conversion · Retention",
-    badges: ["SQL", "Tableau", "Python", "Looker", "Data Quality"],
-    footer: "Zakaria Maachou",
-    accent: "#22d3ee",
-    accentSoft: "#0e7490",
-  },
-  {
-    file: "profit-leak.png",
-    kicker: "CASE STUDY",
-    title: "Profit Leak Analysis",
-    subtitle: "E-commerce margin, discount and loss diagnostics",
-    badges: ["SQL", "Tableau", "Python"],
-    footer: "Zakaria Maachou - Analytics case study",
-    accent: "#f59e0b",
-    accentSoft: "#92400e",
+    marker: "PORTFOLIO / EDITORIAL GROWTH LAB",
+    titleLines: [
+      "Marketing Data Analyst |",
+      "Growth, Acquisition,",
+      "Conversion & Retention",
+    ],
+    question: "Analytical rigor, marketing judgment and transparent evidence.",
+    signature: ["QUESTION", "EVIDENCE", "DECISION"],
+    index: "00",
   },
   {
     file: "funnel-analysis.png",
-    kicker: "CASE STUDY",
-    title: "Funnel Analysis",
-    subtitle: "View -> Cart -> Purchase conversion diagnostics",
-    badges: ["SQL", "Tableau", "Python"],
-    footer: "Zakaria Maachou - Analytics case study",
-    accent: "#38bdf8",
-    accentSoft: "#0369a1",
+    marker: "CASE STUDY / CONVERSION ANALYTICS",
+    titleLines: ["E-commerce", "Funnel Analysis"],
+    question: "Where do users drop before purchase?",
+    signature: ["VIEW", "CART", "PURCHASE"],
+    index: "01",
   },
   {
     file: "rfm-segmentation.png",
-    kicker: "CASE STUDY",
-    title: "Customer Segmentation RFM",
-    subtitle: "CRM segmentation and retention recommendations",
-    badges: ["Python", "pandas", "CRM Analytics"],
-    footer: "Zakaria Maachou - Analytics case study",
-    accent: "#34d399",
-    accentSoft: "#047857",
+    marker: "CASE STUDY / CRM & RETENTION",
+    titleLines: ["Customer", "Segmentation RFM"],
+    question: "Which customers should CRM prioritize?",
+    signature: ["CUSTOMER SHARE", "REVENUE SHARE", "CRM PRIORITY"],
+    index: "02",
+  },
+  {
+    file: "profit-leak.png",
+    marker: "CASE STUDY / PROFITABILITY",
+    titleLines: ["Profit Leak", "Analysis"],
+    question: "Where is margin being destroyed?",
+    signature: ["REVENUE", "PROFIT", "PRESSURE"],
+    index: "03",
   },
   {
     file: "renewalos.png",
-    kicker: "CASE STUDY",
-    title: "RenewalOS",
-    subtitle: "Revenue quality, account health and CSM prioritization",
-    badges: ["DuckDB", "dbt", "Python", "Streamlit", "OR-Tools"],
-    footer: "Zakaria Maachou - Analytics case study",
-    accent: "#2dd4bf",
-    accentSoft: "#0f766e",
+    marker: "CASE STUDY / REVENUE QUALITY",
+    titleLines: ["RenewalOS"],
+    question:
+      "Can revenue KPIs be trusted before Customer Success teams prioritize accounts?",
+    signature: ["QUALITY GATE", "KPI STATUS", "DECISION"],
+    index: "04",
   },
 ];
 
@@ -87,74 +91,110 @@ function wrapText(text, maxChars) {
   return lines;
 }
 
-function textLines(lines, x, y, size, color, weight = 600, lineHeight = 1.28) {
+function textLines(
+  lines,
+  {
+    x,
+    y,
+    size,
+    color,
+    family = "display",
+    weight = 500,
+    lineHeight = 1,
+  },
+) {
   return lines
-    .map((line, index) => {
-      const dy = index === 0 ? 0 : size * lineHeight * index;
-      return `<text x="${x}" y="${y + dy}" class="text" font-size="${size}" font-weight="${weight}" fill="${color}">${escapeXml(line)}</text>`;
-    })
+    .map(
+      (line, index) =>
+        `<text x="${x}" y="${y + index * size * lineHeight}" class="${family}" font-size="${size}" font-weight="${weight}" fill="${color}">${escapeXml(line)}</text>`,
+    )
     .join("\n");
 }
 
-function badgeGroup(badges, accent) {
-  let x = 96;
-  const y = 387;
-  const gap = 14;
+function signatureRegister(card) {
+  const startY = 212;
+  const gap = 96;
 
-  return badges
-    .map((badge) => {
-      const width = Math.max(92, badge.length * 14 + 36);
-      const markup = `
+  return card.signature
+    .map((label, index) => {
+      const y = startY + index * gap;
+      const connector =
+        index === card.signature.length - 1
+          ? ""
+          : `<path d="M 939 ${y + 25} V ${y + gap - 20}" stroke="${palette.white}" stroke-opacity="0.42" stroke-width="1"/>`;
+
+      return `
         <g>
-          <rect x="${x}" y="${y}" width="${width}" height="48" rx="8" fill="#0c1828" stroke="${accent}" stroke-opacity="0.42"/>
-          <text x="${x + 18}" y="${y + 31}" class="mono" font-size="22" font-weight="700" fill="#e5edf6">${escapeXml(badge)}</text>
+          <rect x="924" y="${y - 5}" width="30" height="30" fill="none" stroke="${palette.white}" stroke-opacity="0.72"/>
+          <text x="939" y="${y + 15}" class="mono" text-anchor="middle" font-size="11" font-weight="700" fill="${palette.white}">${String(index + 1).padStart(2, "0")}</text>
+          <text x="978" y="${y + 14}" class="mono" font-size="14" font-weight="700" letter-spacing="1.8" fill="${palette.white}">${escapeXml(label)}</text>
+          ${connector}
         </g>`;
-      x += width + gap;
-      return markup;
     })
     .join("\n");
 }
 
 function svg(card) {
-  const subtitleLines = wrapText(card.subtitle, 52);
-  const titleSize = card.title.length > 24 ? 66 : 76;
+  const isHome = card.file === "home.png";
+  const titleSize = isHome ? 58 : card.titleLines.length === 1 ? 96 : 82;
+  const titleY = isHome ? 184 : card.titleLines.length === 1 ? 235 : 205;
+  const titleLineHeight = isHome ? 0.96 : 0.9;
+  const questionLines = wrapText(card.question, isHome ? 52 : 43);
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#07111f"/>
-      <stop offset="0.58" stop-color="#0b1524"/>
-      <stop offset="1" stop-color="#101827"/>
-    </linearGradient>
-    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
-      <path d="M 48 0 L 0 0 0 48" fill="none" stroke="#26364d" stroke-width="1" stroke-opacity="0.24"/>
+    <pattern id="paperRule" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M 64 0 H 0 V 64" fill="none" stroke="${palette.ink}" stroke-opacity="0.035" stroke-width="1"/>
     </pattern>
-    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="24" stdDeviation="24" flood-color="#020617" flood-opacity="0.34"/>
-    </filter>
     <style>
-      .text { font-family: "Segoe UI", Inter, Arial, sans-serif; letter-spacing: 0; }
-      .mono { font-family: "Cascadia Mono", "JetBrains Mono", Consolas, monospace; letter-spacing: 0; }
+      .display { font-family: Georgia, "Times New Roman", serif; letter-spacing: -2px; }
+      .sans { font-family: "Segoe UI", Arial, sans-serif; }
+      .mono { font-family: "Cascadia Mono", Consolas, monospace; }
     </style>
   </defs>
 
-  <rect width="1200" height="627" fill="url(#bg)"/>
-  <rect width="1200" height="627" fill="url(#grid)" opacity="0.58"/>
-  <rect x="46" y="46" width="1108" height="535" rx="10" fill="#081322" fill-opacity="0.76" stroke="#26364d" stroke-width="1.5" filter="url(#softShadow)"/>
-  <rect x="72" y="90" width="7" height="98" rx="3.5" fill="${card.accent}"/>
-  <rect x="866" y="84" width="232" height="8" rx="4" fill="${card.accent}" opacity="0.92"/>
-  <rect x="866" y="110" width="168" height="8" rx="4" fill="${card.accentSoft}" opacity="0.5"/>
-  <rect x="866" y="136" width="206" height="8" rx="4" fill="#334155" opacity="0.46"/>
-  <path d="M96 504 H1104" stroke="#334155" stroke-width="1.5" stroke-opacity="0.75"/>
-  <path d="M96 470 H286" stroke="${card.accent}" stroke-width="2" stroke-opacity="0.85"/>
+  <rect width="${WIDTH}" height="${HEIGHT}" fill="${palette.paper}"/>
+  <rect width="${WIDTH}" height="${HEIGHT}" fill="url(#paperRule)"/>
+  <rect x="856" width="344" height="${HEIGHT}" fill="${palette.signal}"/>
 
-  <text x="96" y="118" class="mono" font-size="22" font-weight="800" fill="${card.accent}">${escapeXml(card.kicker)}</text>
-  ${textLines([card.title], 96, 219, titleSize, "#f8fafc", 800, 1.1)}
-  ${textLines(subtitleLines, 98, 302, 34, "#cbd5e1", 600, 1.32)}
-  ${badgeGroup(card.badges, card.accent)}
-  <text x="96" y="550" class="text" font-size="24" font-weight="650" fill="#e2e8f0">${escapeXml(card.footer)}</text>
-  <text x="1104" y="550" class="mono" text-anchor="end" font-size="19" font-weight="700" fill="#94a3b8">MARKETING / DATA</text>
+  <path d="M 68 66 H 810" stroke="${palette.ink}" stroke-width="1.5"/>
+  <path d="M 68 552 H 810" stroke="${palette.ink}" stroke-opacity="0.42" stroke-width="1"/>
+  <path d="M 68 66 V 552" stroke="${palette.ink}" stroke-opacity="0.18" stroke-width="1"/>
+  <path d="M 810 66 V 552" stroke="${palette.ink}" stroke-opacity="0.18" stroke-width="1"/>
+
+  <text x="68" y="98" class="mono" font-size="13" font-weight="700" letter-spacing="1.7" fill="${palette.signal}">${escapeXml(card.marker)}</text>
+  <text x="810" y="98" class="mono" text-anchor="end" font-size="13" font-weight="700" letter-spacing="1.7" fill="${palette.slate}">ZAKARIA MAACHOU</text>
+
+  ${textLines(card.titleLines, {
+    x: 68,
+    y: titleY,
+    size: titleSize,
+    color: palette.ink,
+    weight: 500,
+    lineHeight: titleLineHeight,
+  })}
+
+  <text x="68" y="440" class="mono" font-size="12" font-weight="700" letter-spacing="1.8" fill="${palette.slate}">BUSINESS QUESTION / POSITION</text>
+  ${textLines(questionLines, {
+    x: 68,
+    y: 478,
+    size: isHome ? 25 : 29,
+    color: palette.ink,
+    family: "sans",
+    weight: 600,
+    lineHeight: 1.22,
+  })}
+
+  <text x="68" y="588" class="mono" font-size="13" font-weight="700" letter-spacing="1.3" fill="${palette.slate}">ZAKARIAMAACHOU.COM</text>
+  <text x="810" y="588" class="mono" text-anchor="end" font-size="13" font-weight="700" letter-spacing="1.3" fill="${palette.slate}">MARKETING / DATA / DECISIONS</text>
+
+  <text x="924" y="88" class="mono" font-size="13" font-weight="700" letter-spacing="1.8" fill="${palette.white}">ANALYTICAL SIGNATURE</text>
+  <text x="1136" y="158" class="display" text-anchor="end" font-size="92" font-weight="500" fill="${palette.white}" fill-opacity="0.2">${card.index}</text>
+  ${signatureRegister(card)}
+  <path d="M 924 530 H 1136" stroke="${palette.white}" stroke-opacity="0.52" stroke-width="1"/>
+  <text x="924" y="564" class="mono" font-size="12" font-weight="700" letter-spacing="1.7" fill="${palette.white}">EDITORIAL GROWTH LAB</text>
+  <text x="924" y="590" class="sans" font-size="16" font-weight="600" fill="${palette.white}">Evidence before assertion.</text>
 </svg>`;
 }
 
@@ -162,13 +202,19 @@ await fs.mkdir(OUT_DIR, { recursive: true });
 
 for (const card of cards) {
   const output = path.join(OUT_DIR, card.file);
-  await sharp(Buffer.from(svg(card))).png().toFile(output);
+  await sharp(Buffer.from(svg(card)))
+    .png({ compressionLevel: 9, palette: true, quality: 96 })
+    .toFile(output);
   const metadata = await sharp(output).metadata();
-  console.log(`${path.relative(process.cwd(), output)} ${metadata.width}x${metadata.height}`);
+  const stats = await fs.stat(output);
+  console.log(
+    `${path.relative(process.cwd(), output)} ${metadata.width}x${metadata.height} ${Math.round(stats.size / 1024)} KiB`,
+  );
 }
 
 await fs.copyFile(path.join(OUT_DIR, "home.png"), COMPAT_HOME_OUTPUT);
 const compatMetadata = await sharp(COMPAT_HOME_OUTPUT).metadata();
+const compatStats = await fs.stat(COMPAT_HOME_OUTPUT);
 console.log(
-  `${path.relative(process.cwd(), COMPAT_HOME_OUTPUT)} ${compatMetadata.width}x${compatMetadata.height}`
+  `${path.relative(process.cwd(), COMPAT_HOME_OUTPUT)} ${compatMetadata.width}x${compatMetadata.height} ${Math.round(compatStats.size / 1024)} KiB`,
 );

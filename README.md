@@ -1,120 +1,107 @@
 # Zakaria Maachou — Marketing Data Analytics Portfolio
 
-Recruiter-facing portfolio presenting professional experience and independent case studies across acquisition, conversion, retention, CRM and marketing performance.
+Recruiter-facing portfolio for a Marketing Data Analyst working across growth, acquisition, conversion, retention, CRM and revenue quality.
 
-**Professional positioning:**
+**Positioning:** Marketing Data Analyst | Growth, Acquisition, Conversion & Retention
+**Live site:** https://www.zakariamaachou.com
 
-Marketing Data Analyst | Growth, Acquisition, Conversion & Retention
+## Editorial Growth Lab
 
-**Live portfolio:**
+The visual system combines premium editorial publishing with analytical evidence and marketing decision-making:
 
-https://www.zakariamaachou.com
+- warm paper, carbon ink and signal blue
+- Newsreader display typography
+- DM Sans body typography
+- IBM Plex Mono labels, evidence registers and data annotations
+- asymmetric publication layouts instead of dashboard-card grids
+- decision traces that connect a business question, observed evidence, diagnosis and action
+- analytical signatures tailored to each case study
 
-## Portfolio Overview
+The previous Three.js hero and its WebGL dependencies were removed. The current atmosphere is created with typography, rules, spacing and lightweight CSS.
 
-This website presents my professional experience, technical capabilities and end-to-end analytical case studies.
+## Architecture
 
-The portfolio focuses on turning raw data into:
+### Homepage
 
-- reliable KPI definitions
-- SQL-driven analysis
-- decision-ready dashboards
-- business diagnostics
-- actionable recommendations
-- transparent and reproducible analytical workflows
+`src/app/page.tsx` is a Server Component that composes:
 
-Professional Experience is intentionally displayed before personal projects so recruiters can evaluate real-world experience first.
+- editorial hero and decision trace
+- evidence ledger
+- professional experience progression
+- four distinct project treatments
+- growth decision system
+- capability-to-evidence index
+- education progression
+- contact close
 
-## Featured Case Studies
+Static sections render on the server. Client boundaries are limited to interactions that require them, including hero motion, the experience accordion, header navigation and image lightboxes.
 
-### Profit Leak Analysis
+### Project publications
 
-An e-commerce profitability analysis covering 12,000 synthetic orders.
+All four routes use the shared server-rendered `ProjectDetail` architecture:
 
-**Focus:** margin erosion, discount impact, category and regional profitability.
+- project hero and decision brief
+- evidence exhibit
+- project-specific analytical signature
+- findings and recommendations
+- methodology and quality record
+- disclosure and limitations
+- inspectable repository artifacts
+- next-case navigation
 
-**Stack:** SQL, DuckDB, Python, Tableau.
+`ProjectChapterNav` and `ProjectImageLightbox` are the focused client components for chapter state and accessible modal behavior.
 
-[View case study](https://www.zakariamaachou.com/projects/profit-leak)
+### Content and evidence
 
-### E-commerce Funnel Analysis
+`src/data/projects.ts` is the source of truth for project claims, KPIs, dataset disclosures, methodology, limitations and artifact links. Structured data is generated from the same project records.
 
-A strict user-level conversion analysis covering product view, add-to-cart and purchase events.
+The portfolio does not present independent work as client engagements or production impact. Synthetic datasets and external-data limitations are identified on the relevant project pages.
 
-**Focus:** conversion rates, stage-level drop-off and product-page optimization priorities.
+## Case Studies
 
-**Stack:** SQL, DuckDB, Python, Tableau.
+- [E-commerce Funnel Analysis](https://www.zakariamaachou.com/projects/funnel-analysis)
+- [Customer Segmentation RFM](https://www.zakariamaachou.com/projects/rfm-segmentation)
+- [E-commerce Profit Leak Analysis](https://www.zakariamaachou.com/projects/profit-leak)
+- [RenewalOS — Revenue Quality & Account Health](https://www.zakariamaachou.com/projects/renewalos)
 
-[View case study](https://www.zakariamaachou.com/projects/funnel-analysis)
+## Accessibility and Motion
 
-### Customer Segmentation RFM
+- semantic landmarks and one primary page heading per route
+- skip link and visible keyboard focus
+- keyboard-operable navigation, accordion and lightboxes
+- focus containment and focus restoration for modal images
+- Escape-key dismissal
+- reduced-motion behavior through CSS and Framer Motion
+- responsive layouts from narrow mobile widths through large desktop viewports
+- descriptive alternative text for analytical evidence
 
-A customer analytics project covering 5,000 synthetic customers and 45,356 simulated orders.
+## Technology
 
-**Focus:** RFM scoring, customer value, retention priorities and CRM segmentation.
-
-**Stack:** Python, pandas and business analytics.
-
-[View case study](https://www.zakariamaachou.com/projects/rfm-segmentation)
-
-### RenewalOS
-
-A synthetic B2B analytics system designed to analyze revenue quality, account health and customer-success priorities.
-
-**Focus:** data modeling, revenue reconciliation, explainable health scoring and account prioritization.
-
-**Stack:** DuckDB, dbt, Python and Streamlit.
-
-[View case study](https://www.zakariamaachou.com/projects/renewalos)
-
-## Evidence and Transparency
-
-Every project page identifies:
-
-- the project type
-- the origin and limitations of the dataset
-- my individual contribution
-- the available technical and visual evidence
-
-The projects are independent portfolio case studies.
-
-Synthetic datasets are explicitly identified. The portfolio does not present personal projects as real client engagements, production deployments or proven business impact.
-
-## Website Features
-
-- Experience-first homepage structure
-- Responsive recruiter-oriented interface
-- Downloadable CV and direct email actions
-- Dedicated project case-study pages
-- Project evidence and dataset-disclosure sections
-- Responsive Three.js analytical hero
-- Static fallback for unsupported or simplified-motion environments
-- Reduced-motion support
-- Production canonical URLs
-- Generated sitemap and robots metadata
-- Responsive desktop and mobile layouts
-
-## Technology Stack
-
-### Application
-
-- Next.js 16
+- Next.js 16 App Router
 - React 19
 - TypeScript
 - Tailwind CSS 4
-
-### Interface and Motion
-
 - Framer Motion
-- React Three Fiber
-- Drei
-- Three.js
 - Lucide React
+- Sharp through Next.js for Open Graph asset generation
 
-### Deployment
+Fonts are loaded with `next/font`, self-hosted by the application and limited to Newsreader, DM Sans and IBM Plex Mono.
 
-- Vercel
-- Custom production domain: `www.zakariamaachou.com`
+## Metadata and Social Preview
+
+The site includes:
+
+- route-specific titles, descriptions and canonical URLs
+- Open Graph and Twitter metadata
+- WebSite, Person and CreativeWork JSON-LD
+- generated sitemap and robots metadata
+- 1200×630 Editorial Growth Lab social-preview images
+
+Regenerate the existing Open Graph assets without changing their URLs:
+
+```bash
+node scripts/generate-og-images.mjs
+```
 
 ## Local Development
 
@@ -123,59 +110,54 @@ Synthetic datasets are explicitly identified. The portfolio does not present per
 - Node.js
 - npm
 
-### Installation
+### Install
 
 ```bash
 git clone https://github.com/zakaria9622/zakaria-portfolio.git
 cd zakaria-portfolio
-npm install
+npm ci
 ```
 
-### Development server
+### Run
 
 ```bash
 npm run dev
 ```
 
-Open:
+Open http://localhost:3000.
 
-```text
-http://localhost:3000
-```
-
-### Production build
+### Validate and run the production build
 
 ```bash
+npm run lint
 npm run build
 npm run start
 ```
 
-### Linting
-
-```bash
-npm run lint
-```
-
-## Project Structure
+## Repository Structure
 
 ```text
 src/
-├── app/          # Next.js routes, metadata, sitemap and robots
-├── components/   # Homepage, project and reusable UI components
-└── data/         # Profile, experience and project content
+├── app/                  # routes, metadata, sitemap, robots and global CSS
+├── components/
+│   ├── home/             # Editorial Growth Lab homepage sections
+│   ├── layout/           # shared header and footer
+│   ├── project/          # shared project publication architecture
+│   └── ui/               # shared social icons
+├── data/                 # profile, experience, education, skills and projects
+└── lib/                  # project structured-data builder
 
 public/
-├── og/           # Open Graph images
-├── projects/     # Project visual assets
+├── og/                   # route-specific 1200×630 social previews
+├── projects/             # analytical evidence images
 └── cv-zakaria-maachou.pdf
 ```
 
+## Deployment
+
+The application is configured for a standard Next.js production build and is deployed on Vercel at the custom domain above.
+
 ## Contact
 
-- Portfolio: https://www.zakariamaachou.com
 - LinkedIn: https://www.linkedin.com/in/zakaria-maachou
 - GitHub: https://github.com/zakaria9622
-
----
-
-Built and maintained by Zakaria Maachou.
