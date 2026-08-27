@@ -24,19 +24,15 @@ export type Project = {
   shortTitle: string;
   tools: string[];
   businessQuestion: string;
-  summary?: string;
-  scope?: string;
-  cardScope?: string;
-  cardMetric?: ProjectKpi;
-  mainOutput: string;
+  summary: string;
+  /** Ligne de contexte affichée sur la carte projet (périmètre, volumes, KPI). */
+  cardContext: string;
   github: string;
   liveDemo?: string;
   href: string;
   featuredOrder: number;
   featuredCategory: string;
-  featuredBusinessQuestion?: string;
   featuredInsight?: string;
-  featuredContext?: string;
   projectType: string;
   datasetDisclosure: string;
   ownership: string;
@@ -55,394 +51,403 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    slug: "profit-leak",
-    title: "E-commerce Profit Leak Analysis",
-    shortTitle: "Profit Leak Analysis",
-    tools: ["SQL / DuckDB", "Tableau", "Python"],
-    businessQuestion: "Where is margin being destroyed?",
-    mainOutput:
-      "Profitability dashboard, discount impact, weak category-region segments",
-    github: "https://github.com/zakaria9622/ecommerce-profit-leak-analysis",
-    href: "/projects/profit-leak",
-    featuredOrder: 3,
-    featuredCategory: "Growth Profitability Analytics",
-    featuredInsight:
-      "Electronics / EU drives margin loss; higher discounts reduce margin.",
-    projectType: "Independent portfolio case study",
-    datasetDisclosure:
-      "Synthetic e-commerce order data generated with Python. The analysis covers 12,000 simulated orders and does not represent the performance of a real company.",
-    ownership: "Individual end-to-end project",
-    evidence: [
-      "DuckDB SQL layer and documented KPI queries",
-      "Python dataset generation, validation and export pipeline",
-      "Tableau workbook and dashboard screenshot",
-      "Reproducible GitHub repository",
-    ],
-    artifacts: [
-      {
-        label: "Synthetic dataset generator",
-        description:
-          "Seeded Python generator defining category and region distributions, discount and cost profiles, and explicit profit-leak scenarios.",
-        href:
-          "https://github.com/zakaria9622/ecommerce-profit-leak-analysis/blob/main/scripts/generate_dataset.py",
-      },
-      {
-        label: "Profit staging model",
-        description:
-          "Order-level SQL transformation calculating profit, profit margin, discount bands and monthly reporting grain.",
-        href:
-          "https://github.com/zakaria9622/ecommerce-profit-leak-analysis/blob/main/sql/02_staging_profit_view.sql",
-      },
-      {
-        label: "Executive KPI SQL",
-        description:
-          "Aggregate SQL for orders, revenue, cost, profit, margin, average discount and loss-making order rate.",
-        href:
-          "https://github.com/zakaria9622/ecommerce-profit-leak-analysis/blob/main/sql/03_kpi_overview.sql",
-      },
-      {
-        label: "Profit-leak segment SQL",
-        description:
-          "Category-by-region analysis ranking the weakest segments by profit and margin performance.",
-        href:
-          "https://github.com/zakaria9622/ecommerce-profit-leak-analysis/blob/main/sql/06_category_region_segments.sql",
-      },
-      {
-        label: "Tableau workbook",
-        description:
-          "Inspectable Tableau workbook connected to the project’s generated profitability outputs.",
-        href:
-          "https://github.com/zakaria9622/ecommerce-profit-leak-analysis/blob/main/tableau/profit_leak_dashboard.twb",
-      },
-    ],
-    businessProblem:
-      "This independent case study examines where profitability erodes across categories, regions and discount strategies using order-level e-commerce data.",
-    methodology: [
-      "Built a DuckDB analytical layer on order-level data (12,000 orders)",
-      "Calculated revenue, profit, margin and discount metrics by segment",
-      "Identified loss-making orders and category-region combinations",
-      "Visualized profitability drivers in Tableau for business stakeholders",
-      "Translated SQL findings into actionable commercial recommendations",
-    ],
-    kpis: [
-      { label: "Orders analyzed", value: "12,000" },
-      { label: "Revenue", value: "€2,054,589" },
-      { label: "Profit", value: "€214,041", highlight: true },
-      { label: "Profit margin", value: "10.42%" },
-      { label: "Avg. discount", value: "17.39%" },
-      { label: "Loss-making order rate", value: "16.01%", highlight: true },
-    ],
-    mainInsight:
-      "Margin leak is concentrated in Electronics / EU, and high discount levels systematically reduce margin.",
-    recommendations: [
-      "Review discount policy on Electronics in EU — highest margin erosion zone",
-      "Cap promotional depth on categories with negative contribution margin",
-      "Monitor loss-making order rate weekly as a leading profitability KPI",
-      "Prioritize assortment and pricing fixes on weak category-region segments",
-    ],
-    screenshotPlaceholder: "Profitability dashboard — discount & category-region view",
-  },
-  {
-    slug: "funnel-analysis",
-    title: "E-commerce Funnel Analysis",
-    shortTitle: "Funnel Analysis",
-    tools: ["SQL / DuckDB", "Tableau", "Python"],
-    businessQuestion: "Where do users drop before purchase?",
-    scope: "3,022,130 view users",
-    mainOutput:
-      "Funnel dashboard, view-to-cart bottleneck diagnosis",
-    github: "https://github.com/zakaria9622/funnel-analysis-project",
-    href: "/projects/funnel-analysis",
-    featuredOrder: 1,
-    featuredCategory: "Conversion Analytics",
-    featuredBusinessQuestion:
-      "Where is the main conversion bottleneck before purchase?",
-    featuredInsight: "View-to-cart bottleneck: 11.14%.",
-    featuredContext:
-      "External event-level e-commerce data · independent case study.",
-    projectType: "Independent portfolio case study",
-    datasetDisclosure:
-      "External event-level e-commerce data used for analytical demonstration. The full dataset is excluded from the repository because of its size; a sample, aggregated outputs and methodology documentation are provided. This is not a client engagement.",
-    ownership: "Individual end-to-end project",
-    evidence: [
-      "Strict time-ordered user-level funnel logic in SQL",
-      "Data quality checks and Tableau-ready exports",
-      "Tableau workbook and dashboard screenshot",
-      "Sample data and documented methodology",
-    ],
-    artifacts: [
-      {
-        label: "Strict funnel SQL",
-        description:
-          "Time-ordered user-level logic for first view, first cart after view and first purchase after cart.",
-        href:
-          "https://github.com/zakaria9622/funnel-analysis-project/blob/main/sql/04_funnel_overall.sql",
-      },
-      {
-        label: "Data quality checks",
-        description:
-          "SQL checks covering row counts, event types, null identifiers, date range and funnel-ready records.",
-        href:
-          "https://github.com/zakaria9622/funnel-analysis-project/blob/main/sql/07_qa_checks.sql",
-      },
-      {
-        label: "Methodology",
-        description:
-          "Documented funnel definitions, sequencing rules, formulas and segment-analysis principles.",
-        href:
-          "https://github.com/zakaria9622/funnel-analysis-project/blob/main/docs/methodology.md",
-      },
-      {
-        label: "Sample event data",
-        description:
-          "Reviewable CSV sample showing the event schema used by the executable demonstration pipeline.",
-        href:
-          "https://github.com/zakaria9622/funnel-analysis-project/blob/main/data/ecommerce_events_sample.csv",
-      },
-      {
-        label: "Tableau workbook",
-        description:
-          "The Tableau workbook connected to the project’s generated analytical outputs.",
-        href:
-          "https://github.com/zakaria9622/funnel-analysis-project/blob/main/tableau/ecommerce_funnel_dashboard.twb",
-      },
-    ],
-    businessProblem:
-      "This independent case study examines where users abandon an e-commerce purchase journey and quantifies conversion drop-offs at each funnel stage.",
-    methodology: [
-      "Defined funnel stages: view → cart → purchase",
-      "Used SQL CTEs to calculate unique users, conversion rates and drop-offs",
-      "Analyzed 3,022,130 view users with DuckDB for performant aggregation",
-      "Built a Tableau funnel dashboard for stakeholder reporting",
-      "Isolated the view-to-cart step as the primary friction point",
-    ],
-    kpis: [
-      { label: "View users", value: "3,022,130" },
-      { label: "View-to-cart rate", value: "11.14%", highlight: true },
-      { label: "Cart-to-purchase rate", value: "58.35%" },
-      { label: "Total conversion rate", value: "6.50%", highlight: true },
-      { label: "Cart users", value: "336,718" },
-      { label: "Purchase users", value: "196,474" },
-    ],
-    mainInsight:
-      "Only 11.14% of viewers add to cart, while 58.35% of cart users complete a purchase. The primary conversion bottleneck is therefore product view → add-to-cart, not checkout.",
-    recommendations: [
-      "A/B test product page CTAs and add-to-cart visibility",
-      "Analyze product categories with highest view-to-cart drop-off",
-      "Implement retargeting for high-intent viewers who did not add to cart",
-      "Track view-to-cart rate as a core conversion KPI alongside purchase rate",
-    ],
-    screenshotPlaceholder: "Funnel dashboard — conversion & drop-off by stage",
-  },
-  {
-    slug: "rfm-segmentation",
-    title: "Customer Segmentation RFM",
-    shortTitle: "RFM Segmentation",
-    tools: ["Python", "pandas", "CRM analytics"],
-    businessQuestion: "Which customers should CRM prioritize?",
-    mainOutput:
-      "VIP, Loyal, At-risk and Lost customer segmentation",
-    github: "https://github.com/zakaria9622/customer-segmentation-rfm",
-    href: "/projects/rfm-segmentation",
-    featuredOrder: 2,
-    featuredCategory: "CRM & Retention Analytics",
-    featuredInsight:
-      "VIP customers represent 27.9% of customers and generate 75.4% of revenue.",
-    projectType: "Independent portfolio case study",
-    datasetDisclosure:
-      "Synthetic but business-realistic e-commerce order data generated with Python. The dataset contains 5,000 simulated customers and 45,356 orders and does not represent a real company.",
-    ownership: "Individual end-to-end project",
-    evidence: [
-      "Python and pandas customer-level aggregation",
-      "Documented RFM scoring and segmentation rules",
-      "Generated KPI outputs and visual analysis",
-      "Reproducible GitHub repository",
-    ],
-    artifacts: [
-      {
-        label: "Synthetic dataset generator",
-        description:
-          "Seeded Python generator defining customer behavior profiles, order frequency, recency and revenue distributions.",
-        href:
-          "https://github.com/zakaria9622/customer-segmentation-rfm/blob/main/scripts/generate_dataset.py",
-      },
-      {
-        label: "RFM scoring pipeline",
-        description:
-          "Customer-level aggregation, quintile scoring, mutually exclusive segment assignment and KPI export logic.",
-        href:
-          "https://github.com/zakaria9622/customer-segmentation-rfm/blob/main/scripts/rfm_segmentation.py",
-      },
-      {
-        label: "Committed run metrics",
-        description:
-          "Machine-readable output containing customer count, order count, revenue and exact segment-level results.",
-        href:
-          "https://github.com/zakaria9622/customer-segmentation-rfm/blob/main/outputs/metrics.json",
-      },
-      {
-        label: "Segment summary",
-        description:
-          "Published segment-level customer counts, revenue shares and average revenue per customer.",
-        href:
-          "https://github.com/zakaria9622/customer-segmentation-rfm/blob/main/outputs/segment_summary.csv",
-      },
-      {
-        label: "CRM playbook",
-        description:
-          "Business actions, campaign ideas and monitoring KPIs for VIP, Loyal, At-risk and Lost customers.",
-        href:
-          "https://github.com/zakaria9622/customer-segmentation-rfm/blob/main/docs/crm_playbook.md",
-      },
-    ],
-    businessProblem:
-      "This independent case study develops a data-driven customer segmentation approach based on recency, frequency and monetary value to prioritize retention and win-back actions.",
-    methodology: [
-      "Computed RFM scores on 5,000 customers and 45,356 orders",
-      "Segmented customers into VIP, Loyal, At-risk and Lost clusters",
-      "Quantified revenue concentration per segment",
-      "Built CRM prioritization rules based on segment economics",
-      "Delivered actionable recommendations per segment",
-    ],
-    kpis: [
-      { label: "Customers", value: "5,000" },
-      { label: "Orders", value: "45,356" },
-      { label: "Total revenue", value: "€4,522,014" },
-      { label: "VIP share", value: "27.9% customers · 75.4% revenue", highlight: true },
-      { label: "Lost share", value: "23.62% customers · 2.95% revenue", highlight: true },
-    ],
-    mainInsight:
-      "Revenue is highly concentrated: VIP customers (27.9%) drive 75.4% of revenue, while Lost customers (23.62%) contribute only 2.95% — clear CRM prioritization signals.",
-    recommendations: [
-      "VIP retention: loyalty programs, exclusive offers, proactive account management",
-      "At-risk win-back: targeted email campaigns before churn to Lost segment",
-      "Upsell / cross-sell on Loyal segment to move toward VIP status",
-      "Deprioritize broad campaigns on Lost segment — focus budget on recoverable At-risk",
-    ],
-    screenshotPlaceholder: "RFM segmentation dashboard — segment distribution & revenue",
-  },
-  {
     slug: "renewalos",
-    title: "RenewalOS — Revenue Quality & Account Health",
+    title:
+      "RenewalOS — Fiabilité du revenu B2B & priorisation Customer Success",
     heroTitle: "RenewalOS",
-    heroSubtitle: "Revenue Quality & Account Health",
+    heroSubtitle: "Fiabilité du revenu B2B & priorisation Customer Success",
     shortTitle: "RenewalOS",
-    tools: ["DuckDB", "dbt", "SQL", "Python", "Streamlit", "OR-Tools"],
+    tools: ["SQL", "dbt", "DuckDB", "Python", "Streamlit"],
     businessQuestion:
-      "Can revenue KPIs be trusted before Customer Success teams prioritize accounts?",
+      "Les KPI de revenu sont-ils fiables avant que le Customer Success priorise ses comptes ?",
     summary:
-      "A synthetic B2B analytics system that detects revenue-data issues, gates KPI reporting, explains account health, and generates capacity-constrained CSM recommendations.",
-    scope: "Synthetic data only",
-    cardScope: "Simulated B2B portfolio · reproducible scenario",
-    cardMetric: {
-      label: "DECISION CONTROL",
-      value: "KPI reporting gated by data quality",
-    },
-    mainOutput:
-      "Data-quality-gated revenue reconciliation and explainable CSM prioritization.",
+      "Détection des incidents qualité avant reporting, puis priorisation d'un portefeuille CRM sous contrainte de capacité.",
+    cardContext:
+      "Portefeuille 24 mois · 7 sources · Réconciliation ARR · Contrôles qualité · Priorisation sous contrainte",
     github:
       "https://github.com/zakaria9622/renewalos-b2b-revenue-quality-engine",
     liveDemo: "https://renewalos-zakaria.streamlit.app/",
     href: "/projects/renewalos",
-    featuredOrder: 4,
-    featuredCategory: "Revenue & Retention Analytics",
+    featuredOrder: 1,
+    featuredCategory: "Data Quality & Aide à la décision",
     featuredInsight:
-      "KPI outputs stay gated until data-quality exceptions are reviewed.",
-    projectType: "Independent synthetic B2B analytics system",
+      "Les KPI restent sous contrôle qualité tant que les exceptions ne sont pas revues.",
+    projectType: "Projet portfolio · système analytique B2B synthétique",
     datasetDisclosure:
-      "Synthetic B2B data only. No production customer data, production deployment, observed intervention result or real business impact is claimed.",
-    ownership: "Individual end-to-end project",
+      "Données B2B synthétiques uniquement. Aucune donnée client de production, aucun déploiement en production, aucun résultat d'intervention observé ni impact business réel n'est revendiqué.",
+    ownership: "Projet individuel de bout en bout",
     evidence: [
-      "DuckDB warehouse modeled with dbt",
-      "Data-quality and revenue-reconciliation controls",
-      "Explainable account-health and prioritization workflow",
-      "Public Streamlit demonstration and GitHub repository",
+      "Entrepôt DuckDB modélisé avec dbt",
+      "Contrôles qualité et réconciliation du revenu",
+      "Diagnostic de santé des comptes explicable",
+      "Démonstration Streamlit publique et dépôt GitHub",
     ],
     artifacts: [
       {
-        label: "Synthetic source generation",
+        label: "Génération des sources synthétiques",
         description:
-          "Reproducible source-data generation and validation layer that injects and detects controlled quality incidents.",
+          "Couche reproductible de génération et de validation des données sources, qui injecte puis détecte des incidents qualité contrôlés.",
         href:
           "https://github.com/zakaria9622/renewalos-b2b-revenue-quality-engine/blob/master/src/renewalos/generation/validate_generation.py",
       },
       {
-        label: "KPI trust gate",
+        label: "Contrôle qualité des KPI",
         description:
-          "dbt model that blocks, caveats or marks revenue metrics as not assessable based on quality and reconciliation evidence.",
+          "Modèle dbt qui bloque, nuance ou déclare non évaluables les métriques de revenu selon les preuves de qualité et de réconciliation.",
         href:
           "https://github.com/zakaria9622/renewalos-b2b-revenue-quality-engine/blob/master/dbt/models/marts/mart_kpi_trust_status.sql",
       },
       {
-        label: "Quality-control validation",
+        label: "Validation des contrôles qualité",
         description:
-          "Validation layer checking incident coverage, exception metadata, quality statuses and reconciliation gaps.",
+          "Couche de validation vérifiant la couverture des incidents, les métadonnées d'exception, les statuts qualité et les écarts de réconciliation.",
         href:
           "https://github.com/zakaria9622/renewalos-b2b-revenue-quality-engine/blob/master/src/renewalos/quality/validation.py",
       },
       {
-        label: "Account-health methodology",
+        label: "Méthodologie de santé des comptes",
         description:
-          "Documented quality gates, scoring components, simulated thresholds, explanation logic and limitations.",
+          "Documentation des contrôles qualité, des composantes de score, des seuils simulés, de la logique d'explication et des limites.",
         href:
           "https://github.com/zakaria9622/renewalos-b2b-revenue-quality-engine/blob/master/docs/account_health_methodology.md",
       },
       {
-        label: "Capacity-constrained optimizer",
+        label: "Optimiseur sous contrainte de capacité",
         description:
-          "OR-Tools scenario optimizer selecting eligible synthetic account priorities under CSM hour and account-capacity constraints.",
+          "Optimiseur de scénarios (OR-Tools) sélectionnant les comptes synthétiques éligibles sous contrainte d'heures CSM et de nombre de comptes.",
         href:
           "https://github.com/zakaria9622/renewalos-b2b-revenue-quality-engine/blob/master/src/renewalos/prioritization/optimizer.py",
       },
     ],
     businessProblem:
-      "B2B teams often act on ARR, churn, renewal and account-health signals before source-system issues are visible. RenewalOS shows a synthetic analytics workflow where data exceptions, reconciliation gaps and decision rules are exposed before Customer Success prioritization is reviewed.",
+      "Les équipes B2B agissent souvent sur des signaux d'ARR, de churn, de renouvellement et de santé des comptes avant que les problèmes des systèmes sources ne soient visibles. RenewalOS montre un workflow analytique où les exceptions de données, les écarts de réconciliation et les règles de décision sont exposés avant que la priorisation Customer Success ne soit revue.",
     architecture: [
-      "Synthetic source domains feed a local DuckDB warehouse modeled with dbt.",
-      "Quality controls and revenue reconciliation checks surface source-data exceptions before KPI-facing views are used.",
-      "Account-health diagnostics explain risk signals while preserving blocked or excluded records.",
-      "OR-Tools applies simulated CSM capacity limits to scenario recommendations, not production decisions.",
+      "Des domaines sources synthétiques alimentent un entrepôt DuckDB local modélisé avec dbt.",
+      "Les contrôles qualité et la réconciliation du revenu font remonter les exceptions sources avant l'usage des vues destinées aux KPI.",
+      "Le diagnostic de santé des comptes explicite les signaux de risque tout en conservant les enregistrements bloqués ou exclus.",
+      "OR-Tools applique des limites de capacité CSM simulées aux scénarios de recommandation, et non à des décisions de production.",
     ],
     methodology: [
-      "Generated synthetic source data for contracts, billing, usage, support and Customer Success activity",
-      "Loaded untrusted records into DuckDB and modeled warehouse layers with dbt",
-      "Applied data-quality controls and revenue reconciliation checks before KPI reporting",
-      "Built explainable account-health diagnostics with source exceptions still visible",
-      "Produced capacity-constrained CSM prioritization scenarios with explicit exclusions",
+      "Génération de données sources synthétiques : contrats, facturation, usage, support et activité Customer Success",
+      "Chargement des enregistrements non fiabilisés dans DuckDB et modélisation des couches de l'entrepôt avec dbt",
+      "Application des contrôles qualité et de la réconciliation du revenu avant tout reporting de KPI",
+      "Construction d'un diagnostic de santé des comptes explicable, exceptions sources toujours visibles",
+      "Production de scénarios de priorisation CSM sous contrainte de capacité, avec exclusions explicites",
     ],
     kpis: [
-      { label: "Data status", value: "Synthetic", highlight: true },
-      { label: "KPI status", value: "Gated" },
-      { label: "Decision output", value: "Diagnostic scenarios" },
-      { label: "Interface", value: "Local Streamlit" },
-      { label: "Deployment", value: "Not production" },
-      { label: "Impact claim", value: "None" },
+      { label: "Données", value: "Synthétiques", highlight: true },
+      { label: "Statut des KPI", value: "Sous contrôle qualité" },
+      { label: "Sortie décisionnelle", value: "Scénarios de priorisation" },
+      { label: "Interface", value: "Streamlit" },
+      { label: "Déploiement", value: "Hors production" },
+      { label: "Impact business revendiqué", value: "Aucun" },
     ],
     mainInsight:
-      "Decision outputs are restricted until source-data exceptions and reconciliation gaps are visible and reviewed.",
+      "Les sorties décisionnelles restent restreintes tant que les exceptions sources et les écarts de réconciliation ne sont pas visibles et revus.",
     recommendations: [
-      "Review quality exceptions before treating ARR, churn or renewal metrics as management KPIs",
-      "Use reconciliation gaps as blockers that require evidence rather than manual smoothing",
-      "Treat CSM prioritization output as simulated scenario planning until validated on real data",
-      "Keep excluded records visible so capacity decisions do not hide data-trust issues",
+      "Revoir les exceptions qualité avant de traiter l'ARR, le churn ou le renouvellement comme des KPI de pilotage",
+      "Traiter les écarts de réconciliation comme des points bloquants exigeant une preuve, plutôt que de les lisser manuellement",
+      "Considérer la priorisation CSM comme une simulation de scénarios tant qu'elle n'est pas validée sur données réelles",
+      "Garder les enregistrements exclus visibles pour que les arbitrages de capacité ne masquent pas les problèmes de fiabilité",
     ],
     limitations: [
-      "Uses synthetic data only.",
-      "Outputs are diagnostic and are not trusted management KPI reporting.",
-      "CSM prioritization is simulated scenario analysis, not observed intervention evidence.",
-      "No observed business impact, customer outcome or model-accuracy claim is made.",
-      "No production deployment is configured or claimed.",
+      "Le projet repose uniquement sur des données synthétiques.",
+      "Les sorties sont diagnostiques et ne constituent pas un reporting de KPI de pilotage fiabilisé.",
+      "La priorisation CSM est une analyse de scénarios simulée, pas une preuve d'intervention observée.",
+      "Aucun impact business, résultat client ou niveau de précision de modèle n'est revendiqué.",
+      "Aucun déploiement en production n'est configuré ni revendiqué.",
     ],
     supportingScreenshots: [
       {
         src: "/projects/renewalos-data-trust-diagnostics.png",
-        alt: "RenewalOS Data Trust diagnostics screen showing quality-control categories",
+        alt: "Écran de diagnostic Data Trust de RenewalOS présentant les catégories de contrôle qualité",
         caption:
-          "Data Trust diagnostics make source-data exceptions visible before KPI or prioritization outputs are reviewed.",
+          "Le diagnostic Data Trust rend les exceptions sources visibles avant la lecture des KPI ou des scénarios de priorisation.",
       },
     ],
     screenshotPlaceholder:
-      "RenewalOS Control Tower — synthetic data disclaimer and KPI reporting restrictions",
+      "Control Tower RenewalOS — mention des données synthétiques et restrictions de reporting KPI",
+  },
+  {
+    slug: "funnel-analysis",
+    title: "Funnel e-commerce & leviers de conversion",
+    shortTitle: "Funnel e-commerce",
+    tools: ["SQL", "Tableau", "Python"],
+    businessQuestion: "Où les utilisateurs abandonnent-ils avant l'achat ?",
+    summary:
+      "Identification du principal point de friction entre consultation, panier et achat.",
+    cardContext:
+      "3,02 M visiteurs · Vue → panier 11,14 % · Panier → achat 58,35 %",
+    github: "https://github.com/zakaria9622/funnel-analysis-project",
+    href: "/projects/funnel-analysis",
+    featuredOrder: 2,
+    featuredCategory: "Analyse de performance & Conversion",
+    featuredInsight: "Point de friction vue → panier : 11,14 %.",
+    projectType: "Projet portfolio individuel",
+    datasetDisclosure:
+      "Données e-commerce événementielles externes utilisées à des fins de démonstration analytique. Le jeu de données complet est exclu du dépôt en raison de sa taille ; un échantillon, les sorties agrégées et la documentation méthodologique sont fournis. Il ne s'agit pas d'une mission client.",
+    ownership: "Projet individuel de bout en bout",
+    evidence: [
+      "Logique de funnel utilisateur strictement chronologique en SQL",
+      "Contrôles de qualité des données et exports prêts pour Tableau",
+      "Classeur Tableau et capture du dashboard",
+      "Échantillon de données et méthodologie documentée",
+    ],
+    artifacts: [
+      {
+        label: "SQL du funnel strict",
+        description:
+          "Logique utilisateur ordonnée dans le temps : première vue, premier panier après la vue, premier achat après le panier.",
+        href:
+          "https://github.com/zakaria9622/funnel-analysis-project/blob/main/sql/04_funnel_overall.sql",
+      },
+      {
+        label: "Contrôles de qualité des données",
+        description:
+          "Contrôles SQL sur le volume de lignes, les types d'événements, les identifiants nuls, la plage de dates et les enregistrements exploitables.",
+        href:
+          "https://github.com/zakaria9622/funnel-analysis-project/blob/main/sql/07_qa_checks.sql",
+      },
+      {
+        label: "Méthodologie",
+        description:
+          "Définitions du funnel, règles de séquencement, formules et principes d'analyse par segment.",
+        href:
+          "https://github.com/zakaria9622/funnel-analysis-project/blob/main/docs/methodology.md",
+      },
+      {
+        label: "Échantillon de données événementielles",
+        description:
+          "Échantillon CSV consultable présentant le schéma d'événements utilisé par le pipeline de démonstration.",
+        href:
+          "https://github.com/zakaria9622/funnel-analysis-project/blob/main/data/ecommerce_events_sample.csv",
+      },
+      {
+        label: "Classeur Tableau",
+        description:
+          "Classeur Tableau connecté aux sorties analytiques générées par le projet.",
+        href:
+          "https://github.com/zakaria9622/funnel-analysis-project/blob/main/tableau/ecommerce_funnel_dashboard.twb",
+      },
+    ],
+    businessProblem:
+      "Ce projet portfolio examine à quel moment les utilisateurs abandonnent un parcours d'achat e-commerce et quantifie les pertes de conversion à chaque étape du funnel.",
+    methodology: [
+      "Définition des étapes du funnel : vue → panier → achat",
+      "Calcul des utilisateurs uniques, taux de conversion et taux d'abandon via des CTE SQL",
+      "Analyse de 3 022 130 visiteurs avec DuckDB pour des agrégations performantes",
+      "Construction d'un dashboard Tableau destiné au suivi par les équipes métiers",
+      "Isolation de l'étape vue → panier comme principal point de friction",
+    ],
+    kpis: [
+      { label: "Visiteurs", value: "3 022 130" },
+      { label: "Taux vue → panier", value: "11,14 %", highlight: true },
+      { label: "Taux panier → achat", value: "58,35 %" },
+      { label: "Taux de conversion global", value: "6,50 %", highlight: true },
+      { label: "Utilisateurs avec panier", value: "336 718" },
+      { label: "Utilisateurs acheteurs", value: "196 474" },
+    ],
+    mainInsight:
+      "Seuls 11,14 % des visiteurs ajoutent un produit au panier, alors que 58,35 % des paniers aboutissent à un achat. Le principal point de friction se situe donc entre la vue produit et l'ajout au panier, et non au moment du paiement.",
+    recommendations: [
+      "Tester les CTA et la visibilité de l'ajout au panier sur les pages produit",
+      "Analyser les catégories de produits présentant la plus forte perte vue → panier",
+      "Mettre en place un retargeting sur les visiteurs à forte intention n'ayant pas ajouté au panier",
+      "Suivre le taux vue → panier comme KPI de conversion à part entière, au même titre que le taux d'achat",
+    ],
+    screenshotPlaceholder:
+      "Dashboard funnel — conversion et abandon par étape",
+  },
+  {
+    slug: "rfm-segmentation",
+    title: "Segmentation RFM & recommandations CRM",
+    shortTitle: "Segmentation RFM",
+    tools: ["Python", "pandas"],
+    businessQuestion: "Quels clients le CRM doit-il prioriser ?",
+    summary:
+      "Actions de rétention et de réactivation adaptées à chaque segment client.",
+    cardContext: "5 000 clients · VIP · Loyaux · À risque · Perdus",
+    github: "https://github.com/zakaria9622/customer-segmentation-rfm",
+    href: "/projects/rfm-segmentation",
+    featuredOrder: 3,
+    featuredCategory: "CRM & Segmentation",
+    featuredInsight:
+      "Les clients VIP représentent 27,9 % des clients et 75,4 % du chiffre d'affaires.",
+    projectType: "Projet portfolio individuel",
+    datasetDisclosure:
+      "Données de commandes e-commerce synthétiques, mais réalistes d'un point de vue métier, générées avec Python. Le jeu de données contient 5 000 clients simulés et 45 356 commandes, et ne représente pas une entreprise réelle.",
+    ownership: "Projet individuel de bout en bout",
+    evidence: [
+      "Agrégation client avec Python et pandas",
+      "Règles de scoring et de segmentation RFM documentées",
+      "Sorties KPI générées et analyse visuelle",
+      "Dépôt GitHub reproductible",
+    ],
+    artifacts: [
+      {
+        label: "Générateur de données synthétiques",
+        description:
+          "Générateur Python à graine fixe définissant les profils de comportement client, la fréquence de commande, la récence et la distribution du chiffre d'affaires.",
+        href:
+          "https://github.com/zakaria9622/customer-segmentation-rfm/blob/main/scripts/generate_dataset.py",
+      },
+      {
+        label: "Pipeline de scoring RFM",
+        description:
+          "Agrégation au niveau client, scoring par quintiles, affectation de segments mutuellement exclusifs et export des KPI.",
+        href:
+          "https://github.com/zakaria9622/customer-segmentation-rfm/blob/main/scripts/rfm_segmentation.py",
+      },
+      {
+        label: "Métriques d'exécution versionnées",
+        description:
+          "Sortie exploitable par machine contenant le nombre de clients, de commandes, le chiffre d'affaires et les résultats exacts par segment.",
+        href:
+          "https://github.com/zakaria9622/customer-segmentation-rfm/blob/main/outputs/metrics.json",
+      },
+      {
+        label: "Synthèse par segment",
+        description:
+          "Nombre de clients, part de chiffre d'affaires et revenu moyen par client, publiés pour chaque segment.",
+        href:
+          "https://github.com/zakaria9622/customer-segmentation-rfm/blob/main/outputs/segment_summary.csv",
+      },
+      {
+        label: "Playbook CRM",
+        description:
+          "Actions métiers, idées de campagnes et KPI de suivi pour les segments VIP, Loyaux, À risque et Perdus.",
+        href:
+          "https://github.com/zakaria9622/customer-segmentation-rfm/blob/main/docs/crm_playbook.md",
+      },
+    ],
+    businessProblem:
+      "Ce projet portfolio construit une segmentation client fondée sur la récence, la fréquence et le montant d'achat, afin de prioriser les actions de rétention et de réactivation.",
+    methodology: [
+      "Calcul des scores RFM sur 5 000 clients et 45 356 commandes",
+      "Segmentation des clients en groupes VIP, Loyaux, À risque et Perdus",
+      "Quantification de la concentration du chiffre d'affaires par segment",
+      "Définition de règles de priorisation CRM fondées sur l'économie de chaque segment",
+      "Traduction des résultats en recommandations actionnables par segment",
+    ],
+    kpis: [
+      { label: "Clients analysés", value: "5 000" },
+      { label: "Commandes", value: "45 356" },
+      { label: "Chiffre d'affaires", value: "4 522 014 €" },
+      {
+        label: "Part VIP",
+        value: "27,9 % des clients · 75,4 % du CA",
+        highlight: true,
+      },
+      {
+        label: "Part Perdus",
+        value: "23,62 % des clients · 2,95 % du CA",
+        highlight: true,
+      },
+    ],
+    mainInsight:
+      "Le chiffre d'affaires est fortement concentré : les clients VIP (27,9 %) génèrent 75,4 % du CA, tandis que les clients Perdus (23,62 %) n'en représentent que 2,95 % — un signal de priorisation CRM très clair.",
+    recommendations: [
+      "Rétention VIP : programme de fidélité, offres exclusives, suivi de compte proactif",
+      "Réactivation À risque : campagnes email ciblées avant bascule vers le segment Perdus",
+      "Upsell et cross-sell sur le segment Loyaux pour le faire progresser vers le statut VIP",
+      "Dépriorisation des campagnes de masse sur le segment Perdus au profit du segment À risque récupérable",
+    ],
+    screenshotPlaceholder:
+      "Dashboard de segmentation RFM — répartition des segments et chiffre d'affaires",
+  },
+  {
+    slug: "profit-leak",
+    title: "Rentabilité e-commerce & fuites de marge",
+    shortTitle: "Rentabilité e-commerce",
+    tools: ["SQL", "Tableau", "Python"],
+    businessQuestion: "Où la marge se dégrade-t-elle ?",
+    summary:
+      "Priorisation des fuites de marge et des leviers d'amélioration de la rentabilité.",
+    cardContext: "12 000 commandes · CA · Coûts · Marge · Remises",
+    github: "https://github.com/zakaria9622/ecommerce-profit-leak-analysis",
+    href: "/projects/profit-leak",
+    featuredOrder: 4,
+    featuredCategory: "Rentabilité",
+    featuredInsight:
+      "La perte de marge se concentre sur Électronique / UE ; des remises élevées dégradent la marge.",
+    projectType: "Projet portfolio individuel",
+    datasetDisclosure:
+      "Données de commandes e-commerce synthétiques générées avec Python. L'analyse porte sur 12 000 commandes simulées et ne représente pas la performance d'une entreprise réelle.",
+    ownership: "Projet individuel de bout en bout",
+    evidence: [
+      "Couche SQL DuckDB et requêtes KPI documentées",
+      "Pipeline Python de génération, validation et export du jeu de données",
+      "Classeur Tableau et capture du dashboard",
+      "Dépôt GitHub reproductible",
+    ],
+    artifacts: [
+      {
+        label: "Générateur de données synthétiques",
+        description:
+          "Générateur Python à graine fixe définissant les distributions par catégorie et région, les profils de remise et de coût, et des scénarios explicites de fuite de marge.",
+        href:
+          "https://github.com/zakaria9622/ecommerce-profit-leak-analysis/blob/main/scripts/generate_dataset.py",
+      },
+      {
+        label: "Modèle de préparation de la marge",
+        description:
+          "Transformation SQL au niveau commande calculant la marge, le taux de marge, les tranches de remise et la maille mensuelle de reporting.",
+        href:
+          "https://github.com/zakaria9622/ecommerce-profit-leak-analysis/blob/main/sql/02_staging_profit_view.sql",
+      },
+      {
+        label: "SQL des KPI de synthèse",
+        description:
+          "Agrégats SQL sur les commandes, le chiffre d'affaires, les coûts, la marge, le taux de marge, la remise moyenne et la part de commandes à perte.",
+        href:
+          "https://github.com/zakaria9622/ecommerce-profit-leak-analysis/blob/main/sql/03_kpi_overview.sql",
+      },
+      {
+        label: "SQL des segments en fuite de marge",
+        description:
+          "Analyse croisée catégorie × région classant les segments les plus faibles en marge et en rentabilité.",
+        href:
+          "https://github.com/zakaria9622/ecommerce-profit-leak-analysis/blob/main/sql/06_category_region_segments.sql",
+      },
+      {
+        label: "Classeur Tableau",
+        description:
+          "Classeur Tableau consultable, connecté aux sorties de rentabilité générées par le projet.",
+        href:
+          "https://github.com/zakaria9622/ecommerce-profit-leak-analysis/blob/main/tableau/profit_leak_dashboard.twb",
+      },
+    ],
+    businessProblem:
+      "Ce projet portfolio examine où la rentabilité se dégrade selon les catégories, les régions et les politiques de remise, à partir de données de commandes e-commerce.",
+    methodology: [
+      "Construction d'une couche analytique DuckDB au niveau commande (12 000 commandes)",
+      "Calcul du chiffre d'affaires, de la marge, du taux de marge et des remises par segment",
+      "Identification des commandes à perte et des couples catégorie × région les plus fragiles",
+      "Visualisation des facteurs de rentabilité dans Tableau pour les équipes métiers",
+      "Traduction des résultats SQL en recommandations commerciales actionnables",
+    ],
+    kpis: [
+      { label: "Commandes analysées", value: "12 000" },
+      { label: "Chiffre d'affaires", value: "2 054 589 €" },
+      { label: "Marge", value: "214 041 €", highlight: true },
+      { label: "Taux de marge", value: "10,42 %" },
+      { label: "Remise moyenne", value: "17,39 %" },
+      {
+        label: "Part de commandes à perte",
+        value: "16,01 %",
+        highlight: true,
+      },
+    ],
+    mainInsight:
+      "La fuite de marge se concentre sur le couple Électronique / UE, et les niveaux de remise élevés dégradent systématiquement la marge.",
+    recommendations: [
+      "Revoir la politique de remise sur l'Électronique en UE — zone d'érosion de marge la plus forte",
+      "Plafonner la profondeur promotionnelle sur les catégories à marge de contribution négative",
+      "Suivre la part de commandes à perte chaque semaine comme KPI avancé de rentabilité",
+      "Prioriser les correctifs d'assortiment et de prix sur les segments catégorie × région les plus fragiles",
+    ],
+    screenshotPlaceholder:
+      "Dashboard de rentabilité — vue remises et catégorie × région",
   },
 ];
 

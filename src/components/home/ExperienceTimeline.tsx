@@ -5,16 +5,7 @@ import { ChevronDown } from "lucide-react";
 import { EditorialMarker } from "@/components/home/EditorialMarker";
 import { experience } from "@/data/experience";
 
-const progressionLabels = [
-  "Digital execution",
-  "Marketing reporting",
-  "Data & BI foundation",
-] as const;
-
-const careerChapters = [...experience].reverse().map((job, index) => ({
-  ...job,
-  progressionLabel: progressionLabels[index],
-}));
+const careerChapters = [...experience].reverse();
 
 export function ExperienceTimeline() {
   const [openExperiences, setOpenExperiences] = useState<Set<number>>(
@@ -37,28 +28,26 @@ export function ExperienceTimeline() {
       aria-labelledby="experience-heading"
     >
       <div className="editorial-experience-heading">
-        <EditorialMarker index="03" label="Professional experience" tone="blue" />
+        <EditorialMarker index="03" label="Expérience professionnelle" tone="blue" />
         <div>
-          <h2 id="experience-heading">
-            The path from digital execution to marketing intelligence.
-          </h2>
+          <h2 id="experience-heading">Expérience professionnelle</h2>
           <p>
-            Three professional chapters show a deliberate progression from
-            campaign execution to reporting, data preparation and BI delivery.
+            De la collecte et la fiabilisation des données jusqu&apos;au
+            reporting destiné aux équipes métiers.
           </p>
         </div>
       </div>
 
-      <ol className="career-progression" aria-label="Professional progression">
-        {progressionLabels.map((label, index) => (
-          <li key={label}>
+      <ol className="career-progression" aria-label="Progression professionnelle">
+        {careerChapters.map((job, index) => (
+          <li key={job.company}>
             <span aria-hidden="true">0{index + 1}</span>
-            {label}
+            {job.focus}
           </li>
         ))}
         <li className="is-direction">
           <span aria-hidden="true">→</span>
-          Marketing Data Analytics direction
+          Business Analyst
         </li>
       </ol>
 
@@ -80,9 +69,9 @@ export function ExperienceTimeline() {
               </div>
 
               <div className="career-chapter-annotation">
-                <p>{job.progressionLabel}</p>
+                <p>{job.focus}</p>
                 <span>{job.dates}</span>
-                {isLatest && <strong>Latest experience</strong>}
+                {isLatest && <strong>Expérience en cours</strong>}
               </div>
 
               <div className="career-chapter-content">
@@ -116,7 +105,7 @@ export function ExperienceTimeline() {
                   aria-labelledby={triggerId}
                   className={`career-chapter-details${isOpen ? " is-open" : ""}`}
                 >
-                  <p>Selected responsibilities</p>
+                  <p>Missions principales</p>
                   <ul>
                     {job.highlights.map((highlight, highlightIndex) => (
                       <li key={highlight}>
@@ -136,11 +125,11 @@ export function ExperienceTimeline() {
 
       <div className="career-direction-note">
         <span aria-hidden="true">04</span>
-        <p>Direction</p>
-        <strong>Marketing Data Analytics</strong>
+        <p>Objectif</p>
+        <strong>Business Analyst</strong>
         <small>
-          Connecting acquisition, conversion, retention and profitability
-          questions to decision-ready analysis.
+          Traduire les besoins métiers en KPI, analyses et reporting exploitables
+          pour la décision.
         </small>
       </div>
     </section>

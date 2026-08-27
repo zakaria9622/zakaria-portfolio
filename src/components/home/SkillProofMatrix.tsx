@@ -1,24 +1,24 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { EditorialMarker } from "@/components/home/EditorialMarker";
-import { skillsByCategory } from "@/data/skills";
+import { languages, skillsByCategory } from "@/data/skills";
 import { getProjectBySlug } from "@/data/projects";
 
 const domainEvidence = [
   {
     summary:
-      "Locate acquisition friction, conversion drop-off and customer priorities.",
-    projectSlugs: ["funnel-analysis", "rfm-segmentation"],
+      "Segmenter les clients, suivre la conversion et prioriser les actions CRM.",
+    projectSlugs: ["rfm-segmentation", "funnel-analysis"],
   },
   {
     summary:
-      "Turn source data into defined KPIs, validated models and usable reporting.",
-    projectSlugs: ["renewalos", "funnel-analysis"],
+      "Préparer les données, calculer les KPI et livrer un reporting exploitable.",
+    projectSlugs: ["funnel-analysis", "profit-leak"],
   },
   {
     summary:
-      "Connect commercial performance signals to profitability and account decisions.",
-    projectSlugs: ["profit-leak", "renewalos"],
+      "Fiabiliser les sources et sécuriser les indicateurs avant diffusion.",
+    projectSlugs: ["renewalos", "profit-leak"],
   },
 ] as const;
 
@@ -45,20 +45,18 @@ export function SkillProofMatrix() {
       aria-labelledby="capability-proof-title"
     >
       <header className="capability-proof-heading">
-        <EditorialMarker index="06" label="Capability proof" tone="amber" />
-        <h2 id="capability-proof-title">
-          Business questions first. Tools in service of the answer.
-        </h2>
+        <EditorialMarker index="06" label="Compétences" tone="amber" />
+        <h2 id="capability-proof-title">Compétences et travaux associés</h2>
         <p>
-          A capability index grounded in independent portfolio evidence—not a
-          keyword inventory.
+          Trois domaines de compétences, avec les projets portfolio qui les
+          illustrent.
         </p>
       </header>
 
       <div className="capability-proof-key" aria-hidden="true">
-        <span>Domain and business use</span>
-        <span>Analytical capabilities</span>
-        <span>Portfolio proof</span>
+        <span>Domaine</span>
+        <span>Compétences</span>
+        <span>Projets associés</span>
       </div>
 
       <ol className="capability-proof-index">
@@ -76,20 +74,20 @@ export function SkillProofMatrix() {
               </div>
 
               <div className="capability-proof-capabilities">
-                <p>Capabilities</p>
+                <p>Compétences</p>
                 <ul>
                   {domain.skills.map((skill) => (
                     <li key={skill}>{skill}</li>
                   ))}
                 </ul>
                 <div>
-                  <span>Relevant tools</span>
+                  <span>Outils mobilisés</span>
                   <p>{domain.tools.join(" · ")}</p>
                 </div>
               </div>
 
               <div className="capability-proof-evidence">
-                <p>Evidence / independent work</p>
+                <p>Projets portfolio</p>
                 <ul>
                   {domain.projects.map((project) => (
                     <li key={project.slug}>
@@ -107,6 +105,15 @@ export function SkillProofMatrix() {
           </li>
         ))}
       </ol>
+
+      <div className="capability-languages">
+        <p>Langues</p>
+        <ul>
+          {languages.map((language) => (
+            <li key={language}>{language}</li>
+          ))}
+        </ul>
+      </div>
     </section>
   );
 }

@@ -8,38 +8,41 @@ const project = getProjectBySlug("renewalos");
 if (!project) notFound();
 
 const title = "RenewalOS";
-const description = "Revenue quality, account health and CSM prioritization";
+const description =
+  "Contrôle qualité des données de revenu B2B avant reporting, puis priorisation Customer Success sous contrainte de capacité. Projet portfolio SQL, dbt, DuckDB, Python et Streamlit.";
+const ogDescription = "Qualité des données, réconciliation du revenu et priorisation Customer Success.";
 const image = "/og/renewalos.png";
 
 export const metadata: Metadata = {
-  title: "RenewalOS - Revenue Quality & Account Health | Zakaria Maachou",
+  title: "RenewalOS — Fiabilité du revenu B2B & priorisation Customer Success | Zakaria Maachou",
   description,
   alternates: {
     canonical: project.href,
   },
   openGraph: {
     title,
-    description,
+    description: ogDescription,
     url: "/projects/renewalos",
-    siteName: "Zakaria Maachou Portfolio",
+    siteName: "Portfolio Zakaria Maachou",
     type: "article",
+    locale: "fr_FR",
     images: [
       {
         url: image,
         width: 1200,
         height: 630,
-        alt: `${title} - ${description}`,
+        alt: `${title} — ${ogDescription}`,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     title,
-    description,
+    description: ogDescription,
     images: [
       {
         url: image,
-        alt: `${title} - ${description}`,
+        alt: `${title} — ${ogDescription}`,
       },
     ],
   },

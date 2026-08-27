@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ExecutiveHero } from "@/components/home/ExecutiveHero";
-import { KpiRibbon } from "@/components/home/KpiRibbon";
+import { CapabilityBand } from "@/components/home/CapabilityBand";
 import { ExperienceTimeline } from "@/components/home/ExperienceTimeline";
 import { EducationSection } from "@/components/home/EducationSection";
 import { CaseStudySpotlight } from "@/components/home/CaseStudySpotlight";
@@ -20,7 +20,7 @@ export default function Home() {
     <div className="editorial-home">
       <CinematicPortfolioLayer />
       <ExecutiveHero />
-      <KpiRibbon />
+      <CapabilityBand />
       <ExperienceTimeline />
       <CaseStudySpotlight />
       <div className="editorial-lower-sequence">

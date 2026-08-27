@@ -1,25 +1,6 @@
 import type { CSSProperties } from "react";
 import type { Project, ProjectKpi } from "@/data/projects";
-
-function findMetric(project: Project, label: string) {
-  return project.kpis.find((metric) => metric.label === label);
-}
-
-function requireMetric(project: Project, label: string) {
-  const metric = findMetric(project, label);
-  if (!metric) throw new Error(`Missing "${label}" metric for ${project.slug}`);
-  return metric;
-}
-
-function numericValue(metric: ProjectKpi) {
-  return Number(metric.value.replace(/[^\d.-]/g, "")) || 0;
-}
-
-function percentageValues(metric: ProjectKpi) {
-  return [...metric.value.matchAll(/[\d.]+%/g)].map((match) =>
-    Number.parseFloat(match[0])
-  );
-}
+import { numericValue, percentageValues, requireMetric } from "@/lib/metrics";
 
 function scaleStyle(value: number) {
   return {
@@ -27,24 +8,33 @@ function scaleStyle(value: number) {
   } as CSSProperties;
 }
 
+const percentFormatter = new Intl.NumberFormat("fr-FR", {
+  maximumFractionDigits: 2,
+});
+
+/** Formate un pourcentage au format français : 27,9 % — 23,62 %. */
+function formatPercent(value: number) {
+  return `${percentFormatter.format(value)} %`;
+}
+
 function FunnelSignature({ project }: { project: Project }) {
-  const views = requireMetric(project, "View users");
-  const carts = requireMetric(project, "Cart users");
-  const purchases = requireMetric(project, "Purchase users");
-  const viewToCart = requireMetric(project, "View-to-cart rate");
-  const cartToPurchase = requireMetric(project, "Cart-to-purchase rate");
-  const totalConversion = requireMetric(project, "Total conversion rate");
+  const views = requireMetric(project, "Visiteurs");
+  const carts = requireMetric(project, "Utilisateurs avec panier");
+  const purchases = requireMetric(project, "Utilisateurs acheteurs");
+  const viewToCart = requireMetric(project, "Taux vue → panier");
+  const cartToPurchase = requireMetric(project, "Taux panier → achat");
+  const totalConversion = requireMetric(project, "Taux de conversion global");
   const base = numericValue(views);
   const stages = [
-    { metric: views, conversion: "Funnel entry", scale: 100 },
+    { metric: views, conversion: "Entrée du funnel", scale: 100 },
     {
       metric: carts,
-      conversion: `${viewToCart.label}: ${viewToCart.value}`,
+      conversion: `${viewToCart.label} : ${viewToCart.value}`,
       scale: base ? (numericValue(carts) / base) * 100 : 0,
     },
     {
       metric: purchases,
-      conversion: `${totalConversion.label}: ${totalConversion.value}`,
+      conversion: `${totalConversion.label} : ${totalConversion.value}`,
       scale: base ? (numericValue(purchases) / base) * 100 : 0,
     },
   ];
@@ -52,10 +42,12 @@ function FunnelSignature({ project }: { project: Project }) {
   return (
     <div className="project-signature project-signature-funnel">
       <div className="project-signature-register">
-        <p>Strict user funnel</p>
-        <span>{cartToPurchase.label}: {cartToPurchase.value}</span>
+        <p>Funnel utilisateur strict</p>
+        <span>
+          {cartToPurchase.label} : {cartToPurchase.value}
+        </span>
       </div>
-      <ol aria-label="View, cart, and purchase funnel stages">
+      <ol aria-label="Étapes du funnel : vue, panier et achat">
         {stages.map(({ metric, conversion, scale }, index) => (
           <li key={metric.label}>
             <div>
@@ -70,14 +62,13 @@ function FunnelSignature({ project }: { project: Project }) {
           </li>
         ))}
       </ol>
-      <p className="project-signature-note">{project.mainInsight}</p>
     </div>
   );
 }
 
 function RfmSignature({ project }: { project: Project }) {
-  const vip = requireMetric(project, "VIP share");
-  const lost = requireMetric(project, "Lost share");
+  const vip = requireMetric(project, "Part VIP");
+  const lost = requireMetric(project, "Part Perdus");
   const [vipCustomers = 0, vipRevenue = 0] = percentageValues(vip);
   const [lostCustomers = 0, lostRevenue = 0] = percentageValues(lost);
   const segments = [
@@ -86,28 +77,28 @@ function RfmSignature({ project }: { project: Project }) {
       metric: vip,
       customers: vipCustomers,
       revenue: vipRevenue,
-      priority: "Retention priority",
+      priority: "Priorité rétention",
     },
     {
-      name: "Lost",
+      name: "Perdus",
       metric: lost,
       customers: lostCustomers,
       revenue: lostRevenue,
-      priority: "Lower broad-campaign priority",
+      priority: "Priorité basse en campagne de masse",
     },
   ];
 
   return (
     <div className="project-signature project-signature-rfm">
       <div className="project-signature-register">
-        <p>Customer concentration</p>
-        <span>Customer share versus revenue share</span>
+        <p>Concentration client</p>
+        <span>Part des clients comparée à la part du chiffre d&apos;affaires</span>
       </div>
       <div className="rfm-comparison-key" aria-hidden="true">
-        <span>Customers</span>
-        <span>Revenue</span>
+        <span>Clients</span>
+        <span>Chiffre d&apos;affaires</span>
       </div>
-      <ol aria-label="VIP and Lost segment concentration comparison">
+      <ol aria-label="Comparaison de concentration des segments VIP et Perdus">
         {segments.map((segment, index) => (
           <li key={segment.name}>
             <div className="rfm-segment-title">
@@ -120,37 +111,36 @@ function RfmSignature({ project }: { project: Project }) {
                 <i style={scaleStyle(segment.customers)} aria-hidden="true">
                   <span />
                 </i>
-                <strong>{segment.customers}%</strong>
+                <strong>{formatPercent(segment.customers)}</strong>
               </div>
               <div>
                 <i style={scaleStyle(segment.revenue)} aria-hidden="true">
                   <span />
                 </i>
-                <strong>{segment.revenue}%</strong>
+                <strong>{formatPercent(segment.revenue)}</strong>
               </div>
             </div>
             <small>{segment.metric.value}</small>
           </li>
         ))}
       </ol>
-      <p className="project-signature-note">{project.mainInsight}</p>
     </div>
   );
 }
 
 function ProfitSignature({ project }: { project: Project }) {
-  const revenue = requireMetric(project, "Revenue");
-  const profit = requireMetric(project, "Profit");
-  const margin = requireMetric(project, "Profit margin");
-  const discount = requireMetric(project, "Avg. discount");
-  const lossRate = requireMetric(project, "Loss-making order rate");
+  const revenue = requireMetric(project, "Chiffre d'affaires");
+  const profit = requireMetric(project, "Marge");
+  const margin = requireMetric(project, "Taux de marge");
+  const discount = requireMetric(project, "Remise moyenne");
+  const lossRate = requireMetric(project, "Part de commandes à perte");
   const pressureMetrics = [margin, discount, lossRate];
 
   return (
     <div className="project-signature project-signature-profit">
       <div className="project-signature-register">
-        <p>Commercial pressure record</p>
-        <span>Revenue → profit → margin diagnosis</span>
+        <p>Pression sur la rentabilité</p>
+        <span>Chiffre d&apos;affaires → marge → taux de marge</span>
       </div>
       <div className="profit-ledger">
         <div>
@@ -162,50 +152,46 @@ function ProfitSignature({ project }: { project: Project }) {
           <strong>{profit.value}</strong>
         </div>
       </div>
-      <ol aria-label="Profit margin, discount, and loss-making order indicators">
-        {pressureMetrics.map((metric, index) => (
+      <ol aria-label="Taux de marge, remise moyenne et commandes à perte">
+        {pressureMetrics.map((metric: ProjectKpi, index) => (
           <li key={metric.label}>
             <div>
               <span>0{index + 1}</span>
               <p>{metric.label}</p>
               <strong>{metric.value}</strong>
             </div>
-            <i
-              style={scaleStyle(numericValue(metric))}
-              aria-hidden="true"
-            >
+            <i style={scaleStyle(numericValue(metric))} aria-hidden="true">
               <span />
             </i>
           </li>
         ))}
       </ol>
-      <p className="project-signature-note">{project.mainInsight}</p>
     </div>
   );
 }
 
 function RenewalSignature({ project }: { project: Project }) {
   const stages = [
-    requireMetric(project, "Data status"),
-    requireMetric(project, "KPI status"),
-    requireMetric(project, "Decision output"),
+    requireMetric(project, "Données"),
+    requireMetric(project, "Statut des KPI"),
+    requireMetric(project, "Sortie décisionnelle"),
   ];
   const controls = [
     requireMetric(project, "Interface"),
-    requireMetric(project, "Deployment"),
-    requireMetric(project, "Impact claim"),
+    requireMetric(project, "Déploiement"),
+    requireMetric(project, "Impact business revendiqué"),
   ];
 
   return (
     <div className="project-signature project-signature-renewal">
       <div className="project-signature-register">
-        <p>KPI trust gate</p>
-        <span>Exceptions visible before decision output</span>
+        <p>Contrôle qualité avant reporting</p>
+        <span>Exceptions visibles avant toute sortie décisionnelle</span>
       </div>
-      <ol className="renewal-gate" aria-label="Data trust gate stages">
+      <ol className="renewal-gate" aria-label="Étapes du contrôle qualité des données">
         {stages.map((metric, index) => (
           <li key={metric.label}>
-            <span>Gate 0{index + 1}</span>
+            <span>Étape 0{index + 1}</span>
             <p>{metric.label}</p>
             <strong>{metric.value}</strong>
           </li>
@@ -219,7 +205,6 @@ function RenewalSignature({ project }: { project: Project }) {
           </div>
         ))}
       </dl>
-      <p className="project-signature-note">{project.mainInsight}</p>
     </div>
   );
 }

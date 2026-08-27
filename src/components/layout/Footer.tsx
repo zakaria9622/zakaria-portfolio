@@ -6,14 +6,14 @@ export function Footer() {
   return (
     <footer className="editorial-footer">
       <div className="editorial-footer-heading">
-        <span>End note / {new Date().getFullYear()}</span>
+        <span>Contact / {new Date().getFullYear()}</span>
         <p>{profile.name}</p>
       </div>
 
       <div className="editorial-footer-grid">
         <div>
           <p>{profile.title}</p>
-          <span>Growth · Acquisition · Conversion · Retention</span>
+          <span>{profile.subtitle}</span>
         </div>
         <div className="editorial-footer-links">
           <a href={`mailto:${profile.email}`}>
@@ -30,7 +30,7 @@ export function Footer() {
           </a>
         </div>
         <p className="editorial-footer-credit">
-          © {new Date().getFullYear()} · Marketing Data Analytics Portfolio
+          © {new Date().getFullYear()} · {profile.name}
         </p>
       </div>
     </footer>

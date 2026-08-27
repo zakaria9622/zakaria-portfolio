@@ -1,12 +1,6 @@
 import { EditorialMarker } from "@/components/home/EditorialMarker";
 import { education } from "@/data/education";
 
-const academicStages = [
-  "Economics and management",
-  "Digital business and marketing",
-  "Data management and AI",
-] as const;
-
 const academicProgression = [...education].reverse();
 
 export function EducationSection() {
@@ -17,12 +11,10 @@ export function EducationSection() {
       aria-labelledby="academic-progression-title"
     >
       <header className="academic-progression-heading">
-        <EditorialMarker index="07" label="Academic progression" tone="blue" />
+        <EditorialMarker index="07" label="Formation" tone="blue" />
         <div>
-          <p>Foundation → application → specialization</p>
-          <h2 id="academic-progression-title">
-            An academic path moving steadily toward Marketing Data Analytics.
-          </h2>
+          <p>Économie et gestion → digital business → data</p>
+          <h2 id="academic-progression-title">Formation</h2>
         </div>
       </header>
 
@@ -33,7 +25,7 @@ export function EducationSection() {
               <span aria-hidden="true">
                 {String(index + 1).padStart(2, "0")}
               </span>
-              <p>{academicStages[index]}</p>
+              <p>{entry.stage}</p>
             </div>
             <div className="academic-progression-program">
               <time>{entry.dates}</time>

@@ -1,81 +1,88 @@
-# Zakaria Maachou — Marketing Data Analytics Portfolio
+# Zakaria Maachou — Portfolio Business Analyst
 
-Recruiter-facing portfolio for a Marketing Data Analyst working across growth, acquisition, conversion, retention, CRM and revenue quality.
+Portfolio destiné aux recruteurs, centré sur l'analyse de données, la définition des KPI, le reporting, la qualité des données et l'aide à la décision.
 
-**Positioning:** Marketing Data Analyst | Growth, Acquisition, Conversion & Retention
-**Live site:** https://www.zakariamaachou.com
+**Positionnement :** Business Analyst | Analyse de données, Reporting & Aide à la décision
+**Site en ligne :** https://www.zakariamaachou.com
 
-## Editorial Growth Lab
+Le portfolio est rédigé en français. Restent en anglais les noms d'outils, les noms techniques et les noms de dépôts GitHub.
 
-The visual system combines premium editorial publishing with analytical evidence and marketing decision-making:
+## Système visuel
 
-- warm paper, carbon ink and signal blue
-- Newsreader display typography
-- DM Sans body typography
-- IBM Plex Mono labels, evidence registers and data annotations
-- asymmetric publication layouts instead of dashboard-card grids
-- decision traces that connect a business question, observed evidence, diagnosis and action
-- analytical signatures tailored to each case study
+Le système visuel combine une composition éditoriale premium avec des repères analytiques :
 
-The previous Three.js hero and its WebGL dependencies were removed. The current atmosphere is created with typography, rules, spacing and lightweight CSS.
+- papier chaud, encre carbone et bleu signal
+- typographie d'affichage Newsreader
+- typographie de texte DM Sans
+- libellés, registres et annotations de données en IBM Plex Mono
+- mises en page asymétriques plutôt qu'une grille de cartes de dashboard
+- lecture homogène de chaque projet : problème métier → données et méthode → KPI → analyse → décision
+
+L'ancien héro Three.js et ses dépendances WebGL ont été supprimés. L'atmosphère repose sur la typographie, les filets, l'espacement et un CSS léger.
 
 ## Architecture
 
-### Homepage
+### Page d'accueil
 
-`src/app/page.tsx` is a Server Component that composes:
+`src/app/page.tsx` est un Server Component qui compose :
 
-- editorial hero and decision trace
-- evidence ledger
-- professional experience progression
-- four distinct project treatments
-- growth decision system
-- capability-to-evidence index
-- education progression
-- contact close
+- le héro et le profil en bref
+- la bande de capacités
+- l'expérience professionnelle
+- les quatre projets
+- la méthode « de la question métier à la décision »
+- les compétences et les projets associés
+- la formation
+- le bloc de contact
 
-Static sections render on the server. Client boundaries are limited to interactions that require them, including hero motion, the experience accordion, header navigation and image lightboxes.
+Les sections statiques sont rendues côté serveur. Les frontières client sont limitées aux interactions qui l'exigent : accordéon d'expérience, navigation d'en-tête, chapitres de projet et visionneuses d'images.
 
-### Project publications
+### Pages projet
 
-All four routes use the shared server-rendered `ProjectDetail` architecture:
+Les quatre routes utilisent l'architecture serveur partagée `ProjectDetail` :
 
-- project hero and decision brief
-- evidence exhibit
-- project-specific analytical signature
-- findings and recommendations
-- methodology and quality record
-- disclosure and limitations
-- inspectable repository artifacts
-- next-case navigation
+- héro du projet et note sur les données
+- problème métier
+- données et méthode
+- KPI et restitution visuelle
+- analyse
+- décision et recommandations
+- limites et périmètre
+- sources inspectables et projet suivant
 
-`ProjectChapterNav` and `ProjectImageLightbox` are the focused client components for chapter state and accessible modal behavior.
+`ProjectChapterNav` et `ProjectImageLightbox` sont les composants client dédiés à l'état des chapitres et au comportement modal accessible.
 
-### Content and evidence
+### Contenu et preuves
 
-`src/data/projects.ts` is the source of truth for project claims, KPIs, dataset disclosures, methodology, limitations and artifact links. Structured data is generated from the same project records.
+`src/data/projects.ts` est la source de vérité pour les affirmations, KPI, notes sur les données, méthodologie, limites et liens vers les livrables. Les données structurées sont générées à partir des mêmes enregistrements.
 
-The portfolio does not present independent work as client engagements or production impact. Synthetic datasets and external-data limitations are identified on the relevant project pages.
+Le portfolio ne présente pas des travaux indépendants comme des missions client ni comme un impact en production. Les jeux de données synthétiques et les limites liées aux données externes sont identifiés sur les pages projet concernées.
 
-## Case Studies
+## Projets
 
-- [E-commerce Funnel Analysis](https://www.zakariamaachou.com/projects/funnel-analysis)
-- [Customer Segmentation RFM](https://www.zakariamaachou.com/projects/rfm-segmentation)
-- [E-commerce Profit Leak Analysis](https://www.zakariamaachou.com/projects/profit-leak)
-- [RenewalOS — Revenue Quality & Account Health](https://www.zakariamaachou.com/projects/renewalos)
+- [RenewalOS — Fiabilité du revenu B2B & priorisation Customer Success](https://www.zakariamaachou.com/projects/renewalos)
+- [Funnel e-commerce & leviers de conversion](https://www.zakariamaachou.com/projects/funnel-analysis)
+- [Segmentation RFM & recommandations CRM](https://www.zakariamaachou.com/projects/rfm-segmentation)
+- [Rentabilité e-commerce & fuites de marge](https://www.zakariamaachou.com/projects/profit-leak)
 
-## Accessibility and Motion
+## CV téléchargeable
 
-- semantic landmarks and one primary page heading per route
-- skip link and visible keyboard focus
-- keyboard-operable navigation, accordion and lightboxes
-- focus containment and focus restoration for modal images
-- Escape-key dismissal
-- reduced-motion behavior through CSS and Framer Motion
-- responsive layouts from narrow mobile widths through large desktop viewports
-- descriptive alternative text for analytical evidence
+Le portfolio n'expose aucun CV téléchargeable. L'ancien PDF a été supprimé de `public/` : aucune URL directe ne permet plus d'y accéder.
 
-## Technology
+Pour proposer un CV plus tard : déposer un PDF aligné sur le positionnement Business Analyst dans `public/`, puis ajouter les CTA souhaités.
+
+## Accessibilité et animations
+
+- repères sémantiques et un seul titre principal par route
+- lien d'évitement et focus clavier visible
+- navigation, accordéon et visionneuses opérables au clavier
+- confinement et restauration du focus pour les images en modal
+- fermeture par la touche Échap
+- prise en charge de `prefers-reduced-motion` en CSS et via Framer Motion
+- mises en page responsive du mobile étroit aux grands écrans
+- textes alternatifs descriptifs sur les visuels analytiques
+
+## Technologies
 
 - Next.js 16 App Router
 - React 19
@@ -83,34 +90,34 @@ The portfolio does not present independent work as client engagements or product
 - Tailwind CSS 4
 - Framer Motion
 - Lucide React
-- Sharp through Next.js for Open Graph asset generation
+- Sharp via Next.js pour la génération des visuels Open Graph
 
-Fonts are loaded with `next/font`, self-hosted by the application and limited to Newsreader, DM Sans and IBM Plex Mono.
+Les polices sont chargées avec `next/font`, auto-hébergées par l'application, et limitées à Newsreader, DM Sans et IBM Plex Mono.
 
-## Metadata and Social Preview
+## Métadonnées et aperçus sociaux
 
-The site includes:
+Le site inclut :
 
-- route-specific titles, descriptions and canonical URLs
-- Open Graph and Twitter metadata
-- WebSite, Person and CreativeWork JSON-LD
-- generated sitemap and robots metadata
-- 1200×630 Editorial Growth Lab social-preview images
+- titres, descriptions et URL canoniques par route
+- métadonnées Open Graph et Twitter en `fr_FR`
+- JSON-LD WebSite, Person et CreativeWork
+- sitemap et robots générés
+- visuels sociaux 1200×630
 
-Regenerate the existing Open Graph assets without changing their URLs:
+Régénérer les visuels Open Graph sans changer leurs URL :
 
 ```bash
 node scripts/generate-og-images.mjs
 ```
 
-## Local Development
+## Développement local
 
-### Prerequisites
+### Prérequis
 
 - Node.js
 - npm
 
-### Install
+### Installation
 
 ```bash
 git clone https://github.com/zakaria9622/zakaria-portfolio.git
@@ -118,15 +125,15 @@ cd zakaria-portfolio
 npm ci
 ```
 
-### Run
+### Lancement
 
 ```bash
 npm run dev
 ```
 
-Open http://localhost:3000.
+Ouvrir http://localhost:3000.
 
-### Validate and run the production build
+### Vérifier et produire le build de production
 
 ```bash
 npm run lint
@@ -134,30 +141,29 @@ npm run build
 npm run start
 ```
 
-## Repository Structure
+## Structure du dépôt
 
 ```text
 src/
-├── app/                  # routes, metadata, sitemap, robots and global CSS
+├── app/                  # routes, métadonnées, sitemap, robots et CSS global
 ├── components/
-│   ├── home/             # Editorial Growth Lab homepage sections
-│   ├── layout/           # shared header and footer
-│   ├── project/          # shared project publication architecture
-│   └── ui/               # shared social icons
-├── data/                 # profile, experience, education, skills and projects
-└── lib/                  # project structured-data builder
+│   ├── home/             # sections de la page d'accueil
+│   ├── layout/           # en-tête et pied de page partagés
+│   ├── project/          # architecture partagée des pages projet
+│   └── ui/               # icônes sociales partagées
+├── data/                 # profil, expérience, formation, compétences et projets
+└── lib/                  # lecture des KPI et données structurées des projets
 
 public/
-├── og/                   # route-specific 1200×630 social previews
-├── projects/             # analytical evidence images
-└── cv-zakaria-maachou.pdf
+├── og/                   # aperçus sociaux 1200×630 par route
+└── projects/             # visuels des livrables analytiques
 ```
 
-## Deployment
+## Déploiement
 
-The application is configured for a standard Next.js production build and is deployed on Vercel at the custom domain above.
+L'application utilise un build de production Next.js standard et est déployée sur Vercel sur le domaine indiqué plus haut.
 
 ## Contact
 
-- LinkedIn: https://www.linkedin.com/in/zakaria-maachou
-- GitHub: https://github.com/zakaria9622
+- LinkedIn : https://www.linkedin.com/in/zakaria-maachou
+- GitHub : https://github.com/zakaria9622

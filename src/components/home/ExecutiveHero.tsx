@@ -1,20 +1,24 @@
-import { Download, Mail, MapPin } from "lucide-react";
+import { ArrowRight, Mail, MapPin } from "lucide-react";
+import Link from "next/link";
 import { GitHubIcon, LinkedInIcon } from "@/components/ui/SocialIcons";
-import { DecisionTrace } from "@/components/home/DecisionTrace";
 import { EditorialMarker } from "@/components/home/EditorialMarker";
+import { ProfileSnapshot } from "@/components/home/ProfileSnapshot";
 import { profile } from "@/data/profile";
-import { featuredProjects, getProjectBySlug } from "@/data/projects";
-
-const featuredProject =
-  getProjectBySlug("funnel-analysis") ?? featuredProjects[0];
+import { skillsStrip } from "@/data/skills";
 
 export function ExecutiveHero() {
   return (
     <section className="editorial-hero" aria-labelledby="home-hero-title">
       <div className="editorial-hero-masthead">
-        <EditorialMarker index="VOL. 01" label="Editorial growth lab" />
-        <div className="editorial-hero-status" aria-label="Availability and location">
-          <span>Apprenticeship · 2026–2027</span>
+        <EditorialMarker
+          index="ZM"
+          label="Business Analyst · Data · Reporting · Aide à la décision"
+        />
+        <div
+          className="editorial-hero-status"
+          aria-label="Disponibilité et localisation"
+        >
+          <span>{profile.alternance.availability}</span>
           <span>
             <MapPin aria-hidden="true" />
             {profile.alternance.location}
@@ -24,55 +28,57 @@ export function ExecutiveHero() {
 
       <div className="editorial-hero-grid">
         <div className="editorial-hero-copy">
-          <p className="editorial-byline">
-            {profile.name} / {profile.title}
-          </p>
-          <h1 id="home-hero-title">
-            I find where growth leaks <em>— and what to do next.</em>
-          </h1>
-          <p className="editorial-hero-support">
-            Marketing Data Analyst connecting acquisition, conversion, retention
-            and profitability data to clearer growth decisions.
-          </p>
+          <p className="editorial-byline">{profile.name}</p>
+          <h1 id="home-hero-title">{profile.headline}</h1>
+
+          <div className="editorial-hero-title-block">
+            <p>{profile.title}</p>
+            <p>{profile.subtitle}</p>
+          </div>
+
+          <p className="editorial-hero-support">{profile.tagline}</p>
 
           <div className="editorial-hero-actions">
-            <a href={profile.cvHref} download className="editorial-primary-action">
-              <Download aria-hidden="true" />
-              Download CV
+            <Link href="/#projects" className="editorial-primary-action">
+              Voir mes projets
+              <ArrowRight aria-hidden="true" />
+            </Link>
+            <a
+              href={profile.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="editorial-secondary-action"
+            >
+              <GitHubIcon aria-hidden="true" />
+              GitHub
             </a>
-            <a href={`mailto:${profile.email}`} className="editorial-secondary-action">
+            <a
+              href={`mailto:${profile.email}`}
+              className="editorial-secondary-action"
+            >
               <Mail aria-hidden="true" />
-              Email me
+              Me contacter
             </a>
-            <span className="editorial-social-links" aria-label="Social profiles">
+            <span className="editorial-social-links" aria-label="Profils">
               <a
                 href={profile.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="LinkedIn profile"
+                aria-label="Profil LinkedIn"
               >
                 <LinkedInIcon />
-              </a>
-              <a
-                href={profile.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub profile"
-              >
-                <GitHubIcon />
               </a>
             </span>
           </div>
 
           <div className="editorial-capability-line">
-            <span>Acquisition</span>
-            <span>Conversion</span>
-            <span>Retention</span>
-            <span>Profitability</span>
+            {skillsStrip.map((skill) => (
+              <span key={skill}>{skill}</span>
+            ))}
           </div>
         </div>
 
-        <DecisionTrace project={featuredProject} />
+        <ProfileSnapshot />
       </div>
     </section>
   );

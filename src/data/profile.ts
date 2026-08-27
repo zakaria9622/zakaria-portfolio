@@ -1,16 +1,18 @@
 export const profile = {
   name: "Zakaria Maachou",
-  title: "Marketing Data Analyst",
+  title: "Business Analyst",
+  subtitle: "Analyse de données, Reporting & Aide à la décision",
   positioning:
-    "Marketing Data Analyst | Growth, Acquisition, Conversion & Retention",
+    "Business Analyst | Analyse de données, Reporting & Aide à la décision",
+  headline: "Transformer les besoins métiers en décisions appuyées par la donnée.",
   tagline:
-    "I turn acquisition, funnel and customer data into clearer growth decisions.",
+    "Je traduis les besoins métiers en KPI, analyses et reporting pour éclairer les décisions et améliorer la performance.",
   email: "zakariamaachou96@gmail.com",
   github: "https://github.com/zakaria9622",
   linkedin: "https://linkedin.com/in/zakaria-maachou",
-  cvHref: "/cv-zakaria-maachou.pdf",
   alternance: {
     open: true,
-    location: "Based in Paris · National mobility",
+    availability: "Alternance dès septembre 2026",
+    location: "Paris · Mobilité nationale",
   },
 } as const;

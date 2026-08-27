@@ -1,31 +1,41 @@
+/** Stack visible dans le hero — aligné sur le CV de référence. */
 export const skillsStrip = [
   "SQL",
-  "DuckDB",
-  "dbt",
-  "Tableau",
   "Python",
-  "pandas",
-  "Data quality",
+  "Excel",
   "KPI",
   "Reporting",
-  "Analytics Engineering",
+  "Data Viz",
+  "Data Quality",
+] as const;
+
+/** Bande de capacités affichée sous le hero. */
+export const capabilityBand = [
+  "SQL",
+  "KPI",
+  "Reporting",
+  "Tableau",
+  "Python",
+  "Data Quality",
+  "CRM",
+  "Performance",
 ] as const;
 
 export const skillsByCategory = [
   {
-    category: "Growth & Marketing Analytics",
+    category: "CRM & Performance",
     skills: [
-      "Acquisition analysis",
-      "Conversion analysis",
-      "Funnel analysis",
-      "Campaign performance",
-      "CRM segmentation",
-      "Retention analysis",
-      "GA4",
+      "CRM",
+      "Segmentation",
+      "Rétention",
+      "KPI",
+      "Reporting",
+      "Acquisition",
+      "Analyse de performance",
     ],
   },
   {
-    category: "Data & Business Intelligence",
+    category: "Data & BI",
     skills: [
       "SQL",
       "Python",
@@ -33,19 +43,22 @@ export const skillsByCategory = [
       "Tableau",
       "Power BI",
       "Looker Studio",
-      "ETL",
-      "dbt",
-      "Data quality",
+      "Excel",
     ],
   },
   {
-    category: "Business & Performance Analysis",
+    category: "Qualité & Activation",
     skills: [
-      "KPI definition",
-      "Stakeholder requirements",
-      "Performance reporting",
-      "Profitability analysis",
-      "Business recommendations",
+      "ETL",
+      "Talend",
+      "dbt",
+      "DuckDB",
+      "Data Quality",
+      "KPI",
+      "Reporting",
+      "Rentabilité",
     ],
   },
 ] as const;
+
+export const languages = ["Français C1", "Anglais C1"] as const;

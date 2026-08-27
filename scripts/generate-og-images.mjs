@@ -19,47 +19,48 @@ const palette = {
 const cards = [
   {
     file: "home.png",
-    marker: "PORTFOLIO / EDITORIAL GROWTH LAB",
+    marker: "PORTFOLIO / BUSINESS ANALYST",
     titleLines: [
-      "Marketing Data Analyst |",
-      "Growth, Acquisition,",
-      "Conversion & Retention",
+      "Business Analyst |",
+      "Analyse de données,",
+      "Reporting & Aide à la décision",
     ],
-    question: "Analytical rigor, marketing judgment and transparent evidence.",
-    signature: ["QUESTION", "EVIDENCE", "DECISION"],
+    question:
+      "Traduire les besoins métiers en KPI, analyses et reporting.",
+    signature: ["BESOIN MÉTIER", "KPI & DONNÉES", "DÉCISION"],
     index: "00",
   },
   {
-    file: "funnel-analysis.png",
-    marker: "CASE STUDY / CONVERSION ANALYTICS",
-    titleLines: ["E-commerce", "Funnel Analysis"],
-    question: "Where do users drop before purchase?",
-    signature: ["VIEW", "CART", "PURCHASE"],
+    file: "renewalos.png",
+    marker: "PROJET / DATA QUALITY & DÉCISION",
+    titleLines: ["RenewalOS"],
+    question:
+      "Les KPI de revenu sont-ils fiables avant priorisation des comptes ?",
+    signature: ["QUALITÉ DONNÉES", "STATUT KPI", "PRIORISATION"],
     index: "01",
   },
   {
-    file: "rfm-segmentation.png",
-    marker: "CASE STUDY / CRM & RETENTION",
-    titleLines: ["Customer", "Segmentation RFM"],
-    question: "Which customers should CRM prioritize?",
-    signature: ["CUSTOMER SHARE", "REVENUE SHARE", "CRM PRIORITY"],
+    file: "funnel-analysis.png",
+    marker: "PROJET / PERFORMANCE & CONVERSION",
+    titleLines: ["Funnel e-commerce", "& conversion"],
+    question: "Où les utilisateurs abandonnent-ils avant l'achat ?",
+    signature: ["VUE", "PANIER", "ACHAT"],
     index: "02",
   },
   {
-    file: "profit-leak.png",
-    marker: "CASE STUDY / PROFITABILITY",
-    titleLines: ["Profit Leak", "Analysis"],
-    question: "Where is margin being destroyed?",
-    signature: ["REVENUE", "PROFIT", "PRESSURE"],
+    file: "rfm-segmentation.png",
+    marker: "PROJET / CRM & SEGMENTATION",
+    titleLines: ["Segmentation RFM", "& CRM"],
+    question: "Quels clients le CRM doit-il prioriser ?",
+    signature: ["PART CLIENTS", "PART CA", "PRIORITÉ CRM"],
     index: "03",
   },
   {
-    file: "renewalos.png",
-    marker: "CASE STUDY / REVENUE QUALITY",
-    titleLines: ["RenewalOS"],
-    question:
-      "Can revenue KPIs be trusted before Customer Success teams prioritize accounts?",
-    signature: ["QUALITY GATE", "KPI STATUS", "DECISION"],
+    file: "profit-leak.png",
+    marker: "PROJET / RENTABILITÉ",
+    titleLines: ["Rentabilité", "& fuites de marge"],
+    question: "Où la marge se dégrade-t-elle ?",
+    signature: ["CA", "MARGE", "REMISES"],
     index: "04",
   },
 ];
@@ -136,7 +137,7 @@ function signatureRegister(card) {
 
 function svg(card) {
   const isHome = card.file === "home.png";
-  const titleSize = isHome ? 58 : card.titleLines.length === 1 ? 96 : 82;
+  const titleSize = isHome ? 50 : card.titleLines.length === 1 ? 96 : 66;
   const titleY = isHome ? 184 : card.titleLines.length === 1 ? 235 : 205;
   const titleLineHeight = isHome ? 0.96 : 0.9;
   const questionLines = wrapText(card.question, isHome ? 52 : 43);
@@ -175,7 +176,7 @@ function svg(card) {
     lineHeight: titleLineHeight,
   })}
 
-  <text x="68" y="440" class="mono" font-size="12" font-weight="700" letter-spacing="1.8" fill="${palette.slate}">BUSINESS QUESTION / POSITION</text>
+  <text x="68" y="440" class="mono" font-size="12" font-weight="700" letter-spacing="1.8" fill="${palette.slate}">PROBLÈME MÉTIER / POSITIONNEMENT</text>
   ${textLines(questionLines, {
     x: 68,
     y: 478,
@@ -187,14 +188,14 @@ function svg(card) {
   })}
 
   <text x="68" y="588" class="mono" font-size="13" font-weight="700" letter-spacing="1.3" fill="${palette.slate}">ZAKARIAMAACHOU.COM</text>
-  <text x="810" y="588" class="mono" text-anchor="end" font-size="13" font-weight="700" letter-spacing="1.3" fill="${palette.slate}">MARKETING / DATA / DECISIONS</text>
+  <text x="810" y="588" class="mono" text-anchor="end" font-size="13" font-weight="700" letter-spacing="1.3" fill="${palette.slate}">DATA / REPORTING / DÉCISION</text>
 
-  <text x="924" y="88" class="mono" font-size="13" font-weight="700" letter-spacing="1.8" fill="${palette.white}">ANALYTICAL SIGNATURE</text>
+  <text x="924" y="88" class="mono" font-size="13" font-weight="700" letter-spacing="1.8" fill="${palette.white}">LECTURE ANALYTIQUE</text>
   <text x="1136" y="158" class="display" text-anchor="end" font-size="92" font-weight="500" fill="${palette.white}" fill-opacity="0.2">${card.index}</text>
   ${signatureRegister(card)}
   <path d="M 924 530 H 1136" stroke="${palette.white}" stroke-opacity="0.52" stroke-width="1"/>
-  <text x="924" y="564" class="mono" font-size="12" font-weight="700" letter-spacing="1.7" fill="${palette.white}">EDITORIAL GROWTH LAB</text>
-  <text x="924" y="590" class="sans" font-size="16" font-weight="600" fill="${palette.white}">Evidence before assertion.</text>
+  <text x="924" y="564" class="mono" font-size="12" font-weight="700" letter-spacing="1.7" fill="${palette.white}">BUSINESS ANALYST</text>
+  <text x="924" y="590" class="sans" font-size="16" font-weight="600" fill="${palette.white}">La donnée avant l'affirmation.</text>
 </svg>`;
 }
 

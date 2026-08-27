@@ -1,4 +1,4 @@
-import { ArrowUpRight, Download, Mail, MapPin } from "lucide-react";
+import { ArrowUpRight, Mail, MapPin } from "lucide-react";
 import { GitHubIcon, LinkedInIcon } from "@/components/ui/SocialIcons";
 import { EditorialMarker } from "@/components/home/EditorialMarker";
 import { profile } from "@/data/profile";
@@ -11,15 +11,15 @@ export function ContactCommandBar() {
       aria-labelledby="editorial-contact-title"
     >
       <div className="editorial-contact-register">
-        <EditorialMarker index="08" label="Recruiter note" tone="blue" />
+        <EditorialMarker index="08" label="Contact" tone="blue" />
         <p>{profile.positioning}</p>
       </div>
 
       <div className="editorial-contact-body">
         <div className="editorial-contact-copy">
-          <p>Available for a Marketing Data Analyst apprenticeship from September 2026.</p>
+          <p>{profile.alternance.availability}</p>
           <h2 id="editorial-contact-title">
-            Let’s turn the next growth question into a clear decision.
+            Disponible pour une alternance de Business Analyst.
           </h2>
           <span>
             <MapPin aria-hidden="true" />
@@ -34,18 +34,10 @@ export function ContactCommandBar() {
           >
             <span>
               <Mail aria-hidden="true" />
-              Primary contact
+              Contact principal
             </span>
             <strong>{profile.email}</strong>
             <ArrowUpRight aria-hidden="true" />
-          </a>
-
-          <a href={profile.cvHref} className="editorial-contact-cv">
-            <Download aria-hidden="true" />
-            <span>
-              <small>Recruiter copy</small>
-              Download CV
-            </span>
           </a>
 
           <div className="editorial-contact-socials">

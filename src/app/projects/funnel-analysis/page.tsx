@@ -7,39 +7,42 @@ import { buildProjectStructuredData } from "@/lib/projectStructuredData";
 const project = getProjectBySlug("funnel-analysis");
 if (!project) notFound();
 
-const title = "Funnel Analysis";
-const description = "View -> Cart -> Purchase conversion diagnostics";
+const title = "Funnel e-commerce & leviers de conversion";
+const description =
+  "Analyse du parcours vue → panier → achat sur 3,02 M de visiteurs pour identifier le principal point de friction avant l'achat. Projet portfolio SQL, Tableau et Python.";
+const ogDescription = "Diagnostic de conversion vue → panier → achat.";
 const image = "/og/funnel-analysis.png";
 
 export const metadata: Metadata = {
-  title: "E-commerce Funnel Analysis | Zakaria Maachou",
+  title: "Funnel e-commerce & leviers de conversion | Zakaria Maachou",
   description,
   alternates: {
     canonical: project.href,
   },
   openGraph: {
     title,
-    description,
+    description: ogDescription,
     url: "/projects/funnel-analysis",
-    siteName: "Zakaria Maachou Portfolio",
+    siteName: "Portfolio Zakaria Maachou",
     type: "article",
+    locale: "fr_FR",
     images: [
       {
         url: image,
         width: 1200,
         height: 630,
-        alt: `${title} - ${description}`,
+        alt: `${title} — ${ogDescription}`,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     title,
-    description,
+    description: ogDescription,
     images: [
       {
         url: image,
-        alt: `${title} - ${description}`,
+        alt: `${title} — ${ogDescription}`,
       },
     ],
   },

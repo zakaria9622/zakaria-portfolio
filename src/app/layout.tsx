@@ -26,6 +26,10 @@ const newsreader = Newsreader({
   display: "swap",
 });
 
+const siteTitle = "Zakaria Maachou | Business Analyst · Data & Reporting";
+const siteDescription =
+  "Portfolio de Zakaria Maachou, Business Analyst spécialisé en analyse de données, KPI, reporting, Business Intelligence et aide à la décision.";
+
 const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
@@ -33,10 +37,9 @@ const structuredData = {
       "@type": "WebSite",
       "@id": "https://www.zakariamaachou.com/#website",
       url: "https://www.zakariamaachou.com/",
-      name: "Zakaria Maachou Portfolio",
-      description:
-        "Marketing Data Analyst specializing in growth, acquisition, conversion and retention. Explore SQL, GA4, Tableau, Python and CRM analytics case studies.",
-      inLanguage: "en",
+      name: "Portfolio Zakaria Maachou",
+      description: siteDescription,
+      inLanguage: "fr-FR",
       author: {
         "@id": "https://www.zakariamaachou.com/#person",
       },
@@ -46,20 +49,25 @@ const structuredData = {
       "@id": "https://www.zakariamaachou.com/#person",
       name: profile.name,
       url: "https://www.zakariamaachou.com/",
-      jobTitle: profile.title,
+      jobTitle: "Business Analyst",
+      description: profile.tagline,
       sameAs: [profile.linkedin, profile.github],
       knowsAbout: [
-        "Marketing Analytics",
-        "Growth Analytics",
-        "Acquisition Analytics",
-        "Funnel Analytics",
-        "Conversion Analytics",
-        "Retention Analytics",
-        "CRM Analytics",
+        "Business Analysis",
+        "Data Analysis",
+        "Business Intelligence",
+        "KPI",
+        "Performance Reporting",
         "SQL",
-        "GA4",
-        "Tableau",
         "Python",
+        "Tableau",
+        "Power BI",
+        "Excel",
+        "Data Quality",
+        "ETL",
+        "CRM Analytics",
+        "dbt",
+        "DuckDB",
       ],
     },
   ],
@@ -67,35 +75,32 @@ const structuredData = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.zakariamaachou.com"),
-  title: "Zakaria Maachou | Marketing Data Analyst",
-  description:
-    "Marketing Data Analyst specializing in growth, acquisition, conversion and retention. Explore SQL, GA4, Tableau, Python and CRM analytics case studies.",
+  title: siteTitle,
+  description: siteDescription,
   openGraph: {
-    title: "Zakaria Maachou | Marketing Data Analyst",
-    description:
-      "Growth, acquisition, conversion and retention analytics through evidence-led marketing data case studies.",
+    title: siteTitle,
+    description: siteDescription,
     url: "/",
-    siteName: "Zakaria Maachou Portfolio",
+    siteName: "Portfolio Zakaria Maachou",
     type: "website",
-    locale: "en_US",
+    locale: "fr_FR",
     images: [
       {
         url: "/og/home.png",
         width: 1200,
         height: 630,
-        alt: "Zakaria Maachou | Marketing Data Analyst",
+        alt: "Zakaria Maachou | Business Analyst · Data & Reporting",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Zakaria Maachou | Marketing Data Analyst",
-    description:
-      "Marketing data case studies covering acquisition, funnel conversion, CRM and retention.",
+    title: siteTitle,
+    description: siteDescription,
     images: [
       {
         url: "/og/home.png",
-        alt: "Zakaria Maachou | Marketing Data Analyst",
+        alt: "Zakaria Maachou | Business Analyst · Data & Reporting",
       },
     ],
   },
@@ -108,7 +113,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="fr"
       className={`${dmSans.variable} ${ibmPlexMono.variable} ${newsreader.variable} scroll-smooth`}
     >
       <body className="min-h-screen bg-navy-950 font-body text-slate-300 antialiased">
@@ -122,7 +127,7 @@ export default function RootLayout({
           href="#main-content"
           className="sr-only fixed top-4 left-4 z-[60] rounded-md bg-ink-950 px-4 py-3 font-body text-sm font-semibold text-white focus:not-sr-only focus:fixed focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-cyan-200"
         >
-          Skip to main content
+          Aller au contenu principal
         </a>
         <Header />
         <main id="main-content" tabIndex={-1}>

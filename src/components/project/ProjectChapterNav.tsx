@@ -3,19 +3,20 @@
 import { useEffect, useState } from "react";
 
 export const projectChapters = [
-  { id: "decision-brief", label: "Brief" },
-  { id: "evidence", label: "Evidence" },
-  { id: "analysis", label: "Analysis" },
-  { id: "method", label: "Method" },
-  { id: "transparency", label: "Limits" },
-  { id: "inspect-the-work", label: "Work" },
+  { id: "business-problem", label: "Problème métier" },
+  { id: "data-method", label: "Données & méthode" },
+  { id: "kpi", label: "KPI" },
+  { id: "analysis", label: "Analyse" },
+  { id: "decision", label: "Décision" },
+  { id: "transparency", label: "Limites" },
+  { id: "inspect-the-work", label: "Sources" },
 ] as const;
 
 type ChapterId = (typeof projectChapters)[number]["id"];
 
 export function ProjectChapterNav() {
   const [activeChapter, setActiveChapter] =
-    useState<ChapterId>("decision-brief");
+    useState<ChapterId>("business-problem");
 
   useEffect(() => {
     const sections = projectChapters
@@ -53,7 +54,7 @@ export function ProjectChapterNav() {
   }, []);
 
   return (
-    <nav className="project-chapter-nav" aria-label="Case study chapters">
+    <nav className="project-chapter-nav" aria-label="Chapitres du projet">
       <ol>
         {projectChapters.map((chapter, index) => {
           const isActive = chapter.id === activeChapter;

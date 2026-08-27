@@ -72,23 +72,19 @@ function SectionHeading({
   );
 }
 
-function DecisionBrief({ project }: { project: Project }) {
-  const highlightedMetrics = project.kpis
-    .filter((metric) => metric.highlight)
-    .slice(0, 2);
-
+function BusinessProblem({ project }: { project: Project }) {
   return (
     <section
-      id="decision-brief"
+      id="business-problem"
       className="project-decision-brief project-anchor"
-      aria-labelledby="decision-brief-title"
+      aria-labelledby="business-problem-title"
     >
       <SectionHeading
         number="01"
-        eyebrow="Executive decision brief"
-        title="The decision, before the documentation."
-        titleId="decision-brief-title"
-        description="A concise chain from the commercial question to the recommended action."
+        eyebrow="Problème métier"
+        title="La question posée par le métier."
+        titleId="business-problem-title"
+        description={project.businessProblem}
       />
 
       <ol className="project-decision-chain">
@@ -97,25 +93,15 @@ function DecisionBrief({ project }: { project: Project }) {
           <p>{project.businessQuestion}</p>
         </li>
         <li>
-          <span>Observed signal</span>
-          <p>{principalSignal(project)}</p>
-          {highlightedMetrics.length > 0 && (
-            <dl>
-              {highlightedMetrics.map((metric) => (
-                <div key={metric.label}>
-                  <dt>{metric.label}</dt>
-                  <dd>{metric.value}</dd>
-                </div>
-              ))}
-            </dl>
-          )}
+          <span>Périmètre</span>
+          <p>{project.cardContext}</p>
         </li>
         <li>
-          <span>Interpretation</span>
-          <p>{project.mainInsight}</p>
+          <span>Attendu</span>
+          <p>{project.summary}</p>
         </li>
         <li>
-          <span>Recommended decision</span>
+          <span>Décision visée</span>
           <p>{project.recommendations[0]}</p>
         </li>
       </ol>
@@ -123,28 +109,101 @@ function DecisionBrief({ project }: { project: Project }) {
   );
 }
 
-function PrimaryEvidence({ project }: { project: Project }) {
-  const src = projectImages[project.slug];
-  const alt = `${project.title} dashboard showing ${project.screenshotPlaceholder.toLowerCase()}`;
-
+function DataAndMethod({ project }: { project: Project }) {
   return (
     <section
-      id="evidence"
-      className="project-evidence-chapter project-anchor"
-      aria-labelledby="evidence-title"
+      id="data-method"
+      className="project-method-chapter project-anchor"
+      aria-labelledby="data-method-title"
     >
       <SectionHeading
         number="02"
-        eyebrow="Primary evidence"
-        title="Inspect the analytical exhibit."
-        titleId="evidence-title"
-        description="The dashboard is presented as reviewable evidence, with the full analytical context preserved."
+        eyebrow="Données & méthode"
+        title="Comment les données ont été préparées."
+        titleId="data-method-title"
+        description="Origine des données, étapes de traitement et contrôles appliqués avant analyse."
       />
+
+      <div className="project-method-grid">
+        <div>
+          <p>Méthode</p>
+          <ol>
+            {project.methodology.map((step, index) => (
+              <li key={step}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <p>{step}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <div>
+          <p>{project.architecture ? "Architecture" : "Contrôles qualité"}</p>
+          <ol>
+            {(project.architecture ?? project.evidence).map((item, index) => (
+              <li key={item}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <p>{item}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+
+      {project.architecture && (
+        <div className="project-quality-record">
+          <p>Preuves et contrôles qualité</p>
+          <ul>
+            {project.evidence.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <div className="project-tool-register">
+        <p>Outils mobilisés</p>
+        <ul>
+          {project.tools.map((tool) => (
+            <li key={tool}>{tool}</li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
+function KpiChapter({ project }: { project: Project }) {
+  const src = projectImages[project.slug];
+  const alt = `${project.shortTitle} — ${project.screenshotPlaceholder.toLowerCase()}`;
+
+  return (
+    <section
+      id="kpi"
+      className="project-evidence-chapter project-anchor"
+      aria-labelledby="kpi-title"
+    >
+      <SectionHeading
+        number="03"
+        eyebrow="KPI"
+        title="Les indicateurs suivis."
+        titleId="kpi-title"
+        description="Les indicateurs retenus pour répondre à la question métier, et le reporting qui les restitue."
+      />
+
+      <dl className="project-kpi-register">
+        {project.kpis.map((metric: ProjectKpi) => (
+          <div key={metric.label} className={metric.highlight ? "is-key" : undefined}>
+            <dt>{metric.label}</dt>
+            <dd>{metric.value}</dd>
+          </div>
+        ))}
+      </dl>
 
       <figure className="project-primary-exhibit">
         <div className="project-exhibit-register">
-          <span>Exhibit 01</span>
-          <p>{project.shortTitle} / primary analytical output</p>
+          <span>Visuel 01</span>
+          <p>{project.shortTitle} / restitution principale</p>
         </div>
         <div className="project-exhibit-image">
           <Image
@@ -159,7 +218,7 @@ function PrimaryEvidence({ project }: { project: Project }) {
             src={src}
             alt={alt}
             caption={project.screenshotPlaceholder}
-            triggerLabel={`Expand exhibit: ${project.screenshotPlaceholder}`}
+            triggerLabel={`Agrandir le visuel : ${project.screenshotPlaceholder}`}
           />
         </div>
         <figcaption>
@@ -175,8 +234,8 @@ function PrimaryEvidence({ project }: { project: Project }) {
           className="project-primary-exhibit project-supporting-exhibit"
         >
           <div className="project-exhibit-register">
-            <span>Exhibit {String(index + 2).padStart(2, "0")}</span>
-            <p>Supporting diagnostic view</p>
+            <span>Visuel {String(index + 2).padStart(2, "0")}</span>
+            <p>Vue de diagnostic complémentaire</p>
           </div>
           <div className="project-exhibit-image">
             <Image
@@ -191,7 +250,7 @@ function PrimaryEvidence({ project }: { project: Project }) {
               src={screenshot.src}
               alt={screenshot.alt}
               caption={screenshot.caption}
-              triggerLabel={`Expand exhibit: ${screenshot.alt}`}
+              triggerLabel={`Agrandir le visuel : ${screenshot.alt}`}
             />
           </div>
           <figcaption>
@@ -213,27 +272,45 @@ function AnalysisChapter({ project }: { project: Project }) {
       aria-labelledby="analysis-title"
     >
       <SectionHeading
-        number="03"
-        eyebrow="Analysis and diagnosis"
-        title="From signal to commercial meaning."
+        number="04"
+        eyebrow="Analyse"
+        title="Ce que montrent les indicateurs."
         titleId="analysis-title"
-        description={project.businessProblem}
+        description="Lecture des écarts et des tendances observés dans les données du projet."
       />
 
       <ProjectAnalyticalSignature project={project} />
 
       <div className="project-finding">
-        <p>Finding / interpretation</p>
+        <p>Constat principal</p>
         <blockquote>{project.mainInsight}</blockquote>
       </div>
+    </section>
+  );
+}
+
+function DecisionChapter({ project }: { project: Project }) {
+  return (
+    <section
+      id="decision"
+      className="project-decision-chapter project-anchor"
+      aria-labelledby="decision-title"
+    >
+      <SectionHeading
+        number="05"
+        eyebrow="Décision & recommandation"
+        title="Ce que l'analyse change pour le métier."
+        titleId="decision-title"
+        description="Priorités et actions déduites des résultats observés."
+      />
 
       <div className="project-recommendations">
         <header>
-          <p>Decision layer</p>
-          <h3>Recommended business action</h3>
+          <p>Recommandations</p>
+          <h3>Actions proposées</h3>
           <span>
-            Recommendations follow the evidence in this independent case study;
-            no tested uplift is implied.
+            Les recommandations découlent des résultats de ce projet portfolio ;
+            aucun gain testé ni impact business observé n&apos;est revendiqué.
           </span>
         </header>
         <ol>
@@ -249,75 +326,11 @@ function AnalysisChapter({ project }: { project: Project }) {
   );
 }
 
-function MethodChapter({ project }: { project: Project }) {
-  return (
-    <section
-      id="method"
-      className="project-method-chapter project-anchor"
-      aria-labelledby="method-title"
-    >
-      <SectionHeading
-        number="04"
-        eyebrow="Method and quality"
-        title="How the conclusion was built."
-        titleId="method-title"
-        description="The technical record stays inspectable without displacing the business question."
-      />
-
-      <div className="project-method-grid">
-        <div>
-          <p>Methodology</p>
-          <ol>
-            {project.methodology.map((step, index) => (
-              <li key={step}>
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <p>{step}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-
-        <div>
-          <p>{project.architecture ? "Architecture" : "Quality controls"}</p>
-          <ol>
-            {(project.architecture ?? project.evidence).map((item, index) => (
-              <li key={item}>
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <p>{item}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </div>
-
-      {project.architecture && (
-        <div className="project-quality-record">
-          <p>Evidence and quality controls</p>
-          <ul>
-            {project.evidence.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      <div className="project-tool-register">
-        <p>Tools in service of the question</p>
-        <ul>
-          {project.tools.map((tool) => (
-            <li key={tool}>{tool}</li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  );
-}
-
 function TransparencyChapter({ project }: { project: Project }) {
   const records = [
-    { label: "Project type", value: project.projectType },
-    { label: "Ownership", value: project.ownership },
-    { label: "Dataset origin and boundary", value: project.datasetDisclosure },
+    { label: "Type de projet", value: project.projectType },
+    { label: "Réalisation", value: project.ownership },
+    { label: "Origine et périmètre des données", value: project.datasetDisclosure },
   ];
 
   return (
@@ -327,11 +340,11 @@ function TransparencyChapter({ project }: { project: Project }) {
       aria-labelledby="transparency-title"
     >
       <SectionHeading
-        number="05"
-        eyebrow="Transparency record"
-        title="What this work does—and does not—claim."
+        number="06"
+        eyebrow="Limites"
+        title="Ce que ce travail revendique — et ne revendique pas."
         titleId="transparency-title"
-        description="Dataset origin, ownership and material limitations remain part of the main narrative."
+        description="Origine des données, réalisation et limites matérielles restent dans le fil de lecture."
       />
 
       <dl className="project-transparency-record">
@@ -348,7 +361,7 @@ function TransparencyChapter({ project }: { project: Project }) {
 
       {project.limitations && project.limitations.length > 0 && (
         <div className="project-limitations">
-          <p>Material limitations</p>
+          <p>Limites matérielles</p>
           <ul>
             {project.limitations.map((limitation) => (
               <li key={limitation}>{limitation}</li>
@@ -374,11 +387,11 @@ function WorkClose({
       aria-labelledby="inspect-the-work-title"
     >
       <SectionHeading
-        number="06"
-        eyebrow="Evidence handoff"
-        title="Inspect the work."
+        number="07"
+        eyebrow="Sources"
+        title="Consulter le travail."
         titleId="inspect-the-work-title"
-        description="Open the underlying repository, methodology and analytical artifacts."
+        description="Dépôt, méthodologie et livrables analytiques du projet."
       />
 
       {project.artifacts && (
@@ -396,7 +409,7 @@ function WorkClose({
                   <p>{artifact.description}</p>
                 </div>
                 <ArrowUpRight aria-hidden="true" />
-                <span className="sr-only">(opens in a new tab)</span>
+                <span className="sr-only">(ouvre un nouvel onglet)</span>
               </a>
             </li>
           ))}
@@ -411,7 +424,7 @@ function WorkClose({
           className="project-work-primary"
         >
           <GitHubIcon aria-hidden="true" />
-          GitHub repository
+          Dépôt GitHub
           <ArrowUpRight aria-hidden="true" />
         </a>
         {project.liveDemo && (
@@ -421,18 +434,18 @@ function WorkClose({
             rel="noopener noreferrer"
             className="project-work-secondary"
           >
-            Live demo
+            Démo en ligne
             <ArrowUpRight aria-hidden="true" />
           </a>
         )}
         <Link href="/#projects" className="project-work-secondary">
-          All projects
+          Tous les projets
           <ArrowLeft aria-hidden="true" />
         </Link>
       </div>
 
       <Link href={nextProject.href} className="project-next-case">
-        <span>Next case / {nextProject.featuredCategory}</span>
+        <span>Projet suivant / {nextProject.featuredCategory}</span>
         <strong>{nextProject.shortTitle}</strong>
         <p>{nextProject.businessQuestion}</p>
         <ArrowRight aria-hidden="true" />
@@ -456,7 +469,7 @@ export function ProjectDetail({ project }: { project: Project }) {
         <div className="project-hero-masthead">
           <Link href="/#projects" className="project-back-link">
             <ArrowLeft aria-hidden="true" />
-            Selected projects
+            Projets
           </Link>
           <p>{project.projectType}</p>
         </div>
@@ -465,21 +478,21 @@ export function ProjectDetail({ project }: { project: Project }) {
           <div className="project-hero-title">
             <ProjectMarker
               index={caseNumber}
-              label={`Case study / ${project.featuredCategory}`}
+              label={`Projet / ${project.featuredCategory}`}
             />
             <h1>{heroTitle}</h1>
             {project.heroSubtitle && <p>{project.heroSubtitle}</p>}
           </div>
 
           <div className="project-hero-brief">
-            <p>Business question</p>
+            <p>Problème métier</p>
             <h2>{project.businessQuestion}</h2>
             <div>
-              <span>Verified signal</span>
+              <span>Constat clé</span>
               <strong>{principalSignal(project)}</strong>
             </div>
-            <a href="#evidence">
-              Inspect the evidence
+            <a href="#kpi">
+              Voir les KPI
               <ArrowRight aria-hidden="true" />
             </a>
           </div>
@@ -495,7 +508,7 @@ export function ProjectDetail({ project }: { project: Project }) {
             ))}
           </dl>
           <p>
-            <span>Dataset disclosure</span>
+            <span>Note sur les données</span>
             {project.datasetDisclosure}
           </p>
         </div>
@@ -504,10 +517,11 @@ export function ProjectDetail({ project }: { project: Project }) {
       <ProjectChapterNav />
 
       <div className="project-publication">
-        <DecisionBrief project={project} />
-        <PrimaryEvidence project={project} />
+        <BusinessProblem project={project} />
+        <DataAndMethod project={project} />
+        <KpiChapter project={project} />
         <AnalysisChapter project={project} />
-        <MethodChapter project={project} />
+        <DecisionChapter project={project} />
         <TransparencyChapter project={project} />
         <WorkClose project={project} nextProject={nextProject} />
       </div>

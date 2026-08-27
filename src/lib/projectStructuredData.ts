@@ -16,11 +16,11 @@ export function buildProjectStructuredData(project: Project) {
     "@id": `${canonicalUrl}#case-study`,
     name: project.title,
     headline: project.title,
-    description: project.summary ?? project.businessProblem,
+    description: project.summary,
     url: canonicalUrl,
     mainEntityOfPage: canonicalUrl,
-    inLanguage: "en",
-    learningResourceType: "Case study",
+    inLanguage: "fr-FR",
+    learningResourceType: "Étude de cas",
     author: {
       "@id": PERSON_ID,
     },
@@ -30,7 +30,7 @@ export function buildProjectStructuredData(project: Project) {
     isPartOf: {
       "@id": WEBSITE_ID,
     },
-    keywords: project.tools,
+    keywords: [...project.tools, project.featuredCategory],
     about: project.businessQuestion,
     sameAs,
   };

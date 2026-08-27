@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { Download, Menu, X } from "lucide-react";
+import { Mail, Menu, X } from "lucide-react";
 import { profile } from "@/data/profile";
 
 const navLinks = [
-  { label: "Experience", href: "/#experience" },
-  { label: "Education", href: "/#education" },
-  { label: "Projects", href: "/#projects" },
-  { label: "Skills", href: "/#skills" },
+  { label: "Expérience", href: "/#experience" },
+  { label: "Projets", href: "/#projects" },
+  { label: "Compétences", href: "/#skills" },
+  { label: "Formation", href: "/#education" },
   { label: "Contact", href: "/#contact" },
 ];
 
@@ -51,22 +51,25 @@ export function Header() {
         <Link
           href="/"
           className="editorial-brand"
-          aria-label={`${profile.name} — home`}
+          aria-label={`${profile.name} — accueil`}
         >
           <span aria-hidden="true">ZM</span>
           <span>{profile.name}</span>
         </Link>
 
-        <nav aria-label="Primary navigation" className="editorial-desktop-nav">
+        <nav aria-label="Navigation principale" className="editorial-desktop-nav">
           {navLinks.map((link, index) => (
             <Link key={link.href} href={link.href}>
               <span aria-hidden="true">0{index + 1}</span>
               {link.label}
             </Link>
           ))}
-          <a href={profile.cvHref} className="editorial-header-cv">
-            <Download aria-hidden="true" />
-            CV
+          <a
+            href={`mailto:${profile.email}`}
+            className="editorial-header-cv"
+          >
+            <Mail aria-hidden="true" />
+            Email
           </a>
         </nav>
 
@@ -77,9 +80,11 @@ export function Header() {
           onClick={() => setOpen((current) => !current)}
           aria-expanded={open}
           aria-controls="mobile-navigation"
-          aria-label={open ? "Close navigation menu" : "Open navigation menu"}
+          aria-label={
+            open ? "Fermer le menu de navigation" : "Ouvrir le menu de navigation"
+          }
         >
-          <span>{open ? "Close" : "Menu"}</span>
+          <span>{open ? "Fermer" : "Menu"}</span>
           {open ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
         </button>
       </div>
@@ -87,7 +92,7 @@ export function Header() {
       {open && (
         <nav
           id="mobile-navigation"
-          aria-label="Mobile navigation"
+          aria-label="Navigation mobile"
           className="editorial-mobile-nav"
         >
           {navLinks.map((link, index) => (
@@ -96,9 +101,13 @@ export function Header() {
               {link.label}
             </Link>
           ))}
-          <a href={profile.cvHref} className="editorial-mobile-cv">
-            <Download aria-hidden="true" />
-            Download CV
+          <a
+            href={`mailto:${profile.email}`}
+            className="editorial-mobile-cv"
+            onClick={() => setOpen(false)}
+          >
+            <Mail aria-hidden="true" />
+            Me contacter
           </a>
         </nav>
       )}

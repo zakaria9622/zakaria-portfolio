@@ -7,39 +7,42 @@ import { buildProjectStructuredData } from "@/lib/projectStructuredData";
 const project = getProjectBySlug("rfm-segmentation");
 if (!project) notFound();
 
-const title = "Customer Segmentation RFM";
-const description = "CRM segmentation and retention recommendations";
+const title = "Segmentation RFM & recommandations CRM";
+const description =
+  "Segmentation de 5 000 clients en VIP, Loyaux, À risque et Perdus, avec des actions de rétention et de réactivation par segment. Projet portfolio Python et pandas.";
+const ogDescription = "Segmentation client et priorisation des actions CRM.";
 const image = "/og/rfm-segmentation.png";
 
 export const metadata: Metadata = {
-  title: "Customer Segmentation RFM | Zakaria Maachou",
+  title: "Segmentation RFM & recommandations CRM | Zakaria Maachou",
   description,
   alternates: {
     canonical: project.href,
   },
   openGraph: {
     title,
-    description,
+    description: ogDescription,
     url: "/projects/rfm-segmentation",
-    siteName: "Zakaria Maachou Portfolio",
+    siteName: "Portfolio Zakaria Maachou",
     type: "article",
+    locale: "fr_FR",
     images: [
       {
         url: image,
         width: 1200,
         height: 630,
-        alt: `${title} - ${description}`,
+        alt: `${title} — ${ogDescription}`,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     title,
-    description,
+    description: ogDescription,
     images: [
       {
         url: image,
-        alt: `${title} - ${description}`,
+        alt: `${title} — ${ogDescription}`,
       },
     ],
   },
