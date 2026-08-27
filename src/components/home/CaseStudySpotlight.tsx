@@ -81,15 +81,6 @@ function CaseContext({ project }: { project: Project }) {
   );
 }
 
-function Disclosure({ project }: { project: Project }) {
-  return (
-    <p className="editorial-case-disclosure">
-      <span>Note sur les données</span>
-      {project.datasetDisclosure}
-    </p>
-  );
-}
-
 function CaseReading({ project }: { project: Project }) {
   return (
     <dl className="editorial-case-reading">
@@ -107,10 +98,10 @@ function CaseReading({ project }: { project: Project }) {
 
 export function CaseStudySpotlight() {
   const renewalMetrics = [
-    findMetric(renewalProject, "Données"),
-    findMetric(renewalProject, "Statut des KPI"),
-    findMetric(renewalProject, "Sortie décisionnelle"),
-    findMetric(renewalProject, "Impact business revendiqué"),
+    findMetric(renewalProject, "Sources de données"),
+    findMetric(renewalProject, "Profondeur d'historique"),
+    findMetric(renewalProject, "Comptes du portefeuille"),
+    findMetric(renewalProject, "Scénarios qualité couverts"),
   ].filter((metric): metric is ProjectKpi => Boolean(metric));
 
   const funnelView = findMetric(funnelProject, "Visiteurs");
@@ -164,7 +155,7 @@ export function CaseStudySpotlight() {
 
         <div className="renewal-control-grid">
           <div className="renewal-trust-gate">
-            <p>Repères / contrôle qualité avant reporting</p>
+            <p>Périmètre / architecture analysée</p>
             <ol>
               {renewalMetrics.map((metric, index) => (
                 <li key={metric.label}>
@@ -195,7 +186,6 @@ export function CaseStudySpotlight() {
             <strong>{renewalProject.recommendations[0]}</strong>
           </div>
         </div>
-        <Disclosure project={renewalProject} />
       </article>
 
       <article className="editorial-case editorial-case-funnel">
@@ -256,7 +246,6 @@ export function CaseStudySpotlight() {
               <p>Décision / recommandation</p>
               <strong>{funnelProject.recommendations[0]}</strong>
             </div>
-            <Disclosure project={funnelProject} />
           </div>
         </div>
       </article>
@@ -303,7 +292,6 @@ export function CaseStudySpotlight() {
             </div>
 
             <CaseReading project={rfmProject} />
-            <Disclosure project={rfmProject} />
             <CaseLink project={rfmProject} />
           </div>
         </article>
@@ -338,7 +326,6 @@ export function CaseStudySpotlight() {
             />
 
             <CaseReading project={profitProject} />
-            <Disclosure project={profitProject} />
             <CaseLink project={profitProject} />
           </div>
         </article>

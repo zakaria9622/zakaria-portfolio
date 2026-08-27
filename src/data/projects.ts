@@ -72,7 +72,7 @@ export const projects: Project[] = [
     featuredCategory: "Data Quality & Aide à la décision",
     featuredInsight:
       "Les KPI restent sous contrôle qualité tant que les exceptions ne sont pas revues.",
-    projectType: "Projet portfolio · système analytique B2B synthétique",
+    projectType: "Projet portfolio individuel",
     datasetDisclosure:
       "Données B2B synthétiques uniquement. Aucune donnée client de production, aucun déploiement en production, aucun résultat d'intervention observé ni impact business réel n'est revendiqué.",
     ownership: "Projet individuel de bout en bout",
@@ -84,9 +84,9 @@ export const projects: Project[] = [
     ],
     artifacts: [
       {
-        label: "Génération des sources synthétiques",
+        label: "Génération et validation des sources",
         description:
-          "Couche reproductible de génération et de validation des données sources, qui injecte puis détecte des incidents qualité contrôlés.",
+          "Couche reproductible de génération et de validation des données sources, qui injecte puis détecte 14 scénarios d'incidents qualité contrôlés.",
         href:
           "https://github.com/zakaria9622/renewalos-b2b-revenue-quality-engine/blob/master/src/renewalos/generation/validate_generation.py",
       },
@@ -114,7 +114,7 @@ export const projects: Project[] = [
       {
         label: "Optimiseur sous contrainte de capacité",
         description:
-          "Optimiseur de scénarios (OR-Tools) sélectionnant les comptes synthétiques éligibles sous contrainte d'heures CSM et de nombre de comptes.",
+          "Optimiseur de scénarios (OR-Tools) sélectionnant les comptes éligibles sous contrainte d'heures CSM et de nombre de comptes.",
         href:
           "https://github.com/zakaria9622/renewalos-b2b-revenue-quality-engine/blob/master/src/renewalos/prioritization/optimizer.py",
       },
@@ -122,7 +122,7 @@ export const projects: Project[] = [
     businessProblem:
       "Les équipes B2B agissent souvent sur des signaux d'ARR, de churn, de renouvellement et de santé des comptes avant que les problèmes des systèmes sources ne soient visibles. RenewalOS montre un workflow analytique où les exceptions de données, les écarts de réconciliation et les règles de décision sont exposés avant que la priorisation Customer Success ne soit revue.",
     architecture: [
-      "Des domaines sources synthétiques alimentent un entrepôt DuckDB local modélisé avec dbt.",
+      "Sept domaines sources alimentent un entrepôt DuckDB local modélisé avec dbt (26 modèles : staging, intermediate, qualité, marts).",
       "Les contrôles qualité et la réconciliation du revenu font remonter les exceptions sources avant l'usage des vues destinées aux KPI.",
       "Le diagnostic de santé des comptes explicite les signaux de risque tout en conservant les enregistrements bloqués ou exclus.",
       "OR-Tools applique des limites de capacité CSM simulées aux scénarios de recommandation, et non à des décisions de production.",
@@ -135,12 +135,12 @@ export const projects: Project[] = [
       "Production de scénarios de priorisation CSM sous contrainte de capacité, avec exclusions explicites",
     ],
     kpis: [
-      { label: "Données", value: "Synthétiques", highlight: true },
-      { label: "Statut des KPI", value: "Sous contrôle qualité" },
-      { label: "Sortie décisionnelle", value: "Scénarios de priorisation" },
-      { label: "Interface", value: "Streamlit" },
-      { label: "Déploiement", value: "Hors production" },
-      { label: "Impact business revendiqué", value: "Aucun" },
+      { label: "Sources de données", value: "7", highlight: true },
+      { label: "Profondeur d'historique", value: "24 mois" },
+      { label: "Comptes du portefeuille", value: "750" },
+      { label: "Scénarios qualité couverts", value: "14", highlight: true },
+      { label: "Modèles dbt", value: "26" },
+      { label: "Réconciliation", value: "ARR" },
     ],
     mainInsight:
       "Les sorties décisionnelles restent restreintes tant que les exceptions sources et les écarts de réconciliation ne sont pas visibles et revus.",
@@ -166,7 +166,7 @@ export const projects: Project[] = [
       },
     ],
     screenshotPlaceholder:
-      "Control Tower RenewalOS — mention des données synthétiques et restrictions de reporting KPI",
+      "Control Tower RenewalOS — contrôles qualité et statut du reporting KPI",
   },
   {
     slug: "funnel-analysis",

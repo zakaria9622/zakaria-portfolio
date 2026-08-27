@@ -172,14 +172,14 @@ function ProfitSignature({ project }: { project: Project }) {
 
 function RenewalSignature({ project }: { project: Project }) {
   const stages = [
-    requireMetric(project, "Données"),
-    requireMetric(project, "Statut des KPI"),
-    requireMetric(project, "Sortie décisionnelle"),
+    requireMetric(project, "Sources de données"),
+    requireMetric(project, "Scénarios qualité couverts"),
+    requireMetric(project, "Réconciliation"),
   ];
   const controls = [
-    requireMetric(project, "Interface"),
-    requireMetric(project, "Déploiement"),
-    requireMetric(project, "Impact business revendiqué"),
+    requireMetric(project, "Profondeur d'historique"),
+    requireMetric(project, "Comptes du portefeuille"),
+    requireMetric(project, "Modèles dbt"),
   ];
 
   return (
@@ -188,7 +188,7 @@ function RenewalSignature({ project }: { project: Project }) {
         <p>Contrôle qualité avant reporting</p>
         <span>Exceptions visibles avant toute sortie décisionnelle</span>
       </div>
-      <ol className="renewal-gate" aria-label="Étapes du contrôle qualité des données">
+      <ol className="renewal-gate" aria-label="Chaîne de contrôle qualité des données">
         {stages.map((metric, index) => (
           <li key={metric.label}>
             <span>Étape 0{index + 1}</span>

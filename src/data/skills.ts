@@ -42,7 +42,6 @@ export const skillsByCategory = [
       "pandas",
       "Tableau",
       "Power BI",
-      "Looker Studio",
       "Excel",
     ],
   },
@@ -50,7 +49,6 @@ export const skillsByCategory = [
     category: "Qualité & Activation",
     skills: [
       "ETL",
-      "Talend",
       "dbt",
       "DuckDB",
       "Data Quality",

@@ -224,7 +224,6 @@ function KpiChapter({ project }: { project: Project }) {
         <figcaption>
           <span>Figure 01</span>
           <p>{project.screenshotPlaceholder}</p>
-          <small>{project.datasetDisclosure}</small>
         </figcaption>
       </figure>
 
@@ -256,7 +255,6 @@ function KpiChapter({ project }: { project: Project }) {
           <figcaption>
             <span>Figure {String(index + 2).padStart(2, "0")}</span>
             <p>{screenshot.caption}</p>
-            <small>{project.datasetDisclosure}</small>
           </figcaption>
         </figure>
       ))}
@@ -507,10 +505,6 @@ export function ProjectDetail({ project }: { project: Project }) {
               </div>
             ))}
           </dl>
-          <p>
-            <span>Note sur les données</span>
-            {project.datasetDisclosure}
-          </p>
         </div>
       </header>
 
