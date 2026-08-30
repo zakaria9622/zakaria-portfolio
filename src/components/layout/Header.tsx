@@ -59,10 +59,10 @@ export function Header() {
 
         <nav aria-label="Navigation principale" className="editorial-desktop-nav">
           {navLinks.map((link, index) => (
-            <Link key={link.href} href={link.href}>
+            <a key={link.href} href={link.href}>
               <span aria-hidden="true">0{index + 1}</span>
               {link.label}
-            </Link>
+            </a>
           ))}
           <a
             href={`mailto:${profile.email}`}
@@ -96,10 +96,10 @@ export function Header() {
           className="editorial-mobile-nav"
         >
           {navLinks.map((link, index) => (
-            <Link key={link.href} href={link.href} onClick={() => setOpen(false)}>
+            <a key={link.href} href={link.href} onClick={() => setOpen(false)}>
               <span aria-hidden="true">0{index + 1}</span>
               {link.label}
-            </Link>
+            </a>
           ))}
           <a
             href={`mailto:${profile.email}`}
