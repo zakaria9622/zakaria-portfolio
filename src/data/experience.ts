@@ -1,13 +1,14 @@
 export const experience = [
   {
     company: "My Job Glasses",
-    role: "Data & BI Analyst",
+    role: "Assistant Data Analyst",
     label: "Contrat d'apprentissage · Paris",
     dates: "09/2025 - 08/2026",
     focus: "Données & BI",
     highlights: [
-      "Fiabilisation de données SQL et ETL alimentant 20+ KPI clients, avec contrôles de cohérence avant diffusion aux équipes métiers.",
-      "Conception, recette et documentation de 5+ dashboards Tableau pour le suivi récurrent de la performance.",
+      "Préparation, nettoyage et contrôle de données utilisées pour le reporting.",
+      "Extraction et analyse de données SQL pour le suivi des indicateurs de performance.",
+      "Mise à jour de tableaux de bord Tableau et production de reportings pour le suivi de l'activité.",
     ],
   },
   {
@@ -17,8 +18,8 @@ export const experience = [
     dates: "09/2024 - 08/2025",
     focus: "Analyse & reporting",
     highlights: [
-      "Analyse de 30+ campagnes digitales sur 4 canaux d'acquisition, avec suivi des principaux KPI de trafic, engagement et conversion.",
-      "Centralisation de 5 sources marketing et harmonisation d'une quinzaine de KPI pour fiabiliser le reporting.",
+      "Analyse des performances de campagnes digitales sur plusieurs canaux d'acquisition, avec suivi des principaux KPI de trafic, d'engagement et de conversion.",
+      "Centralisation et structuration des données marketing issues de plusieurs sources afin d'améliorer la fiabilité et la lisibilité du reporting.",
     ],
   },
 ] as const;

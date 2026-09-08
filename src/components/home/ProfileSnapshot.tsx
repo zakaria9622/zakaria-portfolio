@@ -9,7 +9,7 @@ const dataTools = skillsByCategory[1].skills.slice(0, 5).join(" · ");
 const rows = [
   {
     index: "01",
-    label: "Poste visé",
+    label: "Positionnement",
     lead: profile.title,
   },
   {
@@ -63,9 +63,9 @@ export function ProfileSnapshot() {
             →
           </span>
           <div>
-            <p className="profile-snapshot-label">Disponibilité</p>
+            <p className="profile-snapshot-label">Mobilité</p>
             <p className="profile-snapshot-value">
-              {profile.alternance.availability} · {profile.alternance.location}
+              {profile.availability.location}
             </p>
           </div>
         </li>

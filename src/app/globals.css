@@ -2118,13 +2118,6 @@ html {
   gap: 0.35rem;
 }
 
-.editorial-hero-status > span:first-child::before {
-  width: 0.45rem;
-  height: 0.45rem;
-  background: #258c58;
-  content: "";
-}
-
 .editorial-hero-status svg { width: 0.75rem; height: 0.75rem; }
 
 .editorial-hero-grid {

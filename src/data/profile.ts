@@ -1,18 +1,18 @@
 export const profile = {
   name: "Zakaria Maachou",
-  title: "Business Analyst",
-  subtitle: "Analyse de données, Reporting & Aide à la décision",
+  title: "Data · BI · Business Analysis",
+  subtitle: "Analyse de données · Reporting · Aide à la décision",
   positioning:
-    "Business Analyst | Analyse de données, Reporting & Aide à la décision",
-  headline: "Transformer les besoins métiers en décisions appuyées par la donnée.",
+    "Data · BI · Business Analysis | Reporting & Aide à la décision",
+  headline:
+    "Transformer les données et les besoins métiers en décisions concrètes.",
   tagline:
     "Je traduis les besoins métiers en KPI, analyses et reporting pour éclairer les décisions et améliorer la performance.",
   email: "zakariamaachou96@gmail.com",
   github: "https://github.com/zakaria9622",
   linkedin: "https://linkedin.com/in/zakaria-maachou",
-  alternance: {
+  availability: {
     open: true,
-    availability: "Alternance dès septembre 2026",
     location: "Paris · Mobilité nationale",
   },
 } as const;

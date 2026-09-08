@@ -17,13 +17,12 @@ export function ContactCommandBar() {
 
       <div className="editorial-contact-body">
         <div className="editorial-contact-copy">
-          <p>{profile.alternance.availability}</p>
           <h2 id="editorial-contact-title">
-            Disponible pour une alternance de Business Analyst.
+            Ouvert aux opportunités en Data, BI &amp; Business Analysis.
           </h2>
           <span>
             <MapPin aria-hidden="true" />
-            {profile.alternance.location}
+            {profile.availability.location}
           </span>
         </div>
 

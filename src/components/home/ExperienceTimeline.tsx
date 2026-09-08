@@ -47,7 +47,7 @@ export function ExperienceTimeline() {
         ))}
         <li className="is-direction">
           <span aria-hidden="true">→</span>
-          Business Analyst
+          Business Analysis
         </li>
       </ol>
 
@@ -71,7 +71,6 @@ export function ExperienceTimeline() {
               <div className="career-chapter-annotation">
                 <p>{job.focus}</p>
                 <span>{job.dates}</span>
-                {isLatest && <strong>Expérience en cours</strong>}
               </div>
 
               <div className="career-chapter-content">
@@ -126,10 +125,10 @@ export function ExperienceTimeline() {
       <div className="career-direction-note">
         <span aria-hidden="true">04</span>
         <p>Objectif</p>
-        <strong>Business Analyst</strong>
+        <strong>Data · BI · Business Analysis</strong>
         <small>
-          Traduire les besoins métiers en KPI, analyses et reporting exploitables
-          pour la décision.
+          Analyser les données, structurer les KPI et traduire les besoins
+          métiers en reporting exploitable pour la décision.
         </small>
       </div>
     </section>

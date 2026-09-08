@@ -1,8 +1,8 @@
-# Zakaria Maachou — Portfolio Business Analyst
+# Zakaria Maachou — Portfolio Data · BI · Business Analysis
 
 Portfolio destiné aux recruteurs, centré sur l'analyse de données, la définition des KPI, le reporting, la qualité des données et l'aide à la décision.
 
-**Positionnement :** Business Analyst | Analyse de données, Reporting & Aide à la décision
+**Positionnement :** Data · BI · Business Analysis | Analyse de données, Reporting & Aide à la décision
 **Site en ligne :** https://www.zakariamaachou.com
 
 Le portfolio est rédigé en français. Restent en anglais les noms d'outils, les noms techniques et les noms de dépôts GitHub.
@@ -69,7 +69,7 @@ Le portfolio ne présente pas des travaux indépendants comme des missions clien
 
 Le portfolio n'expose aucun CV téléchargeable. L'ancien PDF a été supprimé de `public/` : aucune URL directe ne permet plus d'y accéder.
 
-Pour proposer un CV plus tard : déposer un PDF aligné sur le positionnement Business Analyst dans `public/`, puis ajouter les CTA souhaités.
+Pour proposer un CV plus tard : déposer un PDF aligné sur le positionnement Data · BI · Business Analysis dans `public/`, puis ajouter les CTA souhaités.
 
 ## Accessibilité et animations
 
