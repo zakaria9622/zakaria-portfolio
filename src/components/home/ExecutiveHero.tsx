@@ -12,12 +12,13 @@ export function ExecutiveHero() {
       <div className="editorial-hero-masthead">
         <EditorialMarker
           index="ZM"
-          label="Data · BI · Business Analysis"
+          label="Data Analyst"
         />
         <div
           className="editorial-hero-status"
           aria-label="Disponibilité et localisation"
         >
+          <span>{profile.availability.label}</span>
           <span>
             <MapPin aria-hidden="true" />
             {profile.availability.location}

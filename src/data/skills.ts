@@ -5,8 +5,8 @@ export const skillsStrip = [
   "Excel",
   "KPI",
   "Reporting",
-  "Data Viz",
-  "Data Quality",
+  "Tableau",
+  "Qualité des données",
 ] as const;
 
 /** Bande de capacités affichée sous le hero. */
@@ -16,45 +16,39 @@ export const capabilityBand = [
   "Reporting",
   "Tableau",
   "Python",
-  "Data Quality",
-  "CRM",
+  "Qualité des données",
+  "Segmentation RFM",
   "Performance",
 ] as const;
 
 export const skillsByCategory = [
   {
-    category: "CRM & Performance",
-    skills: [
-      "CRM",
-      "Segmentation",
-      "Rétention",
-      "KPI",
-      "Reporting",
-      "Acquisition",
-      "Analyse de performance",
-    ],
-  },
-  {
-    category: "Data & BI",
+    category: "Analyse",
     skills: [
       "SQL",
-      "Python",
-      "pandas",
-      "Tableau",
-      "Power BI",
+      "Python (pandas)",
       "Excel",
+      "KPI",
+      "Segmentation RFM",
     ],
   },
   {
-    category: "Qualité & Activation",
+    category: "BI & Reporting",
     skills: [
+      "Tableau",
+      "Power BI",
+      "Visualisation",
+      "Tableaux de bord",
+    ],
+  },
+  {
+    category: "Qualité des données",
+    skills: [
+      "Nettoyage",
+      "Contrôles de cohérence",
       "ETL",
       "dbt",
       "DuckDB",
-      "Data Quality",
-      "KPI",
-      "Reporting",
-      "Rentabilité",
     ],
   },
 ] as const;

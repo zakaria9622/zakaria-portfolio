@@ -7,12 +7,12 @@ import { getProjectBySlug } from "@/data/projects";
 const domainEvidence = [
   {
     summary:
-      "Segmenter les clients, suivre la conversion et prioriser les actions CRM.",
+      "Analyser les données, suivre les KPI et prioriser les actions par segmentation RFM.",
     projectSlugs: ["rfm-segmentation", "funnel-analysis"],
   },
   {
     summary:
-      "Préparer les données, calculer les KPI et livrer un reporting exploitable.",
+      "Visualiser les indicateurs et créer des tableaux de bord exploitables.",
     projectSlugs: ["funnel-analysis", "profit-leak"],
   },
   {

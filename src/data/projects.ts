@@ -63,7 +63,7 @@ export const projects: Project[] = [
     summary:
       "Détection des incidents qualité avant reporting, puis priorisation d'un portefeuille CRM sous contrainte de capacité.",
     cardContext:
-      "Portefeuille 24 mois · 7 sources · Réconciliation ARR · Contrôles qualité · Priorisation sous contrainte",
+      "Construction d’un pipeline de réconciliation du revenu récurrent annuel (ARR), sur 7 sources et 24 mois, avec contrôles qualité avant la priorisation des comptes.",
     github:
       "https://github.com/zakaria9622/renewalos-b2b-revenue-quality-engine",
     liveDemo: "https://renewalos-zakaria.streamlit.app/",
@@ -177,7 +177,7 @@ export const projects: Project[] = [
     summary:
       "Identification du principal point de friction entre consultation, panier et achat.",
     cardContext:
-      "3,02 M visiteurs · Vue → panier 11,14 % · Panier → achat 58,35 %",
+      "Analyse de 3,02 M de visiteurs et identification du principal frein : l’ajout au panier (11,14 %). Proposition de tests A/B sur les pages produit.",
     github: "https://github.com/zakaria9622/funnel-analysis-project",
     href: "/projects/funnel-analysis",
     featuredOrder: 2,
@@ -266,7 +266,7 @@ export const projects: Project[] = [
     businessQuestion: "Quels clients le CRM doit-il prioriser ?",
     summary:
       "Actions de rétention et de réactivation adaptées à chaque segment client.",
-    cardContext: "5 000 clients · VIP · Loyaux · À risque · Perdus",
+    cardContext: "Segmentation de 5 000 clients : les VIP (27,9 %) concentrent 75,4 % du CA. Recommandations de fidélisation ciblées.",
     github: "https://github.com/zakaria9622/customer-segmentation-rfm",
     href: "/projects/rfm-segmentation",
     featuredOrder: 3,
@@ -363,7 +363,7 @@ export const projects: Project[] = [
     businessQuestion: "Où la marge se dégrade-t-elle ?",
     summary:
       "Priorisation des fuites de marge et des leviers d'amélioration de la rentabilité.",
-    cardContext: "12 000 commandes · CA · Coûts · Marge · Remises",
+    cardContext: "Analyse de 12 000 commandes : érosion de marge repérée sur l’électronique en UE. Recommandation de revoir la politique de remise.",
     github: "https://github.com/zakaria9622/ecommerce-profit-leak-analysis",
     href: "/projects/profit-leak",
     featuredOrder: 4,

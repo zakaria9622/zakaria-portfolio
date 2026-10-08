@@ -1,18 +1,18 @@
 export const education = [
   {
-    school: "INSEEC MSc - Paris",
-    program: "MSc Data Management & AI for Business",
-    dates: "09/2025 - 09/2027",
+    school: "INSEEC | Paris | En cours",
+    program: "MSc 2 Data Management & AI for Business",
+    dates: "09/2026 - 09/2027",
     stage: "Data & intelligence artificielle",
   },
   {
-    school: "EBS Paris - European Business School",
-    program: "M1 Digital Business & Marketing - Programme Grande École",
-    dates: "09/2024 - 09/2025",
+    school: "EBS Paris",
+    program: "Programme Grande École - Master Digital Business & Marketing",
+    dates: "09/2024 - 09/2026",
     stage: "Digital business",
   },
   {
-    school: "Université Paris-Panthéon-Assas - Paris",
+    school: "Université Paris-Panthéon-Assas | Paris",
     program: "Licence Économie et gestion - Analyse économique",
     dates: "09/2020 - 07/2023",
     stage: "Économie et gestion",

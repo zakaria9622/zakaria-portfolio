@@ -4,7 +4,7 @@ import { profile } from "@/data/profile";
 import { skillsByCategory } from "@/data/skills";
 
 const currentProgram = education[0];
-const dataTools = skillsByCategory[1].skills.slice(0, 5).join(" · ");
+const dataTools = [...skillsByCategory[0].skills.slice(0, 3), ...skillsByCategory[1].skills.slice(0, 2)].join(" · ");
 
 const rows = [
   {
@@ -15,7 +15,7 @@ const rows = [
   {
     index: "02",
     label: "Domaines",
-    value: "Besoins métiers · KPI · Analyse · Reporting · Qualité des données",
+    value: "Fiabilité des données · Analyse · KPI · Reporting",
   },
   {
     index: "03",
@@ -26,6 +26,11 @@ const rows = [
     index: "04",
     label: "Formation",
     value: `${currentProgram.program} — ${currentProgram.school}`,
+  },
+  {
+    index: "05",
+    label: "Rythme alternance",
+    value: profile.availability.rhythm,
   },
 ] as const;
 

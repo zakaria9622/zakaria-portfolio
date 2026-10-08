@@ -26,9 +26,8 @@ const newsreader = Newsreader({
   display: "swap",
 });
 
-const siteTitle = "Zakaria Maachou | Data · BI · Business Analysis";
-const siteDescription =
-  "Portfolio de Zakaria Maachou : analyse de données, KPI, reporting, Business Intelligence et aide à la décision.";
+const siteTitle = `${profile.name} | ${profile.title}`;
+const siteDescription = profile.tagline;
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -49,11 +48,12 @@ const structuredData = {
       "@id": "https://www.zakariamaachou.com/#person",
       name: profile.name,
       url: "https://www.zakariamaachou.com/",
-      jobTitle: "Data Analyst / BI Analyst / Business Analyst",
+      jobTitle: "Data Analyst",
       description: profile.tagline,
+      email: profile.email,
+      telephone: profile.phone,
       sameAs: [profile.linkedin, profile.github],
       knowsAbout: [
-        "Business Analysis",
         "Data Analysis",
         "Business Intelligence",
         "KPI",
@@ -89,7 +89,7 @@ export const metadata: Metadata = {
         url: "/og/home.png",
         width: 1200,
         height: 630,
-        alt: "Zakaria Maachou | Data · BI · Business Analysis",
+        alt: siteTitle,
       },
     ],
   },
@@ -100,7 +100,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/og/home.png",
-        alt: "Zakaria Maachou | Data · BI · Business Analysis",
+        alt: siteTitle,
       },
     ],
   },

@@ -19,14 +19,14 @@ const palette = {
 const cards = [
   {
     file: "home.png",
-    marker: "PORTFOLIO / DATA, BI & BUSINESS ANALYSIS",
+    marker: "PORTFOLIO / DATA ANALYST",
     titleLines: [
-      "Data · BI ·",
-      "Business Analysis |",
-      "Reporting & Aide à la décision",
+      "Data Analyst |",
+      "Alternance 12 mois",
+      "Disponible immédiatement",
     ],
     question:
-      "Traduire les besoins métiers en KPI, analyses et reporting.",
+      "Fiabilité des données, analyse et reporting.",
     signature: ["BESOIN MÉTIER", "KPI & DONNÉES", "DÉCISION"],
     index: "00",
   },
@@ -194,7 +194,7 @@ function svg(card) {
   <text x="1136" y="158" class="display" text-anchor="end" font-size="92" font-weight="500" fill="${palette.white}" fill-opacity="0.2">${card.index}</text>
   ${signatureRegister(card)}
   <path d="M 924 530 H 1136" stroke="${palette.white}" stroke-opacity="0.52" stroke-width="1"/>
-  <text x="924" y="564" class="mono" font-size="12" font-weight="700" letter-spacing="1.7" fill="${palette.white}">DATA · BI · BUSINESS ANALYSIS</text>
+  <text x="924" y="564" class="mono" font-size="12" font-weight="700" letter-spacing="1.7" fill="${palette.white}">DATA ANALYST</text>
   <text x="924" y="590" class="sans" font-size="16" font-weight="600" fill="${palette.white}">La donnée avant l'affirmation.</text>
 </svg>`;
 }

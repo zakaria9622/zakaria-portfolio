@@ -1,4 +1,4 @@
-import { ArrowUpRight, Mail, MapPin } from "lucide-react";
+import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 import { GitHubIcon, LinkedInIcon } from "@/components/ui/SocialIcons";
 import { EditorialMarker } from "@/components/home/EditorialMarker";
 import { profile } from "@/data/profile";
@@ -18,12 +18,13 @@ export function ContactCommandBar() {
       <div className="editorial-contact-body">
         <div className="editorial-contact-copy">
           <h2 id="editorial-contact-title">
-            Ouvert aux opportunités en Data, BI &amp; Business Analysis.
+            Disponible immédiatement pour une alternance de 12 mois en Data Analyst.
           </h2>
           <span>
             <MapPin aria-hidden="true" />
             {profile.availability.location}
           </span>
+          <p>{profile.availability.rhythm}</p>
         </div>
 
         <div className="editorial-contact-actions">
@@ -37,6 +38,14 @@ export function ContactCommandBar() {
             </span>
             <strong>{profile.email}</strong>
             <ArrowUpRight aria-hidden="true" />
+          </a>
+
+          <a href={profile.phoneHref} className="editorial-contact-cv">
+            <Phone aria-hidden="true" />
+            <span>
+              <small>Téléphone</small>
+              {profile.phone}
+            </span>
           </a>
 
           <div className="editorial-contact-socials">

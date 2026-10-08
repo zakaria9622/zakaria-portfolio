@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { EditorialMarker } from "@/components/home/EditorialMarker";
 import { experience } from "@/data/experience";
+import { profile } from "@/data/profile";
 
 const careerChapters = [...experience].reverse();
 
@@ -47,7 +48,7 @@ export function ExperienceTimeline() {
         ))}
         <li className="is-direction">
           <span aria-hidden="true">→</span>
-          Business Analysis
+          Data Analyst
         </li>
       </ol>
 
@@ -125,7 +126,7 @@ export function ExperienceTimeline() {
       <div className="career-direction-note">
         <span aria-hidden="true">04</span>
         <p>Objectif</p>
-        <strong>Data · BI · Business Analysis</strong>
+        <strong>{profile.title}</strong>
         <small>
           Analyser les données, structurer les KPI et traduire les besoins
           métiers en reporting exploitable pour la décision.
