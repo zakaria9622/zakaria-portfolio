@@ -1,23 +1,18 @@
 export const profile = {
   name: "Zakaria Maachou",
-  title: "Data Analyst | Alternance 12 mois",
+  role: "Data Analyst",
+  title: "Stage de fin d’études en Data & BI",
   subtitle: "Analyse de données · Reporting · Aide à la décision",
-  positioning:
-    "Data Analyst | Alternance 12 mois",
   headline:
     "Fiabiliser les données pour éclairer les décisions.",
   tagline:
-    "Data Analyst spécialisé en fiabilité des données, analyse et reporting. Expérience en SQL, Python et Tableau, avec pratique de la préparation des données, du suivi de KPI et de la création de tableaux de bord.",
+    "J’analyse les besoins métier et conçois des tableaux de bord BI avec SQL, Tableau, Excel et Python/pandas. Je travaille sur le suivi des KPI, la qualité des données, la modélisation et les flux ETL.",
   email: "zakariamaachou96@gmail.com",
-  phone: "07 75 37 84 81",
-  phoneHref: "tel:+33775378481",
   website: "https://zakariamaachou.com",
   github: "https://github.com/zakaria9622",
-  linkedin: "https://linkedin.com/in/zakaria-maachou",
   availability: {
     open: true,
-    label: "DISPONIBLE IMMÉDIATEMENT",
-    location: "Paris et mobilité nationale.",
-    rhythm: "3 j école / 2 j entreprise jusqu’en mars 2027, puis 100 % en entreprise.",
+    label: "Disponible immédiatement",
+    location: "Paris, Île-de-France",
   },
 } as const;

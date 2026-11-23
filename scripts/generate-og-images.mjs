@@ -21,8 +21,8 @@ const cards = [
     file: "home.png",
     marker: "PORTFOLIO / DATA ANALYST",
     titleLines: [
-      "Data Analyst |",
-      "Alternance 12 mois",
+      "Stage de fin d’études",
+      "en Data & BI",
       "Disponible immédiatement",
     ],
     question:
@@ -201,7 +201,11 @@ function svg(card) {
 
 await fs.mkdir(OUT_DIR, { recursive: true });
 
-for (const card of cards) {
+const selectedCards = process.argv.includes("--home-only")
+  ? cards.filter((card) => card.file === "home.png")
+  : cards;
+
+for (const card of selectedCards) {
   const output = path.join(OUT_DIR, card.file);
   await sharp(Buffer.from(svg(card)))
     .png({ compressionLevel: 9, palette: true, quality: 96 })

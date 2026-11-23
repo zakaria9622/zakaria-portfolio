@@ -1,10 +1,8 @@
 import { EditorialMarker } from "@/components/home/EditorialMarker";
 import { education } from "@/data/education";
 import { profile } from "@/data/profile";
-import { skillsByCategory } from "@/data/skills";
 
 const currentProgram = education[0];
-const dataTools = [...skillsByCategory[0].skills.slice(0, 3), ...skillsByCategory[1].skills.slice(0, 2)].join(" · ");
 
 const rows = [
   {
@@ -15,12 +13,12 @@ const rows = [
   {
     index: "02",
     label: "Domaines",
-    value: "Fiabilité des données · Analyse · KPI · Reporting",
+    value: "KPI · Qualité des données · ETL · Reporting BI",
   },
   {
     index: "03",
     label: "Outils",
-    value: dataTools,
+    value: "SQL · Tableau · Excel · Python/pandas",
   },
   {
     index: "04",
@@ -29,8 +27,8 @@ const rows = [
   },
   {
     index: "05",
-    label: "Rythme alternance",
-    value: profile.availability.rhythm,
+    label: "Disponibilité",
+    value: profile.availability.label,
   },
 ] as const;
 
@@ -68,7 +66,7 @@ export function ProfileSnapshot() {
             →
           </span>
           <div>
-            <p className="profile-snapshot-label">Mobilité</p>
+            <p className="profile-snapshot-label">Localisation</p>
             <p className="profile-snapshot-value">
               {profile.availability.location}
             </p>
