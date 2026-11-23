@@ -2,9 +2,10 @@
 
 Portfolio destiné aux recruteurs, centré sur l'analyse de données, la définition des KPI, le reporting, la qualité des données et l'aide à la décision.
 
-**Positionnement :** Data Analyst | Alternance 12 mois
-**Disponibilité :** DISPONIBLE IMMÉDIATEMENT — Paris et mobilité nationale.
-**Rythme :** 3 j école / 2 j entreprise jusqu’en mars 2027, puis 100 % en entreprise.
+- **Recherche** — Stage de fin d’études en Data & BI
+- **Disponibilité** — Disponible immédiatement
+- **Localisation** — Paris, Île-de-France
+
 **Site en ligne :** https://www.zakariamaachou.com
 
 Le portfolio est rédigé en français. Restent en anglais les noms d'outils, les noms techniques et les noms de dépôts GitHub.
@@ -71,8 +72,6 @@ Le portfolio ne présente pas des travaux indépendants comme des missions clien
 
 Le portfolio n'expose aucun CV téléchargeable. L'ancien PDF a été supprimé de `public/` : aucune URL directe ne permet plus d'y accéder.
 
-Pour proposer un CV plus tard : déposer un PDF aligné sur le positionnement Data Analyst | Alternance 12 mois dans `public/`, puis ajouter les CTA souhaités.
-
 ## Accessibilité et animations
 
 - repères sémantiques et un seul titre principal par route
@@ -111,6 +110,8 @@ Régénérer les visuels Open Graph sans changer leurs URL :
 ```bash
 node scripts/generate-og-images.mjs
 ```
+
+La commande `node scripts/generate-og-images.mjs --home-only` actualise uniquement les deux aperçus de l’accueil.
 
 ## Développement local
 
@@ -168,6 +169,4 @@ L'application utilise un build de production Next.js standard et est déployée 
 ## Contact
 
 - Email : zakariamaachou96@gmail.com
-- Téléphone : 07 75 37 84 81
-- LinkedIn : https://www.linkedin.com/in/zakaria-maachou
 - GitHub : https://github.com/zakaria9622

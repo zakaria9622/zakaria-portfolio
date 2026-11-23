@@ -4,34 +4,14 @@ import { EditorialMarker } from "@/components/home/EditorialMarker";
 import { languages, skillsByCategory } from "@/data/skills";
 import { getProjectBySlug } from "@/data/projects";
 
-const domainEvidence = [
-  {
-    summary:
-      "Analyser les données, suivre les KPI et prioriser les actions par segmentation RFM.",
-    projectSlugs: ["rfm-segmentation", "funnel-analysis"],
-  },
-  {
-    summary:
-      "Visualiser les indicateurs et créer des tableaux de bord exploitables.",
-    projectSlugs: ["funnel-analysis", "profit-leak"],
-  },
-  {
-    summary:
-      "Fiabiliser les sources et sécuriser les indicateurs avant diffusion.",
-    projectSlugs: ["renewalos", "profit-leak"],
-  },
-] as const;
-
-const capabilityDomains = skillsByCategory.map((group, index) => {
-  const evidence = domainEvidence[index] ?? domainEvidence[0];
-  const projects = evidence.projectSlugs
+const capabilityDomains = skillsByCategory.map((group) => {
+  const projects = group.projectSlugs
     .map((slug) => getProjectBySlug(slug))
     .filter((project) => project !== undefined);
   const tools = [...new Set(projects.flatMap((project) => project.tools))];
 
   return {
     ...group,
-    summary: evidence.summary,
     projects,
     tools,
   };
@@ -48,7 +28,7 @@ export function SkillProofMatrix() {
         <EditorialMarker index="06" label="Compétences" tone="amber" />
         <h2 id="capability-proof-title">Compétences et travaux associés</h2>
         <p>
-          Trois domaines de compétences, avec les projets portfolio qui les
+          Quatre domaines de compétences, avec les projets portfolio qui les
           illustrent.
         </p>
       </header>

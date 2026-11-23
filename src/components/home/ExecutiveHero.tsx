@@ -1,6 +1,6 @@
 import { ArrowRight, Mail, MapPin } from "lucide-react";
 import Link from "next/link";
-import { GitHubIcon, LinkedInIcon } from "@/components/ui/SocialIcons";
+import { GitHubIcon } from "@/components/ui/SocialIcons";
 import { EditorialMarker } from "@/components/home/EditorialMarker";
 import { ProfileSnapshot } from "@/components/home/ProfileSnapshot";
 import { profile } from "@/data/profile";
@@ -12,7 +12,7 @@ export function ExecutiveHero() {
       <div className="editorial-hero-masthead">
         <EditorialMarker
           index="ZM"
-          label="Data Analyst"
+          label={profile.role}
         />
         <div
           className="editorial-hero-status"
@@ -53,22 +53,12 @@ export function ExecutiveHero() {
               GitHub
             </a>
             <a
-              href={`mailto:${profile.email}`}
+              href="#contact"
               className="editorial-secondary-action"
             >
               <Mail aria-hidden="true" />
               Me contacter
             </a>
-            <span className="editorial-social-links" aria-label="Profils">
-              <a
-                href={profile.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Profil LinkedIn"
-              >
-                <LinkedInIcon />
-              </a>
-            </span>
           </div>
 
           <div className="editorial-capability-line">

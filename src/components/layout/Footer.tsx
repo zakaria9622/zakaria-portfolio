@@ -1,5 +1,5 @@
 import { Mail } from "lucide-react";
-import { GitHubIcon, LinkedInIcon } from "@/components/ui/SocialIcons";
+import { GitHubIcon } from "@/components/ui/SocialIcons";
 import { profile } from "@/data/profile";
 
 export function Footer() {
@@ -13,16 +13,12 @@ export function Footer() {
       <div className="editorial-footer-grid">
         <div>
           <p>{profile.title}</p>
-          <span>{profile.subtitle}</span>
+          <span>{profile.availability.label}</span>
         </div>
         <div className="editorial-footer-links">
           <a href={`mailto:${profile.email}`}>
             <Mail aria-hidden="true" />
             Email
-          </a>
-          <a href={profile.linkedin} target="_blank" rel="noopener noreferrer">
-            <LinkedInIcon />
-            LinkedIn
           </a>
           <a href={profile.github} target="_blank" rel="noopener noreferrer">
             <GitHubIcon />

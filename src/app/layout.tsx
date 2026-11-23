@@ -27,7 +27,10 @@ const newsreader = Newsreader({
 });
 
 const siteTitle = `${profile.name} | ${profile.title}`;
-const siteDescription = profile.tagline;
+const siteDescription = [
+  `${profile.title}. ${profile.availability.label}.`,
+  "SQL, Tableau, Excel et Python/pandas pour le suivi des KPI, la qualité des données, les flux ETL et le reporting BI.",
+].join(" ");
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -48,11 +51,10 @@ const structuredData = {
       "@id": "https://www.zakariamaachou.com/#person",
       name: profile.name,
       url: "https://www.zakariamaachou.com/",
-      jobTitle: "Data Analyst",
-      description: profile.tagline,
+      jobTitle: profile.role,
+      description: siteDescription,
       email: profile.email,
-      telephone: profile.phone,
-      sameAs: [profile.linkedin, profile.github],
+      sameAs: [profile.github],
       knowsAbout: [
         "Data Analysis",
         "Business Intelligence",
@@ -61,10 +63,11 @@ const structuredData = {
         "SQL",
         "Python",
         "Tableau",
-        "Power BI",
+        "Looker Studio",
         "Excel",
         "Data Quality",
         "ETL",
+        "Modélisation de données",
         "CRM Analytics",
         "dbt",
         "DuckDB",
@@ -89,7 +92,7 @@ export const metadata: Metadata = {
         url: "/og/home.png",
         width: 1200,
         height: 630,
-        alt: siteTitle,
+        alt: `${siteTitle} · ${profile.availability.label}`,
       },
     ],
   },
@@ -100,7 +103,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/og/home.png",
-        alt: siteTitle,
+        alt: `${siteTitle} · ${profile.availability.label}`,
       },
     ],
   },

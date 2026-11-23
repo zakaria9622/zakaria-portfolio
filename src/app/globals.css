@@ -147,6 +147,13 @@
   font-size: clamp(5.8rem, 11vw, 10.5rem);
 }
 
+.editorial-project[data-project-slug="rfm-segmentation"] .project-hero-title h1 {
+  max-width: 100%;
+  font-size: clamp(2.5rem, 7vw, 7rem);
+  line-height: 0.98;
+  overflow-wrap: anywhere;
+}
+
 .project-hero-title > p {
   max-width: 26rem;
   margin: 1.5rem 0 0;
@@ -1453,6 +1460,10 @@
     font-size: clamp(4.8rem, 21vw, 7.5rem);
   }
 
+  .editorial-project[data-project-slug="rfm-segmentation"] .project-hero-title h1 {
+    font-size: clamp(2.5rem, 12.5vw, 5.5rem);
+  }
+
   .project-hero-brief {
     padding-block: 2.5rem;
   }
@@ -1785,7 +1796,7 @@
   }
 
   .editorial-project[data-project-slug="renewalos"] .project-hero-title h1 {
-    font-size: clamp(4.4rem, 20vw, 6.25rem);
+    font-size: clamp(3.9rem, 19vw, 6.25rem);
   }
 
   .project-hero-brief h2 {
@@ -2245,27 +2256,6 @@ html {
 .editorial-primary-action svg,
 .editorial-secondary-action svg { width: 0.95rem; height: 0.95rem; }
 
-.editorial-social-links {
-  display: inline-flex;
-  border-block: 1px solid var(--editorial-ink);
-  border-right: 1px solid var(--editorial-ink);
-}
-
-.editorial-social-links > a {
-  display: grid;
-  width: 3rem;
-  min-height: 3rem;
-  place-items: center;
-  color: var(--editorial-ink);
-  transition-property: color, background-color;
-  transition-duration: 160ms;
-}
-
-.editorial-social-links > a + a { border-left: 1px solid var(--editorial-ink); }
-.editorial-social-links > a:hover,
-.editorial-social-links > a:focus-visible { background: var(--editorial-signal); color: white; }
-.editorial-social-links svg { width: 1rem; height: 1rem; }
-
 .editorial-capability-line {
   display: flex;
   flex-wrap: wrap;
@@ -2593,8 +2583,6 @@ html {
   .editorial-primary-action,
   .editorial-secondary-action { min-height: 3.25rem; padding-inline: 0.75rem; }
   .editorial-secondary-action { border-left: 1px solid var(--editorial-ink); }
-  .editorial-social-links { border-top: 0; border-left: 1px solid var(--editorial-ink); }
-  .editorial-social-links > a { width: 100%; }
   .editorial-capability-line { width: 100%; row-gap: 0.7rem; }
   .profile-snapshot { margin-inline: -1rem; padding: 2.5rem 0 2.5rem 1rem; }
   .profile-snapshot-heading { align-items: flex-start; flex-direction: column; }
@@ -4412,6 +4400,7 @@ html {
 .editorial-contact-copy h2 {
   max-width: 65rem;
   margin-top: 2rem;
+  overflow-wrap: anywhere;
   font-family: var(--font-editorial);
   font-size: clamp(4rem, 7.4vw, 8rem);
   font-weight: 400;
@@ -4488,46 +4477,8 @@ html {
   color: white;
 }
 
-.editorial-contact-cv {
-  display: flex;
-  min-height: 5rem;
-  align-items: center;
-  gap: 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.34);
-  padding: 1rem 1.5rem;
-  color: white;
-  transition-property: color, background-color;
-  transition-duration: 160ms;
-}
-
-.editorial-contact-cv > svg {
-  width: 1.1rem;
-  height: 1.1rem;
-}
-
-.editorial-contact-cv > span {
-  font-size: 0.9rem;
-  font-weight: 700;
-}
-
-.editorial-contact-cv small {
-  display: block;
-  margin-bottom: 0.25rem;
-  font-family: var(--font-mono);
-  font-size: 0.5rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.editorial-contact-cv:hover,
-.editorial-contact-cv:focus-visible {
-  background: white;
-  color: var(--editorial-signal);
-}
-
 .editorial-contact-socials {
   display: grid;
-  grid-template-columns: 1fr 1fr;
 }
 
 .editorial-contact-socials > a {
@@ -4539,10 +4490,6 @@ html {
   color: white;
   font-size: 0.75rem;
   font-weight: 700;
-}
-
-.editorial-contact-socials > a + a {
-  border-left: 1px solid rgba(255, 255, 255, 0.34);
 }
 
 .editorial-contact-socials svg {
@@ -4609,7 +4556,7 @@ html {
   }
 
   .editorial-contact-body {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .editorial-contact-actions {
@@ -4854,7 +4801,7 @@ html {
 
   .editorial-contact-copy h2 {
     margin-top: 1.5rem;
-    font-size: clamp(3.4rem, 15vw, 4.4rem);
+    font-size: clamp(2.625rem, 12vw, 4.4rem);
     line-height: 0.9;
   }
 
@@ -4869,18 +4816,12 @@ html {
 
   .editorial-contact-email {
     min-height: 10.5rem;
-    padding-inline: 1.25rem 3.25rem;
+    padding-inline: 1.25rem;
   }
 
   .editorial-contact-email > strong {
     margin-top: 2.75rem;
     font-size: clamp(1.15rem, 5.5vw, 1.35rem);
-    white-space: nowrap;
-  }
-
-  .editorial-contact-cv {
-    min-height: 4.75rem;
-    padding-inline: 1.25rem;
   }
 
   .editorial-contact-socials > a {
